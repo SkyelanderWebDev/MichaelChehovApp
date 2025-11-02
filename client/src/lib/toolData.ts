@@ -137,11 +137,11 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     name: "Focal Points",
     description: "Centers of attention and energy",
     tools: [
-      { name: "Eyes", children: ["Gazing", "Scanning", "Focusing", "Peripheral", "Darting", "Steady"] },
-      { name: "Hands", children: ["Gesturing", "Grasping", "Touching", "Pointing", "Releasing", "Holding"] },
-      { name: "Voice", children: ["Speaking", "Whispering", "Shouting", "Singing", "Humming", "Silence"] },
-      { name: "Center of Gravity", children: ["High", "Middle", "Low", "Shifting", "Grounded", "Elevated"] },
-      { name: "Breath", children: ["Deep", "Shallow", "Rapid", "Slow", "Held", "Released", "Panting"] }
+      { name: "1 (Me)", children: ["Self-Focus", "Inner Awareness", "Personal Center", "My Body", "My Thoughts", "My Feelings"] },
+      { name: "2 (You/Partner)", children: ["Eye Contact", "Connecting", "Engaging", "Responding", "Listening", "Observing Partner"] },
+      { name: "3 (Here/Physical Environment)", children: ["Space", "Objects", "Surroundings", "Physical Reality", "Present Location", "Immediate Area"] },
+      { name: "4 (Not Here/Mental Screen)", children: ["Imagination", "Memory", "Visualization", "Inner Vision", "Mental Picture", "Distant Place"] },
+      { name: "5 (All/Nowhere/Void)", children: ["Everything", "Nothing", "Universe", "Emptiness", "Infinity", "Totality", "Beyond"] }
     ],
   },
   {
