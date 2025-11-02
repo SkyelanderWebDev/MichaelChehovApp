@@ -55,15 +55,16 @@ Preferred communication style: Simple, everyday language.
 **Data Models**:
 - `ToolCategory`: Grandparent level containing multiple parent tools with optional descriptions and scale support
 - `ParentTool`: Individual tools with optional children (up to 100 specific examples)
-- `DrawnTool`: Records of tools drawn during sessions with timestamps and scale values
+- `DrawnTool`: Records of tools drawn during sessions with timestamps, scale values, unveiled values, and journal reflections
 
-**Database Configuration**: Drizzle ORM configured for PostgreSQL with Neon serverless adapter, though currently using in-memory storage.
+**Database Configuration**: PostgreSQL database with Drizzle ORM and Neon serverless adapter for persistent storage.
 
 **Storage Architecture**: 
 - Interface-based storage design (IStorage) for flexibility
-- Current implementation uses MemStorage for session-based data
-- Database migrations configured in `/migrations` directory
+- DatabaseStorage implementation for PostgreSQL persistence
+- `drawn_tools` table stores all drawn tools with journal entries
 - Schema located in `/shared` for type sharing between client and server
+- Database schema managed via `npm run db:push`
 
 ### External Dependencies
 
@@ -95,3 +96,16 @@ Preferred communication style: Simple, everyday language.
 - PostCSS with Tailwind and Autoprefixer
 
 **Fonts**: Google Fonts integration for Inter and Playfair Display font families.
+
+## Recent Changes
+
+### November 2, 2025 - Flyback Journaling Feature
+- **Added PostgreSQL Database**: Migrated from in-memory storage to persistent PostgreSQL database for storing drawn tools and journal entries
+- **Flyback Modal Component**: Created `FlybackModal` component allowing users to write reflective journal entries for each drawn tool
+- **Journal Entry Storage**: Added `journalEntry` TEXT field to `drawn_tools` table for storing user reflections
+- **History Panel Enhancement**: Updated history panel to display "Journal" badge with BookOpen icon for tools that have journal entries
+- **API Endpoints**:
+  - `GET /api/drawn-tools`: Retrieves all drawn tools with journal entries
+  - `POST /api/drawn-tools`: Creates new drawn tool records
+  - `PATCH /api/drawn-tools/:id/journal`: Updates journal entries for existing draws
+- **User Workflow**: Users can now click the "Flyback" button on any drawn tool to open a modal, write reflections, and save them. Journal entries persist across sessions and can be updated at any time by reopening the tool from history.
