@@ -40,20 +40,21 @@ export default function CategoryWheel({
   const autoCategories = otherCategories.filter(c => !(c.id in fixedPositions));
   
   // Stargate-style wheel: circular top/sides with flat bottom
-  const radius = 320;
+  const radius = 370;
   
-  // Calculate angles for auto categories (fill non-fixed positions)
-  // Reserve index 6 for the flat bottom (no card at 6 o'clock on the circle)
+  // Calculate angles for auto categories - constrain to upper 220° arc
+  // This prevents cards from overlapping at the bottom
+  const minAngle = -Math.PI / 2; // 12 o'clock (top)
+  const maxAngle = -Math.PI / 2 + (220 * Math.PI / 180); // 220° sweep
+  
+  // Distribute auto categories evenly across the upper arc
   const autoPositions: number[] = [];
-  const reservedIndices = [0, 3, 6, 9]; // 12, 3, 9 o'clock on circle; 6 is flat bottom
+  const numAutoCategories = autoCategories.length;
   
-  for (let i = 0; i < totalPositions; i++) {
-    if (!reservedIndices.includes(i)) {
-      // Start at -PI/2 (12 o'clock) and go clockwise
-      // Only use the upper semicircle and sides (avoid extreme bottom angles)
-      const angle = -Math.PI / 2 + (i * angleStep);
-      autoPositions.push(angle);
-    }
+  for (let i = 0; i < numAutoCategories; i++) {
+    // Evenly space categories across the 220° arc
+    const angle = minAngle + (i / (numAutoCategories - 1)) * (maxAngle - minAngle);
+    autoPositions.push(angle);
   }
   
   return (
@@ -211,7 +212,7 @@ export default function CategoryWheel({
         style={{
           left: '50%',
           top: '50%',
-          transform: `translate(-50%, calc(-50% + ${radius + 50}px))`,
+          transform: `translate(-50%, calc(-50% + ${radius + 110}px))`,
         }}
       >
         <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-96">

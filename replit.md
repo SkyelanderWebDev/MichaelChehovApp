@@ -104,18 +104,19 @@ Preferred communication style: Simple, everyday language.
 - **Stargate-Style Wheel Layout**: 
   - Implemented "flat bottom" design inspired by Stargate, with circular top/sides and flat bottom
   - Fixed critical bug where "four-brothers" wasn't recognized as fixed category (falsy 0 angle value)
-  - 11 individual cards positioned around circular portion
+  - 11 individual cards positioned around circular portion constrained to upper 220° arc
   - All cards correctly positioned: Psychological Gesture (12 o'clock), Four Brothers (3 o'clock), Characterization (9 o'clock)
-  - 8 remaining categories evenly distributed at 30-degree intervals
-  - Radius set to 320px
+  - 8 remaining categories evenly distributed across upper arc to prevent overlaps
+  - Radius increased to 370px for improved spacing
 - **PsychoPhysical Card Enhancements**:
-  - Positioned on flat bottom of Stargate layout (50px below circular arrangement)
+  - Positioned on flat bottom of Stargate layout (110px below circular arrangement)
   - Increased width to w-96 (384px) for better text readability
   - Z-index set to z-0 so it appears behind adjacent cards, preventing overlap
 - **UI Layout Improvements**:
   - Moved Select All/Clear All buttons to fixed top-left corner (no longer blocking wheel)
   - Added horizontal padding to wheel container to prevent Draw Settings panel overlap
   - Buttons now have shadow-md for better visibility
+  - Fixed Draw button clickability with pointer-events solution (pointer-events-none on container, pointer-events-auto on interactive elements)
 
 ### November 2, 2025 - Flyback Journaling Feature
 - **Added PostgreSQL Database**: Migrated from in-memory storage to persistent PostgreSQL database for storing drawn tools and journal entries
