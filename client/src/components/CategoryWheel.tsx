@@ -79,7 +79,7 @@ export default function CategoryWheel({
         return (
           <div
             key={category.id}
-            className="absolute"
+            className="absolute z-10"
             style={{
               left: '50%',
               top: '50%',
@@ -147,7 +147,7 @@ export default function CategoryWheel({
         return (
           <div
             key={category.id}
-            className="absolute"
+            className="absolute z-10"
             style={{
               left: '50%',
               top: '50%',
@@ -205,7 +205,7 @@ export default function CategoryWheel({
       
       {/* PsychoPhysical Gestures card at 6 o'clock */}
       <div
-        className="absolute -z-10"
+        className="absolute z-0"
         style={{
           left: '50%',
           top: '50%',
