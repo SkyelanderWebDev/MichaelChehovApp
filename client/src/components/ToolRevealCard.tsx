@@ -9,35 +9,21 @@ type HierarchyLevel = "cards" | "tools" | "examples";
 
 interface ToolRevealCardProps {
   drawnTool: DrawnTool;
-  hierarchyLevel: HierarchyLevel;
+  selectedLevels: HierarchyLevel[];
   onDrawAgain: () => void;
   onClose: () => void;
 }
 
-export default function ToolRevealCard({ drawnTool, hierarchyLevel, onDrawAgain, onClose }: ToolRevealCardProps) {
+export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain, onClose }: ToolRevealCardProps) {
   const category = TOOL_CATEGORIES.find(c => c.id === drawnTool.categoryId);
   const hasScale = category?.hasScale && drawnTool.scaleValue !== undefined;
   const hasUnveiled = drawnTool.unveiledValue !== undefined;
   
-  // Determine what to display based on hierarchy level
-  const getDisplayContent = () => {
-    switch (hierarchyLevel) {
-      case "cards":
-        return drawnTool.categoryName; // Just the grandparent/category name
-      case "tools":
-        return drawnTool.parentToolName; // Just the parent tool name
-      case "examples":
-      default:
-        // Show both parent and child if available
-        return {
-          parent: drawnTool.parentToolName,
-          child: drawnTool.childToolName
-        };
-    }
-  };
-  
-  const displayContent = getDisplayContent();
-  const isSimpleText = typeof displayContent === "string";
+  // Show category badge only if cards level is selected and it's not the only thing shown
+  const showCategoryBadge = selectedLevels.includes("cards") && selectedLevels.length > 1;
+  const showCategoryAsMain = selectedLevels.includes("cards") && selectedLevels.length === 1;
+  const showParentTool = selectedLevels.includes("tools") || (!selectedLevels.includes("cards") && !selectedLevels.includes("tools") && !selectedLevels.includes("examples"));
+  const showChildTool = selectedLevels.includes("examples") && drawnTool.childToolName;
   
   return (
     <div 
@@ -56,7 +42,7 @@ export default function ToolRevealCard({ drawnTool, hierarchyLevel, onDrawAgain,
         </Button>
         
         <div className="flex flex-col items-center justify-center space-y-8 h-full">
-          {hierarchyLevel !== "cards" && (
+          {showCategoryBadge && (
             <Badge variant="secondary" className="text-base px-4 py-1 bg-accent/20 text-accent-foreground border-2 border-accent" data-testid="badge-category">
               {drawnTool.categoryName}
             </Badge>
@@ -77,40 +63,39 @@ export default function ToolRevealCard({ drawnTool, hierarchyLevel, onDrawAgain,
                   {drawnTool.scaleValue}
                 </span>
               </div>
-              {isSimpleText ? (
+              
+              {showCategoryAsMain && (
                 <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
-                  {displayContent}
+                  {drawnTool.categoryName}
                 </h1>
-              ) : (
-                <>
-                  <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
-                    {displayContent.parent}
-                  </h1>
-                  {displayContent.child && (
-                    <p className="text-2xl text-accent font-semibold italic mt-2">
-                      "{displayContent.child}"
-                    </p>
-                  )}
-                </>
+              )}
+              {showParentTool && (
+                <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
+                  {drawnTool.parentToolName}
+                </h1>
+              )}
+              {showChildTool && (
+                <p className="text-2xl text-accent font-semibold italic mt-2">
+                  "{drawnTool.childToolName}"
+                </p>
               )}
             </div>
           ) : (
             <>
-              {isSimpleText ? (
+              {showCategoryAsMain && (
                 <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
-                  {displayContent}
+                  {drawnTool.categoryName}
                 </h1>
-              ) : (
-                <>
-                  <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
-                    {displayContent.parent}
-                  </h1>
-                  {displayContent.child && (
-                    <p className="text-3xl text-accent font-semibold italic mt-4">
-                      "{displayContent.child}"
-                    </p>
-                  )}
-                </>
+              )}
+              {showParentTool && (
+                <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
+                  {drawnTool.parentToolName}
+                </h1>
+              )}
+              {showChildTool && (
+                <p className="text-3xl text-accent font-semibold italic mt-4">
+                  "{drawnTool.childToolName}"
+                </p>
               )}
             </>
           )}

@@ -21,9 +21,17 @@ export default function Home() {
   const [history, setHistory] = useState<DrawnTool[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
-  const [hierarchyLevel, setHierarchyLevel] = useState<HierarchyLevel>("examples");
+  const [selectedLevels, setSelectedLevels] = useState<HierarchyLevel[]>(["cards", "tools", "examples"]);
   const [isUnveiledEnabled, setIsUnveiledEnabled] = useState(false);
   const { toast } = useToast();
+  
+  const toggleLevel = (level: HierarchyLevel) => {
+    setSelectedLevels(prev => 
+      prev.includes(level)
+        ? prev.filter(l => l !== level)
+        : [...prev, level]
+    );
+  };
   
   const handleToggleCategory = (categoryId: string) => {
     setSelectedCategories(prev => 
@@ -277,40 +285,43 @@ export default function Home() {
                 
                 {/* Hierarchy Level Selector */}
                 <div>
-                  <label className="text-xs font-semibold text-foreground block mb-2">Show Level</label>
-                  <div className="grid grid-cols-3 gap-1 bg-muted p-1 rounded-lg">
+                  <label className="text-xs font-semibold text-foreground block mb-2">Show Levels</label>
+                  <div className="space-y-2">
                     <button
-                      onClick={() => setHierarchyLevel("cards")}
+                      onClick={() => toggleLevel("cards")}
                       data-testid="button-level-cards"
-                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
-                        hierarchyLevel === "cards"
+                      className={`w-full px-3 py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-between ${
+                        selectedLevels.includes("cards")
                           ? "bg-primary text-white shadow-sm"
-                          : "text-muted-foreground hover:text-foreground"
+                          : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
                       }`}
                     >
-                      Cards
+                      <span>Cards (Grandparents)</span>
+                      {selectedLevels.includes("cards") && <span className="text-xs">✓</span>}
                     </button>
                     <button
-                      onClick={() => setHierarchyLevel("tools")}
+                      onClick={() => toggleLevel("tools")}
                       data-testid="button-level-tools"
-                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
-                        hierarchyLevel === "tools"
+                      className={`w-full px-3 py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-between ${
+                        selectedLevels.includes("tools")
                           ? "bg-primary text-white shadow-sm"
-                          : "text-muted-foreground hover:text-foreground"
+                          : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
                       }`}
                     >
-                      Tools
+                      <span>Tools (Parents)</span>
+                      {selectedLevels.includes("tools") && <span className="text-xs">✓</span>}
                     </button>
                     <button
-                      onClick={() => setHierarchyLevel("examples")}
+                      onClick={() => toggleLevel("examples")}
                       data-testid="button-level-examples"
-                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
-                        hierarchyLevel === "examples"
+                      className={`w-full px-3 py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-between ${
+                        selectedLevels.includes("examples")
                           ? "bg-primary text-white shadow-sm"
-                          : "text-muted-foreground hover:text-foreground"
+                          : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
                       }`}
                     >
-                      Examples
+                      <span>Examples (Children)</span>
+                      {selectedLevels.includes("examples") && <span className="text-xs">✓</span>}
                     </button>
                   </div>
                 </div>
@@ -354,7 +365,7 @@ export default function Home() {
       {currentTool && (
         <ToolRevealCard
           drawnTool={currentTool}
-          hierarchyLevel={hierarchyLevel}
+          selectedLevels={selectedLevels}
           onDrawAgain={handleDrawAgain}
           onClose={handleClose}
         />
