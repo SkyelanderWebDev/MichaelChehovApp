@@ -26,7 +26,7 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       { name: "Flowing (Water)", children: ["Streaming", "Cascading", "Rippling", "Surging", "Dripping", "Trickling", "Pouring"] },
       { name: "Flying (Air)", children: ["Floating", "Gliding", "Soaring", "Drifting", "Swooping", "Hovering", "Fluttering"] },
       { name: "Radiating (Campfire)", children: ["Warming", "Glowing", "Flickering", "Crackling", "Pulsing"] },
-      { name: "Radiating (Bonfire)", children: ["Blazing", "Roaring", "Consuming", "Spreading"] },
+      { name: "Radiating (Sunlight)", children: ["Blazing", "Roaring", "Consuming", "Spreading"] },
       { name: "Radiating (Lightning)", children: ["Striking", "Flashing", "Splitting", "Shocking", "Crackling"] },
       { name: "Radiating (Laser)", children: ["Piercing", "Cutting", "Focusing", "Beaming", "Targeting"] },
     ],
