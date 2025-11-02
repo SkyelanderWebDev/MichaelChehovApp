@@ -73,9 +73,9 @@ export default function CategoryWheel({
   }
   
   return (
-    <div className="relative w-full max-w-[750px] mx-auto">
+    <div className="relative w-full max-w-[850px] mx-auto">
       {/* Circular wheel section */}
-      <div className="relative w-full max-w-[650px] mx-auto aspect-square">
+      <div className="relative w-full max-w-[750px] mx-auto aspect-square">
       {/* Center hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-accent/20 border-3 border-accent flex items-center justify-center shadow-lg">
@@ -156,7 +156,6 @@ export default function CategoryWheel({
       {/* Render auto-positioned categories */}
       {autoCategories.map((category, index) => {
         const angle = autoPositions[index];
-        const radius = 240;
         const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
         const isSelected = selectedCategories.includes(category.id);
         
