@@ -125,11 +125,11 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     name: "Atmosphere",
     description: "Environmental and mood qualities",
     tools: [
-      { name: "Time of Day", children: ["Dawn", "Morning", "Midday", "Afternoon", "Dusk", "Night", "Midnight"] },
-      { name: "Weather", children: ["Sunny", "Cloudy", "Rainy", "Stormy", "Foggy", "Windy", "Snowy"] },
-      { name: "Season", children: ["Spring", "Summer", "Autumn", "Winter"] },
-      { name: "Location", children: ["Indoor", "Outdoor", "Urban", "Rural", "Confined", "Expansive", "Intimate", "Public"] },
-      { name: "Temperature", children: ["Hot", "Warm", "Cool", "Cold", "Freezing", "Sweltering"] }
+      { name: "Nature/Natural", children: ["Forest", "Ocean", "Mountain", "Desert", "Garden", "Meadow", "Cave", "River", "Sky", "Wilderness"] },
+      { name: "Events & Occasions", children: ["Wedding", "Funeral", "Birthday", "Festival", "Ceremony", "Party", "Meeting", "Trial", "Battle", "Reunion"] },
+      { name: "Architectural", children: ["Cathedral", "Prison", "Palace", "Cottage", "Factory", "Library", "Hospital", "Theatre", "Subway", "Marketplace"] },
+      { name: "Emotional", children: ["Joyful", "Melancholic", "Tense", "Peaceful", "Chaotic", "Intimate", "Oppressive", "Uplifting", "Mysterious", "Hopeful"] },
+      { name: "Random Images/Idioms", children: ["Walking on Eggshells", "Breaking the Ice", "Under a Cloud", "In the Spotlight", "Tip of the Iceberg", "Fish Out of Water", "Storm Before the Calm", "Light at the End", "Calm Before the Storm"] }
     ],
   },
   {
