@@ -57,7 +57,7 @@ export default function CategoryWheel({
   }
   
   return (
-    <div className="relative w-full max-w-[950px] mx-auto">
+    <div className="relative w-full max-w-[950px] mx-auto pointer-events-none">
       {/* Circular wheel section */}
       <div className="relative w-full max-w-[850px] mx-auto aspect-square">
       {/* Center hub */}
@@ -95,7 +95,7 @@ export default function CategoryWheel({
                   onToggleCategory(category.id);
                 }}
                 data-testid={`checkbox-toggle-${category.id}`}
-                className="absolute -top-2 -right-2 z-20"
+                className="absolute -top-2 -right-2 z-20 pointer-events-auto"
               >
                 <div 
                   className={`
@@ -117,7 +117,7 @@ export default function CategoryWheel({
                 className={`
                   w-24 h-24 md:w-28 md:h-28
                   rounded-2xl border-3 transition-all duration-300
-                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
+                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1 pointer-events-auto
                   ${isSelected 
                     ? 'border-accent bg-accent shadow-xl' 
                     : 'border-primary/30 bg-card shadow-lg'
@@ -163,7 +163,7 @@ export default function CategoryWheel({
                   onToggleCategory(category.id);
                 }}
                 data-testid={`checkbox-toggle-${category.id}`}
-                className="absolute -top-2 -right-2 z-20"
+                className="absolute -top-2 -right-2 z-20 pointer-events-auto"
               >
                 <div 
                   className={`
@@ -185,7 +185,7 @@ export default function CategoryWheel({
                 className={`
                   w-24 h-24 md:w-28 md:h-28
                   rounded-2xl border-3 transition-all duration-300
-                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
+                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1 pointer-events-auto
                   ${isSelected 
                     ? 'border-accent bg-accent shadow-xl' 
                     : 'border-primary/30 bg-card shadow-lg'
@@ -253,7 +253,7 @@ export default function CategoryWheel({
                   className={`
                     w-full h-24 md:h-28
                     rounded-xl border-2 transition-all duration-300
-                    hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
+                    hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1 pointer-events-auto
                     ${isSelected 
                       ? 'border-accent bg-accent shadow-xl' 
                       : 'border-primary/30 bg-background shadow-md'
