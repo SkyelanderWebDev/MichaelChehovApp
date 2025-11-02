@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { DrawnTool } from "@shared/schema";
 import { TOOL_CATEGORIES } from "@/lib/toolData";
-import CategorySelector from "@/components/CategorySelector";
+import CategoryWheel from "@/components/CategoryWheel";
 import DrawButton from "@/components/DrawButton";
 import ToolRevealCard from "@/components/ToolRevealCard";
 import HistoryPanel from "@/components/HistoryPanel";
 import { useToast } from "@/hooks/use-toast";
-import { randomUUID } from "crypto";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -30,6 +30,8 @@ export default function Home() {
   const handleClearAll = () => {
     setSelectedCategories([]);
   };
+  
+  const allSelected = selectedCategories.length === TOOL_CATEGORIES.length;
   
   const handleDrawTool = () => {
     if (selectedCategories.length === 0) {
@@ -90,7 +92,7 @@ export default function Home() {
   
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b">
+      <header className="border-b bg-white">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold text-center" data-testid="text-app-title">
             Actor's Toolkit
@@ -101,17 +103,41 @@ export default function Home() {
         </div>
       </header>
       
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <CategorySelector
-              selectedCategories={selectedCategories}
-              onToggleCategory={handleToggleCategory}
-              onSelectAll={handleSelectAll}
-              onClearAll={handleClearAll}
-            />
+      <main className="max-w-6xl mx-auto px-4 py-8 md:py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="flex-1 flex flex-col items-center space-y-8">
+            {/* Quick actions */}
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSelectAll}
+                data-testid="button-select-all"
+                disabled={allSelected}
+              >
+                Select All
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearAll}
+                data-testid="button-clear-all"
+                disabled={selectedCategories.length === 0}
+              >
+                Clear All
+              </Button>
+            </div>
             
-            <div className="flex justify-center">
+            {/* Wheel */}
+            <div className="w-full max-w-2xl py-8">
+              <CategoryWheel
+                selectedCategories={selectedCategories}
+                onToggleCategory={handleToggleCategory}
+              />
+            </div>
+            
+            {/* Draw button */}
+            <div className="flex justify-center pt-4">
               <DrawButton
                 onClick={handleDrawTool}
                 disabled={selectedCategories.length === 0}
@@ -120,7 +146,7 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="lg:col-span-1">
+          <div className="lg:w-80 shrink-0">
             <HistoryPanel 
               history={history}
               onSelectTool={handleSelectFromHistory}

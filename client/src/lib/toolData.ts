@@ -3,11 +3,18 @@ import { Sparkles, User, Music, Award, Feather, Eye, Zap } from "lucide-react";
 
 export const TOOL_CATEGORIES: ToolCategory[] = [
   {
-    id: "psychophysical",
-    name: "PsychoPhysical Gestures",
-    description: "Physical and gestural techniques",
+    id: "expansion-contraction",
+    name: "Expansion & Contraction",
+    description: "Core PsychoPhysical movement",
     tools: [
       "Expansion and Contraction",
+    ],
+  },
+  {
+    id: "qualities-of-movement",
+    name: "Qualities of Movement",
+    description: "Elemental and energetic qualities",
+    tools: [
       "Molding (Earth)",
       "Flowing (Water)",
       "Flying (Air)",
@@ -15,6 +22,13 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       "Radiating (Bonfire)",
       "Radiating (Lightning)",
       "Radiating (Laser)",
+    ],
+  },
+  {
+    id: "archetypal-gestures",
+    name: "Archetypal Gestures",
+    description: "Fundamental physical actions",
+    tools: [
       "Push",
       "Pull",
       "Lift",
@@ -95,7 +109,9 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
 ];
 
 export const CATEGORY_ICONS: Record<string, any> = {
-  "psychophysical": Sparkles,
+  "expansion-contraction": Sparkles,
+  "qualities-of-movement": Sparkles,
+  "archetypal-gestures": Sparkles,
   "characterization": User,
   "tempo-rhythm": Music,
   "four-brothers": Award,
