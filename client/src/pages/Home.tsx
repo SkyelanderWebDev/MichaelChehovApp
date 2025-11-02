@@ -51,35 +51,47 @@ export default function Home() {
   // Mutation to create a new drawn tool
   const createToolMutation = useMutation({
     mutationFn: async (tool: DrawnTool) => {
-      return await apiRequest("/api/drawn-tools", {
-        method: "POST",
-        body: JSON.stringify({
-          id: tool.id,
-          categoryId: tool.categoryId,
-          categoryName: tool.categoryName,
-          parentToolName: tool.parentToolName,
-          childToolName: tool.childToolName,
-          scaleValue: tool.scaleValue,
-          unveiledValue: tool.unveiledValue,
-          journalEntry: tool.journalEntry,
-        }),
+      const response = await apiRequest("POST", "/api/drawn-tools", {
+        id: tool.id,
+        categoryId: tool.categoryId,
+        categoryName: tool.categoryName,
+        parentToolName: tool.parentToolName,
+        childToolName: tool.childToolName || null,
+        scaleValue: tool.scaleValue || null,
+        unveiledValue: tool.unveiledValue || null,
+        journalEntry: tool.journalEntry || null,
       });
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/drawn-tools"] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to save the drawn tool.",
+        variant: "destructive",
+      });
     },
   });
 
   // Mutation to update journal entry
   const updateJournalMutation = useMutation({
     mutationFn: async ({ id, journalEntry }: { id: string; journalEntry: string }) => {
-      return await apiRequest(`/api/drawn-tools/${id}/journal`, {
-        method: "PATCH",
-        body: JSON.stringify({ journalEntry }),
+      const response = await apiRequest("PATCH", `/api/drawn-tools/${id}/journal`, {
+        journalEntry,
       });
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/drawn-tools"] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to save journal entry.",
+        variant: "destructive",
+      });
     },
   });
   
