@@ -39,8 +39,9 @@ export default function CategoryWheel({
   const fixedCategories = otherCategories.filter(c => c.id in fixedPositions);
   const autoCategories = otherCategories.filter(c => !(c.id in fixedPositions));
   
-  // Circular wheel
-  const radius = 280;
+  // Responsive radius - scales with container
+  // Mobile: 35% of container, Desktop: 40% of container
+  const radiusPercent = 38; // percentage of container width
   
   // Calculate angles for auto categories - fill remaining positions
   const autoPositions: number[] = [];
@@ -56,13 +57,13 @@ export default function CategoryWheel({
   }
   
   return (
-    <div className="relative w-full max-w-[800px] mx-auto">
+    <div className="relative w-full max-w-[600px] md:max-w-[700px] mx-auto px-2">
       {/* Circular wheel section */}
-      <div className="relative w-full max-w-[700px] mx-auto aspect-square pointer-events-none">
+      <div className="relative w-full mx-auto aspect-square pointer-events-none">
       {/* Center hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-        <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-accent/20 border-3 border-accent flex items-center justify-center shadow-lg">
-          <span className="text-[9px] md:text-[11px] font-bold text-center px-3 leading-tight text-accent-foreground">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-accent/20 border-2 md:border-3 border-accent flex items-center justify-center shadow-lg">
+          <span className="text-[8px] sm:text-[9px] md:text-[10px] font-bold text-center px-2 sm:px-3 leading-tight text-accent-foreground">
             Select Tools for Inspired Action
           </span>
         </div>
@@ -74,8 +75,8 @@ export default function CategoryWheel({
         const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
         const isSelected = selectedCategories.includes(category.id);
         
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
+        const x = Math.cos(angle) * radiusPercent;
+        const y = Math.sin(angle) * radiusPercent;
         
         return (
           <div
@@ -84,7 +85,7 @@ export default function CategoryWheel({
             style={{
               left: '50%',
               top: '50%',
-              transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+              transform: `translate(calc(-50% + ${x}%), calc(-50% + ${y}%))`,
             }}
           >
             <div className="relative">
@@ -98,7 +99,7 @@ export default function CategoryWheel({
               >
                 <div 
                   className={`
-                    w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
+                    w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
                     hover:scale-110 active:scale-95
                     ${isSelected 
                       ? 'bg-primary border-primary' 
@@ -106,7 +107,7 @@ export default function CategoryWheel({
                     }
                   `}
                 >
-                  {isSelected && <Check className="w-4 h-4 text-white" />}
+                  {isSelected && <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />}
                 </div>
               </button>
 
@@ -114,20 +115,20 @@ export default function CategoryWheel({
                 onClick={() => onOpenDetail(category.id)}
                 data-testid={`card-category-${category.id}`}
                 className={`
-                  w-24 h-24 md:w-28 md:h-28
-                  rounded-2xl border-3 transition-all duration-300
-                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1 pointer-events-auto
+                  w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
+                  rounded-xl sm:rounded-2xl border-2 md:border-3 transition-all duration-300
+                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-1.5 sm:p-2 gap-0.5 sm:gap-1 pointer-events-auto
                   ${isSelected 
                     ? 'border-accent bg-accent shadow-xl' 
                     : 'border-primary/30 bg-card shadow-lg'
                   }
                 `}
               >
-                <Icon className={`w-6 h-6 md:w-8 md:h-8 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
-                <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                <Icon className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
+                <span className={`text-[8px] sm:text-[9px] md:text-[10px] font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
                   {category.name}
                 </span>
-                <span className={`text-[9px] md:text-[10px] mt-0.5 ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
+                <span className={`text-[7px] sm:text-[8px] md:text-[9px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
                   {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
                 </span>
               </button>
@@ -142,8 +143,8 @@ export default function CategoryWheel({
         const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
         const isSelected = selectedCategories.includes(category.id);
         
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
+        const x = Math.cos(angle) * radiusPercent;
+        const y = Math.sin(angle) * radiusPercent;
         
         return (
           <div
@@ -152,7 +153,7 @@ export default function CategoryWheel({
             style={{
               left: '50%',
               top: '50%',
-              transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+              transform: `translate(calc(-50% + ${x}%), calc(-50% + ${y}%))`,
             }}
           >
             <div className="relative">
@@ -166,7 +167,7 @@ export default function CategoryWheel({
               >
                 <div 
                   className={`
-                    w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
+                    w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
                     hover:scale-110 active:scale-95
                     ${isSelected 
                       ? 'bg-primary border-primary' 
@@ -174,7 +175,7 @@ export default function CategoryWheel({
                     }
                   `}
                 >
-                  {isSelected && <Check className="w-4 h-4 text-white" />}
+                  {isSelected && <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 text-white" />}
                 </div>
               </button>
 
@@ -182,20 +183,20 @@ export default function CategoryWheel({
                 onClick={() => onOpenDetail(category.id)}
                 data-testid={`card-category-${category.id}`}
                 className={`
-                  w-24 h-24 md:w-28 md:h-28
-                  rounded-2xl border-3 transition-all duration-300
-                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1 pointer-events-auto
+                  w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
+                  rounded-xl sm:rounded-2xl border-2 md:border-3 transition-all duration-300
+                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-1.5 sm:p-2 gap-0.5 sm:gap-1 pointer-events-auto
                   ${isSelected 
                     ? 'border-accent bg-accent shadow-xl' 
                     : 'border-primary/30 bg-card shadow-lg'
                   }
                 `}
               >
-                <Icon className={`w-6 h-6 md:w-8 md:h-8 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
-                <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                <Icon className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
+                <span className={`text-[8px] sm:text-[9px] md:text-[10px] font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
                   {category.name}
                 </span>
-                <span className={`text-[9px] md:text-[10px] mt-0.5 ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
+                <span className={`text-[7px] sm:text-[8px] md:text-[9px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
                   {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
                 </span>
               </button>
@@ -206,10 +207,10 @@ export default function CategoryWheel({
       </div>
       
       {/* PsychoPhysical Gestures card - separate section underneath */}
-      <div className="flex justify-center">
-        <div className="bg-card border-3 border-primary/30 rounded-2xl p-4 shadow-lg w-full max-w-md">
-          <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
-          <div className="grid grid-cols-3 gap-3">
+      <div className="flex justify-center mt-4">
+        <div className="bg-card border-2 md:border-3 border-primary/30 rounded-xl md:rounded-2xl p-3 md:p-4 shadow-lg w-full max-w-sm md:max-w-md">
+          <h3 className="text-xs sm:text-sm font-bold text-center text-primary mb-2 md:mb-3">PsychoPhysical Gestures</h3>
+          <div className="grid grid-cols-3 gap-2 md:gap-3">
             {combinedCategories.map((category) => {
               const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
               const isSelected = selectedCategories.includes(category.id);
@@ -223,11 +224,11 @@ export default function CategoryWheel({
                       onToggleCategory(category.id);
                     }}
                     data-testid={`checkbox-toggle-${category.id}`}
-                    className="absolute -top-2 -right-2 z-20"
+                    className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2 z-20"
                   >
                     <div 
                       className={`
-                        w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all shadow-md
+                        w-5 h-5 sm:w-5.5 sm:h-5.5 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center transition-all shadow-md
                         hover:scale-110 active:scale-95
                         ${isSelected 
                           ? 'bg-primary border-primary' 
@@ -235,7 +236,7 @@ export default function CategoryWheel({
                         }
                       `}
                     >
-                      {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
+                      {isSelected && <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />}
                     </div>
                   </button>
 
@@ -244,20 +245,20 @@ export default function CategoryWheel({
                     onClick={() => onOpenDetail(category.id)}
                     data-testid={`card-category-${category.id}`}
                     className={`
-                      w-full h-24 md:h-28
-                      rounded-xl border-2 transition-all duration-300
-                      hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
+                      w-full h-20 sm:h-22 md:h-24
+                      rounded-lg md:rounded-xl border-2 transition-all duration-300
+                      hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-1.5 sm:p-2 gap-0.5 sm:gap-1
                       ${isSelected 
                         ? 'border-accent bg-accent shadow-xl' 
                         : 'border-primary/30 bg-background shadow-md'
                       }
                     `}
                   >
-                    <Icon className={`w-6 h-6 md:w-7 md:h-7 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
-                    <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                    <Icon className={`w-5 h-5 sm:w-6 sm:h-6 md:w-6 md:h-6 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
+                    <span className={`text-[8px] sm:text-[9px] md:text-[10px] font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
                       {category.name}
                     </span>
-                    <span className={`text-[9px] md:text-[10px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
+                    <span className={`text-[7px] sm:text-[8px] md:text-[9px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
                       {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
                     </span>
                   </button>

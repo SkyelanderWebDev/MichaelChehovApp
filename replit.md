@@ -99,24 +99,26 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### November 2, 2025 - Category Wheel Layout & UI Improvements
+### November 2, 2025 - Fully Responsive Wheel & Cards
 - **Added Ensemble Category**: New 14th category with 6 tools for group dynamics (Listening, Supporting, Leading, Following, Mirroring, Contrasting)
-- **Stargate-Style Wheel Layout**: 
-  - Implemented "flat bottom" design inspired by Stargate, with circular top/sides and flat bottom
-  - Fixed critical bug where "four-brothers" wasn't recognized as fixed category (falsy 0 angle value)
-  - 11 individual cards positioned around circular portion constrained to upper 220° arc
-  - All cards correctly positioned: Psychological Gesture (12 o'clock), Four Brothers (3 o'clock), Characterization (9 o'clock)
-  - 8 remaining categories evenly distributed across upper arc to prevent overlaps
-  - Radius increased to 370px for improved spacing
-- **PsychoPhysical Card Enhancements**:
-  - Positioned on flat bottom of Stargate layout (110px below circular arrangement)
-  - Increased width to w-96 (384px) for better text readability
-  - Z-index set to z-0 so it appears behind adjacent cards, preventing overlap
+- **Simplified Circular Wheel Layout**: 
+  - Removed complex Stargate design in favor of clean circular wheel with all 11 categories evenly distributed
+  - Fixed positions: Psychological Gesture (12 o'clock), Four Brothers (3 o'clock), Characterization (9 o'clock)
+  - Remaining 8 categories distributed around available positions on the circle
+- **Fully Responsive Design**:
+  - Percentage-based positioning (38% radius) instead of fixed pixels - scales proportionally on all screen sizes
+  - Container sizes: 600px (mobile) to 700px (desktop)
+  - Card sizes scale from 64px (mobile) to 96px (desktop) with smooth breakpoints at sm and md
+  - Center hub scales from 80px (mobile) to 128px (desktop)
+  - All text, icons, and checkboxes scale appropriately across all breakpoints
+- **PsychoPhysical Gestures Section**:
+  - Moved to separate section below wheel (no longer embedded in wheel)
+  - Fully responsive with proper scaling from mobile to desktop
+  - 3-column grid layout maintains readability on all screen sizes
 - **UI Layout Improvements**:
-  - Moved Select All/Clear All buttons to fixed top-left corner (no longer blocking wheel)
-  - Added horizontal padding to wheel container to prevent Draw Settings panel overlap
-  - Buttons now have shadow-md for better visibility
+  - Minimal spacing between Draw button and PsychoPhysical card for compact layout
   - Fixed Draw button clickability with pointer-events solution (pointer-events-none on container, pointer-events-auto on interactive elements)
+  - All interactive elements work properly on both mobile and desktop
 
 ### November 2, 2025 - Flyback Journaling Feature
 - **Added PostgreSQL Database**: Migrated from in-memory storage to persistent PostgreSQL database for storing drawn tools and journal entries
