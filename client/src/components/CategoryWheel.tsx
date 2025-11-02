@@ -46,49 +46,53 @@ export default function CategoryWheel({
               transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
             }}
           >
-            <button
-              onClick={() => onToggleCategory(category.id)}
-              onDoubleClick={() => onOpenDetail(category.id)}
-              data-testid={`card-category-${category.id}`}
-              className={`
-                w-24 h-24 md:w-32 md:h-32
-                rounded-2xl border-3 transition-all duration-300
-                hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
-                ${isSelected 
-                  ? 'border-accent bg-accent shadow-xl' 
-                  : 'border-primary/30 bg-card shadow-lg'
-                }
-              `}
-            >
-            <div className="absolute -top-2 -right-2 z-10">
-              <div 
+            <div className="relative">
+              {/* Checkbox toggle - positioned absolutely */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onToggleCategory(category.id);
+                }}
+                data-testid={`checkbox-toggle-${category.id}`}
+                className="absolute -top-2 -right-2 z-20"
+              >
+                <div 
+                  className={`
+                    w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
+                    hover:scale-110 active:scale-95
+                    ${isSelected 
+                      ? 'bg-primary border-primary' 
+                      : 'border-primary/30 bg-card hover:border-primary/50'
+                    }
+                  `}
+                >
+                  {isSelected && <Check className="w-4 h-4 text-white" />}
+                </div>
+              </button>
+
+              {/* Main card - clickable to open details */}
+              <button
+                onClick={() => onOpenDetail(category.id)}
+                data-testid={`card-category-${category.id}`}
                 className={`
-                  w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
+                  w-24 h-24 md:w-32 md:h-32
+                  rounded-2xl border-3 transition-all duration-300
+                  hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
                   ${isSelected 
-                    ? 'bg-primary border-primary' 
-                    : 'border-primary/30 bg-card'
+                    ? 'border-accent bg-accent shadow-xl' 
+                    : 'border-primary/30 bg-card shadow-lg'
                   }
                 `}
               >
-                {isSelected && <Check className="w-4 h-4 text-white" />}
-              </div>
+                <Icon className={`w-6 h-6 md:w-8 md:h-8 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
+                <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                  {category.name}
+                </span>
+                <span className={`text-[9px] md:text-[10px] mt-0.5 ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
+                  {category.tools.length} {category.tools.length === 1 ? 'parent' : 'parents'}
+                </span>
+              </button>
             </div>
-            
-            <Icon className={`w-6 h-6 md:w-8 md:h-8 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
-            <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-              {category.name}
-            </span>
-            <span className={`text-[9px] md:text-[10px] mt-0.5 ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
-              {category.tools.length} {category.tools.length === 1 ? 'parent' : 'parents'}
-            </span>
-          </button>
-          <button
-            onClick={() => onOpenDetail(category.id)}
-            data-testid={`button-open-detail-${category.id}`}
-            className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[9px] md:text-xs px-2 py-1 rounded-lg bg-primary text-white hover:bg-primary/90 transition-all whitespace-nowrap shadow-md"
-          >
-            View Details
-          </button>
           </div>
         );
       })}
