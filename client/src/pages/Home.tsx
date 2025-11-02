@@ -13,6 +13,7 @@ export default function Home() {
   const [currentTool, setCurrentTool] = useState<DrawnTool | null>(null);
   const [history, setHistory] = useState<DrawnTool[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(true);
   const { toast } = useToast();
   
   const handleToggleCategory = (categoryId: string) => {
@@ -103,9 +104,9 @@ export default function Home() {
         </div>
       </header>
       
-      <main className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-        <div className="flex flex-col lg:flex-row gap-8">
-          <div className="flex-1 flex flex-col items-center space-y-8">
+      <main className="relative max-w-7xl mx-auto px-4 py-8 md:py-12">
+        <div className={`transition-all duration-300 ${isHistoryOpen ? 'lg:mr-96' : ''}`}>
+          <div className="flex flex-col items-center space-y-8 max-w-4xl mx-auto">
             {/* Quick actions */}
             <div className="flex gap-3">
               <Button
@@ -147,13 +148,41 @@ export default function Home() {
               />
             </div>
           </div>
-          
-          <div className="lg:w-96 shrink-0">
-            <HistoryPanel 
-              history={history}
-              onSelectTool={handleSelectFromHistory}
-            />
+        </div>
+        
+        {/* History drawer - desktop */}
+        <div 
+          className={`
+            hidden lg:block fixed top-[160px] right-0 h-[calc(100vh-160px)] 
+            transition-transform duration-300 ease-in-out z-40
+            ${isHistoryOpen ? 'translate-x-0' : 'translate-x-full'}
+          `}
+        >
+          <div className="relative h-full w-96 pr-4">
+            <button
+              onClick={() => setIsHistoryOpen(!isHistoryOpen)}
+              data-testid="button-toggle-history"
+              className="absolute -left-12 top-8 w-12 h-16 bg-primary hover:bg-primary/90 rounded-l-xl shadow-lg flex items-center justify-center transition-all hover:scale-105 active:scale-95"
+            >
+              <span className="text-white font-bold text-lg">
+                {isHistoryOpen ? '›' : '‹'}
+              </span>
+            </button>
+            <div className="h-full overflow-y-auto pb-8">
+              <HistoryPanel 
+                history={history}
+                onSelectTool={handleSelectFromHistory}
+              />
+            </div>
           </div>
+        </div>
+        
+        {/* History panel - mobile (always visible) */}
+        <div className="lg:hidden mt-12">
+          <HistoryPanel 
+            history={history}
+            onSelectTool={handleSelectFromHistory}
+          />
         </div>
       </main>
       
