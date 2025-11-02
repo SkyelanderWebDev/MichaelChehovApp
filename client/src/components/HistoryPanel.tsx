@@ -34,12 +34,15 @@ export default function HistoryPanel({ history, onSelectTool }: HistoryPanelProp
               key={tool.id}
               onClick={() => onSelectTool?.(tool)}
               data-testid={`history-item-${index}`}
-              className="w-full text-left p-4 rounded-xl border-2 border-primary/20 bg-white hover:border-accent hover:shadow-md active:scale-95 transition-all"
+              className="w-full text-left p-4 rounded-xl border-2 border-primary/20 bg-card hover:border-accent hover:shadow-md active:scale-95 transition-all"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold truncate text-primary" data-testid={`text-tool-${index}`}>
-                    {tool.toolName}
+                    {tool.parentToolName}
+                    {tool.childToolName && (
+                      <span className="text-accent ml-2 italic">"{tool.childToolName}"</span>
+                    )}
                   </div>
                   <div className="flex items-center gap-2 mt-2">
                     <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border border-primary/20">

@@ -5,6 +5,7 @@ import CategoryWheel from "@/components/CategoryWheel";
 import DrawButton from "@/components/DrawButton";
 import ToolRevealCard from "@/components/ToolRevealCard";
 import HistoryPanel from "@/components/HistoryPanel";
+import ThemeToggle from "@/components/ThemeToggle";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 
@@ -55,9 +56,14 @@ export default function Home() {
         Math.floor(Math.random() * selectedCategoryObjects.length)
       ];
       
-      const randomTool = randomCategory.tools[
+      const randomParentTool = randomCategory.tools[
         Math.floor(Math.random() * randomCategory.tools.length)
       ];
+      
+      // If the parent tool has children, randomly select one
+      const randomChild = randomParentTool.children && randomParentTool.children.length > 0
+        ? randomParentTool.children[Math.floor(Math.random() * randomParentTool.children.length)]
+        : undefined;
       
       const scaleValue = randomCategory.hasScale 
         ? Math.floor(Math.random() * 10) + 1 
@@ -67,7 +73,8 @@ export default function Home() {
         id: `${Date.now()}-${Math.random()}`,
         categoryId: randomCategory.id,
         categoryName: randomCategory.name,
-        toolName: randomTool,
+        parentToolName: randomParentTool.name,
+        childToolName: randomChild,
         scaleValue,
         timestamp: Date.now(),
       };
@@ -92,13 +99,19 @@ export default function Home() {
   };
   
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <header className="border-b-4 border-accent bg-primary shadow-lg">
         <div className="max-w-6xl mx-auto px-4 py-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-center text-white" data-testid="text-app-title">
-            Actor's Toolkit
-          </h1>
-          <p className="text-center text-primary-foreground/90 mt-3 text-lg">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex-1"></div>
+            <h1 className="text-4xl md:text-5xl font-bold text-center text-white flex-1" data-testid="text-app-title">
+              Actor's Toolkit
+            </h1>
+            <div className="flex-1 flex justify-end">
+              <ThemeToggle />
+            </div>
+          </div>
+          <p className="text-center text-primary-foreground/90 text-lg">
             Randomized Technique Selector
           </p>
         </div>

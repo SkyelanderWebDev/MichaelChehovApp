@@ -20,7 +20,7 @@ export default function ToolRevealCard({ drawnTool, onDrawAgain, onClose }: Tool
       className="fixed inset-0 bg-primary/90 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300"
       data-testid="container-tool-reveal"
     >
-      <Card className="w-full max-w-2xl min-h-96 p-12 rounded-3xl shadow-2xl relative animate-in zoom-in duration-500 bg-white border-4 border-accent">
+      <Card className="w-full max-w-2xl min-h-96 p-12 rounded-3xl shadow-2xl relative animate-in zoom-in duration-500 bg-card border-4 border-accent">
         <Button
           variant="ghost"
           size="icon"
@@ -52,13 +52,25 @@ export default function ToolRevealCard({ drawnTool, onDrawAgain, onClose }: Tool
                 </span>
               </div>
               <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
-                {drawnTool.toolName}
+                {drawnTool.parentToolName}
               </h1>
+              {drawnTool.childToolName && (
+                <p className="text-2xl text-accent font-semibold italic mt-2">
+                  "{drawnTool.childToolName}"
+                </p>
+              )}
             </div>
           ) : (
-            <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
-              {drawnTool.toolName}
-            </h1>
+            <>
+              <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
+                {drawnTool.parentToolName}
+              </h1>
+              {drawnTool.childToolName && (
+                <p className="text-3xl text-accent font-semibold italic mt-4">
+                  "{drawnTool.childToolName}"
+                </p>
+              )}
+            </>
           )}
           
           {category?.description && (

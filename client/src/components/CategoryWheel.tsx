@@ -45,7 +45,7 @@ export default function CategoryWheel({
               hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
               ${isSelected 
                 ? 'border-accent bg-accent shadow-xl' 
-                : 'border-primary/30 bg-white shadow-lg'
+                : 'border-primary/30 bg-card shadow-lg'
               }
             `}
             style={{
@@ -60,7 +60,7 @@ export default function CategoryWheel({
                   w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
                   ${isSelected 
                     ? 'bg-primary border-primary' 
-                    : 'border-primary/30 bg-white'
+                    : 'border-primary/30 bg-card'
                   }
                 `}
               >
@@ -73,7 +73,7 @@ export default function CategoryWheel({
               {category.name}
             </span>
             <span className={`text-[9px] md:text-[10px] mt-0.5 ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
-              {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
+              {category.tools.length} {category.tools.length === 1 ? 'parent' : 'parents'}
             </span>
           </button>
         );
