@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DrawnTool } from "@shared/schema";
+import { DrawnTool, type DbDrawnTool } from "@shared/schema";
 import { TOOL_CATEGORIES } from "@/lib/toolData";
 import CategoryWheel from "@/components/CategoryWheel";
 import DrawButton from "@/components/DrawButton";
@@ -9,8 +9,25 @@ import CategoryDetailModal from "@/components/CategoryDetailModal";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 type HierarchyLevel = "cards" | "tools" | "examples";
+
+// Convert database tool to frontend format
+function dbToolToDrawnTool(dbTool: DbDrawnTool): DrawnTool {
+  return {
+    id: dbTool.id,
+    categoryId: dbTool.categoryId,
+    categoryName: dbTool.categoryName,
+    parentToolName: dbTool.parentToolName,
+    childToolName: dbTool.childToolName || undefined,
+    scaleValue: dbTool.scaleValue || undefined,
+    unveiledValue: dbTool.unveiledValue || undefined,
+    journalEntry: dbTool.journalEntry || undefined,
+    timestamp: new Date(dbTool.createdAt).getTime(),
+  };
+}
 
 export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -18,12 +35,53 @@ export default function Home() {
   const [selectedParentTools, setSelectedParentTools] = useState<Record<string, string[]>>({});
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [currentTool, setCurrentTool] = useState<DrawnTool | null>(null);
-  const [history, setHistory] = useState<DrawnTool[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
   const [selectedLevels, setSelectedLevels] = useState<HierarchyLevel[]>(["cards", "tools", "examples"]);
   const [isUnveiledEnabled, setIsUnveiledEnabled] = useState(false);
   const { toast } = useToast();
+
+  // Load drawn tools history from database
+  const { data: dbTools = [] } = useQuery<DbDrawnTool[]>({
+    queryKey: ["/api/drawn-tools"],
+  });
+
+  const history: DrawnTool[] = dbTools.map(dbToolToDrawnTool);
+
+  // Mutation to create a new drawn tool
+  const createToolMutation = useMutation({
+    mutationFn: async (tool: DrawnTool) => {
+      return await apiRequest("/api/drawn-tools", {
+        method: "POST",
+        body: JSON.stringify({
+          id: tool.id,
+          categoryId: tool.categoryId,
+          categoryName: tool.categoryName,
+          parentToolName: tool.parentToolName,
+          childToolName: tool.childToolName,
+          scaleValue: tool.scaleValue,
+          unveiledValue: tool.unveiledValue,
+          journalEntry: tool.journalEntry,
+        }),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/drawn-tools"] });
+    },
+  });
+
+  // Mutation to update journal entry
+  const updateJournalMutation = useMutation({
+    mutationFn: async ({ id, journalEntry }: { id: string; journalEntry: string }) => {
+      return await apiRequest(`/api/drawn-tools/${id}/journal`, {
+        method: "PATCH",
+        body: JSON.stringify({ journalEntry }),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/drawn-tools"] });
+    },
+  });
   
   const toggleLevel = (level: HierarchyLevel) => {
     setSelectedLevels(prev => 
@@ -176,9 +234,20 @@ export default function Home() {
       };
       
       setCurrentTool(drawnTool);
-      setHistory(prev => [drawnTool, ...prev].slice(0, 10));
+      createToolMutation.mutate(drawnTool);
       setIsDrawing(false);
     }, 800);
+  };
+  
+  const handleSaveJournal = (journalEntry: string) => {
+    if (currentTool) {
+      updateJournalMutation.mutate({ id: currentTool.id, journalEntry });
+      setCurrentTool({ ...currentTool, journalEntry });
+      toast({
+        title: "Journal saved",
+        description: "Your reflection has been saved with this draw.",
+      });
+    }
   };
   
   const handleDrawAgain = () => {
@@ -365,6 +434,7 @@ export default function Home() {
           selectedLevels={selectedLevels}
           onDrawAgain={handleDrawAgain}
           onClose={handleClose}
+          onSaveJournal={handleSaveJournal}
         />
       )}
       

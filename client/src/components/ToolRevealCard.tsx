@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { DrawnTool } from "@shared/schema";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, X } from "lucide-react";
+import { RotateCcw, X, BookOpen } from "lucide-react";
 import { TOOL_CATEGORIES } from "@/lib/toolData";
+import FlybackModal from "./FlybackModal";
 
 type HierarchyLevel = "cards" | "tools" | "examples";
 
@@ -12,9 +14,11 @@ interface ToolRevealCardProps {
   selectedLevels: HierarchyLevel[];
   onDrawAgain: () => void;
   onClose: () => void;
+  onSaveJournal: (journalEntry: string) => void;
 }
 
-export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain, onClose }: ToolRevealCardProps) {
+export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain, onClose, onSaveJournal }: ToolRevealCardProps) {
+  const [isFlybackOpen, setIsFlybackOpen] = useState(false);
   const category = TOOL_CATEGORIES.find(c => c.id === drawnTool.categoryId);
   const hasScale = category?.hasScale && drawnTool.scaleValue !== undefined;
   const hasUnveiled = drawnTool.unveiledValue !== undefined;
@@ -124,15 +128,24 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
             </p>
           )}
           
-          <div className="flex gap-4 pt-8">
+          <div className="flex flex-wrap gap-3 pt-8 justify-center">
             <Button
               onClick={onDrawAgain}
               data-testid="button-draw-again"
-              className="px-10 py-6 text-lg font-bold border-2 border-primary-border"
+              className="px-8 py-6 text-lg font-bold border-2 border-primary-border"
               size="lg"
             >
               <RotateCcw className="w-5 h-5 mr-2" />
               Draw Again
+            </Button>
+            <Button
+              onClick={() => setIsFlybackOpen(true)}
+              data-testid="button-flyback"
+              className="px-8 py-6 text-lg font-bold bg-accent hover:bg-accent/90 text-accent-foreground border-2 border-accent-border"
+              size="lg"
+            >
+              <BookOpen className="w-5 h-5 mr-2" />
+              Flyback
             </Button>
             <Button
               variant="outline"
@@ -146,6 +159,14 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
           </div>
         </div>
       </Card>
+      
+      <FlybackModal
+        isOpen={isFlybackOpen}
+        onClose={() => setIsFlybackOpen(false)}
+        onSave={onSaveJournal}
+        initialValue={drawnTool.journalEntry || ""}
+        toolName={drawnTool.parentToolName}
+      />
     </div>
   );
 }

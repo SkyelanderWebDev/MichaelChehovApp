@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "date-fns";
-import { History } from "lucide-react";
+import { History, BookOpen } from "lucide-react";
 
 interface HistoryPanelProps {
   history: DrawnTool[];
@@ -44,13 +44,24 @@ export default function HistoryPanel({ history, onSelectTool }: HistoryPanelProp
                       <span className="text-accent ml-2 italic">"{tool.childToolName}"</span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center gap-2 mt-2 flex-wrap">
                     <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border border-primary/20">
                       {tool.categoryName}
                     </Badge>
                     {tool.scaleValue !== undefined && (
                       <Badge variant="outline" className="text-xs border-accent text-accent-foreground bg-accent/10">
                         {tool.scaleValue}/10
+                      </Badge>
+                    )}
+                    {tool.unveiledValue !== undefined && (
+                      <Badge variant="outline" className="text-xs border-primary text-primary-foreground bg-primary/10">
+                        Unveiled: {tool.unveiledValue}/10
+                      </Badge>
+                    )}
+                    {tool.journalEntry && (
+                      <Badge variant="outline" className="text-xs border-accent text-accent bg-accent/10 flex items-center gap-1">
+                        <BookOpen className="w-3 h-3" />
+                        Journal
                       </Badge>
                     )}
                   </div>
