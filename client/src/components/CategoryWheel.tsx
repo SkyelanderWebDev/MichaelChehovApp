@@ -39,16 +39,15 @@ export default function CategoryWheel({
   const fixedCategories = otherCategories.filter(c => c.id in fixedPositions);
   const autoCategories = otherCategories.filter(c => !(c.id in fixedPositions));
   
-  // Stargate-style wheel: circular top/sides with flat bottom
-  const radius = 370;
+  // Circular wheel
+  const radius = 280;
   
-  // Calculate angles for auto categories
-  // Use only the upper 220° arc to avoid bottom overlap
+  // Calculate angles for auto categories - fill remaining positions
   const autoPositions: number[] = [];
   const reservedIndices = [0, 3, 9]; // 12, 3, 9 o'clock (fixed positions)
   
-  // Skip indices 5, 6, 7 (the bottom area - reserved for flat bottom)
-  const availableIndices = [1, 2, 4, 8, 10, 11]; // Available positions around the upper arc
+  // Available positions around the circle
+  const availableIndices = [1, 2, 4, 5, 7, 8, 10, 11];
   
   for (let i = 0; i < autoCategories.length && i < availableIndices.length; i++) {
     const index = availableIndices[i];
@@ -57,9 +56,9 @@ export default function CategoryWheel({
   }
   
   return (
-    <div className="relative w-full max-w-[950px] mx-auto pointer-events-none">
+    <div className="relative w-full max-w-[800px] mx-auto">
       {/* Circular wheel section */}
-      <div className="relative w-full max-w-[850px] mx-auto aspect-square">
+      <div className="relative w-full max-w-[700px] mx-auto aspect-square pointer-events-none">
       {/* Center hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-accent/20 border-3 border-accent flex items-center justify-center shadow-lg">
@@ -204,76 +203,69 @@ export default function CategoryWheel({
           </div>
         );
       })}
+      </div>
       
-      {/* PsychoPhysical Gestures card - flat bottom of Stargate */}
-      <div
-        className="absolute z-0"
-        style={{
-          left: '50%',
-          top: '50%',
-          transform: `translate(-50%, calc(-50% + ${radius + 110}px))`,
-        }}
-      >
-        <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-96">
-        <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
-        <div className="grid grid-cols-3 gap-3">
-          {combinedCategories.map((category) => {
-            const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
-            const isSelected = selectedCategories.includes(category.id);
-            
-            return (
-              <div key={category.id} className="relative">
-                {/* Checkbox toggle */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onToggleCategory(category.id);
-                  }}
-                  data-testid={`checkbox-toggle-${category.id}`}
-                  className="absolute -top-2 -right-2 z-20"
-                >
-                  <div 
+      {/* PsychoPhysical Gestures card - separate section underneath */}
+      <div className="mt-8 flex justify-center">
+        <div className="bg-card border-3 border-primary/30 rounded-2xl p-4 shadow-lg w-full max-w-md">
+          <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
+          <div className="grid grid-cols-3 gap-3">
+            {combinedCategories.map((category) => {
+              const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
+              const isSelected = selectedCategories.includes(category.id);
+              
+              return (
+                <div key={category.id} className="relative">
+                  {/* Checkbox toggle */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onToggleCategory(category.id);
+                    }}
+                    data-testid={`checkbox-toggle-${category.id}`}
+                    className="absolute -top-2 -right-2 z-20"
+                  >
+                    <div 
+                      className={`
+                        w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all shadow-md
+                        hover:scale-110 active:scale-95
+                        ${isSelected 
+                          ? 'bg-primary border-primary' 
+                          : 'border-primary/30 bg-card hover:border-primary/50'
+                        }
+                      `}
+                    >
+                      {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
+                    </div>
+                  </button>
+
+                  {/* Main card section */}
+                  <button
+                    onClick={() => onOpenDetail(category.id)}
+                    data-testid={`card-category-${category.id}`}
                     className={`
-                      w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all shadow-md
-                      hover:scale-110 active:scale-95
+                      w-full h-24 md:h-28
+                      rounded-xl border-2 transition-all duration-300
+                      hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
                       ${isSelected 
-                        ? 'bg-primary border-primary' 
-                        : 'border-primary/30 bg-card hover:border-primary/50'
+                        ? 'border-accent bg-accent shadow-xl' 
+                        : 'border-primary/30 bg-background shadow-md'
                       }
                     `}
                   >
-                    {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
-                  </div>
-                </button>
-
-                {/* Main card section */}
-                <button
-                  onClick={() => onOpenDetail(category.id)}
-                  data-testid={`card-category-${category.id}`}
-                  className={`
-                    w-full h-24 md:h-28
-                    rounded-xl border-2 transition-all duration-300
-                    hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1 pointer-events-auto
-                    ${isSelected 
-                      ? 'border-accent bg-accent shadow-xl' 
-                      : 'border-primary/30 bg-background shadow-md'
-                    }
-                  `}
-                >
-                  <Icon className={`w-6 h-6 md:w-7 md:h-7 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
-                  <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-                    {category.name}
-                  </span>
-                  <span className={`text-[9px] md:text-[10px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
-                    {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
-                  </span>
-                </button>
-              </div>
-            );
-          })}
+                    <Icon className={`w-6 h-6 md:w-7 md:h-7 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
+                    <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                      {category.name}
+                    </span>
+                    <span className={`text-[9px] md:text-[10px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
+                      {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
+                    </span>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        </div>
-      </div>
       </div>
     </div>
   );
