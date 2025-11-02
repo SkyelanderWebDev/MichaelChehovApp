@@ -95,7 +95,7 @@ export default function CategoryWheel({
                   {category.name}
                 </span>
                 <span className={`text-[9px] md:text-[10px] mt-0.5 ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
-                  {category.tools.length} {category.tools.length === 1 ? 'parent' : 'parents'}
+                  {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
                 </span>
               </button>
             </div>
@@ -157,7 +157,7 @@ export default function CategoryWheel({
                     {category.name}
                   </span>
                   <span className={`text-[9px] md:text-[10px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
-                    {category.tools.length} {category.tools.length === 1 ? 'parent' : 'parents'}
+                    {category.tools.length} {category.tools.length === 1 ? 'tool' : 'tools'}
                   </span>
                 </button>
               </div>
