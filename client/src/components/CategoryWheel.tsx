@@ -205,7 +205,7 @@ export default function CategoryWheel({
       
       {/* PsychoPhysical Gestures card at 6 o'clock */}
       <div
-        className="absolute"
+        className="absolute -z-10"
         style={{
           left: '50%',
           top: '50%',

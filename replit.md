@@ -99,6 +99,22 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### November 2, 2025 - Category Wheel Layout & UI Improvements
+- **Added Ensemble Category**: New 14th category with 6 tools for group dynamics (Listening, Supporting, Leading, Following, Mirroring, Contrasting)
+- **Fixed Circular Wheel Layout**: 
+  - Fixed critical bug where "four-brothers" wasn't recognized as fixed category (falsy 0 angle value)
+  - Now correctly displays 12 cards evenly spaced around the wheel (11 individual + 1 PsychoPhysical grouped card)
+  - Increased radius to 340px to prevent overlapping
+  - All cards now positioned correctly: Psychological Gesture (12 o'clock), Four Brothers (3 o'clock), PsychoPhysical Gestures (6 o'clock), Characterization (9 o'clock)
+  - 8 remaining categories evenly distributed at 30-degree intervals
+- **PsychoPhysical Card Enhancements**:
+  - Increased width to w-96 (384px) for better text readability
+  - Added negative z-index so it appears behind adjacent cards instead of overlapping them
+- **UI Layout Improvements**:
+  - Moved Select All/Clear All buttons to fixed top-left corner (no longer blocking wheel)
+  - Added horizontal padding to wheel container to prevent Draw Settings panel overlap
+  - Buttons now have shadow-md for better visibility
+
 ### November 2, 2025 - Flyback Journaling Feature
 - **Added PostgreSQL Database**: Migrated from in-memory storage to persistent PostgreSQL database for storing drawn tools and journal entries
 - **Flyback Modal Component**: Created `FlybackModal` component allowing users to write reflective journal entries for each drawn tool
