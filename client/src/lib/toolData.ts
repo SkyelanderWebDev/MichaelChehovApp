@@ -173,6 +173,19 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       { name: "Gathering", children: ["Collecting", "Accumulating", "Drawing In", "Consolidating", "Unifying"] }
     ],
   },
+  {
+    id: "ensemble",
+    name: "Ensemble",
+    description: "Group dynamics and collaboration",
+    tools: [
+      { name: "Listening", children: ["Active Listening", "Responding", "Being Present", "Tuning In", "Awareness"] },
+      { name: "Supporting", children: ["Enabling", "Uplifting", "Backing", "Assisting", "Reinforcing"] },
+      { name: "Leading", children: ["Guiding", "Initiating", "Directing", "Inspiring", "Taking Charge"] },
+      { name: "Following", children: ["Yielding", "Trusting", "Joining", "Adapting", "Accepting"] },
+      { name: "Mirroring", children: ["Reflecting", "Echoing", "Matching", "Synchronizing", "Resonating"] },
+      { name: "Contrasting", children: ["Opposing", "Balancing", "Differentiating", "Countering", "Juxtaposing"] }
+    ],
+  },
 ];
 
 export const CATEGORY_ICONS: Record<string, any> = {
@@ -189,4 +202,5 @@ export const CATEGORY_ICONS: Record<string, any> = {
   "focal-points": Focus,
   "style": Palette,
   "psychological-gesture": Hand,
+  "ensemble": User,
 };

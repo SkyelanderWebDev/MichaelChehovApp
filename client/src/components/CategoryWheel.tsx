@@ -31,30 +31,41 @@ export default function CategoryWheel({
   const fixedCategories = otherCategories.filter(c => fixedPositions[c.id]);
   const autoCategories = otherCategories.filter(c => !fixedPositions[c.id]);
   
+  // Increased radius to prevent card overlaps
+  const radius = 310;
+  
   // Calculate positions for auto categories
   // We have 4 fixed positions: 12, 3, 6, 9 o'clock
-  // Distribute remaining categories evenly in the available spaces
+  // Total of 11 cards around the wheel (14 total - 3 in PsychoPhysical card)
   const totalAuto = autoCategories.length;
   const autoPositions: number[] = [];
   
-  // Total positions on wheel (including fixed): totalAuto + 4 fixed = total
-  const totalPositions = totalAuto + 4; // 4 fixed positions
-  const angleStep = (2 * Math.PI) / totalPositions;
-  
-  // Start from just after 12 o'clock and skip the 4 fixed positions
+  // Fixed angle positions (in radians)
   const fixedAngles = [
     -Math.PI / 2,     // 12 o'clock (Psychological Gesture)
     0,                // 3 o'clock (Four Brothers)
-    Math.PI / 2,      // 6 o'clock (PsychoPhysical card)
-    Math.PI,          // 9 o'clock (Characterization) - actually at PI (or -PI)
+    Math.PI / 2,      // 6 o'clock (PsychoPhysical card - reserve extra space)
+    Math.PI,          // 9 o'clock (Characterization)
   ];
   
-  let currentAngle = -Math.PI / 2; // Start at top
-  for (let i = 0; i < totalPositions; i++) {
-    // Check if this angle is close to any fixed position
-    const isFixed = fixedAngles.some(fixed => Math.abs(currentAngle - fixed) < 0.1);
+  // Total cards around wheel: 4 fixed + totalAuto
+  const totalCards = 4 + totalAuto;
+  
+  // Evenly distribute all positions around the circle
+  const angleStep = (2 * Math.PI) / totalCards;
+  
+  // Generate all positions, then skip the ones reserved for fixed cards
+  let currentAngle = -Math.PI / 2; // Start at 12 o'clock
+  for (let i = 0; i < totalCards; i++) {
+    // Check if this angle is too close to any fixed position
+    const tooClose = fixedAngles.some(fixed => {
+      let diff = Math.abs(currentAngle - fixed);
+      // Handle wraparound (e.g., -PI and PI are the same)
+      if (diff > Math.PI) diff = 2 * Math.PI - diff;
+      return diff < angleStep * 0.5; // Within half a step of a fixed position
+    });
     
-    if (!isFixed && autoPositions.length < totalAuto) {
+    if (!tooClose && autoPositions.length < totalAuto) {
       autoPositions.push(currentAngle);
     }
     
@@ -77,7 +88,6 @@ export default function CategoryWheel({
       {/* Render fixed position categories */}
       {fixedCategories.map((category) => {
         const angle = fixedPositions[category.id];
-        const radius = 240;
         const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
         const isSelected = selectedCategories.includes(category.id);
         
@@ -218,7 +228,7 @@ export default function CategoryWheel({
         style={{
           left: '50%',
           top: '50%',
-          transform: `translate(-50%, calc(-50% + ${240}px))`,
+          transform: `translate(-50%, calc(-50% + ${radius}px))`,
         }}
       >
         <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-80">
