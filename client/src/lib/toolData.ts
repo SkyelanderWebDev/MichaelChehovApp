@@ -8,8 +8,12 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     description: "Core PsychoPhysical movement",
     tools: [
       { 
-        name: "Expansion and Contraction",
-        children: ["Opening", "Closing", "Widening", "Narrowing", "Swelling", "Deflating", "Blooming", "Wilting"]
+        name: "Expansion",
+        children: ["Opening", "Widening", "Swelling", "Blooming", "Growing", "Spreading", "Enlarging", "Inflating"]
+      },
+      { 
+        name: "Contraction",
+        children: ["Closing", "Narrowing", "Deflating", "Wilting", "Shrinking", "Condensing", "Compressing", "Withdrawing"]
       },
     ],
   },
