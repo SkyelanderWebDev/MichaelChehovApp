@@ -13,10 +13,16 @@ export default function CategoryWheel({
   onToggleCategory,
   onOpenDetail,
 }: CategoryWheelProps) {
-  const totalCategories = TOOL_CATEGORIES.length;
+  // Categories to combine in the bottom card
+  const combinedCategoryIds = ["expansion-contraction", "qualities-of-movement", "archetypal-gestures"];
+  const combinedCategories = TOOL_CATEGORIES.filter(c => combinedCategoryIds.includes(c.id));
+  const circularCategories = TOOL_CATEGORIES.filter(c => !combinedCategoryIds.includes(c.id));
+  const totalCategories = circularCategories.length;
   
   return (
-    <div className="relative w-full max-w-[600px] mx-auto aspect-square">
+    <div className="relative w-full max-w-[700px] mx-auto">
+      {/* Circular wheel section */}
+      <div className="relative w-full max-w-[600px] mx-auto aspect-square mb-8">
       {/* Center hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-accent/20 border-3 border-accent flex items-center justify-center shadow-lg">
@@ -27,7 +33,7 @@ export default function CategoryWheel({
       </div>
       
       {/* Category cards arranged in perfect circle */}
-      {TOOL_CATEGORIES.map((category, index) => {
+      {circularCategories.map((category, index) => {
         const angle = (index / totalCategories) * 2 * Math.PI - Math.PI / 2; // Start from top
         const radius = 240; // pixels from center
         const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
@@ -96,6 +102,70 @@ export default function CategoryWheel({
           </div>
         );
       })}
+      </div>
+
+      {/* Combined rectangular card at the bottom */}
+      <div className="w-full max-w-[600px] mx-auto mt-4">
+      <div className="bg-card border-3 border-primary/30 rounded-2xl p-4 shadow-lg">
+        <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
+        <div className="grid grid-cols-3 gap-3">
+          {combinedCategories.map((category) => {
+            const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
+            const isSelected = selectedCategories.includes(category.id);
+            
+            return (
+              <div key={category.id} className="relative">
+                {/* Checkbox toggle */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleCategory(category.id);
+                  }}
+                  data-testid={`checkbox-toggle-${category.id}`}
+                  className="absolute -top-2 -right-2 z-20"
+                >
+                  <div 
+                    className={`
+                      w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all shadow-md
+                      hover:scale-110 active:scale-95
+                      ${isSelected 
+                        ? 'bg-primary border-primary' 
+                        : 'border-primary/30 bg-card hover:border-primary/50'
+                      }
+                    `}
+                  >
+                    {isSelected && <Check className="w-3.5 h-3.5 text-white" />}
+                  </div>
+                </button>
+
+                {/* Main card section */}
+                <button
+                  onClick={() => onOpenDetail(category.id)}
+                  data-testid={`card-category-${category.id}`}
+                  className={`
+                    w-full h-24 md:h-28
+                    rounded-xl border-2 transition-all duration-300
+                    hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
+                    ${isSelected 
+                      ? 'border-accent bg-accent shadow-xl' 
+                      : 'border-primary/30 bg-background shadow-md'
+                    }
+                  `}
+                >
+                  <Icon className={`w-6 h-6 md:w-7 md:h-7 flex-shrink-0 ${isSelected ? 'text-primary' : 'text-primary/60'}`} />
+                  <span className={`text-[10px] md:text-xs font-bold text-center leading-tight line-clamp-2 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                    {category.name}
+                  </span>
+                  <span className={`text-[9px] md:text-[10px] ${isSelected ? 'text-primary/80' : 'text-muted-foreground'}`}>
+                    {category.tools.length} {category.tools.length === 1 ? 'parent' : 'parents'}
+                  </span>
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      </div>
     </div>
   );
 }
