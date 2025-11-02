@@ -5,11 +5,13 @@ import { Check } from "lucide-react";
 interface CategoryWheelProps {
   selectedCategories: string[];
   onToggleCategory: (categoryId: string) => void;
+  onOpenDetail: (categoryId: string) => void;
 }
 
 export default function CategoryWheel({
   selectedCategories,
   onToggleCategory,
+  onOpenDetail,
 }: CategoryWheelProps) {
   const totalCategories = TOOL_CATEGORIES.length;
   
@@ -35,25 +37,29 @@ export default function CategoryWheel({
         const y = Math.sin(angle) * radius;
         
         return (
-          <button
+          <div
             key={category.id}
-            onClick={() => onToggleCategory(category.id)}
-            data-testid={`card-category-${category.id}`}
-            className={`
-              absolute w-24 h-24 md:w-32 md:h-32
-              rounded-2xl border-3 transition-all duration-300
-              hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
-              ${isSelected 
-                ? 'border-accent bg-accent shadow-xl' 
-                : 'border-primary/30 bg-card shadow-lg'
-              }
-            `}
+            className="absolute"
             style={{
               left: '50%',
               top: '50%',
               transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
             }}
           >
+            <button
+              onClick={() => onToggleCategory(category.id)}
+              onDoubleClick={() => onOpenDetail(category.id)}
+              data-testid={`card-category-${category.id}`}
+              className={`
+                w-24 h-24 md:w-32 md:h-32
+                rounded-2xl border-3 transition-all duration-300
+                hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
+                ${isSelected 
+                  ? 'border-accent bg-accent shadow-xl' 
+                  : 'border-primary/30 bg-card shadow-lg'
+                }
+              `}
+            >
             <div className="absolute -top-2 -right-2 z-10">
               <div 
                 className={`
@@ -76,6 +82,14 @@ export default function CategoryWheel({
               {category.tools.length} {category.tools.length === 1 ? 'parent' : 'parents'}
             </span>
           </button>
+          <button
+            onClick={() => onOpenDetail(category.id)}
+            data-testid={`button-open-detail-${category.id}`}
+            className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[9px] md:text-xs px-2 py-1 rounded-lg bg-primary text-white hover:bg-primary/90 transition-all whitespace-nowrap shadow-md"
+          >
+            View Details
+          </button>
+          </div>
         );
       })}
     </div>

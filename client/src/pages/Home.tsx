@@ -5,12 +5,16 @@ import CategoryWheel from "@/components/CategoryWheel";
 import DrawButton from "@/components/DrawButton";
 import ToolRevealCard from "@/components/ToolRevealCard";
 import HistoryPanel from "@/components/HistoryPanel";
+import CategoryDetailModal from "@/components/CategoryDetailModal";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  // Track selected parent tools per category: { categoryId: [parentToolName1, parentToolName2, ...] }
+  const [selectedParentTools, setSelectedParentTools] = useState<Record<string, string[]>>({});
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [currentTool, setCurrentTool] = useState<DrawnTool | null>(null);
   const [history, setHistory] = useState<DrawnTool[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -23,14 +27,70 @@ export default function Home() {
         ? prev.filter(id => id !== categoryId)
         : [...prev, categoryId]
     );
+    
+    // When selecting a category, auto-select all parent tools if none selected
+    if (!selectedCategories.includes(categoryId)) {
+      const category = TOOL_CATEGORIES.find(c => c.id === categoryId);
+      if (category && !selectedParentTools[categoryId]) {
+        setSelectedParentTools(prev => ({
+          ...prev,
+          [categoryId]: category.tools.map(t => t.name)
+        }));
+      }
+    }
+  };
+  
+  const handleOpenCategoryDetail = (categoryId: string) => {
+    setExpandedCategory(categoryId);
+  };
+  
+  const handleCloseCategoryDetail = () => {
+    setExpandedCategory(null);
+  };
+  
+  const handleToggleParentTool = (categoryId: string, parentToolName: string) => {
+    setSelectedParentTools(prev => {
+      const current = prev[categoryId] || [];
+      const updated = current.includes(parentToolName)
+        ? current.filter(name => name !== parentToolName)
+        : [...current, parentToolName];
+      
+      return { ...prev, [categoryId]: updated };
+    });
+  };
+  
+  const handleSelectAllParents = (categoryId: string) => {
+    const category = TOOL_CATEGORIES.find(c => c.id === categoryId);
+    if (category) {
+      setSelectedParentTools(prev => ({
+        ...prev,
+        [categoryId]: category.tools.map(t => t.name)
+      }));
+    }
+  };
+  
+  const handleDeselectAllParents = (categoryId: string) => {
+    setSelectedParentTools(prev => ({
+      ...prev,
+      [categoryId]: []
+    }));
   };
   
   const handleSelectAll = () => {
-    setSelectedCategories(TOOL_CATEGORIES.map(c => c.id));
+    const allIds = TOOL_CATEGORIES.map(c => c.id);
+    setSelectedCategories(allIds);
+    
+    // Auto-select all parent tools for each category
+    const allParentTools: Record<string, string[]> = {};
+    TOOL_CATEGORIES.forEach(category => {
+      allParentTools[category.id] = category.tools.map(t => t.name);
+    });
+    setSelectedParentTools(allParentTools);
   };
   
   const handleClearAll = () => {
     setSelectedCategories([]);
+    setSelectedParentTools({});
   };
   
   const allSelected = selectedCategories.length === TOOL_CATEGORIES.length;
@@ -45,19 +105,37 @@ export default function Home() {
       return;
     }
     
+    // Filter categories that have selected parent tools
+    const validCategories = TOOL_CATEGORIES.filter(c => {
+      const isSelected = selectedCategories.includes(c.id);
+      const hasSelectedParents = (selectedParentTools[c.id] || []).length > 0;
+      return isSelected && hasSelectedParents;
+    });
+    
+    if (validCategories.length === 0) {
+      toast({
+        title: "No parent tools selected",
+        description: "Please select at least one parent tool from your selected categories.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsDrawing(true);
     
     setTimeout(() => {
-      const selectedCategoryObjects = TOOL_CATEGORIES.filter(c => 
-        selectedCategories.includes(c.id)
-      );
-      
-      const randomCategory = selectedCategoryObjects[
-        Math.floor(Math.random() * selectedCategoryObjects.length)
+      const randomCategory = validCategories[
+        Math.floor(Math.random() * validCategories.length)
       ];
       
-      const randomParentTool = randomCategory.tools[
-        Math.floor(Math.random() * randomCategory.tools.length)
+      // Get only the selected parent tools for this category
+      const availableParentToolNames = selectedParentTools[randomCategory.id] || [];
+      const availableParentTools = randomCategory.tools.filter(t => 
+        availableParentToolNames.includes(t.name)
+      );
+      
+      const randomParentTool = availableParentTools[
+        Math.floor(Math.random() * availableParentTools.length)
       ];
       
       // If the parent tool has children, randomly select one
@@ -149,6 +227,7 @@ export default function Home() {
               <CategoryWheel
                 selectedCategories={selectedCategories}
                 onToggleCategory={handleToggleCategory}
+                onOpenDetail={handleOpenCategoryDetail}
               />
             </div>
             
@@ -206,6 +285,16 @@ export default function Home() {
           onClose={handleClose}
         />
       )}
+      
+      <CategoryDetailModal
+        category={expandedCategory ? TOOL_CATEGORIES.find(c => c.id === expandedCategory) || null : null}
+        isOpen={expandedCategory !== null}
+        onClose={handleCloseCategoryDetail}
+        selectedParentTools={selectedParentTools}
+        onToggleParentTool={handleToggleParentTool}
+        onSelectAll={handleSelectAllParents}
+        onDeselectAll={handleDeselectAllParents}
+      />
     </div>
   );
 }
