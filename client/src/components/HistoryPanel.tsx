@@ -13,10 +13,10 @@ interface HistoryPanelProps {
 export default function HistoryPanel({ history, onSelectTool }: HistoryPanelProps) {
   if (history.length === 0) {
     return (
-      <Card className="p-6">
+      <Card className="p-6 border-2 border-primary/20 shadow-lg">
         <div className="flex flex-col items-center justify-center text-center space-y-3 py-8">
-          <History className="w-8 h-8 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">
+          <History className="w-10 h-10 text-primary/60" />
+          <p className="text-sm text-muted-foreground font-medium">
             No tools drawn yet. Start by selecting categories and drawing a tool!
           </p>
         </div>
@@ -25,8 +25,8 @@ export default function HistoryPanel({ history, onSelectTool }: HistoryPanelProp
   }
   
   return (
-    <Card className="p-6">
-      <h3 className="text-lg font-semibold mb-4">Session History</h3>
+    <Card className="p-6 border-2 border-primary/20 shadow-lg">
+      <h3 className="text-xl font-bold mb-4 text-primary">Session History</h3>
       <ScrollArea className="h-[400px] pr-4">
         <div className="space-y-3">
           {history.map((tool, index) => (
@@ -34,19 +34,19 @@ export default function HistoryPanel({ history, onSelectTool }: HistoryPanelProp
               key={tool.id}
               onClick={() => onSelectTool?.(tool)}
               data-testid={`history-item-${index}`}
-              className="w-full text-left p-4 rounded-lg border hover-elevate active-elevate-2 transition-all"
+              className="w-full text-left p-4 rounded-xl border-2 border-primary/20 bg-white hover:border-accent hover:shadow-md active:scale-95 transition-all"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium truncate" data-testid={`text-tool-${index}`}>
+                  <div className="font-semibold truncate text-primary" data-testid={`text-tool-${index}`}>
                     {tool.toolName}
                   </div>
-                  <div className="flex items-center gap-2 mt-1">
-                    <Badge variant="secondary" className="text-xs">
+                  <div className="flex items-center gap-2 mt-2">
+                    <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border border-primary/20">
                       {tool.categoryName}
                     </Badge>
                     {tool.scaleValue !== undefined && (
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className="text-xs border-accent text-accent-foreground bg-accent/10">
                         {tool.scaleValue}/10
                       </Badge>
                     )}

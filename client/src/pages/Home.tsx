@@ -91,45 +91,47 @@ export default function Home() {
   };
   
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-white">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-center" data-testid="text-app-title">
+    <div className="min-h-screen bg-white">
+      <header className="border-b-4 border-accent bg-primary shadow-lg">
+        <div className="max-w-6xl mx-auto px-4 py-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-center text-white" data-testid="text-app-title">
             Actor's Toolkit
           </h1>
-          <p className="text-center text-muted-foreground mt-2">
+          <p className="text-center text-primary-foreground/90 mt-3 text-lg">
             Randomized Technique Selector
           </p>
         </div>
       </header>
       
-      <main className="max-w-6xl mx-auto px-4 py-8 md:py-12">
+      <main className="max-w-7xl mx-auto px-4 py-8 md:py-12">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-1 flex flex-col items-center space-y-8">
             {/* Quick actions */}
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <Button
                 variant="outline"
-                size="sm"
+                size="default"
                 onClick={handleSelectAll}
                 data-testid="button-select-all"
                 disabled={allSelected}
+                className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold"
               >
                 Select All
               </Button>
               <Button
                 variant="outline"
-                size="sm"
+                size="default"
                 onClick={handleClearAll}
                 data-testid="button-clear-all"
                 disabled={selectedCategories.length === 0}
+                className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold"
               >
                 Clear All
               </Button>
             </div>
             
             {/* Wheel */}
-            <div className="w-full max-w-2xl py-8">
+            <div className="w-full max-w-3xl py-12">
               <CategoryWheel
                 selectedCategories={selectedCategories}
                 onToggleCategory={handleToggleCategory}
@@ -137,7 +139,7 @@ export default function Home() {
             </div>
             
             {/* Draw button */}
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-8">
               <DrawButton
                 onClick={handleDrawTool}
                 disabled={selectedCategories.length === 0}
@@ -146,7 +148,7 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="lg:w-80 shrink-0">
+          <div className="lg:w-96 shrink-0">
             <HistoryPanel 
               history={history}
               onSelectTool={handleSelectFromHistory}

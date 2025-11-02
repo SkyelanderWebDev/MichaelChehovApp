@@ -13,13 +13,14 @@ export default function DrawButton({ onClick, disabled = false, isDrawing = fals
       onClick={onClick}
       disabled={disabled}
       data-testid="button-draw-tool"
+      variant="default"
       className={`
-        px-12 py-6 text-lg font-bold rounded-xl shadow-lg
+        px-16 py-8 text-xl font-bold rounded-2xl shadow-2xl border-2 border-primary-border
         ${isDrawing ? 'animate-pulse' : ''}
+        ${disabled ? '' : 'hover:scale-105 active:scale-95'}
       `}
-      size="lg"
     >
-      <Sparkles className="w-5 h-5 mr-2" />
+      <Sparkles className="w-6 h-6 mr-3" />
       {isDrawing ? 'Drawing...' : 'Draw Tool'}
     </Button>
   );

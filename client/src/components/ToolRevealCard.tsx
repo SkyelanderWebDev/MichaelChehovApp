@@ -17,69 +17,72 @@ export default function ToolRevealCard({ drawnTool, onDrawAgain, onClose }: Tool
   
   return (
     <div 
-      className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300"
+      className="fixed inset-0 bg-primary/90 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300"
       data-testid="container-tool-reveal"
     >
-      <Card className="w-full max-w-2xl min-h-96 p-8 rounded-2xl shadow-2xl relative animate-in zoom-in duration-500">
+      <Card className="w-full max-w-2xl min-h-96 p-12 rounded-3xl shadow-2xl relative animate-in zoom-in duration-500 bg-white border-4 border-accent">
         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-4 right-4"
+          className="absolute top-4 right-4 hover:bg-accent/20"
           onClick={onClose}
           data-testid="button-close-reveal"
         >
-          <X className="w-5 h-5" />
+          <X className="w-6 h-6" />
         </Button>
         
-        <div className="flex flex-col items-center justify-center space-y-6 h-full">
-          <Badge variant="secondary" className="text-sm" data-testid="badge-category">
+        <div className="flex flex-col items-center justify-center space-y-8 h-full">
+          <Badge variant="secondary" className="text-base px-4 py-1 bg-accent/20 text-accent-foreground border-2 border-accent" data-testid="badge-category">
             {drawnTool.categoryName}
           </Badge>
           
           {hasScale ? (
-            <div className="flex flex-col items-center space-y-4">
-              <div className="relative w-48 h-48 flex items-center justify-center">
-                <div className="absolute inset-0 rounded-full border-8 border-primary/20"></div>
+            <div className="flex flex-col items-center space-y-6">
+              <div className="relative w-56 h-56 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-8 border-accent/30"></div>
                 <div 
-                  className="absolute inset-0 rounded-full border-8 border-primary border-t-transparent"
+                  className="absolute inset-0 rounded-full border-8 border-accent border-t-transparent"
                   style={{
                     transform: `rotate(${(drawnTool.scaleValue! / 10) * 360}deg)`,
                     transition: 'transform 0.5s ease-out'
                   }}
                 ></div>
-                <span className="text-6xl font-bold font-serif text-primary" data-testid="text-scale-value">
+                <span className="text-7xl font-bold font-serif text-primary" data-testid="text-scale-value">
                   {drawnTool.scaleValue}
                 </span>
               </div>
-              <h1 className="text-4xl font-bold font-serif text-center" data-testid="text-tool-name">
+              <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
                 {drawnTool.toolName}
               </h1>
             </div>
           ) : (
-            <h1 className="text-5xl font-bold font-serif text-center px-4" data-testid="text-tool-name">
+            <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
               {drawnTool.toolName}
             </h1>
           )}
           
           {category?.description && (
-            <p className="text-muted-foreground text-center max-w-md">
+            <p className="text-muted-foreground text-center max-w-md text-lg">
               {category.description}
             </p>
           )}
           
-          <div className="flex gap-4 pt-6">
+          <div className="flex gap-4 pt-8">
             <Button
               onClick={onDrawAgain}
               data-testid="button-draw-again"
-              className="px-8"
+              className="px-10 py-6 text-lg font-bold border-2 border-primary-border"
+              size="lg"
             >
-              <RotateCcw className="w-4 h-4 mr-2" />
+              <RotateCcw className="w-5 h-5 mr-2" />
               Draw Again
             </Button>
             <Button
               variant="outline"
               onClick={onClose}
               data-testid="button-change-categories"
+              className="px-8 py-6 text-lg font-semibold border-2 border-accent hover:bg-accent/10"
+              size="lg"
             >
               Change Categories
             </Button>
