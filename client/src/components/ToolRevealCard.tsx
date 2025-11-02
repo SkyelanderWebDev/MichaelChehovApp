@@ -5,15 +5,39 @@ import { Button } from "@/components/ui/button";
 import { RotateCcw, X } from "lucide-react";
 import { TOOL_CATEGORIES } from "@/lib/toolData";
 
+type HierarchyLevel = "cards" | "tools" | "examples";
+
 interface ToolRevealCardProps {
   drawnTool: DrawnTool;
+  hierarchyLevel: HierarchyLevel;
   onDrawAgain: () => void;
   onClose: () => void;
 }
 
-export default function ToolRevealCard({ drawnTool, onDrawAgain, onClose }: ToolRevealCardProps) {
+export default function ToolRevealCard({ drawnTool, hierarchyLevel, onDrawAgain, onClose }: ToolRevealCardProps) {
   const category = TOOL_CATEGORIES.find(c => c.id === drawnTool.categoryId);
   const hasScale = category?.hasScale && drawnTool.scaleValue !== undefined;
+  const hasUnveiled = drawnTool.unveiledValue !== undefined;
+  
+  // Determine what to display based on hierarchy level
+  const getDisplayContent = () => {
+    switch (hierarchyLevel) {
+      case "cards":
+        return drawnTool.categoryName; // Just the grandparent/category name
+      case "tools":
+        return drawnTool.parentToolName; // Just the parent tool name
+      case "examples":
+      default:
+        // Show both parent and child if available
+        return {
+          parent: drawnTool.parentToolName,
+          child: drawnTool.childToolName
+        };
+    }
+  };
+  
+  const displayContent = getDisplayContent();
+  const isSimpleText = typeof displayContent === "string";
   
   return (
     <div 
@@ -32,9 +56,11 @@ export default function ToolRevealCard({ drawnTool, onDrawAgain, onClose }: Tool
         </Button>
         
         <div className="flex flex-col items-center justify-center space-y-8 h-full">
-          <Badge variant="secondary" className="text-base px-4 py-1 bg-accent/20 text-accent-foreground border-2 border-accent" data-testid="badge-category">
-            {drawnTool.categoryName}
-          </Badge>
+          {hierarchyLevel !== "cards" && (
+            <Badge variant="secondary" className="text-base px-4 py-1 bg-accent/20 text-accent-foreground border-2 border-accent" data-testid="badge-category">
+              {drawnTool.categoryName}
+            </Badge>
+          )}
           
           {hasScale ? (
             <div className="flex flex-col items-center space-y-6">
@@ -51,26 +77,60 @@ export default function ToolRevealCard({ drawnTool, onDrawAgain, onClose }: Tool
                   {drawnTool.scaleValue}
                 </span>
               </div>
-              <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
-                {drawnTool.parentToolName}
-              </h1>
-              {drawnTool.childToolName && (
-                <p className="text-2xl text-accent font-semibold italic mt-2">
-                  "{drawnTool.childToolName}"
-                </p>
+              {isSimpleText ? (
+                <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
+                  {displayContent}
+                </h1>
+              ) : (
+                <>
+                  <h1 className="text-5xl font-bold font-serif text-center text-primary" data-testid="text-tool-name">
+                    {displayContent.parent}
+                  </h1>
+                  {displayContent.child && (
+                    <p className="text-2xl text-accent font-semibold italic mt-2">
+                      "{displayContent.child}"
+                    </p>
+                  )}
+                </>
               )}
             </div>
           ) : (
             <>
-              <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
-                {drawnTool.parentToolName}
-              </h1>
-              {drawnTool.childToolName && (
-                <p className="text-3xl text-accent font-semibold italic mt-4">
-                  "{drawnTool.childToolName}"
-                </p>
+              {isSimpleText ? (
+                <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
+                  {displayContent}
+                </h1>
+              ) : (
+                <>
+                  <h1 className="text-6xl font-bold font-serif text-center px-4 text-primary" data-testid="text-tool-name">
+                    {displayContent.parent}
+                  </h1>
+                  {displayContent.child && (
+                    <p className="text-3xl text-accent font-semibold italic mt-4">
+                      "{displayContent.child}"
+                    </p>
+                  )}
+                </>
               )}
             </>
+          )}
+          
+          {hasUnveiled && (
+            <div className="mt-6 flex flex-col items-center">
+              <p className="text-sm text-muted-foreground mb-2">Unveiled</p>
+              <div className="flex items-center gap-3">
+                <div className="relative w-20 h-20 flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border-4 border-accent/30"></div>
+                  <span className="text-3xl font-bold text-accent" data-testid="text-unveiled-value">
+                    {drawnTool.unveiledValue}
+                  </span>
+                </div>
+                <div className="flex flex-col text-xs text-muted-foreground">
+                  <span>1 = Most Veiled</span>
+                  <span>10 = Most Unveiled</span>
+                </div>
+              </div>
+            </div>
           )}
           
           {category?.description && (

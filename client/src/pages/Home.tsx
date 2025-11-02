@@ -10,6 +10,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 
+type HierarchyLevel = "cards" | "tools" | "examples";
+
 export default function Home() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   // Track selected parent tools per category: { categoryId: [parentToolName1, parentToolName2, ...] }
@@ -19,6 +21,8 @@ export default function Home() {
   const [history, setHistory] = useState<DrawnTool[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
+  const [hierarchyLevel, setHierarchyLevel] = useState<HierarchyLevel>("examples");
+  const [isUnveiledEnabled, setIsUnveiledEnabled] = useState(false);
   const { toast } = useToast();
   
   const handleToggleCategory = (categoryId: string) => {
@@ -147,6 +151,11 @@ export default function Home() {
         ? Math.floor(Math.random() * 10) + 1 
         : undefined;
       
+      // Add unveiled value if enabled (1-10)
+      const unveiledValue = isUnveiledEnabled 
+        ? Math.floor(Math.random() * 10) + 1 
+        : undefined;
+
       const drawnTool: DrawnTool = {
         id: `${Date.now()}-${Math.random()}`,
         categoryId: randomCategory.id,
@@ -154,6 +163,7 @@ export default function Home() {
         parentToolName: randomParentTool.name,
         childToolName: randomChild,
         scaleValue,
+        unveiledValue,
         timestamp: Date.now(),
       };
       
@@ -260,7 +270,70 @@ export default function Home() {
                 {isHistoryOpen ? '›' : '‹'}
               </span>
             </button>
-            <div className="h-full overflow-y-auto pb-8">
+            <div className="h-full overflow-y-auto pb-8 space-y-4">
+              {/* Settings Controls */}
+              <div className="bg-card border-2 border-primary/20 rounded-xl p-4 space-y-4">
+                <h3 className="text-sm font-bold text-primary mb-2">Draw Settings</h3>
+                
+                {/* Hierarchy Level Selector */}
+                <div>
+                  <label className="text-xs font-semibold text-foreground block mb-2">Show Level</label>
+                  <div className="grid grid-cols-3 gap-1 bg-muted p-1 rounded-lg">
+                    <button
+                      onClick={() => setHierarchyLevel("cards")}
+                      data-testid="button-level-cards"
+                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                        hierarchyLevel === "cards"
+                          ? "bg-primary text-white shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      Cards
+                    </button>
+                    <button
+                      onClick={() => setHierarchyLevel("tools")}
+                      data-testid="button-level-tools"
+                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                        hierarchyLevel === "tools"
+                          ? "bg-primary text-white shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      Tools
+                    </button>
+                    <button
+                      onClick={() => setHierarchyLevel("examples")}
+                      data-testid="button-level-examples"
+                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                        hierarchyLevel === "examples"
+                          ? "bg-primary text-white shadow-sm"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      Examples
+                    </button>
+                  </div>
+                </div>
+
+                {/* Unveiled Toggle */}
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold text-foreground">Unveiled (1-10)</label>
+                  <button
+                    onClick={() => setIsUnveiledEnabled(!isUnveiledEnabled)}
+                    data-testid="button-toggle-unveiled"
+                    className={`relative w-11 h-6 rounded-full transition-colors ${
+                      isUnveiledEnabled ? "bg-primary" : "bg-muted"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                        isUnveiledEnabled ? "translate-x-5" : "translate-x-0"
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+
               <HistoryPanel 
                 history={history}
                 onSelectTool={handleSelectFromHistory}
@@ -281,6 +354,7 @@ export default function Home() {
       {currentTool && (
         <ToolRevealCard
           drawnTool={currentTool}
+          hierarchyLevel={hierarchyLevel}
           onDrawAgain={handleDrawAgain}
           onClose={handleClose}
         />

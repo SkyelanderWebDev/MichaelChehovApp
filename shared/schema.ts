@@ -22,6 +22,7 @@ export const drawnToolSchema = z.object({
   parentToolName: z.string(),
   childToolName: z.string().optional(),
   scaleValue: z.number().optional(),
+  unveiledValue: z.number().optional(), // 1-10 scale for how unveiled the tool is
   timestamp: z.number(),
 });
 
