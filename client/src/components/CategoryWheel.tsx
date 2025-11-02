@@ -36,11 +36,11 @@ export default function CategoryWheel({
   });
   
   // Separate fixed and auto-positioned categories
-  const fixedCategories = otherCategories.filter(c => fixedPositions[c.id]);
-  const autoCategories = otherCategories.filter(c => !fixedPositions[c.id]);
+  const fixedCategories = otherCategories.filter(c => c.id in fixedPositions);
+  const autoCategories = otherCategories.filter(c => !(c.id in fixedPositions));
   
   // Increased radius to prevent card overlaps
-  const radius = 310;
+  const radius = 340;
   
   // Calculate angles for auto categories (fill non-fixed positions)
   const autoPositions: number[] = [];
@@ -55,9 +55,9 @@ export default function CategoryWheel({
   }
   
   return (
-    <div className="relative w-full max-w-[850px] mx-auto">
+    <div className="relative w-full max-w-[950px] mx-auto">
       {/* Circular wheel section */}
-      <div className="relative w-full max-w-[750px] mx-auto aspect-square">
+      <div className="relative w-full max-w-[850px] mx-auto aspect-square">
       {/* Center hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-accent/20 border-3 border-accent flex items-center justify-center shadow-lg">
