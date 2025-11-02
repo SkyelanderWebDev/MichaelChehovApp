@@ -1,5 +1,5 @@
 import { ToolCategory } from "@shared/schema";
-import { Sparkles, User, Music, Award, Feather, Eye, Zap } from "lucide-react";
+import { Sparkles, User, Music, Award, Feather, Eye, Zap, Cloud, Focus, Palette, Hand } from "lucide-react";
 
 export const TOOL_CATEGORIES: ToolCategory[] = [
   {
@@ -120,6 +120,59 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
       { name: "Transformation", children: ["Change", "Metamorphosis", "Evolution", "Conversion", "Shift"] }
     ],
   },
+  {
+    id: "atmosphere",
+    name: "Atmosphere",
+    description: "Environmental and mood qualities",
+    tools: [
+      { name: "Time of Day", children: ["Dawn", "Morning", "Midday", "Afternoon", "Dusk", "Night", "Midnight"] },
+      { name: "Weather", children: ["Sunny", "Cloudy", "Rainy", "Stormy", "Foggy", "Windy", "Snowy"] },
+      { name: "Season", children: ["Spring", "Summer", "Autumn", "Winter"] },
+      { name: "Location", children: ["Indoor", "Outdoor", "Urban", "Rural", "Confined", "Expansive", "Intimate", "Public"] },
+      { name: "Temperature", children: ["Hot", "Warm", "Cool", "Cold", "Freezing", "Sweltering"] }
+    ],
+  },
+  {
+    id: "focal-points",
+    name: "Focal Points",
+    description: "Centers of attention and energy",
+    tools: [
+      { name: "Eyes", children: ["Gazing", "Scanning", "Focusing", "Peripheral", "Darting", "Steady"] },
+      { name: "Hands", children: ["Gesturing", "Grasping", "Touching", "Pointing", "Releasing", "Holding"] },
+      { name: "Voice", children: ["Speaking", "Whispering", "Shouting", "Singing", "Humming", "Silence"] },
+      { name: "Center of Gravity", children: ["High", "Middle", "Low", "Shifting", "Grounded", "Elevated"] },
+      { name: "Breath", children: ["Deep", "Shallow", "Rapid", "Slow", "Held", "Released", "Panting"] }
+    ],
+  },
+  {
+    id: "style",
+    name: "Style",
+    description: "Performance styles and approaches",
+    tools: [
+      { name: "Naturalism", children: ["Realistic", "Subtle", "Everyday", "Conversational", "Understated"] },
+      { name: "Expressionism", children: ["Exaggerated", "Heightened", "Emotional", "Stylized", "Symbolic"] },
+      { name: "Classical", children: ["Formal", "Elevated", "Poetic", "Declamatory", "Grand"] },
+      { name: "Contemporary", children: ["Modern", "Relatable", "Current", "Accessible", "Immediate"] },
+      { name: "Physical Theatre", children: ["Movement-based", "Visual", "Non-verbal", "Gestural", "Kinetic"] },
+      { name: "Comedy", children: ["Timing", "Playful", "Light", "Witty", "Absurd"] },
+      { name: "Tragedy", children: ["Serious", "Weighty", "Profound", "Somber", "Cathartic"] }
+    ],
+  },
+  {
+    id: "psychological-gesture",
+    name: "Psychological Gesture",
+    description: "Internal gestures informing external action",
+    tools: [
+      { name: "Opening", children: ["Welcoming", "Receiving", "Embracing", "Accepting", "Inviting"] },
+      { name: "Closing", children: ["Protecting", "Withdrawing", "Refusing", "Shielding", "Rejecting"] },
+      { name: "Reaching", children: ["Yearning", "Desiring", "Seeking", "Striving", "Extending"] },
+      { name: "Retreating", children: ["Shrinking", "Avoiding", "Escaping", "Recoiling", "Backing Away"] },
+      { name: "Rising", children: ["Ascending", "Elevating", "Uplifting", "Soaring", "Transcending"] },
+      { name: "Sinking", children: ["Descending", "Lowering", "Submitting", "Surrendering", "Dropping"] },
+      { name: "Throwing", children: ["Casting Off", "Releasing", "Projecting", "Hurling", "Sending"] },
+      { name: "Gathering", children: ["Collecting", "Accumulating", "Drawing In", "Consolidating", "Unifying"] }
+    ],
+  },
 ];
 
 export const CATEGORY_ICONS: Record<string, any> = {
@@ -132,4 +185,8 @@ export const CATEGORY_ICONS: Record<string, any> = {
   "three-sisters": Feather,
   "qualities-sensations": Eye,
   "tpt": Zap,
+  "atmosphere": Cloud,
+  "focal-points": Focus,
+  "style": Palette,
+  "psychological-gesture": Hand,
 };
