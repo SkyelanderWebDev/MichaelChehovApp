@@ -42,18 +42,17 @@ export default function CategoryWheel({
   // Stargate-style wheel: circular top/sides with flat bottom
   const radius = 370;
   
-  // Calculate angles for auto categories - constrain to upper 220° arc
-  // This prevents cards from overlapping at the bottom
-  const minAngle = -Math.PI / 2; // 12 o'clock (top)
-  const maxAngle = -Math.PI / 2 + (220 * Math.PI / 180); // 220° sweep
-  
-  // Distribute auto categories evenly across the upper arc
+  // Calculate angles for auto categories
+  // Use only the upper 220° arc to avoid bottom overlap
   const autoPositions: number[] = [];
-  const numAutoCategories = autoCategories.length;
+  const reservedIndices = [0, 3, 9]; // 12, 3, 9 o'clock (fixed positions)
   
-  for (let i = 0; i < numAutoCategories; i++) {
-    // Evenly space categories across the 220° arc
-    const angle = minAngle + (i / (numAutoCategories - 1)) * (maxAngle - minAngle);
+  // Skip indices 5, 6, 7 (the bottom area - reserved for flat bottom)
+  const availableIndices = [1, 2, 4, 8, 10, 11]; // Available positions around the upper arc
+  
+  for (let i = 0; i < autoCategories.length && i < availableIndices.length; i++) {
+    const index = availableIndices[i];
+    const angle = -Math.PI / 2 + (index * angleStep);
     autoPositions.push(angle);
   }
   
