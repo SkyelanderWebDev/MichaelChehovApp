@@ -206,7 +206,7 @@ export default function CategoryWheel({
       </div>
       
       {/* PsychoPhysical Gestures card - separate section underneath */}
-      <div className="mt-8 flex justify-center">
+      <div className="mt-2 flex justify-center">
         <div className="bg-card border-3 border-primary/30 rounded-2xl p-4 shadow-lg w-full max-w-md">
           <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
           <div className="grid grid-cols-3 gap-3">

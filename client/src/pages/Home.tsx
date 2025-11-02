@@ -307,8 +307,8 @@ export default function Home() {
               />
             </div>
             
-            {/* Draw button - increased top spacing */}
-            <div className="flex justify-center pt-24 pb-8">
+            {/* Draw button */}
+            <div className="flex justify-center pt-6 pb-2">
               <DrawButton
                 onClick={handleDrawTool}
                 disabled={selectedCategories.length === 0}
