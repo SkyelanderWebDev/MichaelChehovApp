@@ -20,13 +20,13 @@ export default function CategoryWheel({
   const totalCategories = circularCategories.length;
   
   return (
-    <div className="relative w-full max-w-[900px] mx-auto">
+    <div className="relative w-full max-w-[750px] mx-auto">
       {/* Circular wheel section */}
-      <div className="relative w-full max-w-[800px] mx-auto aspect-square mb-8">
+      <div className="relative w-full max-w-[650px] mx-auto aspect-square mb-8">
       {/* Center hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-accent/20 border-3 border-accent flex items-center justify-center shadow-lg">
-          <span className="text-[10px] md:text-xs font-bold text-center px-3 leading-tight text-accent-foreground">
+        <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-accent/20 border-3 border-accent flex items-center justify-center shadow-lg">
+          <span className="text-[9px] md:text-[11px] font-bold text-center px-3 leading-tight text-accent-foreground">
             Select Tools for Inspired Action
           </span>
         </div>
@@ -35,7 +35,7 @@ export default function CategoryWheel({
       {/* Category cards arranged in perfect circle */}
       {circularCategories.map((category, index) => {
         const angle = (index / totalCategories) * 2 * Math.PI - Math.PI / 2; // Start from top
-        const radius = 300; // pixels from center - increased for better spacing
+        const radius = 240; // pixels from center
         const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
         const isSelected = selectedCategories.includes(category.id);
         
@@ -81,7 +81,7 @@ export default function CategoryWheel({
                 onClick={() => onOpenDetail(category.id)}
                 data-testid={`card-category-${category.id}`}
                 className={`
-                  w-20 h-20 md:w-28 md:h-28
+                  w-20 h-20 md:w-24 md:h-24
                   rounded-2xl border-3 transition-all duration-300
                   hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
                   ${isSelected 
@@ -105,7 +105,7 @@ export default function CategoryWheel({
       </div>
 
       {/* Combined rectangular card at the bottom */}
-      <div className="w-full max-w-[800px] mx-auto mt-8">
+      <div className="w-full max-w-[650px] mx-auto mt-8">
       <div className="bg-card border-3 border-primary/30 rounded-2xl p-4 shadow-lg">
         <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
         <div className="grid grid-cols-3 gap-3">
