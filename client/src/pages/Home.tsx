@@ -294,30 +294,6 @@ export default function Home() {
         </div>
       </header>
       
-      {/* Select buttons in top-left corner */}
-      <div className="fixed top-24 left-4 z-50 flex gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleSelectAll}
-          data-testid="button-select-all"
-          disabled={allSelected}
-          className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold shadow-md"
-        >
-          Select All
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleClearAll}
-          data-testid="button-clear-all"
-          disabled={selectedCategories.length === 0}
-          className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold shadow-md"
-        >
-          Clear All
-        </Button>
-      </div>
-      
       <main className="relative max-w-7xl mx-auto px-4 py-4 md:py-6">
         <div className={`transition-all duration-300 ${isHistoryOpen ? 'lg:mr-96' : ''}`}>
           <div className="flex flex-col items-center space-y-4 max-w-4xl mx-auto">
@@ -339,6 +315,32 @@ export default function Home() {
                 isDrawing={isDrawing}
               />
             </div>
+          </div>
+        </div>
+        
+        {/* Select buttons above drawer - desktop */}
+        <div className="hidden lg:block fixed top-24 right-4 z-50">
+          <div className="flex gap-2 mb-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSelectAll}
+              data-testid="button-select-all"
+              disabled={allSelected}
+              className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold shadow-md"
+            >
+              Select All
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleClearAll}
+              data-testid="button-clear-all"
+              disabled={selectedCategories.length === 0}
+              className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold shadow-md"
+            >
+              Clear All
+            </Button>
           </div>
         </div>
         
