@@ -55,7 +55,7 @@ export default function CategoryDetailModal({
             className="border-2 border-primary/30"
           >
             <Check className="w-4 h-4 mr-2" />
-            Select All Parents
+            Select All Tools
           </Button>
           <Button
             variant="outline"

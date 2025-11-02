@@ -81,7 +81,7 @@ export default function CategoryWheel({
                 onClick={() => onOpenDetail(category.id)}
                 data-testid={`card-category-${category.id}`}
                 className={`
-                  w-20 h-20 md:w-24 md:h-24
+                  w-24 h-24 md:w-28 md:h-28
                   rounded-2xl border-3 transition-all duration-300
                   hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-2 gap-1
                   ${isSelected 

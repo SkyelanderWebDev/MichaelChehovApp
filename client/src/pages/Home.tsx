@@ -285,43 +285,40 @@ export default function Home() {
                 
                 {/* Hierarchy Level Selector */}
                 <div>
-                  <label className="text-xs font-semibold text-foreground block mb-2">Show Levels</label>
-                  <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground block mb-2">Show Level</label>
+                  <div className="grid grid-cols-3 gap-1 bg-muted p-1 rounded-lg">
                     <button
                       onClick={() => toggleLevel("cards")}
                       data-testid="button-level-cards"
-                      className={`w-full px-3 py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-between ${
+                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
                         selectedLevels.includes("cards")
                           ? "bg-primary text-white shadow-sm"
-                          : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                          : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      <span>Cards (Grandparents)</span>
-                      {selectedLevels.includes("cards") && <span className="text-xs">✓</span>}
+                      Cards
                     </button>
                     <button
                       onClick={() => toggleLevel("tools")}
                       data-testid="button-level-tools"
-                      className={`w-full px-3 py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-between ${
+                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
                         selectedLevels.includes("tools")
                           ? "bg-primary text-white shadow-sm"
-                          : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                          : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      <span>Tools (Parents)</span>
-                      {selectedLevels.includes("tools") && <span className="text-xs">✓</span>}
+                      Tools
                     </button>
                     <button
                       onClick={() => toggleLevel("examples")}
                       data-testid="button-level-examples"
-                      className={`w-full px-3 py-2 text-xs font-medium rounded-lg transition-all flex items-center justify-between ${
+                      className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
                         selectedLevels.includes("examples")
                           ? "bg-primary text-white shadow-sm"
-                          : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                          : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      <span>Examples (Children)</span>
-                      {selectedLevels.includes("examples") && <span className="text-xs">✓</span>}
+                      Examples
                     </button>
                   </div>
                 </div>
