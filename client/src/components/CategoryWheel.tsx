@@ -20,12 +20,20 @@ export default function CategoryWheel({
   // Get all other categories (excluding the 3 PsychoPhysical ones)
   const otherCategories = TOOL_CATEGORIES.filter(c => !combinedCategoryIds.includes(c.id));
   
-  // Define specific positions for certain categories (in radians)
-  const fixedPositions: Record<string, number> = {
-    "psychological-gesture": -Math.PI / 2,  // 12 o'clock (top)
-    "four-brothers": 0,                      // 3 o'clock (right)
-    "characterization": Math.PI,             // 9 o'clock (left)
+  // Define specific positions for certain categories (using indices, then converted to radians)
+  const fixedPositionIndices: Record<string, number> = {
+    "psychological-gesture": 0,   // 12 o'clock (top)
+    "four-brothers": 3,            // 3 o'clock (right)
+    "characterization": 9,         // 9 o'clock (left)
   };
+  
+  // Convert indices to radians
+  const totalPositions = 12;
+  const angleStep = (2 * Math.PI) / totalPositions;
+  const fixedPositions: Record<string, number> = {};
+  Object.entries(fixedPositionIndices).forEach(([key, index]) => {
+    fixedPositions[key] = -Math.PI / 2 + (index * angleStep);
+  });
   
   // Separate fixed and auto-positioned categories
   const fixedCategories = otherCategories.filter(c => fixedPositions[c.id]);
@@ -34,42 +42,16 @@ export default function CategoryWheel({
   // Increased radius to prevent card overlaps
   const radius = 310;
   
-  // Calculate positions for auto categories
-  // We have 4 fixed positions: 12, 3, 6, 9 o'clock
-  // Total of 11 cards around the wheel (14 total - 3 in PsychoPhysical card)
-  const totalAuto = autoCategories.length;
+  // Calculate angles for auto categories (fill non-fixed positions)
   const autoPositions: number[] = [];
+  const reservedIndices = [0, 3, 6, 9]; // 12, 3, 6, 9 o'clock
   
-  // Fixed angle positions (in radians)
-  const fixedAngles = [
-    -Math.PI / 2,     // 12 o'clock (Psychological Gesture)
-    0,                // 3 o'clock (Four Brothers)
-    Math.PI / 2,      // 6 o'clock (PsychoPhysical card - reserve extra space)
-    Math.PI,          // 9 o'clock (Characterization)
-  ];
-  
-  // Total cards around wheel: 4 fixed + totalAuto
-  const totalCards = 4 + totalAuto;
-  
-  // Evenly distribute all positions around the circle
-  const angleStep = (2 * Math.PI) / totalCards;
-  
-  // Generate all positions, then skip the ones reserved for fixed cards
-  let currentAngle = -Math.PI / 2; // Start at 12 o'clock
-  for (let i = 0; i < totalCards; i++) {
-    // Check if this angle is too close to any fixed position
-    const tooClose = fixedAngles.some(fixed => {
-      let diff = Math.abs(currentAngle - fixed);
-      // Handle wraparound (e.g., -PI and PI are the same)
-      if (diff > Math.PI) diff = 2 * Math.PI - diff;
-      return diff < angleStep * 0.5; // Within half a step of a fixed position
-    });
-    
-    if (!tooClose && autoPositions.length < totalAuto) {
-      autoPositions.push(currentAngle);
+  for (let i = 0; i < totalPositions; i++) {
+    if (!reservedIndices.includes(i)) {
+      // Start at -PI/2 (12 o'clock) and go clockwise
+      const angle = -Math.PI / 2 + (i * angleStep);
+      autoPositions.push(angle);
     }
-    
-    currentAngle += angleStep;
   }
   
   return (
@@ -230,7 +212,7 @@ export default function CategoryWheel({
           transform: `translate(-50%, calc(-50% + ${radius}px))`,
         }}
       >
-        <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-80">
+        <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-96">
         <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
         <div className="grid grid-cols-3 gap-3">
           {combinedCategories.map((category) => {
