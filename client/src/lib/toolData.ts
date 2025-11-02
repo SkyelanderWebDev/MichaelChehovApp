@@ -100,7 +100,14 @@ export const TOOL_CATEGORIES: ToolCategory[] = [
     name: "Qualities & Sensations",
     description: "Explore qualities and sensations",
     tools: [
-      { name: "Qualities & Sensations", children: ["Texture", "Temperature", "Weight", "Density", "Vibration", "Pressure", "Smoothness", "Roughness"] }
+      { 
+        name: "Qualities", 
+        children: ["Texture", "Weight", "Density", "Smoothness", "Roughness", "Hardness", "Softness", "Thickness"] 
+      },
+      { 
+        name: "Sensations", 
+        children: ["Temperature", "Vibration", "Pressure", "Tingling", "Pulsing", "Warmth", "Coolness", "Heaviness"] 
+      }
     ],
   },
   {
