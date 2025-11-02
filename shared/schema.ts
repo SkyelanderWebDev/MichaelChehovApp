@@ -1,18 +1,21 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+export const toolCategorySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().optional(),
+  tools: z.array(z.string()),
+  hasScale: z.boolean().optional(),
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+export const drawnToolSchema = z.object({
+  id: z.string(),
+  categoryId: z.string(),
+  categoryName: z.string(),
+  toolName: z.string(),
+  scaleValue: z.number().optional(),
+  timestamp: z.number(),
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+export type ToolCategory = z.infer<typeof toolCategorySchema>;
+export type DrawnTool = z.infer<typeof drawnToolSchema>;
