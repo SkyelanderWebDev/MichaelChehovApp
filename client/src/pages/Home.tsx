@@ -277,31 +277,31 @@ export default function Home() {
   
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b-4 border-accent bg-primary shadow-lg">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <div className="flex items-center justify-between mb-4">
+      <header className="border-b-2 border-accent bg-primary shadow-md">
+        <div className="max-w-6xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between mb-1">
             <div className="flex-1"></div>
-            <h1 className="text-4xl md:text-5xl font-bold text-center text-white flex-1" data-testid="text-app-title">
+            <h1 className="text-2xl md:text-3xl font-bold text-center text-white flex-1" data-testid="text-app-title">
               Actor's Toolkit
             </h1>
             <div className="flex-1 flex justify-end">
               <ThemeToggle />
             </div>
           </div>
-          <p className="text-center text-primary-foreground/90 text-lg">
+          <p className="text-center text-primary-foreground/90 text-sm">
             Randomized Technique Selector
           </p>
         </div>
       </header>
       
-      <main className="relative max-w-7xl mx-auto px-4 py-8 md:py-12">
+      <main className="relative max-w-7xl mx-auto px-4 py-4 md:py-6">
         <div className={`transition-all duration-300 ${isHistoryOpen ? 'lg:mr-96' : ''}`}>
-          <div className="flex flex-col items-center space-y-8 max-w-4xl mx-auto">
+          <div className="flex flex-col items-center space-y-4 max-w-4xl mx-auto">
             {/* Quick actions */}
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <Button
                 variant="outline"
-                size="default"
+                size="sm"
                 onClick={handleSelectAll}
                 data-testid="button-select-all"
                 disabled={allSelected}
@@ -311,7 +311,7 @@ export default function Home() {
               </Button>
               <Button
                 variant="outline"
-                size="default"
+                size="sm"
                 onClick={handleClearAll}
                 data-testid="button-clear-all"
                 disabled={selectedCategories.length === 0}
@@ -322,7 +322,7 @@ export default function Home() {
             </div>
             
             {/* Wheel */}
-            <div className="w-full max-w-3xl py-12">
+            <div className="w-full max-w-3xl py-6">
               <CategoryWheel
                 selectedCategories={selectedCategories}
                 onToggleCategory={handleToggleCategory}
@@ -331,7 +331,7 @@ export default function Home() {
             </div>
             
             {/* Draw button */}
-            <div className="flex justify-center pt-8">
+            <div className="flex justify-center pt-4">
               <DrawButton
                 onClick={handleDrawTool}
                 disabled={selectedCategories.length === 0}
