@@ -31,19 +31,34 @@ export default function CategoryWheel({
   const fixedCategories = otherCategories.filter(c => fixedPositions[c.id]);
   const autoCategories = otherCategories.filter(c => !fixedPositions[c.id]);
   
-  // Calculate positions for auto categories (fill remaining positions)
-  // Exclude positions around 12, 3, 6, 9 o'clock to avoid fixed categories and PsychoPhysical card
+  // Calculate positions for auto categories
+  // We have 4 fixed positions: 12, 3, 6, 9 o'clock
+  // Distribute remaining categories evenly in the available spaces
   const totalAuto = autoCategories.length;
   const autoPositions: number[] = [];
   
-  // Distribute auto categories evenly, avoiding the fixed positions
-  // We'll place them starting from 1:30 and going clockwise
-  const startAngle = -Math.PI / 2 + (Math.PI / 6); // Start at 1:30 (30 degrees from top)
-  const availableArc = (2 * Math.PI) - (4 * Math.PI / 3); // Exclude areas around fixed positions
+  // Total positions on wheel (including fixed): totalAuto + 4 fixed = total
+  const totalPositions = totalAuto + 4; // 4 fixed positions
+  const angleStep = (2 * Math.PI) / totalPositions;
   
-  for (let i = 0; i < totalAuto; i++) {
-    const angle = startAngle + (i / Math.max(totalAuto - 1, 1)) * availableArc;
-    autoPositions.push(angle);
+  // Start from just after 12 o'clock and skip the 4 fixed positions
+  const fixedAngles = [
+    -Math.PI / 2,     // 12 o'clock (Psychological Gesture)
+    0,                // 3 o'clock (Four Brothers)
+    Math.PI / 2,      // 6 o'clock (PsychoPhysical card)
+    Math.PI,          // 9 o'clock (Characterization) - actually at PI (or -PI)
+  ];
+  
+  let currentAngle = -Math.PI / 2; // Start at top
+  for (let i = 0; i < totalPositions; i++) {
+    // Check if this angle is close to any fixed position
+    const isFixed = fixedAngles.some(fixed => Math.abs(currentAngle - fixed) < 0.1);
+    
+    if (!isFixed && autoPositions.length < totalAuto) {
+      autoPositions.push(currentAngle);
+    }
+    
+    currentAngle += angleStep;
   }
   
   return (
@@ -206,7 +221,7 @@ export default function CategoryWheel({
           transform: `translate(-50%, calc(-50% + ${240}px))`,
         }}
       >
-        <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-64">
+        <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-80">
         <h3 className="text-sm font-bold text-center text-primary mb-3">PsychoPhysical Gestures</h3>
         <div className="grid grid-cols-3 gap-3">
           {combinedCategories.map((category) => {
