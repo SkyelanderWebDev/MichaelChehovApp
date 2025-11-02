@@ -299,7 +299,7 @@ export default function Home() {
           <div className="flex flex-col items-center space-y-4 max-w-4xl mx-auto">
             
             {/* Wheel */}
-            <div className="w-full max-w-3xl py-6 px-8 mb-8">
+            <div className="w-full max-w-3xl py-6 px-8">
               <CategoryWheel
                 selectedCategories={selectedCategories}
                 onToggleCategory={handleToggleCategory}
@@ -307,8 +307,8 @@ export default function Home() {
               />
             </div>
             
-            {/* Draw button */}
-            <div className="flex justify-center pt-4 pb-8 relative z-50">
+            {/* Draw button - increased top spacing */}
+            <div className="flex justify-center pt-24 pb-8">
               <DrawButton
                 onClick={handleDrawTool}
                 disabled={selectedCategories.length === 0}
