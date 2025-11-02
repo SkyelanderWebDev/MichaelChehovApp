@@ -101,15 +101,17 @@ Preferred communication style: Simple, everyday language.
 
 ### November 2, 2025 - Category Wheel Layout & UI Improvements
 - **Added Ensemble Category**: New 14th category with 6 tools for group dynamics (Listening, Supporting, Leading, Following, Mirroring, Contrasting)
-- **Fixed Circular Wheel Layout**: 
+- **Stargate-Style Wheel Layout**: 
+  - Implemented "flat bottom" design inspired by Stargate, with circular top/sides and flat bottom
   - Fixed critical bug where "four-brothers" wasn't recognized as fixed category (falsy 0 angle value)
-  - Now correctly displays 12 cards evenly spaced around the wheel (11 individual + 1 PsychoPhysical grouped card)
-  - Increased radius to 340px to prevent overlapping
-  - All cards now positioned correctly: Psychological Gesture (12 o'clock), Four Brothers (3 o'clock), PsychoPhysical Gestures (6 o'clock), Characterization (9 o'clock)
+  - 11 individual cards positioned around circular portion
+  - All cards correctly positioned: Psychological Gesture (12 o'clock), Four Brothers (3 o'clock), Characterization (9 o'clock)
   - 8 remaining categories evenly distributed at 30-degree intervals
+  - Radius set to 320px
 - **PsychoPhysical Card Enhancements**:
+  - Positioned on flat bottom of Stargate layout (50px below circular arrangement)
   - Increased width to w-96 (384px) for better text readability
-  - Added negative z-index so it appears behind adjacent cards instead of overlapping them
+  - Z-index set to z-0 so it appears behind adjacent cards, preventing overlap
 - **UI Layout Improvements**:
   - Moved Select All/Clear All buttons to fixed top-left corner (no longer blocking wheel)
   - Added horizontal padding to wheel container to prevent Draw Settings panel overlap

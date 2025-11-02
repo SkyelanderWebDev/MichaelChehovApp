@@ -39,16 +39,18 @@ export default function CategoryWheel({
   const fixedCategories = otherCategories.filter(c => c.id in fixedPositions);
   const autoCategories = otherCategories.filter(c => !(c.id in fixedPositions));
   
-  // Increased radius to prevent card overlaps
-  const radius = 340;
+  // Stargate-style wheel: circular top/sides with flat bottom
+  const radius = 320;
   
   // Calculate angles for auto categories (fill non-fixed positions)
+  // Reserve index 6 for the flat bottom (no card at 6 o'clock on the circle)
   const autoPositions: number[] = [];
-  const reservedIndices = [0, 3, 6, 9]; // 12, 3, 6, 9 o'clock
+  const reservedIndices = [0, 3, 6, 9]; // 12, 3, 9 o'clock on circle; 6 is flat bottom
   
   for (let i = 0; i < totalPositions; i++) {
     if (!reservedIndices.includes(i)) {
       // Start at -PI/2 (12 o'clock) and go clockwise
+      // Only use the upper semicircle and sides (avoid extreme bottom angles)
       const angle = -Math.PI / 2 + (i * angleStep);
       autoPositions.push(angle);
     }
@@ -203,13 +205,13 @@ export default function CategoryWheel({
         );
       })}
       
-      {/* PsychoPhysical Gestures card at 6 o'clock */}
+      {/* PsychoPhysical Gestures card - flat bottom of Stargate */}
       <div
         className="absolute z-0"
         style={{
           left: '50%',
           top: '50%',
-          transform: `translate(-50%, calc(-50% + ${radius}px))`,
+          transform: `translate(-50%, calc(-50% + ${radius + 50}px))`,
         }}
       >
         <div className="bg-card border-3 border-primary/30 rounded-2xl p-3 shadow-lg w-96">
