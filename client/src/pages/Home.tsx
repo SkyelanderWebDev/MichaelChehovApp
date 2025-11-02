@@ -308,7 +308,7 @@ export default function Home() {
             </div>
             
             {/* Draw button */}
-            <div className="flex justify-center pt-6 pb-2">
+            <div className="flex justify-center pt-4">
               <DrawButton
                 onClick={handleDrawTool}
                 disabled={selectedCategories.length === 0}
