@@ -56,7 +56,17 @@ export default function CategoryWheel({
     const angle = -Math.PI / 2 + (index * angleStep);
     autoPositions.push(angle);
   }
-  
+
+  // Position checkbox on the outward side of each card (away from center)
+  // so toggles extend into empty space, not behind adjacent cards
+  const getToggleClasses = (angle: number) => {
+    const cx = Math.cos(angle);
+    const cy = Math.sin(angle);
+    const vertical = cy < 0 ? '-top-2' : '-bottom-2';
+    const horizontal = cx > 0 ? '-right-2' : '-left-2';
+    return `absolute ${vertical} ${horizontal} z-20 pointer-events-auto p-2`;
+  };
+
   return (
     <div className="relative w-full max-w-[600px] md:max-w-[700px] mx-auto px-2">
       {/* Circular wheel section */}
@@ -96,7 +106,7 @@ export default function CategoryWheel({
                   onToggleCategory(category.id);
                 }}
                 data-testid={`checkbox-toggle-${category.id}`}
-                className="absolute -top-2 -right-2 z-20 pointer-events-auto p-2"
+                className={getToggleClasses(angle)}
               >
                 <div
                   className={`
@@ -164,7 +174,7 @@ export default function CategoryWheel({
                   onToggleCategory(category.id);
                 }}
                 data-testid={`checkbox-toggle-${category.id}`}
-                className="absolute -top-2 -right-2 z-20 pointer-events-auto p-2"
+                className={getToggleClasses(angle)}
               >
                 <div
                   className={`
@@ -187,8 +197,8 @@ export default function CategoryWheel({
                   w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-24 md:h-24
                   rounded-xl sm:rounded-2xl border-2 md:border-3 transition-all duration-300
                   hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-1.5 sm:p-2 gap-0.5 sm:gap-1 pointer-events-auto
-                  ${isSelected 
-                    ? 'border-accent bg-accent shadow-xl' 
+                  ${isSelected
+                    ? 'border-accent bg-accent shadow-xl'
                     : 'border-primary/30 bg-card shadow-lg'
                   }
                 `}
