@@ -1,15 +1,54 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
+import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import { sql } from "drizzle-orm";
 import * as schema from "@shared/schema";
+import path from "path";
+import fs from "fs";
 
-neonConfig.webSocketConstructor = ws;
-
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
+// Ensure data directory exists
+const dataDir = path.resolve(process.cwd(), "data");
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+const dbPath = path.join(dataDir, "chekhov.db");
+const sqlite = new Database(dbPath);
+
+// Enable WAL mode for better concurrent read performance
+sqlite.pragma("journal_mode = WAL");
+
+export const db = drizzle(sqlite, { schema });
+
+// Auto-create tables on startup
+db.run(sql`
+  CREATE TABLE IF NOT EXISTS drawn_tools (
+    id TEXT PRIMARY KEY,
+    category_id TEXT NOT NULL,
+    category_name TEXT NOT NULL,
+    parent_tool_name TEXT NOT NULL,
+    child_tool_name TEXT,
+    scale_value INTEGER,
+    unveiled_value INTEGER,
+    journal_entry TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  )
+`);
+
+db.run(sql`
+  CREATE TABLE IF NOT EXISTS journal_entries (
+    id TEXT PRIMARY KEY,
+    drawn_tool_id TEXT NOT NULL,
+    date TEXT NOT NULL,
+    mode TEXT NOT NULL,
+    practice_notes TEXT,
+    observe_morning TEXT,
+    observe_midday TEXT,
+    observe_evening TEXT,
+    apply_morning TEXT,
+    apply_midday TEXT,
+    apply_evening TEXT,
+    journal_text TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+  )
+`);

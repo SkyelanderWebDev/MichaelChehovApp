@@ -9,8 +9,7 @@ interface CategoryCardProps {
 }
 
 export default function CategoryCard({ category, isSelected, onToggle }: CategoryCardProps) {
-  // TODO(claude): "psychophysical" doesn't exist in CATEGORY_ICONS — use "expanding-contracting" as fallback (matches CategoryWheel.tsx)
-  const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["psychophysical"];
+  const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expanding-contracting"];
   
   return (
     <button

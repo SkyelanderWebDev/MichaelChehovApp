@@ -298,17 +298,39 @@ export default function Home() {
         <div className={`transition-all duration-300 ${isHistoryOpen ? 'lg:mr-96' : ''}`}>
           <div className="flex flex-col items-center space-y-4 max-w-4xl mx-auto">
             
+            {/* Select All / Clear All - mobile */}
+            <div className="flex gap-2 justify-center lg:hidden">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSelectAll}
+                disabled={allSelected}
+                className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold shadow-md"
+              >
+                Select All
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearAll}
+                disabled={selectedCategories.length === 0}
+                className="border-2 border-primary/30 hover:border-accent hover:bg-accent/10 font-semibold shadow-md"
+              >
+                Clear All
+              </Button>
+            </div>
+
             {/* Wheel */}
-            <div className="w-full max-w-3xl py-6 px-8">
+            <div className="w-full max-w-3xl py-4 sm:py-6 px-2 sm:px-8">
               <CategoryWheel
                 selectedCategories={selectedCategories}
                 onToggleCategory={handleToggleCategory}
                 onOpenDetail={handleOpenCategoryDetail}
               />
             </div>
-            
+
             {/* Draw button */}
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-2 sm:pt-4">
               <DrawButton
                 onClick={handleDrawTool}
                 disabled={selectedCategories.length === 0}
@@ -434,9 +456,71 @@ export default function Home() {
           </div>
         </div>
         
-        {/* History panel - mobile (always visible) */}
-        <div className="lg:hidden mt-12">
-          <HistoryPanel 
+        {/* Draw Settings + History - mobile */}
+        <div className="lg:hidden mt-6 sm:mt-12 space-y-4">
+          <div className="bg-card border-2 border-primary/20 rounded-xl p-4 space-y-4">
+            <h3 className="text-sm font-bold text-primary mb-2">Draw Settings</h3>
+
+            {/* Hierarchy Level Selector */}
+            <div>
+              <label className="text-xs font-semibold text-foreground block mb-2">Show Level</label>
+              <div className="grid grid-cols-3 gap-1 bg-muted p-1 rounded-lg">
+                <button
+                  onClick={() => toggleLevel("cards")}
+                  data-testid="button-level-cards-mobile"
+                  className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                    selectedLevels.includes("cards")
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Cards
+                </button>
+                <button
+                  onClick={() => toggleLevel("tools")}
+                  data-testid="button-level-tools-mobile"
+                  className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                    selectedLevels.includes("tools")
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Tools
+                </button>
+                <button
+                  onClick={() => toggleLevel("examples")}
+                  data-testid="button-level-examples-mobile"
+                  className={`px-2 py-1.5 text-xs font-medium rounded transition-all ${
+                    selectedLevels.includes("examples")
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  Examples
+                </button>
+              </div>
+            </div>
+
+            {/* Unveiled Toggle */}
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-foreground">Unveiled (1-10)</label>
+              <button
+                onClick={() => setIsUnveiledEnabled(!isUnveiledEnabled)}
+                data-testid="button-toggle-unveiled-mobile"
+                className={`relative w-11 h-6 rounded-full transition-colors ${
+                  isUnveiledEnabled ? "bg-primary" : "bg-muted"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                    isUnveiledEnabled ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+
+          <HistoryPanel
             history={history}
             onSelectTool={handleSelectFromHistory}
           />

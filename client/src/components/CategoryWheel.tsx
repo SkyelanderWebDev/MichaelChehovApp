@@ -20,17 +20,14 @@ export default function CategoryWheel({
   // Get all other categories (excluding the 3 PsychoPhysical ones)
   const otherCategories = TOOL_CATEGORIES.filter(c => !combinedCategoryIds.includes(c.id));
   
-  // TODO(claude): PHANTOM IDs — "psychological-gesture" doesn't exist (Phase 2 deferred),
-  // and "characterization" is a family name, not a category ID. The real characterization
-  // category IDs are: movable-centers, imaginary-body, trinity-of-psychology.
-  // All 15 category IDs from toolData.ts must each get their own card on the wheel.
-  // See CLAUDE.md "ID Consistency" section for full list. Fix or replace these entries.
+  // Fixed positions for key categories at compass points
   const fixedPositionIndices: Record<string, number> = {
-    "psychological-gesture": 0,   // 12 o'clock (top) — PHANTOM: does not exist in toolData.ts
-    "four-brothers": 3,            // 3 o'clock (right)
-    "characterization": 9,         // 9 o'clock (left) — PHANTOM: this is a family, not a category ID
+    "three-sisters": 0,     // 12 o'clock (top)
+    "four-brothers": 3,     // 3 o'clock (right)
+    "movable-centers": 6,   // 6 o'clock (bottom)
+    "tempo-rhythm": 9,      // 9 o'clock (left)
   };
-  
+
   // Convert indices to radians
   const totalPositions = 12;
   const angleStep = (2 * Math.PI) / totalPositions;
@@ -38,22 +35,22 @@ export default function CategoryWheel({
   Object.entries(fixedPositionIndices).forEach(([key, index]) => {
     fixedPositions[key] = -Math.PI / 2 + (index * angleStep);
   });
-  
+
   // Separate fixed and auto-positioned categories
   const fixedCategories = otherCategories.filter(c => c.id in fixedPositions);
   const autoCategories = otherCategories.filter(c => !(c.id in fixedPositions));
-  
+
   // Responsive radius - scales with container
-  // Mobile: 35% of container, Desktop: 40% of container
-  const radiusPercent = 38; // percentage of container width
-  
+  const radiusPercent = 38;
+
   // Calculate angles for auto categories - fill remaining positions
   const autoPositions: number[] = [];
-  const reservedIndices = [0, 3, 9]; // 12, 3, 9 o'clock (fixed positions)
-  
-  // Available positions around the circle
-  const availableIndices = [1, 2, 4, 5, 7, 8, 10, 11];
-  
+  const reservedIndices = new Set(Object.values(fixedPositionIndices));
+
+  // Available positions around the circle (excluding fixed ones)
+  const availableIndices = Array.from({ length: totalPositions }, (_, i) => i)
+    .filter(i => !reservedIndices.has(i));
+
   for (let i = 0; i < autoCategories.length && i < availableIndices.length; i++) {
     const index = availableIndices[i];
     const angle = -Math.PI / 2 + (index * angleStep);
@@ -87,9 +84,9 @@ export default function CategoryWheel({
             key={category.id}
             className="absolute z-10"
             style={{
-              left: '50%',
-              top: '50%',
-              transform: `translate(calc(-50% + ${x}%), calc(-50% + ${y}%))`,
+              left: `${50 + x}%`,
+              top: `${50 + y}%`,
+              transform: 'translate(-50%, -50%)',
             }}
           >
             <div className="relative">
@@ -99,14 +96,14 @@ export default function CategoryWheel({
                   onToggleCategory(category.id);
                 }}
                 data-testid={`checkbox-toggle-${category.id}`}
-                className="absolute -top-2 -right-2 z-20 pointer-events-auto"
+                className="absolute -top-2 -right-2 z-20 pointer-events-auto p-2"
               >
-                <div 
+                <div
                   className={`
                     w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
                     hover:scale-110 active:scale-95
-                    ${isSelected 
-                      ? 'bg-primary border-primary' 
+                    ${isSelected
+                      ? 'bg-primary border-primary'
                       : 'border-primary/30 bg-card hover:border-primary/50'
                     }
                   `}
@@ -119,11 +116,11 @@ export default function CategoryWheel({
                 onClick={() => onOpenDetail(category.id)}
                 data-testid={`card-category-${category.id}`}
                 className={`
-                  w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
+                  w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-24 md:h-24
                   rounded-xl sm:rounded-2xl border-2 md:border-3 transition-all duration-300
                   hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-1.5 sm:p-2 gap-0.5 sm:gap-1 pointer-events-auto
-                  ${isSelected 
-                    ? 'border-accent bg-accent shadow-xl' 
+                  ${isSelected
+                    ? 'border-accent bg-accent shadow-xl'
                     : 'border-primary/30 bg-card shadow-lg'
                   }
                 `}
@@ -146,18 +143,18 @@ export default function CategoryWheel({
         const angle = autoPositions[index];
         const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expanding-contracting"];
         const isSelected = selectedCategories.includes(category.id);
-        
+
         const x = Math.cos(angle) * radiusPercent;
         const y = Math.sin(angle) * radiusPercent;
-        
+
         return (
           <div
             key={category.id}
             className="absolute z-10"
             style={{
-              left: '50%',
-              top: '50%',
-              transform: `translate(calc(-50% + ${x}%), calc(-50% + ${y}%))`,
+              left: `${50 + x}%`,
+              top: `${50 + y}%`,
+              transform: 'translate(-50%, -50%)',
             }}
           >
             <div className="relative">
@@ -167,14 +164,14 @@ export default function CategoryWheel({
                   onToggleCategory(category.id);
                 }}
                 data-testid={`checkbox-toggle-${category.id}`}
-                className="absolute -top-2 -right-2 z-20 pointer-events-auto"
+                className="absolute -top-2 -right-2 z-20 pointer-events-auto p-2"
               >
-                <div 
+                <div
                   className={`
                     w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-full border-2 flex items-center justify-center transition-all shadow-md
                     hover:scale-110 active:scale-95
-                    ${isSelected 
-                      ? 'bg-primary border-primary' 
+                    ${isSelected
+                      ? 'bg-primary border-primary'
                       : 'border-primary/30 bg-card hover:border-primary/50'
                     }
                   `}
@@ -187,7 +184,7 @@ export default function CategoryWheel({
                 onClick={() => onOpenDetail(category.id)}
                 data-testid={`card-category-${category.id}`}
                 className={`
-                  w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24
+                  w-[4.5rem] h-[4.5rem] sm:w-20 sm:h-20 md:w-24 md:h-24
                   rounded-xl sm:rounded-2xl border-2 md:border-3 transition-all duration-300
                   hover:scale-105 active:scale-95 flex flex-col items-center justify-center p-1.5 sm:p-2 gap-0.5 sm:gap-1 pointer-events-auto
                   ${isSelected 
