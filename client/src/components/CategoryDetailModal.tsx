@@ -102,7 +102,7 @@ export default function CategoryDetailModal({
                         {childrenCount > 0 && (
                           <Badge 
                             variant="secondary" 
-                            className="text-xs bg-accent/20 text-accent-foreground border border-accent/40"
+                            className="text-xs bg-accent/20 text-foreground border border-accent/40"
                           >
                             {childrenCount} {childrenCount === 1 ? 'child' : 'children'}
                           </Badge>

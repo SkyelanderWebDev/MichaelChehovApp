@@ -279,12 +279,11 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       <header className="border-b border-accent/40 bg-primary shadow-lg">
         <div className="max-w-6xl mx-auto px-4 py-4 sm:py-5">
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex-1"></div>
-            <h1 className="text-2xl md:text-3xl font-bold text-center text-primary-foreground flex-1 font-serif tracking-wide" data-testid="text-app-title">
+          <div className="relative flex items-center justify-center mb-1">
+            <h1 className="text-2xl md:text-3xl font-bold text-center text-primary-foreground font-serif tracking-wide whitespace-nowrap" data-testid="text-app-title">
               Actor's Toolkit
             </h1>
-            <div className="flex-1 flex justify-end">
+            <div className="absolute right-0 top-1/2 -translate-y-1/2">
               <ThemeToggle />
             </div>
           </div>

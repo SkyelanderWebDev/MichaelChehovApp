@@ -49,7 +49,7 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
 
         <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-8 h-full">
           {showCategoryBadge && (
-            <Badge variant="secondary" className="text-sm sm:text-base px-3 sm:px-4 py-1 bg-accent/20 text-accent-foreground border-2 border-accent" data-testid="badge-category">
+            <Badge variant="secondary" className="text-sm sm:text-base px-3 sm:px-4 py-1 bg-accent/20 text-foreground border-2 border-accent" data-testid="badge-category">
               {drawnTool.categoryName}
             </Badge>
           )}

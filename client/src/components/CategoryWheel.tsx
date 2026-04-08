@@ -60,9 +60,9 @@ export default function CategoryWheel({
   return (
     <div className="relative w-full max-w-[600px] md:max-w-[700px] mx-auto px-2">
       {/* Circular wheel section */}
-      <div className="relative w-full mx-auto aspect-square pointer-events-none">
+      <div className="relative w-full mx-auto aspect-square pointer-events-none isolate">
       {/* Center hub */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-accent/20 border-2 md:border-3 border-accent flex items-center justify-center shadow-lg">
           <span className="text-[8px] sm:text-[9px] md:text-[10px] font-bold text-center px-2 sm:px-3 leading-tight text-foreground">
             Select Tools for Inspired Action
@@ -82,7 +82,7 @@ export default function CategoryWheel({
         return (
           <div
             key={category.id}
-            className="absolute z-10"
+            className="absolute"
             style={{
               left: `${50 + x}%`,
               top: `${50 + y}%`,
@@ -150,7 +150,7 @@ export default function CategoryWheel({
         return (
           <div
             key={category.id}
-            className="absolute z-10"
+            className="absolute"
             style={{
               left: `${50 + x}%`,
               top: `${50 + y}%`,
