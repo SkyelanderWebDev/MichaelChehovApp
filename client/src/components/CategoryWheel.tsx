@@ -14,17 +14,21 @@ export default function CategoryWheel({
   onOpenDetail,
 }: CategoryWheelProps) {
   // Categories to combine in the PsychoPhysical card
-  const combinedCategoryIds = ["expansion-contraction", "qualities-of-movement", "archetypal-gestures"];
+  const combinedCategoryIds = ["expanding-contracting", "qualities-of-movement", "archetypal-gestures"];
   const combinedCategories = TOOL_CATEGORIES.filter(c => combinedCategoryIds.includes(c.id));
   
   // Get all other categories (excluding the 3 PsychoPhysical ones)
   const otherCategories = TOOL_CATEGORIES.filter(c => !combinedCategoryIds.includes(c.id));
   
-  // Define specific positions for certain categories (using indices, then converted to radians)
+  // TODO(claude): PHANTOM IDs — "psychological-gesture" doesn't exist (Phase 2 deferred),
+  // and "characterization" is a family name, not a category ID. The real characterization
+  // category IDs are: movable-centers, imaginary-body, trinity-of-psychology.
+  // All 15 category IDs from toolData.ts must each get their own card on the wheel.
+  // See CLAUDE.md "ID Consistency" section for full list. Fix or replace these entries.
   const fixedPositionIndices: Record<string, number> = {
-    "psychological-gesture": 0,   // 12 o'clock (top)
+    "psychological-gesture": 0,   // 12 o'clock (top) — PHANTOM: does not exist in toolData.ts
     "four-brothers": 3,            // 3 o'clock (right)
-    "characterization": 9,         // 9 o'clock (left)
+    "characterization": 9,         // 9 o'clock (left) — PHANTOM: this is a family, not a category ID
   };
   
   // Convert indices to radians
@@ -72,7 +76,7 @@ export default function CategoryWheel({
       {/* Render fixed position categories */}
       {fixedCategories.map((category) => {
         const angle = fixedPositions[category.id];
-        const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
+        const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expanding-contracting"];
         const isSelected = selectedCategories.includes(category.id);
         
         const x = Math.cos(angle) * radiusPercent;
@@ -140,7 +144,7 @@ export default function CategoryWheel({
       {/* Render auto-positioned categories */}
       {autoCategories.map((category, index) => {
         const angle = autoPositions[index];
-        const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
+        const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expanding-contracting"];
         const isSelected = selectedCategories.includes(category.id);
         
         const x = Math.cos(angle) * radiusPercent;
@@ -212,7 +216,7 @@ export default function CategoryWheel({
           <h3 className="text-xs sm:text-sm font-bold text-center text-primary mb-2 md:mb-3">PsychoPhysical Gestures</h3>
           <div className="grid grid-cols-3 gap-2 md:gap-3">
             {combinedCategories.map((category) => {
-              const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expansion-contraction"];
+              const Icon = CATEGORY_ICONS[category.id] || CATEGORY_ICONS["expanding-contracting"];
               const isSelected = selectedCategories.includes(category.id);
               
               return (

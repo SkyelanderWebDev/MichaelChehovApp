@@ -111,6 +111,43 @@ npm run check        # TypeScript check
 npm run db:push      # Push schema to database
 ```
 
+## ID Consistency — IMPORTANT (pre-build audit)
+
+**Directive: Every category ID in `toolData.ts` MUST get its own card on the wheel.**
+
+There are exactly **15 category IDs** in `client/src/lib/toolData.ts` (the single source of truth):
+
+```
+psycho-physical family:   expanding-contracting, qualities-of-movement, archetypal-gestures
+emotional-life family:    three-sisters, qualities-sensations, atmosphere, four-brothers
+esthetics family:         ensemble, truth, style
+characterization family:  movable-centers, imaginary-body, trinity-of-psychology
+transformation family:    tempo-rhythm, focal-points
+```
+
+### Known issues to fix during build
+
+**Production files (blocking):**
+
+1. **`CategoryWheel.tsx` lines 24-28** — `fixedPositionIndices` references two phantom IDs:
+   - `"psychological-gesture"` — does not exist (Phase 2 deferred category)
+   - `"characterization"` — not a category ID; it's a *family* name. The three characterization categories are `movable-centers`, `imaginary-body`, `trinity-of-psychology`.
+   - Fix: remove phantom entries or replace with real category IDs. Ensure all 15 IDs render cards.
+
+2. **`CategoryCard.tsx` line 12** — fallback icon uses `CATEGORY_ICONS["psychophysical"]` which doesn't exist. Should be `"expanding-contracting"` (matches the fallback used in `CategoryWheel.tsx`).
+
+**Example files (non-blocking but will fail `tsc`):**
+
+3. **`examples/CategorySelector.tsx`** — references `"psychophysical"` and `"tpt"`, neither of which exist as category IDs.
+4. **`examples/HistoryPanel.tsx`** — uses `toolName` instead of `parentToolName` (schema mismatch), and references phantom IDs `"psychophysical"` and `"characterization"`.
+5. **`examples/CategoryWheel.tsx`** — missing the required `onOpenDetail` prop.
+
+### What's already clean
+- `shared/schema.ts` types are flexible (no hardcoded ID enums)
+- `Home.tsx`, `CategoryDetailModal.tsx`, `ToolRevealCard.tsx`, `HistoryPanel.tsx` (main) — all use dynamic lookups against `TOOL_CATEGORIES`
+- `CATEGORY_ICONS` map in `toolData.ts` — all 15 IDs have entries, no orphans
+- Server `routes.ts` — no ID references, just passthrough
+
 ## Code Conventions
 
 - TypeScript strict mode

@@ -6,6 +6,7 @@ import { createInsertSchema } from "drizzle-zod";
 export const parentToolSchema = z.object({
   name: z.string(),
   children: z.array(z.string()).max(100).optional(),
+  scope: z.enum(["full-body", "parts", "both"]).optional(), // for Imaginary Body: whether body-part selection applies
 });
 
 // Grandparent category containing parent tools
@@ -15,6 +16,8 @@ export const toolCategorySchema = z.object({
   description: z.string().optional(),
   tools: z.array(parentToolSchema),
   hasScale: z.boolean().optional(),
+  energyFlow: z.string().optional(), // e.g. "what", "how", "why" — role of this category in the energy system
+  family: z.string().optional(),     // e.g. "psycho-physical" — grouping of related categories
 });
 
 // Database table for drawn tools with journal entries

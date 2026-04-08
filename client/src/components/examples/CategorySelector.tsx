@@ -2,6 +2,7 @@ import { useState } from "react";
 import CategorySelector from "../CategorySelector";
 
 export default function CategorySelectorExample() {
+  // TODO(claude): "psychophysical" is not a valid category ID. Use a real ID from toolData.ts (e.g. "expanding-contracting")
   const [selectedCategories, setSelectedCategories] = useState<string[]>(["psychophysical"]);
   
   const handleToggle = (categoryId: string) => {
@@ -13,6 +14,7 @@ export default function CategorySelectorExample() {
   };
   
   const handleSelectAll = () => {
+    // TODO(claude): "psychophysical", "characterization", and "tpt" are not valid category IDs. Replace with real IDs from toolData.ts.
     setSelectedCategories(["psychophysical", "characterization", "tempo-rhythm", "four-brothers", "three-sisters", "qualities-sensations", "tpt"]);
   };
   
