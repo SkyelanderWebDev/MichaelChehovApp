@@ -64,7 +64,7 @@ export default function CategoryWheel({
       {/* Center hub */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full bg-accent/20 border-2 md:border-3 border-accent flex items-center justify-center shadow-lg">
-          <span className="text-[8px] sm:text-[9px] md:text-[10px] font-bold text-center px-2 sm:px-3 leading-tight text-accent-foreground">
+          <span className="text-[8px] sm:text-[9px] md:text-[10px] font-bold text-center px-2 sm:px-3 leading-tight text-foreground">
             Select Tools for Inspired Action
           </span>
         </div>

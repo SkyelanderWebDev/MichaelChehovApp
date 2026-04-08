@@ -277,19 +277,19 @@ export default function Home() {
   
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b-2 border-accent bg-primary shadow-md">
-        <div className="max-w-6xl mx-auto px-4 py-3">
+      <header className="border-b border-accent/40 bg-primary shadow-lg">
+        <div className="max-w-6xl mx-auto px-4 py-4 sm:py-5">
           <div className="flex items-center justify-between mb-1">
             <div className="flex-1"></div>
-            <h1 className="text-2xl md:text-3xl font-bold text-center text-white flex-1" data-testid="text-app-title">
+            <h1 className="text-2xl md:text-3xl font-bold text-center text-primary-foreground flex-1 font-serif tracking-wide" data-testid="text-app-title">
               Actor's Toolkit
             </h1>
             <div className="flex-1 flex justify-end">
               <ThemeToggle />
             </div>
           </div>
-          <p className="text-center text-primary-foreground/90 text-sm">
-            Randomized Technique Selector
+          <p className="text-center text-primary-foreground/70 text-sm font-medium tracking-wider uppercase">
+            The Chart of Inspired Action
           </p>
         </div>
       </header>

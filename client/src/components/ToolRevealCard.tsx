@@ -33,7 +33,7 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
   
   return (
     <div 
-      className="fixed inset-0 bg-primary/90 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300"
+      className="fixed inset-0 bg-primary/90 dark:bg-primary/70 backdrop-blur-md flex items-center justify-center p-4 z-50 animate-in fade-in duration-300"
       data-testid="container-tool-reveal"
     >
       <Card className="w-full max-w-2xl min-h-64 sm:min-h-96 p-6 sm:p-12 rounded-2xl sm:rounded-3xl shadow-2xl relative animate-in zoom-in duration-500 bg-card border-4 border-accent overflow-y-auto max-h-[95vh]">
@@ -130,11 +130,11 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
             </p>
           )}
 
-          <div className="flex flex-col sm:flex-row flex-wrap gap-2 sm:gap-3 pt-4 sm:pt-8 w-full sm:w-auto sm:justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-4 sm:pt-8 w-full max-w-lg">
             <Button
               onClick={onDrawAgain}
               data-testid="button-draw-again"
-              className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg font-bold border-2 border-primary-border"
+              className="w-full px-6 py-5 sm:py-6 text-base sm:text-lg font-bold border-2 border-primary-border"
               size="lg"
             >
               <RotateCcw className="w-5 h-5 mr-2" />
@@ -143,7 +143,7 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
             <Button
               onClick={() => setIsFlybackOpen(true)}
               data-testid="button-flyback"
-              className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg font-bold bg-accent hover:bg-accent/90 text-accent-foreground border-2 border-accent-border"
+              className="w-full px-6 py-5 sm:py-6 text-base sm:text-lg font-bold bg-accent hover:bg-accent/90 text-accent-foreground border-2 border-accent-border"
               size="lg"
             >
               <BookOpen className="w-5 h-5 mr-2" />
@@ -152,7 +152,7 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
             <Button
               onClick={() => setIsPOAOpen(true)}
               data-testid="button-begin-poa"
-              className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg font-bold bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-emerald-700"
+              className="w-full px-6 py-5 sm:py-6 text-base sm:text-lg font-bold bg-emerald-600 hover:bg-emerald-700 text-white border-2 border-emerald-700"
               size="lg"
             >
               <Sparkles className="w-5 h-5 mr-2" />
@@ -162,7 +162,7 @@ export default function ToolRevealCard({ drawnTool, selectedLevels, onDrawAgain,
               variant="outline"
               onClick={onClose}
               data-testid="button-change-categories"
-              className="w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg font-semibold border-2 border-accent hover:bg-accent/10"
+              className="w-full px-6 py-5 sm:py-6 text-base sm:text-lg font-semibold border-2 border-accent hover:bg-accent/10"
               size="lg"
             >
               Change Categories

@@ -54,7 +54,7 @@ export default function HistoryPanel({ history, onSelectTool }: HistoryPanelProp
                       </Badge>
                     )}
                     {tool.unveiledValue !== undefined && (
-                      <Badge variant="outline" className="text-xs border-primary text-primary-foreground bg-primary/10">
+                      <Badge variant="outline" className="text-xs border-primary text-primary bg-primary/10">
                         Unveiled: {tool.unveiledValue}/10
                       </Badge>
                     )}
