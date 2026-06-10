@@ -25,6 +25,8 @@
           </p>
         </section>
 
+        <AuthPanel />
+
         <section class="entry-panel" aria-labelledby="entry-paths-title">
           <div>
             <p class="eyebrow">Three entry paths</p>
@@ -44,14 +46,16 @@
           </div>
 
           <p class="entry-note">
-            Pick My Own uses the highlighted chart area for this slice. Full category drill-down is the next planned pass.
+            Pick My Own opens the highlighted chart area so you can choose a specific parent tool. Tap any chart node for category details and tool filters.
           </p>
         </section>
 
         <CircleChart
           :selected-category-ids="selectedCategoryIds"
+          :tool-filter="selectedToolsByCategory"
           :disabled="isPracticeStarted"
           @toggle-category="toggleCategory"
+          @open-category="openCategoryDetail"
         />
 
         <section class="action-panel" aria-labelledby="chart-actions-title">
@@ -60,7 +64,7 @@
               <p class="eyebrow">Practice pool</p>
               <h2 id="chart-actions-title">Selected chart areas</h2>
             </div>
-            <span class="count-badge">{{ selectedCategoryIds.length }} / {{ CHART_CATEGORIES.length }}</span>
+            <span class="count-badge">{{ selectedCategoryIds.length }} / {{ CHART_CATEGORIES.length }} areas · {{ poolToolCount }} {{ poolToolCount === 1 ? 'tool' : 'tools' }}</span>
           </div>
 
           <div class="button-row">
@@ -74,6 +78,10 @@
               Draw random preview
             </ion-button>
           </div>
+
+          <p v-if="selectedCategoryIds.length > 0 && poolToolCount === 0" class="empty-pool-note">
+            All parent tools are deselected. Open a chart area’s details to select tools for Draw Random.
+          </p>
 
           <ToolPreviewCard
             v-if="currentPractice"
@@ -105,6 +113,18 @@
           />
         </section>
 
+        <CategoryDetailSheet
+          :is-open="isDetailOpen"
+          :category-id="detailCategoryId"
+          :included="isDetailCategoryIncluded"
+          :selected-tool-names="detailSelectedToolNames"
+          :locked="isPracticeStarted"
+          @dismiss="closeCategoryDetail"
+          @set-included="setCategoryIncluded"
+          @set-selected-tools="setSelectedTools"
+          @preview-tool="previewParentTool"
+        />
+
         <footer class="attribution-card">
           <strong>{{ APP_NAME }}</strong>
           <p>{{ BETA_DESCRIPTION }}</p>
@@ -116,7 +136,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import {
   IonButton,
   IonCard,
@@ -130,22 +150,29 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/vue';
+import AuthPanel from '@/components/AuthPanel.vue';
 import DailyActionCard from '@/components/DailyActionCard.vue';
+import CategoryDetailSheet from '@/components/CategoryDetailSheet.vue';
 import CircleChart from '@/components/CircleChart.vue';
 import ToolPreviewCard from '@/components/ToolPreviewCard.vue';
 import { APP_NAME, BETA_DESCRIPTION, CHART_ATTRIBUTION } from '@/constants/attribution';
 import { CHART_CATEGORIES, getFamily, type ChartCategory } from '@/data/circleChartCatalog';
 import {
+  createAllParentToolFilter,
   createDailyToolSelection,
-  createFirstSelectionForCategory,
   createRandomSelectionFromCategories,
+  createSelectionForParentTool,
+  getFilteredTools,
+  type ParentToolFilter,
 } from '@/data/toolCatalog';
+import { currentUser, loadSession } from '@/stores/authStore';
 import {
   clearTodayPracticePreview,
   getLocalDate,
   getPOA,
   getTodayPractice,
   savePOA,
+  setPracticeStorageScope,
   setPreview,
   startTodayPractice,
 } from '@/stores/dailyPracticeStore';
@@ -153,9 +180,12 @@ import type { DailyPractice, POAEntry } from '@/types/practice';
 
 const savedPractice = getTodayPractice();
 const selectedCategoryIds = ref<string[]>(CHART_CATEGORIES.map((category) => category.id));
+const selectedToolsByCategory = ref<ParentToolFilter>(createAllParentToolFilter());
 const previewCategoryId = ref<string | null>(
   savedPractice?.selectedTool.categoryId ?? CHART_CATEGORIES[0]?.id ?? null,
 );
+const detailCategoryId = ref<string | null>(null);
+const isDetailOpen = ref(false);
 const currentPractice = ref<DailyPractice | null>(savedPractice);
 const poaEntry = ref<POAEntry | null>(savedPractice ? getPOA(savedPractice.id) : null);
 
@@ -166,15 +196,54 @@ const previewCategory = computed<ChartCategory | null>(() => {
 
 const isPracticeStarted = computed(() => currentPractice.value?.status === 'started');
 const canPickFromPreview = computed(() => !isPracticeStarted.value && Boolean(previewCategory.value));
-const canDrawRandom = computed(() => !isPracticeStarted.value && selectedCategoryIds.value.length > 0);
+const poolToolCount = computed(() =>
+  selectedCategoryIds.value.reduce(
+    (count, categoryId) => count + getFilteredTools(categoryId, selectedToolsByCategory.value).length,
+    0,
+  ),
+);
+const canDrawRandom = computed(() => !isPracticeStarted.value && poolToolCount.value > 0);
+
+const isDetailCategoryIncluded = computed(() =>
+  Boolean(detailCategoryId.value && selectedCategoryIds.value.includes(detailCategoryId.value)),
+);
+const detailSelectedToolNames = computed(() =>
+  detailCategoryId.value ? selectedToolsByCategory.value[detailCategoryId.value] ?? [] : [],
+);
+
+onMounted(() => {
+  void loadSession();
+});
+
+// Local demo auth: each signed-in user gets their own locally stored
+// practice/POA day, so re-read storage whenever the account changes.
+watch(currentUser, (user) => {
+  setPracticeStorageScope(user?.id ?? null);
+  reloadPracticeFromStorage();
+});
+
+function reloadPracticeFromStorage(): void {
+  const saved = getTodayPractice();
+  currentPractice.value = saved;
+  poaEntry.value = saved ? getPOA(saved.id) : null;
+  isDetailOpen.value = false;
+
+  if (saved) {
+    previewCategoryId.value = saved.selectedTool.categoryId;
+    ensureCategorySelected(saved.selectedTool.categoryId);
+  }
+}
 
 function toggleCategory(categoryId: string): void {
+  setCategoryIncluded(categoryId, !selectedCategoryIds.value.includes(categoryId));
+}
+
+function setCategoryIncluded(categoryId: string, included: boolean): void {
   if (isPracticeStarted.value) return;
 
-  const alreadySelected = selectedCategoryIds.value.includes(categoryId);
-  selectedCategoryIds.value = alreadySelected
-    ? selectedCategoryIds.value.filter((id) => id !== categoryId)
-    : [...selectedCategoryIds.value, categoryId];
+  selectedCategoryIds.value = included
+    ? [...new Set([...selectedCategoryIds.value, categoryId])]
+    : selectedCategoryIds.value.filter((id) => id !== categoryId);
 
   previewCategoryId.value = categoryId;
   currentPractice.value = null;
@@ -182,10 +251,30 @@ function toggleCategory(categoryId: string): void {
   clearTodayPracticePreview();
 }
 
+function setSelectedTools(categoryId: string, toolNames: string[]): void {
+  if (isPracticeStarted.value) return;
+
+  selectedToolsByCategory.value = { ...selectedToolsByCategory.value, [categoryId]: toolNames };
+  currentPractice.value = null;
+  poaEntry.value = null;
+  clearTodayPracticePreview();
+}
+
+function openCategoryDetail(categoryId: string): void {
+  previewCategoryId.value = categoryId;
+  detailCategoryId.value = categoryId;
+  isDetailOpen.value = true;
+}
+
+function closeCategoryDetail(): void {
+  isDetailOpen.value = false;
+}
+
 function selectAllCategories(): void {
   if (isPracticeStarted.value) return;
 
   selectedCategoryIds.value = CHART_CATEGORIES.map((category) => category.id);
+  selectedToolsByCategory.value = createAllParentToolFilter();
   previewCategoryId.value = selectedCategoryIds.value[0] ?? null;
   currentPractice.value = null;
   poaEntry.value = null;
@@ -205,18 +294,27 @@ function clearCategories(): void {
 function pickMyOwn(): void {
   if (isPracticeStarted.value || !previewCategoryId.value) return;
 
-  const selection = createFirstSelectionForCategory(previewCategoryId.value);
+  openCategoryDetail(previewCategoryId.value);
+}
+
+function previewParentTool(categoryId: string, parentToolName: string): void {
+  if (isPracticeStarted.value) return;
+
+  const selection = createSelectionForParentTool(categoryId, parentToolName);
   if (!selection) return;
 
-  ensureCategorySelected(selection.categoryId);
+  ensureCategorySelected(categoryId);
+  ensureToolSelected(categoryId, parentToolName);
+  previewCategoryId.value = categoryId;
   poaEntry.value = null;
   currentPractice.value = setPreview(selection, 'self-selected');
+  isDetailOpen.value = false;
 }
 
 function drawRandomPractice(): void {
   if (!canDrawRandom.value) return;
 
-  const selection = createRandomSelectionFromCategories(selectedCategoryIds.value);
+  const selection = createRandomSelectionFromCategories(selectedCategoryIds.value, selectedToolsByCategory.value);
   if (!selection) return;
 
   previewCategoryId.value = selection.categoryId;
@@ -265,13 +363,23 @@ function saveDailyAction(journalText: string): void {
 
 function focusSelectedCategory(): void {
   if (currentPractice.value) {
-    previewCategoryId.value = currentPractice.value.selectedTool.categoryId;
+    openCategoryDetail(currentPractice.value.selectedTool.categoryId);
   }
 }
 
 function ensureCategorySelected(categoryId: string): void {
   if (!selectedCategoryIds.value.includes(categoryId)) {
     selectedCategoryIds.value = [...selectedCategoryIds.value, categoryId];
+  }
+}
+
+function ensureToolSelected(categoryId: string, parentToolName: string): void {
+  const current = selectedToolsByCategory.value[categoryId] ?? [];
+  if (!current.includes(parentToolName)) {
+    selectedToolsByCategory.value = {
+      ...selectedToolsByCategory.value,
+      [categoryId]: [...current, parentToolName],
+    };
   }
 }
 </script>
@@ -424,6 +532,18 @@ function ensureCategorySelected(categoryId: string): void {
   background: rgba(55, 36, 22, 0.05);
   border-radius: 16px;
   margin: 14px 0 0;
+  padding: 12px;
+}
+
+.empty-pool-note {
+  background: rgba(190, 18, 60, 0.07);
+  border: 1px solid rgba(190, 18, 60, 0.18);
+  border-radius: 16px;
+  color: #8c1f3e;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 12px 0 0;
   padding: 12px;
 }
 

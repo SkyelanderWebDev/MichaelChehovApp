@@ -177,6 +177,9 @@ export const WEEKEND_TOOL_CATALOG: readonly WeekendToolCategory[] = [
   },
 ];
 
+// Map of categoryId -> parent tool names currently included in the draw pool.
+export type ParentToolFilter = Record<string, string[]>;
+
 export function getToolCatalogCategory(categoryId: string): WeekendToolCategory | undefined {
   return WEEKEND_TOOL_CATALOG.find((category) => category.categoryId === categoryId);
 }
@@ -189,6 +192,23 @@ export function getCategoriesWithToolSeeds(categoryIds: readonly string[]): Char
   );
 }
 
+export function createAllParentToolFilter(): ParentToolFilter {
+  const filter: ParentToolFilter = {};
+  for (const category of WEEKEND_TOOL_CATALOG) {
+    filter[category.categoryId] = category.tools.map((tool) => tool.name);
+  }
+  return filter;
+}
+
+export function getFilteredTools(categoryId: string, filter?: ParentToolFilter): WeekendTool[] {
+  const catalogCategory = getToolCatalogCategory(categoryId);
+  if (!catalogCategory) return [];
+  if (!filter || !(categoryId in filter)) return [...catalogCategory.tools];
+
+  const allowed = new Set(filter[categoryId]);
+  return catalogCategory.tools.filter((tool) => allowed.has(tool.name));
+}
+
 export function createFirstSelectionForCategory(categoryId: string): PracticeToolSelection | null {
   const chartCategory = getChartCategory(categoryId);
   const catalogCategory = getToolCatalogCategory(categoryId);
@@ -199,13 +219,28 @@ export function createFirstSelectionForCategory(categoryId: string): PracticeToo
   return makeSelection(chartCategory, catalogCategory, firstTool, firstTool.children[0] ?? null);
 }
 
-export function createRandomSelectionFromCategories(categoryIds: readonly string[]): PracticeToolSelection | null {
-  const categories = getCategoriesWithToolSeeds(categoryIds);
+export function createSelectionForParentTool(categoryId: string, parentToolName: string): PracticeToolSelection | null {
+  const chartCategory = getChartCategory(categoryId);
+  const catalogCategory = getToolCatalogCategory(categoryId);
+  const tool = catalogCategory?.tools.find((candidate) => candidate.name === parentToolName);
+
+  if (!chartCategory || !catalogCategory || !tool) return null;
+
+  return makeSelection(chartCategory, catalogCategory, tool, pickOne(tool.children) ?? null);
+}
+
+export function createRandomSelectionFromCategories(
+  categoryIds: readonly string[],
+  filter?: ParentToolFilter,
+): PracticeToolSelection | null {
+  const categories = getCategoriesWithToolSeeds(categoryIds).filter(
+    (category) => getFilteredTools(category.id, filter).length > 0,
+  );
   const chartCategory = pickOne(categories);
   if (!chartCategory) return null;
 
   const catalogCategory = getToolCatalogCategory(chartCategory.id);
-  const tool = catalogCategory ? pickOne(catalogCategory.tools) : null;
+  const tool = pickOne(getFilteredTools(chartCategory.id, filter));
   if (!catalogCategory || !tool) return null;
 
   return makeSelection(chartCategory, catalogCategory, tool, pickOne(tool.children) ?? null);

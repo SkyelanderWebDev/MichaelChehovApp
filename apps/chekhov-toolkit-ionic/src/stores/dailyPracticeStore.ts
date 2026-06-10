@@ -2,6 +2,19 @@ import type { DailyPractice, POAEntry, PracticeSource, PracticeToolSelection } f
 
 const STORAGE_PREFIX = 'mct-weekend-beta:';
 
+// Local demo auth scoping: when a user is signed in, daily practice and POA
+// keys are namespaced per user id so each local account keeps its own day.
+// Guest (signed-out) practice keeps the original un-scoped keys.
+let storageScopeUserId: string | null = null;
+
+export function setPracticeStorageScope(userId: string | null): void {
+  storageScopeUserId = userId;
+}
+
+function scopedPrefix(): string {
+  return storageScopeUserId ? `${STORAGE_PREFIX}u:${storageScopeUserId}:` : STORAGE_PREFIX;
+}
+
 export function getLocalDate(date = new Date()): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -102,11 +115,11 @@ export function resetTodayPracticeForLocalDemo(localDate = getLocalDate()): void
 }
 
 function dailyPracticeKey(localDate: string): string {
-  return `${STORAGE_PREFIX}daily-practice:${localDate}`;
+  return `${scopedPrefix()}daily-practice:${localDate}`;
 }
 
 function poaKey(dailyPracticeId: string): string {
-  return `${STORAGE_PREFIX}poa:${dailyPracticeId}`;
+  return `${scopedPrefix()}poa:${dailyPracticeId}`;
 }
 
 function attachPOAToDailyPractice(entry: POAEntry): void {

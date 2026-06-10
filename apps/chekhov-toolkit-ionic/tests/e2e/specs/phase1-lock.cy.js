@@ -69,7 +69,12 @@ describe('Chekhov Toolkit Phase 1 lock slice', () => {
 
   it('previews Pick My Own and Daily Tool entry paths', () => {
     cy.contains('ion-button', 'Pick My Own').click();
-    cy.get('.tool-preview-card').should('contain.text', 'Pick My Own').and('contain.text', 'Preview');
+    cy.get('.category-detail-modal').should('be.visible');
+    cy.contains('.parent-tool-row', 'Expanding').find('.preview-tool-button').click();
+    cy.get('.tool-preview-card')
+      .should('contain.text', 'Pick My Own')
+      .and('contain.text', 'Preview')
+      .and('contain.text', 'Expanding');
 
     cy.visit('/home', {
       onBeforeLoad(win) {

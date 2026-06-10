@@ -4,7 +4,7 @@
     <div class="chart-heading-row">
       <div>
         <h2 id="circle-chart-title">Circle chart map</h2>
-        <p>Tap chart areas to include them in today’s practice pool.</p>
+        <p>Tap a chart node for category details and tool filters. Tap a directory row to include or exclude that area from today’s pool.</p>
       </div>
       <span class="selected-pill">{{ selectedCategoryIds.length }} selected</span>
     </div>
@@ -22,10 +22,10 @@
         :style="nodeStyle(category)"
         type="button"
         :title="category.name"
-        :aria-pressed="isSelected(category.id)"
-        :aria-label="`${category.name}, ${getFamily(category.family).label}, ${category.toolCount} tools`"
+        aria-haspopup="dialog"
+        :aria-label="`${category.name}, ${getFamily(category.family).label}, ${category.toolCount} tools. Opens category detail.`"
         :disabled="props.disabled"
-        @click="$emit('toggle-category', category.id)"
+        @click="$emit('open-category', category.id)"
       >
         <span class="node-number">{{ category.indexLabel }}</span>
         <span class="node-family" :style="{ backgroundColor: getFamily(category.family).color }"></span>
@@ -39,20 +39,37 @@
     </div>
 
     <div class="category-directory" aria-label="Circle chart category directory">
-      <button
+      <div
         v-for="category in CHART_CATEGORIES"
         :key="`directory-${category.id}`"
         class="directory-row"
         :class="{ selected: isSelected(category.id) }"
-        type="button"
-        :aria-pressed="isSelected(category.id)"
-        :disabled="props.disabled"
-        @click="$emit('toggle-category', category.id)"
       >
-        <span class="family-dot" :style="{ backgroundColor: getFamily(category.family).color }"></span>
-        <span class="directory-name">{{ category.name }}</span>
-        <span class="directory-meta">{{ getFamily(category.family).label }} · {{ category.toolCount }} tools</span>
-      </button>
+        <button
+          class="directory-toggle"
+          type="button"
+          :aria-pressed="isSelected(category.id)"
+          :aria-label="`${category.name}: ${isSelected(category.id) ? 'remove from' : 'add to'} practice pool`"
+          :disabled="props.disabled"
+          @click="$emit('toggle-category', category.id)"
+        >
+          <span class="family-dot" :style="{ backgroundColor: getFamily(category.family).color }"></span>
+          <span class="directory-name">{{ category.name }}</span>
+          <span class="directory-meta">
+            {{ getFamily(category.family).label }} · {{ poolToolCount(category) }} of {{ category.toolCount }} tools in pool
+          </span>
+        </button>
+        <button
+          class="directory-details"
+          type="button"
+          aria-haspopup="dialog"
+          :aria-label="`Open ${category.name} details`"
+          :disabled="props.disabled"
+          @click="$emit('open-category', category.id)"
+        >
+          Details
+        </button>
+      </div>
     </div>
 
     <div class="family-legend" aria-label="Chart families">
@@ -76,15 +93,18 @@ interface PositionedCategory extends ChartCategory {
 const props = withDefaults(
   defineProps<{
     selectedCategoryIds: string[];
+    toolFilter?: Record<string, string[]>;
     disabled?: boolean;
   }>(),
   {
+    toolFilter: undefined,
     disabled: false,
   },
 );
 
 defineEmits<{
   (event: 'toggle-category', categoryId: string): void;
+  (event: 'open-category', categoryId: string): void;
 }>();
 
 const positionedCategories = computed<PositionedCategory[]>(() => {
@@ -119,6 +139,12 @@ function isSelected(categoryId: string): boolean {
   return props.selectedCategoryIds.includes(categoryId);
 }
 
+function poolToolCount(category: ChartCategory): number {
+  if (!props.toolFilter || !(category.id in props.toolFilter)) return category.toolCount;
+
+  return props.toolFilter[category.id].length;
+}
+
 function nodeStyle(category: PositionedCategory): Record<string, string> {
   const radians = (category.angle * Math.PI) / 180;
   const radius = 42;
@@ -150,7 +176,8 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .circle-chart-shell.locked .chart-node,
-.circle-chart-shell.locked .directory-row {
+.circle-chart-shell.locked .directory-toggle,
+.circle-chart-shell.locked .directory-details {
   cursor: not-allowed;
 }
 
@@ -355,11 +382,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   border: 1px solid rgba(75, 52, 29, 0.14);
   border-radius: 16px;
   color: #38271a;
-  display: grid;
-  gap: 4px 8px;
-  grid-template-columns: auto 1fr;
-  padding: 10px 12px;
-  text-align: left;
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px 6px 4px;
 }
 
 .directory-row.selected {
@@ -367,9 +392,43 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   border-color: rgba(138, 92, 36, 0.48);
 }
 
-.directory-row:focus-visible {
+.directory-toggle {
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  color: inherit;
+  display: grid;
+  flex: 1 1 auto;
+  gap: 4px 8px;
+  grid-template-columns: auto 1fr;
+  min-height: 44px;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.directory-toggle:focus-visible,
+.directory-details:focus-visible {
   outline: 3px solid rgba(36, 99, 235, 0.42);
   outline-offset: 2px;
+}
+
+.directory-details {
+  background: rgba(255, 253, 247, 0.9);
+  border: 1px solid rgba(75, 52, 29, 0.22);
+  border-radius: 999px;
+  color: #5b3a17;
+  flex: 0 0 auto;
+  font-size: 0.74rem;
+  font-weight: 900;
+  min-height: 36px;
+  padding: 8px 12px;
+}
+
+.directory-details:disabled,
+.directory-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .family-dot {

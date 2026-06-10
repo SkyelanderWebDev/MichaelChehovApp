@@ -89,6 +89,49 @@ export const journalEntrySchema = z.object({
   journalText: z.string().nullable().optional(),
 });
 
+// --- Local demo auth (bakeoff slice) ---
+// Username/password accounts for the local demo only. Password hashes are
+// scrypt-derived server-side and must never be returned by API responses.
+export const users = sqliteTable("users", {
+  id: text("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  createdAt: text("created_at").notNull().default(sql`(datetime('now'))`),
+});
+
+// Server-side sessions referenced by an httpOnly cookie. Only a SHA-256 hash
+// of the session token is stored, so a database copy alone cannot be replayed.
+export const authSessions = sqliteTable("auth_sessions", {
+  tokenHash: text("token_hash").primaryKey(),
+  userId: text("user_id").notNull(),
+  createdAt: text("created_at").notNull().default(sql`(datetime('now'))`),
+  expiresAt: text("expires_at").notNull(),
+});
+
+export const authCredentialsSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(3, "Username must be at least 3 characters")
+    .max(32, "Username must be at most 32 characters")
+    .regex(/^[a-zA-Z0-9_-]+$/, "Username may only use letters, numbers, hyphens, and underscores"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(200, "Password must be at most 200 characters"),
+});
+
+export const publicUserSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+  createdAt: z.string(),
+});
+
+export type DbUser = typeof users.$inferSelect;
+export type DbAuthSession = typeof authSessions.$inferSelect;
+export type AuthCredentials = z.infer<typeof authCredentialsSchema>;
+export type PublicUser = z.infer<typeof publicUserSchema>;
+
 export type ParentTool = z.infer<typeof parentToolSchema>;
 export type ToolCategory = z.infer<typeof toolCategorySchema>;
 export type DrawnTool = z.infer<typeof drawnToolSchema>;

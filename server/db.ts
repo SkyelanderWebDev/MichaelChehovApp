@@ -35,6 +35,24 @@ db.run(sql`
 `);
 
 db.run(sql`
+  CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  )
+`);
+
+db.run(sql`
+  CREATE TABLE IF NOT EXISTS auth_sessions (
+    token_hash TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    expires_at TEXT NOT NULL
+  )
+`);
+
+db.run(sql`
   CREATE TABLE IF NOT EXISTS journal_entries (
     id TEXT PRIMARY KEY,
     drawn_tool_id TEXT NOT NULL,
