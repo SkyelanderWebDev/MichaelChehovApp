@@ -7,4 +7,8 @@ vite.config.ts.*
 /data/
 test-results/
 .env
+.env.local
+.env.*.local
+*.pem
+*.key
 .claude/settings.local.json

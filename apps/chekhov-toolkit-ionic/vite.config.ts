@@ -4,27 +4,50 @@ import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    legacy()
+    legacy(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.png', 'pwa-192x192.png', 'pwa-512x512.png', 'apple-touch-icon.png'],
+      manifest: {
+        name: 'The Michael Chekhov Toolkit',
+        short_name: 'Chekhov Toolkit',
+        description: 'Private beta practice app inspired by the Chart of Inspired Action from NMCA and Lisa Dalton.',
+        theme_color: '#7c4a19',
+        background_color: '#f6efe3',
+        display: 'standalone',
+        orientation: 'portrait',
+        start_url: '/home',
+        scope: '/',
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+      workbox: {
+        navigateFallback: '/index.html',
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      },
+    }),
   ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-    },
-  },
-  server: {
-    // Local demo auth: forward API calls to the root Express/SQLite server so
-    // httpOnly session cookies stay same-origin. Start it from the repo root
-    // with: PORT=5055 HOST=127.0.0.1 npm run dev
-    proxy: {
-      '/api': {
-        target: process.env.MCT_API_PROXY_TARGET ?? 'http://127.0.0.1:5055',
-        changeOrigin: false,
-      },
     },
   },
   test: {

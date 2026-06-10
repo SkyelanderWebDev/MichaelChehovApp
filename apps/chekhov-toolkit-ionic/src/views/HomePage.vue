@@ -15,11 +15,15 @@
 
       <main class="page-shell">
         <section class="hero-card" aria-labelledby="today-practice-title">
-          <p class="eyebrow">Weekend pilot</p>
+          <p class="eyebrow">Secure tester beta</p>
           <h1 id="today-practice-title">Today’s Practice</h1>
           <p class="hero-copy">
-            Choose a chart area, draw from the selected pool, or use the seeded Daily Tool. Preview first; lock only when you press Start Today’s Practice.
+            Sign in with the tester account panel, then choose a chart area, draw from the selected pool, or use the seeded Daily Tool. Preview first; lock only when you press Start Today’s Practice.
           </p>
+          <p v-if="!isSignedIn && authStatus !== 'unknown'" class="lock-banner" aria-live="polite">
+            Supabase sign-in is required before Today’s Practice and POA can be saved for beta testing.
+          </p>
+          <p v-if="practiceLoadError" class="error-banner" role="alert">{{ practiceLoadError }}</p>
           <p v-if="isPracticeStarted" class="lock-banner" aria-live="polite">
             Started for {{ currentPractice?.localDate }}. The chart is locked for today’s practice.
           </p>
@@ -40,7 +44,7 @@
             <ion-button color="primary" :disabled="!canDrawRandom" @click="drawRandomPractice">
               Draw Random
             </ion-button>
-            <ion-button fill="outline" color="tertiary" :disabled="isPracticeStarted" @click="chooseDailyTool">
+            <ion-button fill="outline" color="tertiary" :disabled="!canChooseDailyTool" @click="chooseDailyTool">
               Daily Tool
             </ion-button>
           </div>
@@ -53,7 +57,7 @@
         <CircleChart
           :selected-category-ids="selectedCategoryIds"
           :tool-filter="selectedToolsByCategory"
-          :disabled="isPracticeStarted"
+          :disabled="practiceControlsDisabled"
           @toggle-category="toggleCategory"
           @open-category="openCategoryDetail"
         />
@@ -68,10 +72,10 @@
           </div>
 
           <div class="button-row">
-            <ion-button fill="outline" color="medium" :disabled="isPracticeStarted" @click="selectAllCategories">
+            <ion-button fill="outline" color="medium" :disabled="practiceControlsDisabled" @click="selectAllCategories">
               Select all
             </ion-button>
-            <ion-button fill="clear" color="medium" :disabled="isPracticeStarted" @click="clearCategories">
+            <ion-button fill="clear" color="medium" :disabled="practiceControlsDisabled" @click="clearCategories">
               Clear
             </ion-button>
             <ion-button color="primary" :disabled="!canDrawRandom" @click="drawRandomPractice">
@@ -118,12 +122,37 @@
           :category-id="detailCategoryId"
           :included="isDetailCategoryIncluded"
           :selected-tool-names="detailSelectedToolNames"
-          :locked="isPracticeStarted"
+          :locked="practiceControlsDisabled"
           @dismiss="closeCategoryDetail"
           @set-included="setCategoryIncluded"
           @set-selected-tools="setSelectedTools"
           @preview-tool="previewParentTool"
         />
+
+        <section class="feedback-panel" aria-labelledby="feedback-title">
+          <div>
+            <p class="eyebrow">Tester feedback</p>
+            <h2 id="feedback-title">Send a beta note</h2>
+          </div>
+          <p class="feedback-copy">
+            Use this for tester friction, phone-install issues, or POA/practice flow notes. Feedback is saved to your Supabase account.
+          </p>
+          <label class="feedback-label" for="beta-feedback">Feedback</label>
+          <textarea
+            id="beta-feedback"
+            v-model="feedbackText"
+            class="feedback-textarea"
+            rows="4"
+            :disabled="!isSignedIn || practiceBusy"
+            placeholder="What should Dawson/Lisa know from this test?"
+          ></textarea>
+          <div class="button-row">
+            <ion-button color="dark" :disabled="!canSubmitFeedback" @click="submitBetaFeedback">
+              Send feedback
+            </ion-button>
+          </div>
+          <p v-if="feedbackStatus" class="feedback-status" role="status">{{ feedbackStatus }}</p>
+        </section>
 
         <footer class="attribution-card">
           <strong>{{ APP_NAME }}</strong>
@@ -165,29 +194,33 @@ import {
   getFilteredTools,
   type ParentToolFilter,
 } from '@/data/toolCatalog';
-import { currentUser, loadSession } from '@/stores/authStore';
+import { authStatus, currentUser, loadSession } from '@/stores/authStore';
 import {
   clearTodayPracticePreview,
   getLocalDate,
   getPOA,
   getTodayPractice,
   savePOA,
-  setPracticeStorageScope,
   setPreview,
   startTodayPractice,
+  submitFeedback,
 } from '@/stores/dailyPracticeStore';
 import type { DailyPractice, POAEntry } from '@/types/practice';
 
-const savedPractice = getTodayPractice();
 const selectedCategoryIds = ref<string[]>(CHART_CATEGORIES.map((category) => category.id));
 const selectedToolsByCategory = ref<ParentToolFilter>(createAllParentToolFilter());
-const previewCategoryId = ref<string | null>(
-  savedPractice?.selectedTool.categoryId ?? CHART_CATEGORIES[0]?.id ?? null,
-);
+const previewCategoryId = ref<string | null>(CHART_CATEGORIES[0]?.id ?? null);
 const detailCategoryId = ref<string | null>(null);
 const isDetailOpen = ref(false);
-const currentPractice = ref<DailyPractice | null>(savedPractice);
-const poaEntry = ref<POAEntry | null>(savedPractice ? getPOA(savedPractice.id) : null);
+const currentPractice = ref<DailyPractice | null>(null);
+const poaEntry = ref<POAEntry | null>(null);
+const practiceLoadError = ref<string | null>(null);
+const practiceBusy = ref(false);
+const feedbackText = ref('');
+const feedbackStatus = ref<string | null>(null);
+
+const isSignedIn = computed(() => authStatus.value === 'signed-in' && Boolean(currentUser.value));
+const practiceControlsDisabled = computed(() => !isSignedIn.value || practiceBusy.value || isPracticeStarted.value);
 
 const previewCategory = computed<ChartCategory | null>(() => {
   if (!previewCategoryId.value) return null;
@@ -195,14 +228,16 @@ const previewCategory = computed<ChartCategory | null>(() => {
 });
 
 const isPracticeStarted = computed(() => currentPractice.value?.status === 'started');
-const canPickFromPreview = computed(() => !isPracticeStarted.value && Boolean(previewCategory.value));
+const canPickFromPreview = computed(() => !practiceControlsDisabled.value && Boolean(previewCategory.value));
 const poolToolCount = computed(() =>
   selectedCategoryIds.value.reduce(
     (count, categoryId) => count + getFilteredTools(categoryId, selectedToolsByCategory.value).length,
     0,
   ),
 );
-const canDrawRandom = computed(() => !isPracticeStarted.value && poolToolCount.value > 0);
+const canDrawRandom = computed(() => !practiceControlsDisabled.value && poolToolCount.value > 0);
+const canChooseDailyTool = computed(() => !practiceControlsDisabled.value);
+const canSubmitFeedback = computed(() => isSignedIn.value && !practiceBusy.value && feedbackText.value.trim().length > 0);
 
 const isDetailCategoryIncluded = computed(() =>
   Boolean(detailCategoryId.value && selectedCategoryIds.value.includes(detailCategoryId.value)),
@@ -211,53 +246,63 @@ const detailSelectedToolNames = computed(() =>
   detailCategoryId.value ? selectedToolsByCategory.value[detailCategoryId.value] ?? [] : [],
 );
 
-onMounted(() => {
-  void loadSession();
+onMounted(async () => {
+  await loadSession();
+  await reloadPracticeFromSupabase();
 });
 
-// Local demo auth: each signed-in user gets their own locally stored
-// practice/POA day, so re-read storage whenever the account changes.
-watch(currentUser, (user) => {
-  setPracticeStorageScope(user?.id ?? null);
-  reloadPracticeFromStorage();
+watch(currentUser, () => {
+  void reloadPracticeFromSupabase();
 });
 
-function reloadPracticeFromStorage(): void {
-  const saved = getTodayPractice();
-  currentPractice.value = saved;
-  poaEntry.value = saved ? getPOA(saved.id) : null;
-  isDetailOpen.value = false;
+async function reloadPracticeFromSupabase(): Promise<void> {
+  practiceLoadError.value = null;
 
-  if (saved) {
-    previewCategoryId.value = saved.selectedTool.categoryId;
-    ensureCategorySelected(saved.selectedTool.categoryId);
+  if (!isSignedIn.value) {
+    currentPractice.value = null;
+    poaEntry.value = null;
+    isDetailOpen.value = false;
+    return;
+  }
+
+  practiceBusy.value = true;
+  try {
+    const saved = await getTodayPractice();
+    currentPractice.value = saved;
+    poaEntry.value = saved ? await getPOA(saved.id) : null;
+    isDetailOpen.value = false;
+
+    if (saved) {
+      previewCategoryId.value = saved.selectedTool.categoryId;
+      ensureCategorySelected(saved.selectedTool.categoryId);
+    }
+  } catch (error) {
+    setPracticeError(error, 'Unable to load Today’s Practice from Supabase.');
+  } finally {
+    practiceBusy.value = false;
   }
 }
 
-function toggleCategory(categoryId: string): void {
-  setCategoryIncluded(categoryId, !selectedCategoryIds.value.includes(categoryId));
+async function toggleCategory(categoryId: string): Promise<void> {
+  await setCategoryIncluded(categoryId, !selectedCategoryIds.value.includes(categoryId));
 }
 
-function setCategoryIncluded(categoryId: string, included: boolean): void {
-  if (isPracticeStarted.value) return;
+async function setCategoryIncluded(categoryId: string, included: boolean): Promise<void> {
+  if (practiceControlsDisabled.value) return;
 
   selectedCategoryIds.value = included
     ? [...new Set([...selectedCategoryIds.value, categoryId])]
     : selectedCategoryIds.value.filter((id) => id !== categoryId);
 
   previewCategoryId.value = categoryId;
-  currentPractice.value = null;
-  poaEntry.value = null;
-  clearTodayPracticePreview();
+  await clearPreviewState();
 }
 
-function setSelectedTools(categoryId: string, toolNames: string[]): void {
-  if (isPracticeStarted.value) return;
+async function setSelectedTools(categoryId: string, toolNames: string[]): Promise<void> {
+  if (practiceControlsDisabled.value) return;
 
   selectedToolsByCategory.value = { ...selectedToolsByCategory.value, [categoryId]: toolNames };
-  currentPractice.value = null;
-  poaEntry.value = null;
-  clearTodayPracticePreview();
+  await clearPreviewState();
 }
 
 function openCategoryDetail(categoryId: string): void {
@@ -270,101 +315,155 @@ function closeCategoryDetail(): void {
   isDetailOpen.value = false;
 }
 
-function selectAllCategories(): void {
-  if (isPracticeStarted.value) return;
+async function selectAllCategories(): Promise<void> {
+  if (practiceControlsDisabled.value) return;
 
   selectedCategoryIds.value = CHART_CATEGORIES.map((category) => category.id);
   selectedToolsByCategory.value = createAllParentToolFilter();
   previewCategoryId.value = selectedCategoryIds.value[0] ?? null;
-  currentPractice.value = null;
-  poaEntry.value = null;
-  clearTodayPracticePreview();
+  await clearPreviewState();
 }
 
-function clearCategories(): void {
-  if (isPracticeStarted.value) return;
+async function clearCategories(): Promise<void> {
+  if (practiceControlsDisabled.value) return;
 
   selectedCategoryIds.value = [];
   previewCategoryId.value = null;
-  currentPractice.value = null;
-  poaEntry.value = null;
-  clearTodayPracticePreview();
+  await clearPreviewState();
 }
 
 function pickMyOwn(): void {
-  if (isPracticeStarted.value || !previewCategoryId.value) return;
+  if (!canPickFromPreview.value || !previewCategoryId.value) return;
 
   openCategoryDetail(previewCategoryId.value);
 }
 
-function previewParentTool(categoryId: string, parentToolName: string): void {
-  if (isPracticeStarted.value) return;
+async function previewParentTool(categoryId: string, parentToolName: string): Promise<void> {
+  if (practiceControlsDisabled.value) return;
 
   const selection = createSelectionForParentTool(categoryId, parentToolName);
   if (!selection) return;
 
-  ensureCategorySelected(categoryId);
-  ensureToolSelected(categoryId, parentToolName);
-  previewCategoryId.value = categoryId;
-  poaEntry.value = null;
-  currentPractice.value = setPreview(selection, 'self-selected');
-  isDetailOpen.value = false;
+  await withPracticeOperation(async () => {
+    ensureCategorySelected(categoryId);
+    ensureToolSelected(categoryId, parentToolName);
+    previewCategoryId.value = categoryId;
+    poaEntry.value = null;
+    currentPractice.value = await setPreview(selection, 'self-selected');
+    isDetailOpen.value = false;
+  });
 }
 
-function drawRandomPractice(): void {
+async function drawRandomPractice(): Promise<void> {
   if (!canDrawRandom.value) return;
 
   const selection = createRandomSelectionFromCategories(selectedCategoryIds.value, selectedToolsByCategory.value);
   if (!selection) return;
 
-  previewCategoryId.value = selection.categoryId;
-  ensureCategorySelected(selection.categoryId);
-  poaEntry.value = null;
-  currentPractice.value = setPreview(selection, 'random');
+  await withPracticeOperation(async () => {
+    previewCategoryId.value = selection.categoryId;
+    ensureCategorySelected(selection.categoryId);
+    poaEntry.value = null;
+    currentPractice.value = await setPreview(selection, 'random');
+  });
 }
 
-function chooseDailyTool(): void {
-  if (isPracticeStarted.value) return;
+async function chooseDailyTool(): Promise<void> {
+  if (!canChooseDailyTool.value) return;
 
   const selection = createDailyToolSelection(getLocalDate());
-  previewCategoryId.value = selection.categoryId;
-  ensureCategorySelected(selection.categoryId);
-  poaEntry.value = null;
-  currentPractice.value = setPreview(selection, 'global-daily');
+
+  await withPracticeOperation(async () => {
+    previewCategoryId.value = selection.categoryId;
+    ensureCategorySelected(selection.categoryId);
+    poaEntry.value = null;
+    currentPractice.value = await setPreview(selection, 'global-daily');
+  });
 }
 
-function startPractice(): void {
-  const startedPractice = startTodayPractice();
-  if (startedPractice) {
-    currentPractice.value = startedPractice;
-    poaEntry.value = getPOA(startedPractice.id);
-  }
+async function startPractice(): Promise<void> {
+  await withPracticeOperation(async () => {
+    const startedPractice = await startTodayPractice();
+    if (startedPractice) {
+      currentPractice.value = startedPractice;
+      poaEntry.value = await getPOA(startedPractice.id);
+    }
+  });
 }
 
-function saveDailyAction(journalText: string): void {
+async function saveDailyAction(journalText: string): Promise<void> {
   const practice = currentPractice.value;
   if (!practice || practice.status !== 'started') return;
 
-  poaEntry.value = savePOA({
-    dailyPracticeId: practice.id,
-    mode: 'journal',
-    practiceNotes: '',
-    observeMorning: '',
-    observeMidday: '',
-    observeEvening: '',
-    applyMorning: '',
-    applyMidday: '',
-    applyEvening: '',
-    journalText,
-  });
+  await withPracticeOperation(async () => {
+    poaEntry.value = await savePOA({
+      dailyPracticeId: practice.id,
+      mode: 'journal',
+      practiceNotes: '',
+      observeMorning: '',
+      observeMidday: '',
+      observeEvening: '',
+      applyMorning: '',
+      applyMidday: '',
+      applyEvening: '',
+      journalText,
+    });
 
-  currentPractice.value = getTodayPractice(practice.localDate) ?? practice;
+    currentPractice.value = (await getTodayPractice(practice.localDate)) ?? practice;
+  });
+}
+
+async function submitBetaFeedback(): Promise<void> {
+  const message = feedbackText.value.trim();
+  if (!message) return;
+
+  await withPracticeOperation(async () => {
+    await submitFeedback(message, {
+      localDate: getLocalDate(),
+      practiceId: currentPractice.value?.id ?? null,
+      source: 'in-app-beta-feedback',
+    });
+    feedbackText.value = '';
+    feedbackStatus.value = 'Feedback saved. Thank you.';
+  });
 }
 
 function focusSelectedCategory(): void {
   if (currentPractice.value) {
     openCategoryDetail(currentPractice.value.selectedTool.categoryId);
   }
+}
+
+async function clearPreviewState(): Promise<void> {
+  currentPractice.value = null;
+  poaEntry.value = null;
+
+  try {
+    await clearTodayPracticePreview();
+  } catch (error) {
+    setPracticeError(error, 'Unable to clear the Supabase preview row.');
+  }
+}
+
+async function withPracticeOperation(operation: () => Promise<void>): Promise<void> {
+  if (!isSignedIn.value) {
+    practiceLoadError.value = 'Sign in before saving Today’s Practice or POA.';
+    return;
+  }
+
+  practiceBusy.value = true;
+  practiceLoadError.value = null;
+  try {
+    await operation();
+  } catch (error) {
+    setPracticeError(error, 'Unable to save Today’s Practice in Supabase.');
+  } finally {
+    practiceBusy.value = false;
+  }
+}
+
+function setPracticeError(error: unknown, fallback: string): void {
+  practiceLoadError.value = error instanceof Error ? error.message : fallback;
 }
 
 function ensureCategorySelected(categoryId: string): void {
@@ -400,6 +499,7 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
 .hero-card,
 .entry-panel,
 .action-panel,
+.feedback-panel,
 .attribution-card {
   background: rgba(255, 253, 247, 0.92);
   border: 1px solid rgba(75, 52, 29, 0.14);
@@ -444,7 +544,8 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
   margin: 10px 0 0;
 }
 
-.lock-banner {
+.lock-banner,
+.error-banner {
   background: rgba(55, 120, 72, 0.12);
   border: 1px solid rgba(55, 120, 72, 0.22);
   border-radius: 16px;
@@ -455,9 +556,57 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
   padding: 12px;
 }
 
+.error-banner {
+  background: rgba(190, 18, 60, 0.08);
+  border-color: rgba(190, 18, 60, 0.2);
+  color: #8c1f3e;
+}
+
 .entry-panel {
   display: grid;
   gap: 14px;
+}
+
+.feedback-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.feedback-copy,
+.feedback-status {
+  color: rgba(55, 36, 22, 0.72);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.feedback-label {
+  color: #372416;
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.feedback-textarea {
+  background: rgba(55, 36, 22, 0.04);
+  border: 1px solid rgba(75, 52, 29, 0.22);
+  border-radius: 14px;
+  color: #372416;
+  font: inherit;
+  min-height: 96px;
+  padding: 10px 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.feedback-textarea:focus {
+  border-color: rgba(138, 92, 36, 0.6);
+  box-shadow: 0 0 0 3px rgba(138, 92, 36, 0.14);
+  outline: none;
+}
+
+.feedback-status {
+  color: #244a2e;
+  font-weight: 800;
 }
 
 .entry-grid,
@@ -571,6 +720,7 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
   .hero-card,
   .entry-panel,
   .action-panel,
+  .feedback-panel,
   .attribution-card {
     padding: 24px;
   }

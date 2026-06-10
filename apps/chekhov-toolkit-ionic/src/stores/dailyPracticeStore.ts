@@ -1,18 +1,28 @@
+import { requireSupabase, supabase } from '@/lib/supabaseClient';
 import type { DailyPractice, POAEntry, PracticeSource, PracticeToolSelection } from '@/types/practice';
 
-const STORAGE_PREFIX = 'mct-weekend-beta:';
-
-// Local demo auth scoping: when a user is signed in, daily practice and POA
-// keys are namespaced per user id so each local account keeps its own day.
-// Guest (signed-out) practice keeps the original un-scoped keys.
-let storageScopeUserId: string | null = null;
-
-export function setPracticeStorageScope(userId: string | null): void {
-  storageScopeUserId = userId;
+interface DailyPracticeRow {
+  id: string;
+  local_date: string;
+  source: PracticeSource;
+  status: 'preview' | 'started';
+  selected_tool: PracticeToolSelection;
+  started_at: string | null;
+  updated_at: string;
 }
 
-function scopedPrefix(): string {
-  return storageScopeUserId ? `${STORAGE_PREFIX}u:${storageScopeUserId}:` : STORAGE_PREFIX;
+interface POAEntryRow {
+  daily_practice_id: string;
+  mode: 'structured' | 'journal';
+  practice_notes: string | null;
+  observe_morning: string | null;
+  observe_midday: string | null;
+  observe_evening: string | null;
+  apply_morning: string | null;
+  apply_midday: string | null;
+  apply_evening: string | null;
+  journal_text: string | null;
+  updated_at: string;
 }
 
 export function getLocalDate(date = new Date()): string {
@@ -23,148 +33,197 @@ export function getLocalDate(date = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
-export function getTodayPractice(localDate = getLocalDate()): DailyPractice | null {
-  return readJson<DailyPractice>(dailyPracticeKey(localDate));
+export async function getTodayPractice(localDate = getLocalDate()): Promise<DailyPractice | null> {
+  const userId = await getSignedInUserId();
+  if (!userId) return null;
+
+  const { data, error } = await requireSupabase()
+    .from('daily_practices')
+    .select('id, local_date, source, status, selected_tool, started_at, updated_at')
+    .eq('user_id', userId)
+    .eq('local_date', localDate)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data ? mapDailyPracticeRow(data as DailyPracticeRow) : null;
 }
 
-export function setPreview(
+export async function setPreview(
   selectedTool: PracticeToolSelection,
   source: PracticeSource,
   localDate = getLocalDate(),
-): DailyPractice {
-  const existing = getTodayPractice(localDate);
+): Promise<DailyPractice | null> {
+  const userId = await getSignedInUserId();
+  if (!userId) return null;
 
+  const existing = await getTodayPractice(localDate);
   if (existing?.status === 'started') {
     return existing;
   }
 
-  const now = new Date().toISOString();
-  const practice: DailyPractice = {
-    id: existing?.id ?? `daily-practice:${localDate}`,
-    localDate,
+  const payload = {
+    user_id: userId,
+    local_date: localDate,
     source,
     status: 'preview',
-    selectedTool,
-    updatedAt: now,
+    category_id: selectedTool.categoryId,
+    category_name: selectedTool.categoryName,
+    parent_tool_name: selectedTool.parentToolName,
+    child_tool_name: selectedTool.childToolName ?? null,
+    scale_value: selectedTool.scaleValue ?? null,
+    unveiled_value: selectedTool.unveiledValue ?? null,
+    selected_tool: selectedTool,
   };
 
-  writeJson(dailyPracticeKey(localDate), practice);
+  const { data, error } = await requireSupabase()
+    .from('daily_practices')
+    .upsert(payload, { onConflict: 'user_id,local_date' })
+    .select('id, local_date, source, status, selected_tool, started_at, updated_at')
+    .single();
 
-  return practice;
+  if (error) throw error;
+
+  return mapDailyPracticeRow(data as DailyPracticeRow);
 }
 
-export function startTodayPractice(localDate = getLocalDate()): DailyPractice | null {
-  const existing = getTodayPractice(localDate);
+export async function startTodayPractice(localDate = getLocalDate()): Promise<DailyPractice | null> {
+  const userId = await getSignedInUserId();
+  if (!userId) return null;
+
+  const existing = await getTodayPractice(localDate);
   if (!existing) return null;
   if (existing.status === 'started') return existing;
 
-  const now = new Date().toISOString();
-  const startedPractice: DailyPractice = {
-    ...existing,
-    status: 'started',
-    startedAt: now,
-    updatedAt: now,
+  const { data, error } = await requireSupabase()
+    .from('daily_practices')
+    .update({ status: 'started', started_at: new Date().toISOString() })
+    .eq('id', existing.id)
+    .eq('user_id', userId)
+    .select('id, local_date, source, status, selected_tool, started_at, updated_at')
+    .single();
+
+  if (error) throw error;
+
+  return mapDailyPracticeRow(data as DailyPracticeRow);
+}
+
+export async function getPOA(dailyPracticeId: string): Promise<POAEntry | null> {
+  const userId = await getSignedInUserId();
+  if (!userId) return null;
+
+  const { data, error } = await requireSupabase()
+    .from('poa_entries')
+    .select('daily_practice_id, mode, practice_notes, observe_morning, observe_midday, observe_evening, apply_morning, apply_midday, apply_evening, journal_text, updated_at')
+    .eq('user_id', userId)
+    .eq('daily_practice_id', dailyPracticeId)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return data ? mapPOAEntryRow(data as POAEntryRow) : null;
+}
+
+export async function clearTodayPracticePreview(localDate = getLocalDate()): Promise<void> {
+  const userId = await getSignedInUserId();
+  if (!userId) return;
+
+  const { error } = await requireSupabase()
+    .from('daily_practices')
+    .delete()
+    .eq('user_id', userId)
+    .eq('local_date', localDate)
+    .eq('status', 'preview');
+
+  if (error) throw error;
+}
+
+export async function savePOA(entry: Omit<POAEntry, 'updatedAt'>): Promise<POAEntry | null> {
+  const userId = await getSignedInUserId();
+  if (!userId) return null;
+
+  const payload = {
+    user_id: userId,
+    daily_practice_id: entry.dailyPracticeId,
+    mode: entry.mode,
+    practice_notes: entry.practiceNotes,
+    observe_morning: entry.observeMorning,
+    observe_midday: entry.observeMidday,
+    observe_evening: entry.observeEvening,
+    apply_morning: entry.applyMorning,
+    apply_midday: entry.applyMidday,
+    apply_evening: entry.applyEvening,
+    journal_text: entry.journalText,
   };
 
-  writeJson(dailyPracticeKey(localDate), startedPractice);
+  const { data, error } = await requireSupabase()
+    .from('poa_entries')
+    .upsert(payload, { onConflict: 'user_id,daily_practice_id' })
+    .select('daily_practice_id, mode, practice_notes, observe_morning, observe_midday, observe_evening, apply_morning, apply_midday, apply_evening, journal_text, updated_at')
+    .single();
 
-  return startedPractice;
+  if (error) throw error;
+
+  return mapPOAEntryRow(data as POAEntryRow);
 }
 
-export function getPOA(dailyPracticeId: string): POAEntry | null {
-  const savedEntry = readJson<POAEntry>(poaKey(dailyPracticeId));
-  if (savedEntry) return savedEntry;
+export async function submitFeedback(message: string, context: Record<string, unknown> = {}): Promise<boolean> {
+  const userId = await getSignedInUserId();
+  if (!userId) return false;
 
-  const localDate = localDateFromDailyPracticeId(dailyPracticeId);
-  if (!localDate) return null;
+  const { error } = await requireSupabase()
+    .from('feedback')
+    .insert({ user_id: userId, message, context });
 
-  return getTodayPractice(localDate)?.poaEntry ?? null;
+  if (error) throw error;
+
+  return true;
 }
 
-export function clearTodayPracticePreview(localDate = getLocalDate()): void {
-  const storage = getStorage();
-  if (!storage) return;
+export async function resetTodayPracticeForLocalDemo(localDate = getLocalDate()): Promise<void> {
+  const userId = await getSignedInUserId();
+  if (!userId) return;
 
-  const existing = getTodayPractice(localDate);
-  if (existing?.status === 'started') return;
-
-  storage.removeItem(dailyPracticeKey(localDate));
+  await requireSupabase()
+    .from('daily_practices')
+    .delete()
+    .eq('user_id', userId)
+    .eq('local_date', localDate);
 }
 
-export function savePOA(entry: Omit<POAEntry, 'updatedAt'>): POAEntry {
-  const savedEntry: POAEntry = {
-    ...entry,
-    updatedAt: new Date().toISOString(),
+async function getSignedInUserId(): Promise<string | null> {
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return null;
+
+  return data.user.id;
+}
+
+function mapDailyPracticeRow(row: DailyPracticeRow): DailyPractice {
+  return {
+    id: row.id,
+    localDate: row.local_date,
+    source: row.source,
+    status: row.status,
+    selectedTool: row.selected_tool,
+    startedAt: row.started_at ?? undefined,
+    updatedAt: row.updated_at,
   };
-
-  writeJson(poaKey(entry.dailyPracticeId), savedEntry);
-  attachPOAToDailyPractice(savedEntry);
-
-  return savedEntry;
 }
 
-export function resetTodayPracticeForLocalDemo(localDate = getLocalDate()): void {
-  const storage = getStorage();
-  if (!storage) return;
-
-  const existing = getTodayPractice(localDate);
-  if (existing) {
-    storage.removeItem(poaKey(existing.id));
-  }
-  storage.removeItem(dailyPracticeKey(localDate));
-}
-
-function dailyPracticeKey(localDate: string): string {
-  return `${scopedPrefix()}daily-practice:${localDate}`;
-}
-
-function poaKey(dailyPracticeId: string): string {
-  return `${scopedPrefix()}poa:${dailyPracticeId}`;
-}
-
-function attachPOAToDailyPractice(entry: POAEntry): void {
-  const localDate = localDateFromDailyPracticeId(entry.dailyPracticeId);
-  if (!localDate) return;
-
-  const practice = getTodayPractice(localDate);
-  if (!practice || practice.id !== entry.dailyPracticeId) return;
-
-  writeJson(dailyPracticeKey(localDate), {
-    ...practice,
-    poaEntry: entry,
-    updatedAt: entry.updatedAt,
-  });
-}
-
-function localDateFromDailyPracticeId(dailyPracticeId: string): string | null {
-  const prefix = 'daily-practice:';
-  if (!dailyPracticeId.startsWith(prefix)) return null;
-
-  return dailyPracticeId.slice(prefix.length);
-}
-
-function readJson<T>(key: string): T | null {
-  const storage = getStorage();
-  if (!storage) return null;
-
-  try {
-    const raw = storage.getItem(key);
-    return raw ? (JSON.parse(raw) as T) : null;
-  } catch (error) {
-    console.warn(`Unable to read local practice state for ${key}`, error);
-    return null;
-  }
-}
-
-function writeJson(key: string, value: unknown): void {
-  const storage = getStorage();
-  if (!storage) return;
-
-  storage.setItem(key, JSON.stringify(value));
-}
-
-function getStorage(): Storage | null {
-  if (typeof window === 'undefined' || !window.localStorage) return null;
-
-  return window.localStorage;
+function mapPOAEntryRow(row: POAEntryRow): POAEntry {
+  return {
+    dailyPracticeId: row.daily_practice_id,
+    mode: row.mode,
+    practiceNotes: row.practice_notes ?? '',
+    observeMorning: row.observe_morning ?? '',
+    observeMidday: row.observe_midday ?? '',
+    observeEvening: row.observe_evening ?? '',
+    applyMorning: row.apply_morning ?? '',
+    applyMidday: row.apply_midday ?? '',
+    applyEvening: row.apply_evening ?? '',
+    journalText: row.journal_text ?? '',
+    updatedAt: row.updated_at,
+  };
 }

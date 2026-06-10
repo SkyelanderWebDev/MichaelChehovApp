@@ -32,3 +32,8 @@ npm-debug.log*
 /www
 /tests/e2e/screenshots
 /tests/e2e/videos
+.env
+.env.local
+.env.*.local
+*.pem
+*.key

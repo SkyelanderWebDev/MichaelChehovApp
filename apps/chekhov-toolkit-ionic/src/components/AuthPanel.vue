@@ -2,36 +2,42 @@
   <section class="auth-panel" aria-labelledby="auth-panel-title">
     <div class="auth-heading">
       <div>
-        <p class="auth-kicker">Local demo auth</p>
-        <h2 id="auth-panel-title">Practice account</h2>
+        <p class="auth-kicker">Supabase Auth</p>
+        <h2 id="auth-panel-title">Tester account</h2>
       </div>
       <span class="auth-status-pill" :class="`status-${authStatus}`">{{ statusLabel }}</span>
     </div>
 
     <template v-if="authStatus === 'signed-in' && currentUser">
       <p class="auth-copy signed-in-copy">
-        Signed in as <strong class="current-username">{{ currentUser.username }}</strong>.
-        Today’s Practice and POA notes on this device are kept separate for each account.
+        Signed in as <strong class="current-username">{{ currentUser.email }}</strong>.
+        Today’s Practice and POA notes are saved to Supabase under this tester account.
       </p>
       <ion-button class="sign-out-button" fill="outline" color="medium" :disabled="authBusy" @click="signOut">
         Sign out
       </ion-button>
     </template>
 
-    <template v-else-if="authStatus === 'offline'">
+    <template v-else-if="authStatus === 'misconfigured'">
       <p class="auth-copy">
-        The local demo auth server is not reachable, so you are practicing as a guest on this device.
-        Start it from the repo root with <code>PORT=5055 HOST=127.0.0.1 npm run dev</code> to enable accounts.
+        Supabase is not configured for this build. Set <code>VITE_SUPABASE_URL</code> and
+        <code>VITE_SUPABASE_ANON_KEY</code> from the approved Supabase project before beta testing.
+      </p>
+    </template>
+
+    <template v-else-if="authStatus === 'error'">
+      <p class="auth-copy" role="alert">
+        {{ authError ?? 'Supabase session check failed. Verify network and environment settings.' }}
       </p>
     </template>
 
     <template v-else-if="authStatus === 'unknown'">
-      <p class="auth-copy">Checking for a local demo session…</p>
+      <p class="auth-copy">Checking for a Supabase session…</p>
     </template>
 
     <template v-else>
       <p class="auth-copy">
-        Optional: create a local demo account so Today’s Practice and POA notes are saved per user on this device.
+        Create or sign in to a Supabase tester account before saving Today’s Practice, POA notes, or feedback.
       </p>
       <ion-button
         v-if="!showForm"
@@ -44,15 +50,16 @@
       </ion-button>
       <form v-else class="auth-form" @submit.prevent="submit('sign-in')">
         <div class="auth-field">
-          <label for="auth-username">Username</label>
+          <label for="auth-email">Email</label>
           <input
-            id="auth-username"
-            v-model="username"
-            type="text"
-            name="username"
-            autocomplete="username"
+            id="auth-email"
+            v-model="email"
+            type="email"
+            name="email"
+            autocomplete="email"
             autocapitalize="none"
             spellcheck="false"
+            required
           />
         </div>
         <div class="auth-field">
@@ -63,6 +70,8 @@
             type="password"
             name="password"
             autocomplete="current-password"
+            required
+            minlength="6"
           />
         </div>
         <div class="auth-actions">
@@ -85,8 +94,7 @@
     </template>
 
     <p class="auth-disclaimer">
-      Local demo auth only: accounts live in a local SQLite file with hashed passwords and an httpOnly
-      session cookie. This is not a hosted or verified secure beta.
+      Secure beta path: Supabase Auth, Postgres, and Row Level Security. The browser uses only the Supabase anon key; service-role keys must never be placed in Vite env.
     </p>
   </section>
 </template>
@@ -104,7 +112,7 @@ import {
   signUp,
 } from '@/stores/authStore';
 
-const username = ref('');
+const email = ref('');
 const password = ref('');
 const showForm = ref(false);
 
@@ -112,21 +120,23 @@ const statusLabel = computed(() => {
   switch (authStatus.value) {
     case 'signed-in':
       return 'Signed in';
-    case 'offline':
-      return 'Guest · server off';
+    case 'misconfigured':
+      return 'Setup needed';
+    case 'error':
+      return 'Auth check failed';
     case 'unknown':
       return 'Checking…';
     default:
-      return 'Guest';
+      return 'Signed out';
   }
 });
 
 async function submit(mode: 'sign-in' | 'sign-up'): Promise<void> {
   const action = mode === 'sign-up' ? signUp : signIn;
-  const succeeded = await action(username.value.trim(), password.value);
+  const succeeded = await action(email.value.trim(), password.value);
 
   if (succeeded) {
-    username.value = '';
+    email.value = '';
     password.value = '';
     showForm.value = false;
   }
@@ -182,6 +192,12 @@ async function submit(mode: 'sign-in' | 'sign-up'): Promise<void> {
 .auth-status-pill.status-signed-in {
   background: rgba(55, 120, 72, 0.14);
   color: #244a2e;
+}
+
+.auth-status-pill.status-misconfigured,
+.auth-status-pill.status-error {
+  background: rgba(190, 18, 60, 0.08);
+  color: #8c1f3e;
 }
 
 .auth-copy {

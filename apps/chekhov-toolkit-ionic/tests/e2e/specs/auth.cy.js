@@ -1,25 +1,37 @@
-// Local demo auth flow. These tests need the root Express/SQLite server
-// running behind the Vite proxy: from the repo root,
-//   PORT=5055 HOST=127.0.0.1 npm run dev
-// (or set MCT_API_PROXY_TARGET before starting the Ionic dev server).
-
 const MOBILE_VIEWPORT = {
   width: 390,
   height: 844,
 };
 
-const username = `demo_${Date.now()}`;
 const password = 'demo-pass-1234';
 
-function openAuthForm() {
-  // Cypress treats below-fold elements inside Ionic's absolutely-positioned
-  // scroll container as hidden, so rely on action auto-scrolling instead of
-  // explicit visibility assertions here.
-  cy.get('.show-auth-form-button').click();
-  cy.get('#auth-username').should('exist');
+function uniqueEmail(prefix = 'tester') {
+  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@example.com`;
 }
 
-describe('Local demo auth', () => {
+function openAuthForm() {
+  cy.get('.show-auth-form-button').click();
+  cy.get('#auth-email').should('exist');
+}
+
+function createTester(email = uniqueEmail()) {
+  openAuthForm();
+  cy.get('#auth-email').clear().type(email);
+  cy.get('#auth-password').clear().type(password);
+  cy.get('.create-account-button').click();
+  cy.get('.current-username', { timeout: 10000 }).should('have.text', email);
+  return cy.wrap({ email, password }, { log: false });
+}
+
+function signInTester(email) {
+  openAuthForm();
+  cy.get('#auth-email').clear().type(email);
+  cy.get('#auth-password').clear().type(password);
+  cy.get('.sign-in-button').click();
+  cy.get('.current-username', { timeout: 10000 }).should('have.text', email);
+}
+
+describe('Supabase Auth beta flow', () => {
   beforeEach(() => {
     cy.viewport(MOBILE_VIEWPORT.width, MOBILE_VIEWPORT.height);
     cy.visit('/home', {
@@ -29,66 +41,60 @@ describe('Local demo auth', () => {
     });
   });
 
-  it('signs up, scopes practice per user, and restores the session on reload', () => {
-    // Guest starts a practice first so cross-user scoping is observable.
-    cy.contains('ion-button', 'Draw Random').should('be.visible').click();
-    cy.contains('ion-button', 'Start Today’s Practice').click();
-    cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
+  it('signs up, persists practice/POA per user, restores session, and isolates another user', () => {
+    const dailyAction = 'Tester A secure-beta POA note';
 
-    // Create a local demo account.
-    cy.get('.auth-panel').should('contain.text', 'Local demo auth');
-    openAuthForm();
-    cy.get('#auth-username').type(username);
-    cy.get('#auth-password').type(password);
-    cy.get('.create-account-button').click();
-    cy.get('.current-username').should('have.text', username);
+    cy.get('.auth-panel').should('contain.text', 'Supabase Auth');
+    cy.contains('ion-button', 'Draw Random').should('have.attr', 'disabled');
 
-    // The fresh account has no started practice; the guest day stays separate.
-    cy.get('.tool-preview-card').should('not.exist');
-    cy.contains('ion-button', 'Draw Random').should('not.have.attr', 'disabled');
+    createTester(uniqueEmail('tester-a')).then(({ email: emailA }) => {
+      cy.contains('ion-button', 'Draw Random').should('not.have.attr', 'disabled');
+      cy.contains('ion-button', 'Draw Random').click();
+      cy.contains('ion-button', 'Start Today’s Practice').click();
+      cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
 
-    // Start and lock a practice as the signed-in user.
-    cy.contains('ion-button', 'Draw Random').click();
-    cy.contains('ion-button', 'Start Today’s Practice').click();
-    cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
-    cy.window().then((win) => {
-      const scopedKey = Object.keys(win.localStorage).find((key) => key.startsWith('mct-weekend-beta:u:'));
-      expect(scopedKey, 'user-scoped daily practice key').to.be.a('string');
+      cy.get('textarea[aria-label="Daily Action / POA note"]').type(dailyAction);
+      cy.contains('ion-button', 'Save Daily Action').click();
+      cy.contains('Daily Action saved.').should('exist');
+
+      cy.reload();
+      cy.get('.current-username', { timeout: 10000 }).should('have.text', emailA);
+      cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
+      cy.get('textarea[aria-label="Daily Action / POA note"]').should('have.value', dailyAction);
+
+      cy.get('.sign-out-button').click();
+      cy.get('.auth-panel').should('contain.text', 'Signed out');
+      cy.get('.tool-preview-card').should('not.exist');
+      cy.contains('ion-button', 'Draw Random').should('have.attr', 'disabled');
+
+      createTester(uniqueEmail('tester-b'));
+      cy.get('.tool-preview-card').should('not.exist');
+      cy.contains('ion-button', 'Draw Random').should('not.have.attr', 'disabled');
+
+      cy.get('.sign-out-button').click();
+      signInTester(emailA);
+      cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
+      cy.get('textarea[aria-label="Daily Action / POA note"]').should('have.value', dailyAction);
     });
-
-    // Signing out returns to the guest-scoped practice.
-    cy.get('.sign-out-button').click();
-    cy.get('.auth-panel').should('contain.text', 'Guest');
-    cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
-
-    // Signing back in restores the user's own locked day.
-    openAuthForm();
-    cy.get('#auth-username').type(username);
-    cy.get('#auth-password').type(password);
-    cy.get('.sign-in-button').click();
-    cy.get('.current-username').should('have.text', username);
-    cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
-
-    // The httpOnly session cookie survives a reload.
-    cy.reload();
-    cy.get('.current-username').should('have.text', username);
-    cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
   });
 
-  it('rejects a wrong password with a neutral error', () => {
-    openAuthForm();
-    cy.get('#auth-username').type(username);
-    cy.get('#auth-password').type('wrong-password-999');
-    cy.get('.sign-in-button').click();
-    cy.get('.auth-error').should('contain.text', 'Invalid username or password');
-    cy.get('.auth-panel').should('not.contain.text', 'Signed in as');
+  it('rejects a wrong password with a Supabase auth error', () => {
+    createTester(uniqueEmail('wrong-password')).then(({ email }) => {
+      cy.get('.sign-out-button').click();
+      openAuthForm();
+      cy.get('#auth-email').type(email);
+      cy.get('#auth-password').type('wrong-password-999');
+      cy.get('.sign-in-button').click();
+      cy.get('.auth-error').should('exist');
+      cy.get('.auth-panel').should('not.contain.text', 'Signed in as');
+    });
   });
 
   it('rejects invalid signup input with a validation message', () => {
     openAuthForm();
-    cy.get('#auth-username').type('ab');
-    cy.get('#auth-password').type('demo-pass-1234');
+    cy.get('#auth-email').type(uniqueEmail('short-password'));
+    cy.get('#auth-password').type('123');
     cy.get('.create-account-button').click();
-    cy.get('.auth-error').should('contain.text', 'Username must be at least 3 characters');
+    cy.get('.auth-error').should('exist');
   });
 });

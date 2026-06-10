@@ -1,0 +1,2 @@
+-- Seed data is currently embedded in migrations so RLS-protected library skeleton
+-- exists in local and hosted databases after migration.

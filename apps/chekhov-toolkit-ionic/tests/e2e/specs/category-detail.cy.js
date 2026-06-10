@@ -9,6 +9,18 @@ function expectNoHorizontalOverflow() {
   });
 }
 
+function uniqueEmail(prefix = 'category') {
+  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@example.com`;
+}
+
+function signUpForPractice() {
+  cy.get('.show-auth-form-button').click();
+  cy.get('#auth-email').type(uniqueEmail());
+  cy.get('#auth-password').type('demo-pass-1234');
+  cy.get('.create-account-button').click();
+  cy.get('.current-username', { timeout: 10000 }).should('contain.text', '@example.com');
+}
+
 describe('Category detail sheet and parent-tool filters', () => {
   beforeEach(() => {
     cy.viewport(MOBILE_VIEWPORT.width, MOBILE_VIEWPORT.height);
@@ -17,6 +29,7 @@ describe('Category detail sheet and parent-tool filters', () => {
         win.localStorage.clear();
       },
     });
+    signUpForPractice();
   });
 
   it('opens category detail from a chart node with family, parent tools, and child labels', () => {
@@ -82,7 +95,7 @@ describe('Category detail sheet and parent-tool filters', () => {
     cy.get('ion-content.toolkit-page')
       .should('have.class', 'hydrated')
       .then(($content) => $content[0].scrollToBottom(0));
-    cy.contains('All parent tools are deselected').should('be.visible');
+    cy.contains('All parent tools are deselected').should('exist');
     cy.contains('ion-button', 'Draw Random').should('have.attr', 'disabled');
   });
 

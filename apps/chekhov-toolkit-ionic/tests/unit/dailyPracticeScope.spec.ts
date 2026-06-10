@@ -1,12 +1,5 @@
-import { afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest'
-import {
-  getPOA,
-  getTodayPractice,
-  savePOA,
-  setPracticeStorageScope,
-  setPreview,
-  startTodayPractice,
-} from '@/stores/dailyPracticeStore'
+import { describe, expect, test } from 'vitest'
+import { getLocalDate, getPOA, getTodayPractice, savePOA, setPreview } from '@/stores/dailyPracticeStore'
 import type { PracticeToolSelection } from '@/types/practice'
 
 const SELECTION: PracticeToolSelection = {
@@ -18,75 +11,19 @@ const SELECTION: PracticeToolSelection = {
   unveiledValue: null,
 }
 
-// The jsdom build used by this Vitest setup does not provide a working
-// localStorage, so back the store with a spec-compliant in-memory Storage.
-function createMemoryStorage(): Storage {
-  const items = new Map<string, string>()
-
-  return {
-    get length() {
-      return items.size
-    },
-    clear: () => items.clear(),
-    getItem: (key: string) => (items.has(key) ? items.get(key)! : null),
-    key: (index: number) => [...items.keys()][index] ?? null,
-    removeItem: (key: string) => {
-      items.delete(key)
-    },
-    setItem: (key: string, value: string) => {
-      items.set(key, String(value))
-    },
-  }
-}
-
-describe('daily practice storage scoping by local demo user', () => {
-  beforeAll(() => {
-    Object.defineProperty(window, 'localStorage', {
-      configurable: true,
-      value: createMemoryStorage(),
-    })
+describe('daily practice Supabase persistence seam', () => {
+  test('formats local dates without UTC drift', () => {
+    expect(getLocalDate(new Date(2026, 5, 10, 23, 30))).toBe('2026-06-10')
   })
 
-  beforeEach(() => {
-    window.localStorage.clear()
-    setPracticeStorageScope(null)
-  })
+  test('does not fall back to localStorage when Supabase/auth is unavailable', async () => {
+    const localDate = '2026-06-10'
 
-  afterEach(() => {
-    setPracticeStorageScope(null)
-  })
-
-  test('guest practice stays on un-scoped keys and restores after lock', () => {
-    setPreview(SELECTION, 'self-selected', '2026-06-10')
-    const started = startTodayPractice('2026-06-10')
-
-    expect(started?.status).toBe('started')
-    expect(window.localStorage.getItem('mct-weekend-beta:daily-practice:2026-06-10')).toBeTruthy()
-    expect(getTodayPractice('2026-06-10')?.selectedTool.parentToolName).toBe('Ease')
-  })
-
-  test('signed-in users do not see guest practice and vice versa', () => {
-    setPreview(SELECTION, 'self-selected', '2026-06-10')
-    startTodayPractice('2026-06-10')
-
-    setPracticeStorageScope('user-a')
-    expect(getTodayPractice('2026-06-10')).toBeNull()
-
-    setPreview({ ...SELECTION, parentToolName: 'Beauty', childToolName: 'Grace' }, 'random', '2026-06-10')
-    startTodayPractice('2026-06-10')
-    expect(getTodayPractice('2026-06-10')?.selectedTool.parentToolName).toBe('Beauty')
-    expect(window.localStorage.getItem('mct-weekend-beta:u:user-a:daily-practice:2026-06-10')).toBeTruthy()
-
-    setPracticeStorageScope(null)
-    expect(getTodayPractice('2026-06-10')?.selectedTool.parentToolName).toBe('Ease')
-  })
-
-  test('POA notes are scoped to the active user', () => {
-    setPracticeStorageScope('user-a')
-    const practice = setPreview(SELECTION, 'self-selected', '2026-06-10')
-    startTodayPractice('2026-06-10')
-    savePOA({
-      dailyPracticeId: practice.id,
+    expect(await getTodayPractice(localDate)).toBeNull()
+    expect(await setPreview(SELECTION, 'self-selected', localDate)).toBeNull()
+    expect(await getPOA('00000000-0000-0000-0000-000000000000')).toBeNull()
+    expect(await savePOA({
+      dailyPracticeId: '00000000-0000-0000-0000-000000000000',
       mode: 'journal',
       practiceNotes: '',
       observeMorning: '',
@@ -95,15 +32,7 @@ describe('daily practice storage scoping by local demo user', () => {
       applyMorning: '',
       applyMidday: '',
       applyEvening: '',
-      journalText: 'User A note',
-    })
-
-    expect(getPOA(practice.id)?.journalText).toBe('User A note')
-
-    setPracticeStorageScope('user-b')
-    expect(getPOA(practice.id)).toBeNull()
-
-    setPracticeStorageScope('user-a')
-    expect(getPOA(practice.id)?.journalText).toBe('User A note')
+      journalText: 'Should not be saved without Supabase auth',
+    })).toBeNull()
   })
 })

@@ -1,13 +1,9 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { registerAuthRoutes } from "./auth";
 import { insertDrawnToolSchema, insertJournalEntrySchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Local demo auth slice (username/password, scrypt hashes, httpOnly sessions).
-  registerAuthRoutes(app);
-
   // Get all drawn tools
   app.get("/api/drawn-tools", async (req, res) => {
     try {
