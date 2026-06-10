@@ -1,0 +1,10 @@
+{
+  "installCommand": "cd apps/chekhov-toolkit-ionic && npm ci",
+  "buildCommand": "cd apps/chekhov-toolkit-ionic && npm run build",
+  "outputDirectory": "apps/chekhov-toolkit-ionic/dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/home", "destination": "/index.html" },
+    { "source": "/home/(.*)", "destination": "/index.html" }
+  ]
+}
