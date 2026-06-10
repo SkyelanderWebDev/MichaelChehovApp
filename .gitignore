@@ -4,6 +4,7 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
-data/
+/data/
+test-results/
 .env
 .claude/settings.local.json

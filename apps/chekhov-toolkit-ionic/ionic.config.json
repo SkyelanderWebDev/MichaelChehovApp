@@ -1,0 +1,7 @@
+{
+  "name": "chekhov-toolkit-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}

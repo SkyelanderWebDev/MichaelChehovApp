@@ -66,16 +66,20 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
+  // ALWAYS serve the app on the port specified in the environment variable PORT.
+  // Default to 5000 if not specified. This serves both the API and the client.
+  //
+  // Local macOS/Hermes dev cannot use Node's reusePort option on 0.0.0.0:5000
+  // (ENOTSUP). Keep deploy-friendly behavior in production/Replit, but default
+  // development to loopback unless HOST is explicitly provided.
   const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
+  const host = process.env.HOST || (
+    process.env.NODE_ENV === "production" || process.env.REPL_ID
+      ? "0.0.0.0"
+      : "127.0.0.1"
+  );
+
+  server.listen({ port, host }, () => {
+    log(`serving on http://${host}:${port}`);
   });
 })();

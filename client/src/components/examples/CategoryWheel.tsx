@@ -12,12 +12,12 @@ export default function CategoryWheelExample() {
     );
   };
   
-  // TODO(claude): CategoryWheel now requires an "onOpenDetail" prop — add it here
   return (
     <div className="p-8 bg-background min-h-screen flex items-center justify-center">
       <CategoryWheel
         selectedCategories={selectedCategories}
         onToggleCategory={handleToggle}
+        onOpenDetail={(categoryId) => console.log("Open category detail:", categoryId)}
       />
     </div>
   );

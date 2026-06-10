@@ -1,123 +1,189 @@
-# The Chekhov Toolkit — Actor's Toolbox
+# The Michael Chekhov Toolkit — Agent Context
 
-## What This Is
+Last refreshed: 2026-06-05 during Phase 0.
 
-An NMCA-commissioned (National Michael Chekhov Association) web app for actors, directors, and acting teachers to practice the Michael Chekhov acting technique. Commissioned by Lisa Dalton, NMCA President & Master Teacher.
+This file is the working source of truth for Claude Code and other repo agents. If this file conflicts with older `replit.md`, `.claude/plans/phase1-prototype.md`, or stale April/November notes, prefer this file unless Dawson explicitly says otherwise.
 
-**Working Name:** "The Chekhov Toolkit" / "Actor's Toolkit"
+## What this project is
 
-## Current State
+The Michael Chekhov Toolkit is an official/private-beta practice app for actors, directors, teachers, and students working with Michael Chekhov technique. It is grounded in the National Michael Chekhov Association's Chart of Inspired Action and Lisa Dalton's sanctioned project direction.
 
-This is a **working prototype** built in Replit (~80% of core feature complete). We are in **Phase 1: Ship the React prototype by Friday April 10, 2026.** A Phase 2 Vue/Nuxt rebuild will follow later.
+Stakeholder context:
+- Lisa Dalton is the primary stakeholder and phone-testing path.
+- The Chart of Inspired Action is NMCA-validated source territory.
+- Dawson's current product name decision is: **The Michael Chekhov Toolkit**.
+- Public/beta naming should stay warm, official, and actor-centered. Do not use "Chekhov's Hired Gun" as public branding.
 
-### What Already Works
-- Tool Wheel: circular category selector with 14 categories from the Chart of Inspired Action
-- Draw Tool: random selection with hierarchy filtering (Cards/Tools/Examples)
-- Tool Reveal Card: full-screen display with category badge, tool name, child example, scale value, unveiled value
-- Flyback Journal: freeform text reflection per draw
-- Session History: scrollable past draws with timestamps
-- Category Detail Modal: drill into categories to select/deselect parent tools
-- Dark/Light theme toggle
+Approved beta attribution wording:
 
-### What Needs to Be Built (Phase 1 — Friday Prototype)
-1. **Swap Neon PostgreSQL → SQLite** (remove cloud DB dependency)
-2. **POA Journal** (Practice/Observe/Apply structured fields — see spec)
-3. **Mobile polish** (Lisa will open this on her phone)
-4. **Deploy** to a shareable URL
+> The Michael Chekhov Toolkit is a private beta practice app inspired by the Chart of Inspired Action from the National Michael Chekhov Association and Lisa Dalton. Built for actor training, rehearsal, and daily Michael Chekhov practice.
 
-### What's Deferred to Phase 2
-- Calendar/daily practice view
-- Library section (YouTube links, books)
-- Directory/Atlas (certified teacher map)
-- Settings page
-- Push notifications
-- Mobile app builds (Capacitor)
-- Vue/Nuxt rewrite
+Copyright / credit line:
 
-## Tech Stack
+> Chart of Inspired Action © 2004 National Michael Chekhov Association. Used with permission. Lisa Dalton, NMCA President and Master Teacher.
 
-- **Frontend:** React 18 + Vite + Tailwind CSS + shadcn/ui (Radix primitives)
-- **Backend:** Express.js + Drizzle ORM
-- **Database:** Currently Neon PostgreSQL → **migrating to SQLite (better-sqlite3)**
-- **Routing:** wouter (client), Express (server)
-- **State:** React Query (@tanstack/react-query)
-- **Animations:** framer-motion
-- **Icons:** lucide-react
+Keep attribution text centralized in implementation so Lisa can refine it after weekend feedback.
 
-## Architecture
+## Non-negotiable guardrails
 
-```
-client/src/
-├── pages/Home.tsx              # Main page — tool wheel + draw + reveal
-├── lib/toolData.ts             # Full Chekhov technique taxonomy (14 categories)
-├── lib/queryClient.ts          # React Query setup
-├── components/
-│   ├── CategoryWheel.tsx       # Circular radial category selector
-│   ├── DrawButton.tsx          # "Draw Tool" action button
-│   ├── ToolRevealCard.tsx      # Full-screen drawn tool display
-│   ├── FlybackModal.tsx        # Journal reflection modal
-│   ├── HistoryPanel.tsx        # Session history sidebar
-│   ├── CategoryDetailModal.tsx # Category drill-down for parent tool selection
-│   ├── CategorySelector.tsx    # Alternative grid selector
-│   ├── ThemeProvider.tsx       # Dark/light theme
-│   ├── ThemeToggle.tsx         # Theme switch button
-│   └── ui/                     # shadcn/ui component library
-├── hooks/
-│   ├── use-toast.ts
-│   └── use-mobile.tsx
-└── App.tsx, main.tsx, index.css
+1. Do not discard, reset, or overwrite existing dirty work unless Dawson explicitly approves it.
+2. Run `git status --short` before editing and understand what is already dirty.
+3. Do not casually rename or edit NMCA/Chekhov taxonomy terms in `client/src/lib/toolData.ts`.
+4. First beta must not include AI-generated embodied Chekhov practice prompts.
+   - Use taxonomy labels, POA structure, sourced/cited excerpts, and neutral navigation copy only.
+   - Do not present invented practice language as Michael Chekhov, Lisa Dalton, or NMCA teaching.
+5. Treat Lisa Dalton phone testing as a primary acceptance path.
+6. Do not deploy, publish, or send a URL to Lisa/NMCA without Dawson approval.
+7. Do not add paid services, app-store distribution, or new provider commitments without Dawson approval.
+8. Do not claim "secure beta" unless Supabase Auth/Postgres/RLS or equivalent user-owned security is actually implemented and verified.
 
-server/
-├── index.ts                    # Express server entry
-├── routes.ts                   # API endpoints (GET/POST drawn-tools, PATCH journal)
-├── storage.ts                  # Drizzle ORM storage layer (IStorage interface)
-├── db.ts                       # Database connection (NEEDS MIGRATION TO SQLITE)
-└── vite.ts                     # Vite dev server integration
+## Current repository state
 
-shared/
-└── schema.ts                   # Zod validation + Drizzle table definitions
-```
+This repository currently contains a working React/Vite/Express/SQLite prototype. It is not yet the approved Ionic Vue + Capacitor/PWA + Supabase beta architecture.
 
-## Data Model: Chart of Inspired Action
+Current stack in this repo:
+- Frontend: React 18, Vite, Tailwind, shadcn/Radix primitives, wouter, TanStack Query.
+- Backend: Express, Drizzle ORM, better-sqlite3.
+- Database: local SQLite at `data/chekhov.db`; `data/` is gitignored.
+- No Vue/Ionic/Capacitor/Supabase app code exists yet unless a later plan creates it.
 
-The tool taxonomy in `toolData.ts` follows a 3-level hierarchy:
+Current prototype behavior:
+- Category wheel and detail modal use the Chekhov taxonomy from `client/src/lib/toolData.ts`.
+- Random draw chooses category, parent tool, optional child/example, optional Tempo/Rhythm scale, and optional Unveiled value.
+- Reveal card offers Draw Again, Flyback, Begin POA, and Change Categories.
+- POA Journal supports Structured and Journal modes.
+- Structured POA fields: Practice, Observe morning/midday/evening, Apply morning/midday/evening.
+- History loads previous draws from SQLite and can reopen a reveal card.
+- Server routes exist for drawn tools and journal entries.
 
-```
-Category (e.g., "Psychological Gesture")
-├── Parent Tool (e.g., "Opening")
-│   └── Children/Examples (e.g., "Welcoming", "Receiving", "Embracing")
-```
+Known current gaps:
+- UI still needs full official naming/attribution pass.
+- Mature product should be Today’s Practice-centered, not merely draw-centered.
+- POA should ultimately attach to a Daily Practice / tool-day object.
+- Mobile and accessibility need direct verification, especially on a real iPhone.
+- Automated tests beyond typecheck/build are not yet present.
 
-14 categories, 80+ parent tools, hundreds of children. This data comes from the NMCA's Chart of Inspired Action (©2004) and is used with official permission.
+## Current strategic direction
 
-## POA Framework (Practice / Observe / Apply)
+The existing React prototype is a behavior/reference prototype, not the target production foundation.
 
-This is the daily practice framework for working with a drawn tool:
+Approved forward architecture for summer beta:
+- Ionic Vue app shell.
+- Capacitor-ready mobile path with hosted/installable PWA fallback.
+- Supabase Auth + Postgres + Row Level Security by the June 13 secure tester-beta lane.
+- Free-first summer beta infrastructure where possible.
 
-- **Practice:** 5 minutes of physical movements with the tool's images/qualities
-- **Observe:** 1 minute × 3 times daily (morning, midday, evening) — notice where the tool appears naturally in yourself, others, or the world, WITHOUT conscious intent
-- **Apply:** 1 minute × 3 times daily — CONSCIOUSLY do the tool while performing a task
+Weekend Lisa pilot target:
+- A narrow confidence demo, not a full beta.
+- Prove app-like Ionic Vue/PWA direction.
+- Show official name and attribution.
+- Show Today’s Practice with three entry choices:
+  - Pick My Own
+  - Draw Random
+  - Daily Tool, seeded/static is acceptable for the weekend
+- Allow preview/re-roll/change before commitment.
+- Lock after `Start Today’s Practice`.
+- Preserve POA where Lisa already likes it.
+- Save/return/reload if possible.
+- Verify at phone width and, before Lisa sees it, on a real iPhone.
 
-The journal should support TWO MODES with a toggle/switch:
-1. **Structured mode:** Individual input boxes for Practice, 3× Observe, 3× Apply
-2. **Journal mode:** Single open-ended free-text area
+Explicit weekend defers:
+- Full Supabase Auth/RLS unless trivial after the slice.
+- Real push notifications.
+- Real global Daily Tool scheduler/admin CMS.
+- App Store/TestFlight/Play distribution.
+- Broad Library/content system.
+- AI-generated embodied prompts.
+- Broad taxonomy edits.
+- Full React feature parity.
 
-## Key Commands
+June 13 tester-beta target:
+- Hosted installable PWA.
+- Supabase Auth/profiles/Postgres/RLS.
+- Per-user Daily Practice by local date.
+- POA tied to Daily Practice.
+- Today return path and basic History.
+- Feedback capture.
+- Mobile/a11y smoke.
+- Pareto-Skeleton Library with source cards/citations and only approved, sourced, or clearly closed-beta-under-review excerpt material.
+
+## Source-of-truth docs
+
+Current / high authority:
+- `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-current-state-audit.md`
+- `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-kickoff.md`
+- `brainstorms/michael-chekhov-toolkit-grill-me.md`
+- `brainstorms/agent-orchestration-final-plan-2026-06-04.md`
+- `.claude/commands/grill-me.md`
+
+Useful but partially superseded:
+- `brainstorms/michael-chekhov-toolkit-dual-brain-review.md`
+- `brainstorms/claude-council-review-2026-06-04.md`
+- `.claude/plans/2026-05-27-agent-tandem-hour-plan.md`
+- `design_guidelines.md`
+
+Treat as historical/stale unless cross-checked:
+- `replit.md`
+- `.claude/plans/phase1-prototype.md`
+- raw council/orchestration brainstorm files
+
+## Working tree and local dev notes
+
+Expected existing dirty WIP from Phase 0 audit:
+- `client/src/components/examples/CategoryWheel.tsx`
+- `client/src/components/examples/HistoryPanel.tsx`
+- `client/src/components/examples/ToolRevealCard.tsx`
+- `server/index.ts`
+- `.claude/commands/`
+- `.claude/plans/2026-05-27-agent-tandem-hour-plan.md`
+- `.[removed-semantic-mcp]/`
+- `brainstorms/`
+
+Do not clean these automatically. They were treated as intentional WIP during Phase 0.
+
+Key commands:
 
 ```bash
-npm run dev          # Start dev server
-npm run build        # Production build
 npm run check        # TypeScript check
-npm run db:push      # Push schema to database
+npm run build        # Production build
+npm run dev          # Start local full-stack dev server
+npm run db:push      # Push schema to local SQLite database
 ```
 
-## ID Consistency — IMPORTANT (pre-build audit)
+Local macOS/Hermes note:
+- Port 5000 may be occupied by macOS ControlCenter.
+- Prefer an explicit local host/port for smoke tests when needed:
 
-**Directive: Every category ID in `toolData.ts` MUST get its own card on the wheel.**
-
-There are exactly **15 category IDs** in `client/src/lib/toolData.ts` (the single source of truth):
-
+```bash
+PORT=5055 HOST=127.0.0.1 npm run dev
 ```
+
+## Architecture reference
+
+Important files in the current React prototype:
+
+```text
+client/src/pages/Home.tsx              # Main prototype page
+client/src/lib/toolData.ts             # NMCA/Chekhov taxonomy source territory
+client/src/components/CategoryWheel.tsx
+client/src/components/CategoryDetailModal.tsx
+client/src/components/ToolRevealCard.tsx
+client/src/components/FlybackModal.tsx
+client/src/components/POAJournal.tsx
+client/src/components/HistoryPanel.tsx
+client/src/components/ui/              # shadcn/Radix components
+server/index.ts                        # Express server entry
+server/routes.ts                       # API endpoints
+server/storage.ts                      # Drizzle storage layer
+server/db.ts                           # better-sqlite3 database connection
+shared/schema.ts                       # Drizzle tables + Zod schemas
+```
+
+## Data and domain model
+
+The current taxonomy has 15 category IDs in `client/src/lib/toolData.ts`:
+
+```text
 psycho-physical family:   expanding-contracting, qualities-of-movement, archetypal-gestures
 emotional-life family:    three-sisters, qualities-sensations, atmosphere, four-brothers
 esthetics family:         ensemble, truth, style
@@ -125,51 +191,61 @@ characterization family:  movable-centers, imaginary-body, trinity-of-psychology
 transformation family:    tempo-rhythm, focal-points
 ```
 
-### Known issues to fix during build
+POA means Practice / Observe / Apply:
+- Practice: physical movement/exploration notes.
+- Observe: notice where the quality appears naturally.
+- Apply: consciously use the tool while doing a task.
 
-**Production files (blocking):**
+Do not expand POA into invented teaching prompts for the first beta. Keep POA as a structure and use sourced/cited excerpts only when available and permitted for the beta context.
 
-1. **`CategoryWheel.tsx` lines 24-28** — `fixedPositionIndices` references two phantom IDs:
-   - `"psychological-gesture"` — does not exist (Phase 2 deferred category)
-   - `"characterization"` — not a category ID; it's a *family* name. The three characterization categories are `movable-centers`, `imaginary-body`, `trinity-of-psychology`.
-   - Fix: remove phantom entries or replace with real category IDs. Ensure all 15 IDs render cards.
+Mature model direction:
+- Add or model `DailyPractice` / tool-day as the semantic owner.
+- A practice day has local date, selected tool, source (`self-selected`, `random`, `global-daily`), lock/start state, and POA entry.
+- Current `drawn_tools` and `journal_entries` routes can be mined as reference but should not force the future shape.
 
-2. **`CategoryCard.tsx` line 12** — fallback icon uses `CATEGORY_ICONS["psychophysical"]` which doesn't exist. Should be `"expanding-contracting"` (matches the fallback used in `CategoryWheel.tsx`).
+## Agent operating model
 
-**Example files (non-blocking but will fail `tsc`):**
+Hermes/controller owns:
+- Scope cuts.
+- Dirty-tree protection.
+- Reconciliation between Claude/Opus and Codex/GPT-5.5.
+- Merge/deploy/share decisions.
+- Lisa-readiness gate.
 
-3. **`examples/CategorySelector.tsx`** — references `"psychophysical"` and `"tpt"`, neither of which exist as category IDs.
-4. **`examples/HistoryPanel.tsx`** — uses `toolName` instead of `parentToolName` (schema mismatch), and references phantom IDs `"psychophysical"` and `"characterization"`.
-5. **`examples/CategoryWheel.tsx`** — missing the required `onOpenDetail` prop.
+Claude Code / Opus is preferred for:
+- Product architecture and coherent vertical slice implementation.
+- Mobile-first UX and demo narrative.
+- Preserving stakeholder/domain coherence.
 
-### What's already clean
-- `shared/schema.ts` types are flexible (no hardcoded ID enums)
-- `Home.tsx`, `CategoryDetailModal.tsx`, `ToolRevealCard.tsx`, `HistoryPanel.tsx` (main) — all use dynamic lookups against `TOOL_CATEGORIES`
-- `CATEGORY_ICONS` map in `toolData.ts` — all 15 IDs have entries, no orphans
-- Server `routes.ts` — no ID references, just passthrough
+Codex / GPT-5.5 is preferred for:
+- Read-only or bounded verification.
+- Type/build/API smoke.
+- Schema/RLS/security review.
+- Diff review against the spec.
+- Attribution/no-AI-prompt content scans.
 
-## Code Conventions
+Do not let multiple agents freely edit the same files concurrently. If parallel work is needed, use isolated worktrees and explicit file ownership.
 
-- TypeScript strict mode
-- Tailwind for all styling (no inline styles except dynamic values)
-- shadcn/ui components from `@/components/ui/`
-- Shared types/schemas in `shared/schema.ts` using Zod
-- API routes in `server/routes.ts` using Express
-- Storage interface pattern in `server/storage.ts`
-- Test IDs on interactive elements: `data-testid="descriptive-name"`
-- Mobile-first responsive design (base → sm → md → lg breakpoints)
+## Verification gates
 
-## Design Philosophy
+Before calling implementation work ready:
+- `npm run check` passes, or the exact new app equivalent passes.
+- `npm run build` passes, or the exact new app equivalent passes.
+- App opens locally.
+- Mobile-width smoke passes.
+- Real iPhone smoke is completed before Lisa review.
+- Today’s Practice path works for the weekend slice.
+- `Start Today’s Practice` lock behavior is verified if implemented.
+- POA save/return/reload is verified if implemented.
+- Attribution is visible before external sharing.
+- Content scan confirms no AI-generated embodied prompts.
+- No secrets are present in diffs or committed files.
 
-- Theatrical reveal experience (tarot/oracle card inspiration)
-- Clean utility structure (Linear/Notion inspiration) for selection
-- The reveal should feel ceremonial and inspiring
-- See `design_guidelines.md` for full visual spec
+## Ask Dawson before
 
-## Important Context
-
-- Lisa Dalton (the stakeholder) will test this on her phone — mobile UX is critical
-- This is an OFFICIAL NMCA project, not a personal project
-- The tool taxonomy is the real deal — validated by Chekhov practitioners
-- "Flyback" is the existing journal term used in the codebase
-- "Unveiled" is a 1-10 scale representing how veiled/unveiled a quality is
+- Deploying or sharing externally.
+- Adding paid services or app-store accounts.
+- Changing taxonomy/source content.
+- Adding AI-generated prompt/content layers.
+- Replacing the current repo structure in a way that risks the React prototype WIP.
+- Committing broad WIP that mixes old dirty-tree fixes with new implementation unless the commit plan is explicit.

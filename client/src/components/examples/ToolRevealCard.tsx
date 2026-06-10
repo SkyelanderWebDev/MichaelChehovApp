@@ -6,16 +6,18 @@ export default function ToolRevealCardExample() {
     id: "1",
     categoryId: "tempo-rhythm",
     categoryName: "Tempo / Rhythm",
-    toolName: "Staccato",
+    parentToolName: "Staccato",
+    childToolName: "Sharp",
     scaleValue: 7,
     timestamp: Date.now(),
   };
   
   const sampleToolNoScale: DrawnTool = {
     id: "2",
-    categoryId: "psychophysical",
-    categoryName: "PsychoPhysical Gestures",
-    toolName: "Expansion and Contraction",
+    categoryId: "expanding-contracting",
+    categoryName: "Expanding & Contracting",
+    parentToolName: "Expanding",
+    childToolName: "Opening",
     timestamp: Date.now(),
   };
   
@@ -23,8 +25,17 @@ export default function ToolRevealCardExample() {
     <div>
       <ToolRevealCard
         drawnTool={sampleTool}
+        selectedLevels={["cards", "tools", "examples"]}
         onDrawAgain={() => console.log('Draw again')}
         onClose={() => console.log('Close')}
+        onSaveJournal={(journalEntry) => console.log('Save journal:', journalEntry)}
+      />
+      <ToolRevealCard
+        drawnTool={sampleToolNoScale}
+        selectedLevels={["cards", "tools", "examples"]}
+        onDrawAgain={() => console.log('Draw again')}
+        onClose={() => console.log('Close')}
+        onSaveJournal={(journalEntry) => console.log('Save journal:', journalEntry)}
       />
     </div>
   );
