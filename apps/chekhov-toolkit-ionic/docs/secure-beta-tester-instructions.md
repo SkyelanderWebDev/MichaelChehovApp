@@ -2,7 +2,9 @@
 
 Last updated: 2026-06-10 (secure beta branch).
 
-This branch replaces the local-demo account path with Supabase Auth, Supabase Postgres, and Row Level Security. It is not ready to share externally until Dawson approves the Supabase project and hosting target, and until the hosted URL plus real-phone smoke pass.
+This branch replaces the local-demo account path with Supabase Auth, Supabase Postgres, and Row Level Security. Hosted smoke has passed on the approved Vercel + Supabase beta target; real phone smoke is still required before calling it phone-ready.
+
+Approved HTTPS beta URL: https://michael-chekhov-toolkit-beta.vercel.app
 
 ## Local developer run
 
@@ -52,7 +54,7 @@ Do not commit real Supabase keys. The browser must use only the anon key, never 
 
 ## Honest status / known limits
 
-- Deployment is held until Dawson approves a Supabase project and a hosting target.
+- Hosted HTTPS beta URL: https://michael-chekhov-toolkit-beta.vercel.app
 - Real phone smoke is still required before calling this phone-ready.
 - The app is a hosted/installable PWA path, not TestFlight/App Store distribution.
 - Daily Tool is seeded/manual for now, not a push-notification/global scheduler.
