@@ -4,9 +4,10 @@ const MOBILE_VIEWPORT = {
 };
 
 const password = 'demo-pass-1234';
+const testEmailDomain = Cypress.env('TEST_EMAIL_DOMAIN') || 'skyelandersolutions.com';
 
 function uniqueEmail(prefix = 'tester') {
-  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@example.com`;
+  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@${testEmailDomain}`;
 }
 
 function openAuthForm() {

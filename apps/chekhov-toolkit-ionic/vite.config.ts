@@ -41,6 +41,7 @@ export default defineConfig({
       },
       workbox: {
         navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/__cypress\//],
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       },
     }),

@@ -9,8 +9,10 @@ function expectNoHorizontalOverflow() {
   });
 }
 
+const testEmailDomain = Cypress.env('TEST_EMAIL_DOMAIN') || 'skyelandersolutions.com';
+
 function uniqueEmail(prefix = 'category') {
-  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@example.com`;
+  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@${testEmailDomain}`;
 }
 
 function signUpForPractice() {
@@ -18,7 +20,7 @@ function signUpForPractice() {
   cy.get('#auth-email').type(uniqueEmail());
   cy.get('#auth-password').type('demo-pass-1234');
   cy.get('.create-account-button').click();
-  cy.get('.current-username', { timeout: 10000 }).should('contain.text', '@example.com');
+  cy.get('.current-username', { timeout: 10000 }).should('contain.text', `@${testEmailDomain}`);
 }
 
 describe('Category detail sheet and parent-tool filters', () => {
