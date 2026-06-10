@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY;
+const emailDomain = process.env.SUPABASE_RLS_EMAIL_DOMAIN ?? 'skyelandersolutions.com';
 const password = 'Secure-test-1234';
 
 if (!supabaseUrl || !supabaseAnonKey) {
@@ -21,7 +22,7 @@ function makeClient() {
 
 async function signUp(label) {
   const client = makeClient();
-  const email = `rls-${label}-${Date.now()}-${Math.floor(Math.random() * 100000)}@example.com`;
+  const email = `rls-${label}-${Date.now()}-${Math.floor(Math.random() * 100000)}@${emailDomain}`;
   const { data, error } = await client.auth.signUp({ email, password });
   if (error) throw new Error(`${label} signUp failed: ${error.message}`);
   if (!data.session?.user) {
