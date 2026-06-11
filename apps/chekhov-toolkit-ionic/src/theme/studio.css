@@ -1,0 +1,145 @@
+/*
+ * Studio Ritual shared layout + object classes.
+ * Token definitions live in variables.css.
+ */
+
+html,
+body {
+  font-family: var(--font-body);
+}
+
+ion-content {
+  --background: var(--app-bg);
+  --color: var(--text-primary);
+}
+
+/* One comfortable mobile-first column for every tab page. */
+.page-shell {
+  display: grid;
+  gap: 14px;
+  margin: 0 auto;
+  max-width: 720px;
+  padding: 14px 16px calc(24px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 760px) {
+  .page-shell {
+    gap: 18px;
+    padding: 24px 20px 40px;
+  }
+}
+
+/* Page intro: kicker + single hero H1 + short subtitle. */
+.page-intro .kicker {
+  margin-bottom: 6px;
+}
+
+.page-intro h1 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 8vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.02;
+  margin: 0;
+}
+
+.page-intro .page-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.45;
+  margin: 8px 0 0;
+}
+
+/* Uppercase kicker label. */
+.kicker {
+  color: var(--accent-primary);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Structural panel on the studio shell. */
+.studio-panel {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  color: var(--text-primary);
+  padding: 18px;
+}
+
+.studio-panel h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 5.5vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.06;
+  margin: 0;
+}
+
+.studio-panel .panel-copy {
+  color: var(--text-secondary);
+  font-size: 0.97rem;
+  line-height: 1.5;
+  margin: 8px 0 0;
+}
+
+/* Warm paper ritual object (notebook/practice cards). */
+.paper-object {
+  background: var(--surface-paper);
+  border: 1px solid var(--border-on-paper);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  color: var(--text-on-paper);
+  padding: 18px;
+}
+
+.paper-object h2,
+.paper-object h3 {
+  color: var(--text-on-paper);
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.06;
+  margin: 0;
+}
+
+/* Small status pill. */
+.status-pill {
+  background: var(--accent-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  padding: 7px 11px;
+  white-space: nowrap;
+}
+
+/* Visible focus everywhere. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Quiet ritual motion; honor reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

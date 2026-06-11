@@ -3,99 +3,52 @@ const MOBILE_VIEWPORT = {
   height: 844,
 };
 
-const password = 'demo-pass-1234';
-const testEmailDomain = Cypress.env('TEST_EMAIL_DOMAIN') || 'skyelandersolutions.com';
-
-function uniqueEmail(prefix = 'tester') {
-  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@${testEmailDomain}`;
+function expectNoHorizontalOverflow() {
+  cy.document().then((doc) => {
+    expect(doc.documentElement.scrollWidth, 'no horizontal overflow').to.be.lte(doc.documentElement.clientWidth);
+  });
 }
 
-function openAuthForm() {
-  cy.get('.show-auth-form-button').click();
-  cy.get('#auth-email').should('exist');
-}
-
-function createTester(email = uniqueEmail()) {
-  openAuthForm();
-  cy.get('#auth-email').clear().type(email);
-  cy.get('#auth-password').clear().type(password);
-  cy.get('.create-account-button').click();
-  cy.get('.current-username', { timeout: 10000 }).should('have.text', email);
-  return cy.wrap({ email, password }, { log: false });
-}
-
-function signInTester(email) {
-  openAuthForm();
-  cy.get('#auth-email').clear().type(email);
-  cy.get('#auth-password').clear().type(password);
-  cy.get('.sign-in-button').click();
-  cy.get('.current-username', { timeout: 10000 }).should('have.text', email);
-}
-
-describe('Supabase Auth beta flow', () => {
+describe('Tester access beta gate', () => {
   beforeEach(() => {
     cy.viewport(MOBILE_VIEWPORT.width, MOBILE_VIEWPORT.height);
-    cy.visit('/home', {
+    cy.visit('/journal', {
       onBeforeLoad(win) {
         win.localStorage.clear();
       },
     });
   });
 
-  it('signs up, persists practice/POA per user, restores session, and isolates another user', () => {
-    const dailyAction = 'Tester A secure-beta POA note';
+  it('keeps Today’s Practice in Journal and disables saving when tester access is unavailable', () => {
+    cy.contains('h1', 'Journal').should('exist');
+    cy.contains('Tester access is required to save today’s practice and POA.').should('exist');
+    cy.contains('Tester access isn’t available in this build yet. Details are in Settings').should('exist');
 
-    cy.get('.auth-panel').should('contain.text', 'Supabase Auth');
-    cy.contains('ion-button', 'Draw Random').should('have.attr', 'disabled');
-
-    createTester(uniqueEmail('tester-a')).then(({ email: emailA }) => {
-      cy.contains('ion-button', 'Draw Random').should('not.have.attr', 'disabled');
-      cy.contains('ion-button', 'Draw Random').click();
-      cy.contains('ion-button', 'Start Today’s Practice').click();
-      cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
-
-      cy.get('textarea[aria-label="Daily Action / POA note"]').type(dailyAction);
-      cy.contains('ion-button', 'Save Daily Action').click();
-      cy.contains('Daily Action saved.').should('exist');
-
-      cy.reload();
-      cy.get('.current-username', { timeout: 10000 }).should('have.text', emailA);
-      cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
-      cy.get('textarea[aria-label="Daily Action / POA note"]').should('have.value', dailyAction);
-
-      cy.get('.sign-out-button').click();
-      cy.get('.auth-panel').should('contain.text', 'Signed out');
-      cy.get('.tool-preview-card').should('not.exist');
-      cy.contains('ion-button', 'Draw Random').should('have.attr', 'disabled');
-
-      createTester(uniqueEmail('tester-b'));
-      cy.get('.tool-preview-card').should('not.exist');
-      cy.contains('ion-button', 'Draw Random').should('not.have.attr', 'disabled');
-
-      cy.get('.sign-out-button').click();
-      signInTester(emailA);
-      cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
-      cy.get('textarea[aria-label="Daily Action / POA note"]').should('have.value', dailyAction);
-    });
+    cy.contains('button', 'Pick My Own').should('be.disabled');
+    cy.contains('button', 'Draw Random').should('be.disabled');
+    cy.contains('button', 'Daily Tool').should('be.disabled');
+    cy.contains('ion-button', 'Select all').should('have.attr', 'disabled');
+    cy.contains('ion-button', 'Clear').should('have.attr', 'disabled');
+    expectNoHorizontalOverflow();
   });
 
-  it('rejects a wrong password with a Supabase auth error', () => {
-    createTester(uniqueEmail('wrong-password')).then(({ email }) => {
-      cy.get('.sign-out-button').click();
-      openAuthForm();
-      cy.get('#auth-email').type(email);
-      cy.get('#auth-password').type('wrong-password-999');
-      cy.get('.sign-in-button').click();
-      cy.get('.auth-error').should('exist');
-      cy.get('.auth-panel').should('not.contain.text', 'Signed in as');
-    });
+  it('puts technical Supabase details in Settings, not the Journal first viewport', () => {
+    cy.contains('button', 'Have beta feedback? Share it in Settings').click();
+    cy.location('pathname').should('eq', '/settings');
+
+    cy.contains('h1', 'Settings').should('exist');
+    cy.contains('Beta data & security').should('exist');
+    cy.contains('summary', 'Technical details').click();
+    cy.contains('VITE_SUPABASE_URL').should('exist');
+    cy.contains('VITE_SUPABASE_ANON_KEY').should('exist');
+    cy.contains('service-role keys must never be placed').should('exist');
   });
 
-  it('rejects invalid signup input with a validation message', () => {
-    openAuthForm();
-    cy.get('#auth-email').type(uniqueEmail('short-password'));
-    cy.get('#auth-password').type('123');
-    cy.get('.create-account-button').click();
-    cy.get('.auth-error').should('exist');
+  it('shows appearance choices in Settings', () => {
+    cy.visit('/settings');
+    cy.contains('h2', 'Theme').should('exist');
+    cy.contains('System').should('exist');
+    cy.contains('Light').should('exist');
+    cy.contains('Dark').should('exist');
   });
 });

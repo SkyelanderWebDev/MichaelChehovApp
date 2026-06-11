@@ -4,12 +4,13 @@
     <div class="chart-heading-row">
       <div>
         <h2 id="circle-chart-title">Circle chart map</h2>
-        <p>Tap a chart node for category details and tool filters. Tap a directory row to include or exclude that area from today’s pool.</p>
+        <p v-if="props.browse">Tap a chart node for category basics and tool labels.</p>
+        <p v-else>Tap a chart node for category details and tool filters. Tap a directory row to include or exclude that area from today’s pool.</p>
       </div>
-      <span class="selected-pill">{{ selectedCategoryIds.length }} selected</span>
+      <span v-if="!props.browse" class="selected-pill">{{ selectedCategoryIds.length }} selected</span>
     </div>
 
-    <div class="chart-stage" role="group" aria-label="Selectable Chart of Inspired Action categories">
+    <div class="chart-stage" role="group" aria-label="Chart of Inspired Action categories">
       <div class="chart-orbit outer" aria-hidden="true"></div>
       <div class="chart-orbit middle" aria-hidden="true"></div>
       <div class="chart-orbit inner" aria-hidden="true"></div>
@@ -18,7 +19,7 @@
         v-for="category in positionedCategories"
         :key="category.id"
         class="chart-node"
-        :class="{ selected: isSelected(category.id) }"
+        :class="{ selected: !props.browse && isSelected(category.id) }"
         :style="nodeStyle(category)"
         type="button"
         :title="category.name"
@@ -38,7 +39,7 @@
       </div>
     </div>
 
-    <div class="category-directory" aria-label="Circle chart category directory">
+    <div v-if="showDirectory" class="category-directory" aria-label="Circle chart category directory">
       <div
         v-for="category in CHART_CATEGORIES"
         :key="`directory-${category.id}`"
@@ -95,10 +96,15 @@ const props = withDefaults(
     selectedCategoryIds: string[];
     toolFilter?: Record<string, string[]>;
     disabled?: boolean;
+    /** Read-only quick-access mode for the Chart tab: no pool selection state. */
+    browse?: boolean;
+    showDirectory?: boolean;
   }>(),
   {
     toolFilter: undefined,
     disabled: false,
+    browse: false,
+    showDirectory: true,
   },
 );
 
@@ -124,12 +130,14 @@ const selectedCategories = computed(() =>
 );
 
 const hubTitle = computed(() => {
+  if (props.browse) return 'Chart of Inspired Action';
   if (selectedCategories.value.length === 0) return 'Choose chart areas';
   if (selectedCategories.value.length === 1) return selectedCategories.value[0].name;
   return `${selectedCategories.value.length} chart areas selected`;
 });
 
 const hubSubtitle = computed(() => {
+  if (props.browse) return `${CHART_CATEGORIES.length} chart areas · ${CHART_FAMILIES.length} families`;
   if (selectedCategories.value.length === 0) return 'Official taxonomy labels only';
   if (selectedCategories.value.length === 1) return getFamily(selectedCategories.value[0].family).label;
   return 'Ready for Pick My Own or Draw Random';
@@ -160,14 +168,15 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 </script>
 
 <style scoped>
+/* Warm paper signature object in both themes; the shell behind it carries the theme. */
 .circle-chart-shell {
-  border: 1px solid rgba(99, 74, 50, 0.18);
-  border-radius: 28px;
+  border: 1px solid var(--border-on-paper);
+  border-radius: var(--radius-sheet);
   background:
     radial-gradient(circle at 50% 8%, rgba(255, 247, 226, 0.95), rgba(255, 253, 247, 0.98) 42%, rgba(247, 237, 219, 0.92)),
     linear-gradient(135deg, rgba(146, 100, 45, 0.12), rgba(55, 43, 33, 0.04));
-  box-shadow: 0 24px 70px rgba(64, 45, 28, 0.16);
-  color: #38271a;
+  box-shadow: var(--shadow-card);
+  color: var(--text-on-paper);
   padding: 18px;
 }
 
@@ -182,7 +191,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .section-kicker {
-  color: #8a5c25;
+  color: var(--burnt-sienna);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -198,24 +207,25 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .chart-heading-row h2 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-display);
   font-size: clamp(1.45rem, 6vw, 2rem);
+  font-weight: 600;
   line-height: 1.02;
   margin: 0;
 }
 
 .chart-heading-row p {
-  color: rgba(56, 39, 26, 0.72);
+  color: var(--text-on-paper-soft);
   font-size: 0.94rem;
   line-height: 1.35;
   margin: 6px 0 0;
 }
 
 .selected-pill {
-  background: rgba(56, 39, 26, 0.08);
-  border: 1px solid rgba(56, 39, 26, 0.14);
-  border-radius: 999px;
-  color: #5e3b15;
+  background: rgba(46, 33, 23, 0.08);
+  border: 1px solid var(--border-on-paper);
+  border-radius: var(--radius-pill);
+  color: var(--text-on-paper);
   flex: 0 0 auto;
   font-size: 0.74rem;
   font-weight: 800;
@@ -249,8 +259,8 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   background: conic-gradient(
     from -90deg,
     rgba(139, 92, 246, 0.22) 0deg 72deg,
-    rgba(217, 119, 6, 0.20) 72deg 168deg,
-    rgba(15, 118, 110, 0.20) 168deg 240deg,
+    rgba(217, 119, 6, 0.2) 72deg 168deg,
+    rgba(15, 118, 110, 0.2) 168deg 240deg,
     rgba(37, 99, 235, 0.18) 240deg 312deg,
     rgba(190, 18, 60, 0.18) 312deg 360deg
   );
@@ -272,11 +282,11 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 
 .chart-node {
   align-items: center;
-  background: rgba(255, 253, 247, 0.96);
+  background: var(--surface-paper-soft);
   border: 2px solid var(--node-color);
   border-radius: 999px;
   box-shadow: 0 10px 26px rgba(53, 35, 18, 0.18);
-  color: #372416;
+  color: var(--text-on-paper);
   display: inline-flex;
   height: clamp(42px, 11vw, 54px);
   justify-content: center;
@@ -290,7 +300,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .chart-node:focus-visible {
-  outline: 3px solid rgba(36, 99, 235, 0.45);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 4px;
 }
 
@@ -323,8 +333,8 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 
 .chart-hub {
   align-items: center;
-  background: rgba(255, 253, 247, 0.94);
-  border: 1px solid rgba(75, 52, 29, 0.18);
+  background: var(--surface-paper-soft);
+  border: 1px solid var(--border-on-paper);
   border-radius: 999px;
   box-shadow: inset 0 0 28px rgba(146, 100, 45, 0.12), 0 16px 38px rgba(50, 34, 18, 0.12);
   display: flex;
@@ -342,7 +352,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .hub-label {
-  color: rgba(55, 36, 22, 0.62);
+  color: var(--text-on-paper-soft);
   font-size: clamp(0.54rem, 2vw, 0.68rem);
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -351,9 +361,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .chart-hub strong {
-  color: #342111;
+  color: var(--text-on-paper);
   display: -webkit-box;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-display);
   font-size: clamp(0.86rem, 3.3vw, 1.08rem);
   line-height: 1.08;
   max-width: 15ch;
@@ -363,7 +373,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .chart-hub small {
-  color: rgba(55, 36, 22, 0.68);
+  color: var(--text-on-paper-soft);
   font-size: clamp(0.6rem, 2.3vw, 0.72rem);
   font-weight: 700;
   line-height: 1.2;
@@ -379,9 +389,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 .directory-row {
   align-items: center;
   background: rgba(255, 253, 247, 0.76);
-  border: 1px solid rgba(75, 52, 29, 0.14);
+  border: 1px solid var(--border-on-paper);
   border-radius: 16px;
-  color: #38271a;
+  color: var(--text-on-paper);
   display: flex;
   gap: 8px;
   padding: 6px 8px 6px 4px;
@@ -409,18 +419,18 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 
 .directory-toggle:focus-visible,
 .directory-details:focus-visible {
-  outline: 3px solid rgba(36, 99, 235, 0.42);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
 .directory-details {
-  background: rgba(255, 253, 247, 0.9);
-  border: 1px solid rgba(75, 52, 29, 0.22);
-  border-radius: 999px;
-  color: #5b3a17;
+  background: var(--surface-paper-soft);
+  border: 1px solid var(--border-on-paper);
+  border-radius: var(--radius-pill);
+  color: var(--text-on-paper);
   flex: 0 0 auto;
   font-size: 0.74rem;
-  font-weight: 900;
+  font-weight: 800;
   min-height: 36px;
   padding: 8px 12px;
 }
@@ -445,7 +455,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 }
 
 .directory-meta {
-  color: rgba(56, 39, 26, 0.64);
+  color: var(--text-on-paper-soft);
   font-size: 0.72rem;
   font-weight: 700;
   grid-column: 2;
@@ -461,9 +471,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 .family-chip {
   align-items: center;
   background: rgba(255, 253, 247, 0.78);
-  border: 1px solid rgba(75, 52, 29, 0.13);
-  border-radius: 999px;
-  color: rgba(56, 39, 26, 0.78);
+  border: 1px solid var(--border-on-paper);
+  border-radius: var(--radius-pill);
+  color: var(--text-on-paper-soft);
   display: inline-flex;
   font-size: 0.72rem;
   font-weight: 800;

@@ -10,6 +10,12 @@
         POA means Practice / Observe / Apply. Save a short note for today’s work with this locked tool.
       </p>
 
+      <div class="poa-sections" aria-hidden="true">
+        <span class="poa-section">Practice</span>
+        <span class="poa-section">Observe</span>
+        <span class="poa-section">Apply</span>
+      </div>
+
       <div class="daily-action-field">
         <label for="daily-action-note">Daily Action / POA note</label>
         <textarea
@@ -65,8 +71,28 @@ function saveDailyAction(): void {
 .daily-action-card {
   --background: #fffdf7;
   border: 1px solid rgba(55, 120, 72, 0.22);
-  box-shadow: none;
-  margin: 16px 0 0;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  margin: 0;
+}
+
+.poa-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 10px;
+}
+
+.poa-section {
+  background: rgba(55, 120, 72, 0.1);
+  border: 1px solid rgba(55, 120, 72, 0.22);
+  border-radius: 999px;
+  color: #244a2e;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 6px 10px;
+  text-transform: uppercase;
 }
 
 .daily-action-kicker {
@@ -80,7 +106,7 @@ function saveDailyAction(): void {
 
 .daily-action-card h2 {
   color: #2e1c0f;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-display);
   font-size: clamp(1.35rem, 6vw, 2rem);
   line-height: 1.06;
   margin: 0;

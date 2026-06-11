@@ -1,2 +1,228 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
+/*
+ * The Michael Chekhov Toolkit — Studio Ritual semantic tokens.
+ *
+ * Two intentional themes:
+ *  - dark  : rehearsal-studio shell with warm paper objects (default).
+ *  - light : NMCA / Chekhov.net-informed daylight studio — white/cream,
+ *            charcoal text, restrained purple accent, warm paper surfaces.
+ *
+ * The resolved theme is applied as `data-theme="dark|light"` on <html>
+ * by src/stores/themeStore.ts (and pre-paint by an inline script in
+ * index.html). `System` resolves via prefers-color-scheme.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Brand constants (shared by both themes) */
+  --nmca-purple: #572d7b;
+  --nmca-ink: #252525;
+  --brass: #c6923e;
+  --burnt-sienna: #a95532;
+  --sage: #6f8758;
+  --blue-green: #3e746c;
+  --wine: #7e3f4d;
+  --danger: #b84a48;
+
+  --radius-card: 24px;
+  --radius-sheet: 28px;
+  --radius-field: 14px;
+  --radius-pill: 999px;
+
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Avenir Next', 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+:root,
+:root[data-theme='dark'] {
+  /* Shell */
+  --app-bg: #12100e;
+  --app-bg-2: #18151b;
+  --surface: #241a13;
+  --surface-raised: #2c2118;
+
+  /* Warm paper ritual objects */
+  --surface-paper: #f4e7d1;
+  --surface-paper-soft: #fff7e7;
+
+  /* Text */
+  --text-primary: #f8eedf;
+  --text-secondary: #b9a98e;
+  --text-on-paper: #2e2117;
+  --text-on-paper-soft: rgba(46, 33, 23, 0.72);
+
+  /* Lines + accents */
+  --border-subtle: rgba(248, 238, 223, 0.16);
+  --border-on-paper: rgba(46, 33, 23, 0.18);
+  --accent-primary: #c6923e;
+  --accent-soft: rgba(198, 146, 62, 0.22);
+  --accent-purple: #b594d6;
+  --focus-ring: rgba(232, 195, 130, 0.85);
+
+  --shadow-card: 0 14px 36px rgba(0, 0, 0, 0.38);
+  --shadow-orb: 0 10px 26px rgba(0, 0, 0, 0.5);
+
+  --tab-bar-bg: rgba(22, 18, 16, 0.96);
+  --header-bg: rgba(18, 16, 14, 0.92);
+}
+
+:root[data-theme='light'] {
+  /* Shell */
+  --app-bg: #fffdf8;
+  --app-bg-2: #f3eadc;
+  --surface: #ffffff;
+  --surface-raised: #fffaf0;
+
+  /* Warm paper ritual objects */
+  --surface-paper: #fff7e7;
+  --surface-paper-soft: #ffffff;
+
+  /* Text */
+  --text-primary: #252525;
+  --text-secondary: #655a50;
+  --text-on-paper: #2e2117;
+  --text-on-paper-soft: rgba(46, 33, 23, 0.72);
+
+  /* Lines + accents */
+  --border-subtle: rgba(87, 45, 123, 0.16);
+  --border-on-paper: rgba(46, 33, 23, 0.16);
+  --accent-primary: #572d7b;
+  --accent-soft: rgba(87, 45, 123, 0.12);
+  --accent-purple: #572d7b;
+  --focus-ring: rgba(87, 45, 123, 0.6);
+
+  --shadow-card: 0 12px 32px rgba(65, 43, 22, 0.12);
+  --shadow-orb: 0 10px 24px rgba(65, 43, 22, 0.22);
+
+  --tab-bar-bg: rgba(255, 253, 248, 0.97);
+  --header-bg: rgba(255, 253, 248, 0.94);
+}
+
+/* ------------------------------------------------------------------ */
+/* Ionic framework mapping — no default Ionic blue anywhere.           */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* Primary action: brass (stage-light warmth) */
+  --ion-color-primary: #c6923e;
+  --ion-color-primary-rgb: 198, 146, 62;
+  --ion-color-primary-contrast: #241a13;
+  --ion-color-primary-contrast-rgb: 36, 26, 19;
+  --ion-color-primary-shade: #ae8037;
+  --ion-color-primary-tint: #cc9d51;
+
+  /* Secondary: blue-green stage tone */
+  --ion-color-secondary: #3e746c;
+  --ion-color-secondary-rgb: 62, 116, 108;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #37665f;
+  --ion-color-secondary-tint: #51827b;
+
+  /* Tertiary: NMCA purple */
+  --ion-color-tertiary: #572d7b;
+  --ion-color-tertiary-rgb: 87, 45, 123;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #4d286c;
+  --ion-color-tertiary-tint: #684288;
+
+  /* Success / locked: sage */
+  --ion-color-success: #6f8758;
+  --ion-color-success-rgb: 111, 135, 88;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #62774d;
+  --ion-color-success-tint: #7d9369;
+
+  /* Warning: brass-leaning, not alarm yellow */
+  --ion-color-warning: #c6923e;
+  --ion-color-warning-rgb: 198, 146, 62;
+  --ion-color-warning-contrast: #241a13;
+  --ion-color-warning-contrast-rgb: 36, 26, 19;
+  --ion-color-warning-shade: #ae8037;
+  --ion-color-warning-tint: #cc9d51;
+
+  /* Danger: wine */
+  --ion-color-danger: #b84a48;
+  --ion-color-danger-rgb: 184, 74, 72;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #a2413f;
+  --ion-color-danger-tint: #bf5c5a;
+}
+
+:root,
+:root[data-theme='dark'] {
+  --ion-background-color: #12100e;
+  --ion-background-color-rgb: 18, 16, 14;
+  --ion-text-color: #f8eedf;
+  --ion-text-color-rgb: 248, 238, 223;
+
+  --ion-toolbar-background: var(--header-bg);
+  --ion-toolbar-color: var(--text-primary);
+  --ion-tab-bar-background: var(--tab-bar-bg);
+  --ion-tab-bar-color: var(--text-secondary);
+  --ion-tab-bar-color-selected: var(--accent-primary);
+  --ion-card-background: var(--surface);
+  --ion-item-background: var(--surface);
+  --ion-border-color: var(--border-subtle);
+
+  --ion-color-medium: #8c7f6c;
+  --ion-color-medium-rgb: 140, 127, 108;
+  --ion-color-medium-contrast: #12100e;
+  --ion-color-medium-contrast-rgb: 18, 16, 14;
+  --ion-color-medium-shade: #7b7060;
+  --ion-color-medium-tint: #988c7b;
+
+  --ion-color-light: #2c2118;
+  --ion-color-light-rgb: 44, 33, 24;
+  --ion-color-light-contrast: #f8eedf;
+  --ion-color-light-contrast-rgb: 248, 238, 223;
+  --ion-color-light-shade: #271d15;
+  --ion-color-light-tint: #41372f;
+
+  --ion-color-dark: #f4e7d1;
+  --ion-color-dark-rgb: 244, 231, 209;
+  --ion-color-dark-contrast: #241a13;
+  --ion-color-dark-contrast-rgb: 36, 26, 19;
+  --ion-color-dark-shade: #d7cbb8;
+  --ion-color-dark-tint: #f5e9d6;
+}
+
+:root[data-theme='light'] {
+  --ion-background-color: #fffdf8;
+  --ion-background-color-rgb: 255, 253, 248;
+  --ion-text-color: #252525;
+  --ion-text-color-rgb: 37, 37, 37;
+
+  --ion-toolbar-background: var(--header-bg);
+  --ion-toolbar-color: var(--text-primary);
+  --ion-tab-bar-background: var(--tab-bar-bg);
+  --ion-tab-bar-color: var(--text-secondary);
+  --ion-tab-bar-color-selected: var(--accent-primary);
+  --ion-card-background: var(--surface);
+  --ion-item-background: var(--surface);
+  --ion-border-color: var(--border-subtle);
+
+  --ion-color-medium: #655a50;
+  --ion-color-medium-rgb: 101, 90, 80;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #594f46;
+  --ion-color-medium-tint: #746b62;
+
+  --ion-color-light: #f3eadc;
+  --ion-color-light-rgb: 243, 234, 220;
+  --ion-color-light-contrast: #252525;
+  --ion-color-light-contrast-rgb: 37, 37, 37;
+  --ion-color-light-shade: #d6cec2;
+  --ion-color-light-tint: #f4ece0;
+
+  --ion-color-dark: #2e2117;
+  --ion-color-dark-rgb: 46, 33, 23;
+  --ion-color-dark-contrast: #fff7e7;
+  --ion-color-dark-contrast-rgb: 255, 247, 231;
+  --ion-color-dark-shade: #281d14;
+  --ion-color-dark-tint: #43372e;
+}

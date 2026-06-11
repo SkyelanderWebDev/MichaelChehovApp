@@ -22,7 +22,8 @@
       </dl>
 
       <p class="neutral-note">
-        Neutral taxonomy preview only. Starting today’s practice locks this selection to today’s POA path.
+        Source-backed taxonomy label. No generated practice prompt. Starting today’s practice locks
+        this selection to today’s POA path.
       </p>
 
       <div v-if="practice.status === 'preview'" class="preview-actions">
@@ -74,15 +75,18 @@ const sourceLabels: Record<PracticeSource, string> = {
 
 <style scoped>
 .tool-preview-card {
-  --background: #fff8e8;
-  border: 1px solid rgba(138, 92, 36, 0.2);
-  box-shadow: none;
-  margin: 16px 0 0;
+  --background: var(--surface-paper-soft, #fff8e8);
+  border: 1px solid rgba(198, 146, 62, 0.55);
+  border-radius: var(--radius-card);
+  /* Preview state: warm brass glow, not warning yellow. */
+  box-shadow: 0 0 0 4px var(--accent-soft), var(--shadow-card);
+  margin: 0;
 }
 
 .tool-preview-card.locked {
   --background: #eef7ed;
-  border-color: rgba(55, 120, 72, 0.28);
+  border-color: rgba(111, 135, 88, 0.6);
+  box-shadow: 0 0 0 4px rgba(111, 135, 88, 0.18), var(--shadow-card);
 }
 
 .tool-preview-card ion-card-subtitle {
@@ -93,7 +97,7 @@ const sourceLabels: Record<PracticeSource, string> = {
 
 .tool-preview-card ion-card-title {
   color: #2e1c0f;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-display);
 }
 
 .selection-details {

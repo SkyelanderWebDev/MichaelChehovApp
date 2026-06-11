@@ -17,7 +17,7 @@
           </p>
         </header>
 
-        <label class="include-row">
+        <label v-if="!browse" class="include-row">
           <span class="include-copy">
             <strong>Include in practice pool</strong>
             <small>Draw Random only uses included chart areas.</small>
@@ -31,7 +31,7 @@
           />
         </label>
 
-        <div class="filter-controls">
+        <div v-if="!browse" class="filter-controls">
           <ion-button
             class="select-all-tools"
             size="small"
@@ -57,7 +57,10 @@
           </span>
         </div>
 
-        <p v-if="locked" class="detail-note locked-note">
+        <p v-if="browse" class="detail-note browse-note">
+          Source-backed taxonomy labels only. Choose and start tools from the Journal tab.
+        </p>
+        <p v-else-if="locked" class="detail-note locked-note">
           Today’s practice is started, so this detail view is read-only until tomorrow.
         </p>
         <p v-else-if="selectedToolNames.length === 0" class="detail-note excluded-note">
@@ -67,7 +70,9 @@
         <ul class="parent-tool-list">
           <li v-for="tool in tools" :key="tool.name" class="parent-tool-row">
             <div class="tool-row-head">
+              <span v-if="browse" class="tool-name">{{ tool.name }}</span>
               <ion-checkbox
+                v-else
                 class="tool-checkbox"
                 label-placement="end"
                 :checked="selectedToolNames.includes(tool.name)"
@@ -78,6 +83,7 @@
                 {{ tool.name }}
               </ion-checkbox>
               <ion-button
+                v-if="!browse"
                 class="preview-tool-button"
                 size="small"
                 fill="outline"
@@ -98,6 +104,16 @@
 
     <ion-footer v-if="category" class="detail-footer-bar">
       <div class="detail-footer-inner">
+        <ion-button
+          v-if="browse"
+          class="open-in-library"
+          expand="block"
+          fill="outline"
+          color="primary"
+          @click="$emit('open-library', category.id)"
+        >
+          Open in Library
+        </ion-button>
         <ion-button class="close-detail" expand="block" color="primary" @click="$emit('dismiss')">
           Done
         </ion-button>
@@ -112,19 +128,27 @@ import { IonButton, IonCheckbox, IonContent, IonFooter, IonModal, IonToggle } fr
 import { getCategory, getFamily, CHART_FAMILIES, type ChartCategory, type ChartFamily } from '@/data/circleChartCatalog';
 import { getToolCatalogCategory, type WeekendTool } from '@/data/toolCatalog';
 
-const props = defineProps<{
-  isOpen: boolean;
-  categoryId: string | null;
-  included: boolean;
-  selectedToolNames: string[];
-  locked: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    isOpen: boolean;
+    categoryId: string | null;
+    included: boolean;
+    selectedToolNames: string[];
+    locked: boolean;
+    /** Read-only quick-access mode for the Chart tab: no pool editing controls. */
+    browse?: boolean;
+  }>(),
+  {
+    browse: false,
+  },
+);
 
 const emit = defineEmits<{
   (event: 'dismiss'): void;
   (event: 'set-included', categoryId: string, included: boolean): void;
   (event: 'set-selected-tools', categoryId: string, toolNames: string[]): void;
   (event: 'preview-tool', categoryId: string, parentToolName: string): void;
+  (event: 'open-library', categoryId: string): void;
 }>();
 
 const category = computed<ChartCategory | null>(() =>
@@ -266,6 +290,23 @@ function toggleTool(toolName: string, checked: boolean): void {
   background: rgba(55, 120, 72, 0.1);
   border: 1px solid rgba(55, 120, 72, 0.22);
   color: #244a2e;
+}
+
+.browse-note {
+  background: rgba(46, 33, 23, 0.05);
+  border: 1px solid var(--border-on-paper);
+  color: var(--text-on-paper-soft);
+}
+
+.tool-name {
+  color: #2e1c0f;
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.detail-footer-inner {
+  display: grid;
+  gap: 8px;
 }
 
 .parent-tool-list {

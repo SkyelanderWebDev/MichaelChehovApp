@@ -9,33 +9,20 @@ function expectNoHorizontalOverflow() {
   });
 }
 
-const testEmailDomain = Cypress.env('TEST_EMAIL_DOMAIN') || 'skyelandersolutions.com';
-
-function uniqueEmail(prefix = 'category') {
-  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 100000)}@${testEmailDomain}`;
-}
-
-function signUpForPractice() {
-  cy.get('.show-auth-form-button').click();
-  cy.get('#auth-email').type(uniqueEmail());
-  cy.get('#auth-password').type('demo-pass-1234');
-  cy.get('.create-account-button').click();
-  cy.get('.current-username', { timeout: 10000 }).should('contain.text', `@${testEmailDomain}`);
-}
-
-describe('Category detail sheet and parent-tool filters', () => {
+describe('Chart browse and Library depth', () => {
   beforeEach(() => {
     cy.viewport(MOBILE_VIEWPORT.width, MOBILE_VIEWPORT.height);
-    cy.visit('/home', {
+    cy.visit('/chart', {
       onBeforeLoad(win) {
         win.localStorage.clear();
       },
     });
-    signUpForPractice();
   });
 
-  it('opens category detail from a chart node with family, parent tools, and child labels', () => {
-    cy.get('.chart-node').first().click();
+  it('opens category basics from the Chart without practice controls', () => {
+    cy.contains('h1', 'Chart').should('exist');
+    cy.get('.chart-node').first().click({ force: true });
+
     cy.get('.category-detail-modal').should('be.visible');
     cy.get('.detail-title').should('contain.text', 'Expanding & Contracting');
     cy.get('.detail-family').should('contain.text', 'PsychoPhysical');
@@ -44,96 +31,20 @@ describe('Category detail sheet and parent-tool filters', () => {
       cy.contains('.child-chip', 'Opening').should('be.visible');
       cy.contains('.child-chip', 'Blossoming').should('be.visible');
     });
-    cy.get('.tool-count-pill').should('contain.text', '2 of 2 selected');
+    cy.contains('Source-backed taxonomy labels only').should('exist');
+    cy.get('.select-all-tools').should('not.exist');
+    cy.get('.preview-tool-button').should('not.exist');
 
     expectNoHorizontalOverflow();
-    cy.get('.close-detail').click();
-    cy.get('.category-detail-modal').should('not.be.visible');
   });
 
-  it('supports Select All / Deselect All with a live selected count', () => {
-    cy.contains('.directory-row', 'Archetypal Gestures').find('.directory-details').click();
-    cy.get('.category-detail-modal').should('be.visible');
-    cy.get('.detail-title').should('contain.text', 'Archetypal Gestures');
-    cy.get('.tool-count-pill').should('contain.text', '10 of 10 selected');
-
-    cy.get('.deselect-all-tools').click();
-    cy.get('.tool-count-pill').should('contain.text', '0 of 10 selected');
-    cy.contains('excluded from Draw Random').should('be.visible');
-
-    cy.get('.select-all-tools').click();
-    cy.get('.tool-count-pill').should('contain.text', '10 of 10 selected');
-  });
-
-  it('Draw Random respects parent-tool filters', () => {
-    // Narrow Archetypal Gestures to only "Push".
-    cy.contains('.directory-row', 'Archetypal Gestures').find('.directory-details').click();
-    cy.get('.category-detail-modal').should('be.visible');
-    cy.get('.deselect-all-tools').click();
-    cy.contains('.parent-tool-row', 'Push').find('ion-checkbox').click();
-    cy.get('.tool-count-pill').should('contain.text', '1 of 10 selected');
-    cy.get('.close-detail').click();
-    cy.get('.category-detail-modal').should('not.be.visible');
-
-    // Narrow the pool to that single chart area, then draw.
-    cy.contains('ion-button', 'Clear').click();
-    cy.contains('.directory-toggle', 'Archetypal Gestures').click();
-    cy.get('.count-badge').should('contain.text', '1 / 15 areas · 1 tool');
-
-    cy.contains('ion-button', 'Draw Random').click();
-    cy.get('.tool-preview-card')
-      .should('contain.text', 'Archetypal Gestures')
-      .and('contain.text', 'Push');
-  });
-
-  it('disables Draw Random when every parent tool is deselected', () => {
-    cy.contains('ion-button', 'Clear').click();
-    cy.contains('.directory-toggle', 'Four Brothers of Art').click();
-    cy.contains('.directory-row', 'Four Brothers of Art').find('.directory-details').click();
-    cy.get('.deselect-all-tools').click();
-    cy.get('.close-detail').click();
-    cy.get('.category-detail-modal').should('not.be.visible');
-
-    cy.get('ion-content.toolkit-page')
-      .should('have.class', 'hydrated')
-      .then(($content) => $content[0].scrollToBottom(0));
-    cy.contains('All parent tools are deselected').should('exist');
-    cy.contains('ion-button', 'Draw Random').should('have.attr', 'disabled');
-  });
-
-  it('Pick My Own intentionally previews a chosen parent tool from the open category', () => {
-    cy.contains('.directory-row', 'Four Brothers of Art').find('.directory-details').click();
-    cy.get('.category-detail-modal').should('be.visible');
-    cy.contains('.parent-tool-row', 'Entirety').find('.preview-tool-button').click();
-    cy.get('.category-detail-modal').should('not.be.visible');
-
-    cy.get('.tool-preview-card')
-      .should('contain.text', 'Pick My Own')
-      .and('contain.text', 'Preview')
-      .and('contain.text', 'Four Brothers of Art')
-      .and('contain.text', 'Entirety');
-
-    // The Pick My Own entry path re-opens the highlighted category for changes.
-    cy.contains('ion-button', 'Pick My Own').click();
-    cy.get('.category-detail-modal').should('be.visible');
-    cy.get('.detail-title').should('contain.text', 'Four Brothers of Art');
-    cy.get('.close-detail').click();
-  });
-
-  it('locks chart, directory, and filter controls after Start Today’s Practice', () => {
-    cy.contains('ion-button', 'Draw Random').click();
-    cy.contains('ion-button', 'Start Today’s Practice').click();
-    cy.get('.tool-preview-card').should('contain.text', 'Today’s practice is started.');
-
-    cy.get('.chart-node').first().should('be.disabled');
-    cy.get('.directory-toggle').first().should('be.disabled');
-    cy.get('.directory-details').first().should('be.disabled');
-    cy.contains('ion-button', 'Select all').should('have.attr', 'disabled');
-    cy.contains('ion-button', 'Clear').should('have.attr', 'disabled');
-    cy.contains('ion-button', 'Draw Random').should('have.attr', 'disabled');
-    cy.contains('ion-button', 'Pick My Own').should('have.attr', 'disabled');
-    cy.contains('ion-button', 'Daily Tool').should('have.attr', 'disabled');
-
+  it('links category depth from Chart to Library', () => {
+    cy.contains('button', 'Library').first().click();
+    cy.location('pathname').should('eq', '/library');
+    cy.location('search').should('include', 'category=expanding-contracting');
+    cy.contains('h1', 'Library').should('exist');
+    cy.contains('Expanding & Contracting').should('exist');
+    cy.contains('source-backed taxonomy only').should('exist');
     expectNoHorizontalOverflow();
   });
 });

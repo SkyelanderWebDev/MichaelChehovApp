@@ -20,19 +20,16 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
+/*
+ * Studio Ritual theme. Light/dark are controlled by data-theme on <html>
+ * (see src/stores/themeStore.ts), not by Ionic's palette stylesheets.
  */
-
-/* @import '@ionic/vue/css/palettes/dark.always.css'; */
-/* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import '@ionic/vue/css/palettes/dark.system.css';
-
-/* Theme variables */
 import './theme/variables.css';
+import './theme/studio.css';
+
+import { initTheme } from './stores/themeStore';
+
+initTheme();
 
 const app = createApp(App)
   .use(IonicVue)

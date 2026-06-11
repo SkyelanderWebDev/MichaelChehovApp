@@ -17,7 +17,27 @@
     />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="theme-color" content="#7c4a19" />
+    <meta name="theme-color" content="#12100e" />
+
+    <script>
+      // Apply the stored Studio Ritual appearance before first paint to
+      // avoid a theme flash. Mirrors src/stores/themeStore.ts.
+      (function () {
+        try {
+          var stored = window.localStorage.getItem('mct-appearance');
+          var pref = stored === 'light' || stored === 'dark' ? stored : 'system';
+          var resolved =
+            pref === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : pref;
+          document.documentElement.setAttribute('data-theme', resolved);
+        } catch (error) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
 
     <link rel="shortcut icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

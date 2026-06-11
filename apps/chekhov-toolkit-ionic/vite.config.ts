@@ -18,11 +18,11 @@ export default defineConfig({
         name: 'The Michael Chekhov Toolkit',
         short_name: 'Chekhov Toolkit',
         description: 'Private beta practice app inspired by the Chart of Inspired Action from NMCA and Lisa Dalton.',
-        theme_color: '#7c4a19',
-        background_color: '#f6efe3',
+        theme_color: '#12100e',
+        background_color: '#12100e',
         display: 'standalone',
         orientation: 'portrait',
-        start_url: '/home',
+        start_url: '/chart',
         scope: '/',
         icons: [
           {
@@ -46,6 +46,13 @@ export default defineConfig({
       },
     }),
   ],
+  css: {
+    // Stop Vite's upward config search from picking up the repo-root
+    // postcss.config.js, which belongs to the React prototype (Tailwind).
+    postcss: {
+      plugins: [],
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
