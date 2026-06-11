@@ -1,8 +1,8 @@
 # Secure beta tester notes — The Michael Chekhov Toolkit
 
-Last updated: 2026-06-10 (secure beta branch).
+Last updated: 2026-06-11 (phone-ready secure tester beta).
 
-This branch replaces the local-demo account path with Supabase Auth, Supabase Postgres, and Row Level Security. Hosted smoke has passed on the approved Vercel + Supabase beta target; real phone smoke is still required before calling it phone-ready.
+This branch replaces the local-demo account path with Supabase Auth, Supabase Postgres, and Row Level Security. Hosted smoke passed on the approved Vercel + Supabase beta target, and Dawson's phone/home-screen smoke test also worked for v1.
 
 Approved HTTPS beta URL: https://michael-chekhov-toolkit-beta.vercel.app
 
@@ -55,7 +55,7 @@ Do not commit real Supabase keys. The browser must use only the anon key, never 
 ## Honest status / known limits
 
 - Hosted HTTPS beta URL: https://michael-chekhov-toolkit-beta.vercel.app
-- Real phone smoke is still required before calling this phone-ready.
+- Status: phone-ready secure tester beta for v1, based on hosted verification plus Dawson's phone smoke.
 - The app is a hosted/installable PWA path, not TestFlight/App Store distribution.
 - Daily Tool is seeded/manual for now, not a push-notification/global scheduler.
 - Library is only a minimal sourced/citation skeleton until the content research/rights lane supplies approved excerpts.
