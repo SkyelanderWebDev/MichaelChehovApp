@@ -4,7 +4,6 @@
   "outputDirectory": "apps/chekhov-toolkit-ionic/dist",
   "framework": "vite",
   "rewrites": [
-    { "source": "/home", "destination": "/index.html" },
-    { "source": "/home/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
