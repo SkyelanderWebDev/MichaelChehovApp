@@ -78,6 +78,6 @@ describe('CategoryDetailSheet child selection mode', () => {
 
     expect(wrapper.findAll('[data-testid="child-selector"]')).toHaveLength(0)
     expect(wrapper.findAll('.child-chip').length).toBeGreaterThan(0)
-    expect(wrapper.text()).toContain('Source-backed taxonomy labels only')
+    expect(wrapper.text()).toContain('Browse this chart area here')
   })
 })

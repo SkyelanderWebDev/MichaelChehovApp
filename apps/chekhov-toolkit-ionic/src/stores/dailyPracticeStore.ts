@@ -108,6 +108,27 @@ export async function startTodayPractice(localDate = getLocalDate()): Promise<Da
   return mapDailyPracticeRow(data as DailyPracticeRow);
 }
 
+export async function unlockTodayPractice(localDate = getLocalDate()): Promise<DailyPractice | null> {
+  const userId = await getSignedInUserId();
+  if (!userId) return null;
+
+  const existing = await getTodayPractice(localDate);
+  if (!existing) return null;
+  if (existing.status === 'preview') return existing;
+
+  const { data, error } = await requireSupabase()
+    .from('daily_practices')
+    .update({ status: 'preview', started_at: null })
+    .eq('id', existing.id)
+    .eq('user_id', userId)
+    .select('id, local_date, source, status, selected_tool, started_at, updated_at')
+    .single();
+
+  if (error) throw error;
+
+  return mapDailyPracticeRow(data as DailyPracticeRow);
+}
+
 export async function getPOA(dailyPracticeId: string): Promise<POAEntry | null> {
   const userId = await getSignedInUserId();
   if (!userId) return null;

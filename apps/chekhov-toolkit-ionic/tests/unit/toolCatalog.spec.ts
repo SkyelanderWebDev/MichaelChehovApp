@@ -4,8 +4,10 @@ import {
   WEEKEND_TOOL_CATALOG,
   createAllChildToolFilter,
   createAllParentToolFilter,
+  createDailyToolSelection,
   createRandomSelectionFromCategories,
   createSelectionForParentTool,
+  getDrawableSelectionCount,
   getFilteredChildren,
   getFilteredTools,
   getToolCatalogCategory,
@@ -169,6 +171,66 @@ describe('parent-tool filter catalog helpers', () => {
         childToolName: 'Closing',
       })
     }
+  })
+
+  test('Draw Random does not let default child selections re-include deselected parents', () => {
+    const parentFilter = {
+      'expanding-contracting': [],
+    }
+    const childFilter = createAllChildToolFilter()
+
+    const selection = createRandomSelectionFromCategories(['expanding-contracting'], parentFilter, childFilter)
+
+    expect(selection).toBeNull()
+  })
+
+  test('Movable Centers drawability count requires all three components', () => {
+    const parentFilter = {
+      'movable-centers': ['Location', 'Quality'],
+    }
+    const childFilter = createAllChildToolFilter()
+
+    expect(getDrawableSelectionCount('movable-centers', parentFilter, childFilter)).toBe(0)
+    expect(createRandomSelectionFromCategories(['movable-centers'], parentFilter, childFilter)).toBeNull()
+
+    expect(getDrawableSelectionCount('movable-centers')).toBe(1)
+  })
+
+  test('Movable Centers draws Location, Movement, and Quality as a component result', () => {
+    const selection = createRandomSelectionFromCategories(['movable-centers'])
+
+    expect(selection).toMatchObject({
+      categoryId: 'movable-centers',
+      categoryName: 'Movable Centers',
+      parentToolName: 'Location',
+    })
+    expect(selection?.components).toHaveLength(3)
+    expect(selection?.components?.map((component) => component.label)).toEqual(['Location', 'Movement', 'Quality'])
+  })
+
+  test('Tempo / Rhythm uses a 1-10 scale for random and daily selections', () => {
+    for (let draw = 0; draw < 30; draw += 1) {
+      const selection = createRandomSelectionFromCategories(['tempo-rhythm'])
+
+      expect(selection?.scaleValue).toBeGreaterThanOrEqual(1)
+      expect(selection?.scaleValue).toBeLessThanOrEqual(10)
+    }
+
+    const tempoDailySelection = Array.from({ length: 80 }, (_, index) =>
+      createDailyToolSelection(`2026-07-${String(index + 1).padStart(2, '0')}`),
+    ).find((selection) => selection.categoryId === 'tempo-rhythm')
+
+    expect(tempoDailySelection?.scaleValue).toBeGreaterThanOrEqual(1)
+    expect(tempoDailySelection?.scaleValue).toBeLessThanOrEqual(10)
+  })
+
+  test('Quick Draw can include an optional 1-10 veiling value', () => {
+    const selection = createRandomSelectionFromCategories(['expanding-contracting'], undefined, undefined, {
+      includeUnveiling: true,
+    })
+
+    expect(selection?.unveiledValue).toBeGreaterThanOrEqual(1)
+    expect(selection?.unveiledValue).toBeLessThanOrEqual(10)
   })
 
   test('Draw Random skips categories whose selected parents have no selected children', () => {

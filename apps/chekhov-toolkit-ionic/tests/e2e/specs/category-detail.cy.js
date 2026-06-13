@@ -43,8 +43,8 @@ describe('Chart browse and Library depth', () => {
 
     cy.get('.category-detail-modal').should('be.visible');
     cy.get('.detail-title').should('contain.text', 'Expanding & Contracting');
-    cy.get('.detail-family').should('contain.text', 'PsychoPhysical');
-    cy.get('.detail-description').should('contain.text', 'Core PsychoPhysical movement');
+    cy.get('.detail-family').should('contain.text', 'PsychoPhysical Exercises');
+    cy.get('.detail-description').should('contain.text', 'Core PsychoPhysical Exercises');
     cy.get('.parent-tool-row').should('have.length', 2);
     cy.contains('.parent-tool-row', 'Expanding').within(() => {
       cy.get('[data-testid="child-selector"][data-child-name="Opening"]').should('be.visible');
@@ -64,7 +64,7 @@ describe('Chart browse and Library depth', () => {
     cy.location('search').should('include', 'category=expanding-contracting');
     cy.contains('h1', 'Library').should('exist');
     cy.contains('Expanding & Contracting').should('exist');
-    cy.contains('source-backed taxonomy only').should('exist');
+    cy.contains('Browse the Chart of Inspired Action').should('exist');
     expectNoHorizontalOverflow();
   });
 
@@ -72,7 +72,7 @@ describe('Chart browse and Library depth', () => {
     cy.get('[data-testid="chart-deselect-all"]').click();
     cy.get('[data-testid="button-quick-draw"]').click();
 
-    cy.contains('Nothing is selected for Quick Draw').should('be.visible');
+    cy.contains('Nothing is available for Quick Draw').should('be.visible');
     cy.get('.quick-result').should('not.exist');
     expectNoHorizontalOverflow();
   });
