@@ -4,29 +4,29 @@
       <ion-router-outlet />
 
       <ion-tab-bar slot="bottom" class="studio-tab-bar">
-        <ion-tab-button tab="library" href="/library" class="studio-tab">
+        <ion-tab-button tab="library" href="/library" class="studio-tab" @click="go('/library')">
           <ion-icon aria-hidden="true" :icon="bookOutline" />
           <ion-label>Library</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="journal" href="/journal" class="studio-tab">
+        <ion-tab-button tab="journal" href="/journal" class="studio-tab" @click="go('/journal')">
           <ion-icon aria-hidden="true" :icon="journalOutline" />
           <ion-label>Journal</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="chart" href="/chart" class="studio-tab chart-tab">
+        <ion-tab-button tab="chart" href="/chart" class="studio-tab chart-tab" @click="go('/chart')">
           <span class="chart-orb" aria-hidden="true">
             <ion-icon :icon="sunnyOutline" />
           </span>
           <ion-label>Chart</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="map" href="/map" class="studio-tab">
+        <ion-tab-button tab="map" href="/map" class="studio-tab" @click="go('/map')">
           <ion-icon aria-hidden="true" :icon="mapOutline" />
           <ion-label>Map</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="settings" href="/settings" class="studio-tab">
+        <ion-tab-button tab="settings" href="/settings" class="studio-tab" @click="go('/settings')">
           <ion-icon aria-hidden="true" :icon="settingsOutline" />
           <ion-label>Settings</ion-label>
         </ion-tab-button>
@@ -38,6 +38,14 @@
 <script setup lang="ts">
 import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/vue';
 import { bookOutline, journalOutline, mapOutline, settingsOutline, sunnyOutline } from 'ionicons/icons';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+function go(path: string): void {
+  if (router.currentRoute.value.path === path) return;
+  void router.push(path);
+}
 </script>
 
 <style scoped>
