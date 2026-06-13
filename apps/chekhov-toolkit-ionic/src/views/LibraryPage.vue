@@ -333,7 +333,15 @@ function formatScope(scope: WeekendTool['scope']): string {
 }
 
 .resource-card {
-  gap: 6px;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.resource-card > * {
+  min-width: 0;
 }
 
 .resource-card h3 {
@@ -347,20 +355,28 @@ function formatScope(scope: WeekendTool['scope']): string {
   font-size: 0.88rem;
   line-height: 1.45;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .resource-card a {
   align-self: start;
+  align-items: center;
   background: var(--surface);
   border: 1px solid var(--border-subtle);
   border-radius: 999px;
   color: var(--accent-primary);
+  display: inline-flex;
   font-size: 0.82rem;
   font-weight: 900;
+  justify-content: center;
   margin-top: 4px;
+  max-width: 100%;
   min-height: 38px;
   padding: 9px 12px;
+  position: static;
   text-decoration: none;
+  white-space: normal;
+  width: fit-content;
 }
 
 .resource-card a:focus-visible {
@@ -387,6 +403,13 @@ function formatScope(scope: WeekendTool['scope']): string {
 @media (min-width: 760px) {
   .resource-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .resource-card a {
+    align-self: stretch;
+    width: 100%;
   }
 }
 </style>

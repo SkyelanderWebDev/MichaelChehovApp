@@ -51,7 +51,7 @@
             >
               <span class="result-label-row">
                 <span>{{ quickDrawResult.categoryName }}</span>
-                <span v-if="quickDrawResult.scaleValue">Scale {{ quickDrawResult.scaleValue }}</span>
+                <span v-if="quickDrawResult.scaleValue">Tempo #{{ quickDrawResult.scaleValue }}</span>
                 <span v-if="quickDrawResult.unveiledValue">Veiling {{ quickDrawResult.unveiledValue }}</span>
               </span>
               <strong>{{ resultTitle(quickDrawResult) }}</strong>
@@ -672,7 +672,9 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
   padding: 4px 8px 4px 4px;
 }
 
@@ -690,8 +692,9 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   display: grid;
   flex: 1 1 auto;
   gap: 2px 8px;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr);
   min-height: 44px;
+  min-width: 0;
   padding: 8px;
   text-align: left;
 }
@@ -714,6 +717,8 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   font-size: 0.92rem;
   font-weight: 800;
   line-height: 1.2;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .category-meta {
@@ -721,6 +726,8 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   font-size: 0.74rem;
   font-weight: 700;
   grid-column: 2;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .selection-state {
@@ -731,8 +738,9 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   color: var(--text-secondary);
   font-size: 0.66rem;
   font-weight: 900;
-  grid-column: 3;
-  grid-row: 1 / span 2;
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: start;
   padding: 5px 8px;
   text-transform: uppercase;
 }

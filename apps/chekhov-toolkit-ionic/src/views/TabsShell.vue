@@ -16,7 +16,7 @@
 
         <ion-tab-button tab="chart" href="/chart" class="studio-tab chart-tab">
           <span class="chart-orb" aria-hidden="true">
-            <ion-icon :icon="apertureOutline" />
+            <ion-icon :icon="sunnyOutline" />
           </span>
           <ion-label>Chart</ion-label>
         </ion-tab-button>
@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/vue';
-import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutline } from 'ionicons/icons';
+import { bookOutline, journalOutline, mapOutline, settingsOutline, sunnyOutline } from 'ionicons/icons';
 </script>
 
 <style scoped>
@@ -47,10 +47,15 @@ import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutli
   overflow: visible;
 }
 
+:deep(ion-tab-button)::part(native) {
+  contain: none;
+  overflow: visible;
+}
+
 .studio-tab-bar {
   border-top: 1px solid var(--border-subtle);
-  height: calc(72px + env(safe-area-inset-bottom));
-  padding-top: 12px;
+  height: calc(80px + env(safe-area-inset-bottom));
+  padding-top: 18px;
   padding-bottom: env(safe-area-inset-bottom);
   /* Let the raised center Chart orb overflow above the bar. */
   contain: none;
@@ -93,7 +98,7 @@ import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutli
   display: flex;
   height: 46px;
   justify-content: center;
-  margin-top: -28px;
+  margin-top: -18px;
   position: relative;
   transition: box-shadow 180ms ease, transform 180ms ease;
   width: 46px;
@@ -101,7 +106,7 @@ import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutli
 }
 
 .chart-orb ion-icon {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
 
 .chart-tab.tab-selected .chart-orb {

@@ -183,7 +183,7 @@ function nodeAriaLabel(category: ChartCategory): string {
 
 function nodeStyle(category: PositionedCategory): Record<string, string> {
   const radians = (category.angle * Math.PI) / 180;
-  const radius = 42;
+  const radius = 39;
   const x = 50 + Math.cos(radians) * radius;
   const y = 50 + Math.sin(radians) * radius;
 
@@ -204,8 +204,12 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
     radial-gradient(circle at 50% 8%, rgba(255, 247, 226, 0.95), rgba(255, 253, 247, 0.98) 42%, rgba(247, 237, 219, 0.92)),
     linear-gradient(135deg, rgba(146, 100, 45, 0.12), rgba(55, 43, 33, 0.04));
   box-shadow: var(--shadow-card);
+  box-sizing: border-box;
   color: var(--text-on-paper);
+  max-width: 100%;
+  min-width: 0;
   padding: 18px;
+  width: 100%;
 }
 
 .circle-chart-shell.locked {
@@ -263,10 +267,10 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 .chart-stage {
   aspect-ratio: 1;
   margin: 18px auto 16px;
-  max-width: 430px;
-  min-height: 312px;
+  max-width: 100%;
+  min-height: 0;
   position: relative;
-  width: min(100%, 430px);
+  width: min(100%, 390px);
 }
 
 .chart-orbit,
@@ -316,14 +320,15 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   box-shadow: 0 10px 26px rgba(53, 35, 18, 0.18);
   color: var(--text-on-paper);
   display: inline-flex;
-  height: clamp(42px, 11vw, 54px);
+  height: clamp(38px, 10vw, 50px);
   justify-content: center;
   left: var(--node-x);
-  min-width: clamp(42px, 11vw, 54px);
+  min-width: 0;
   padding: 0;
   top: var(--node-y);
   transform: translate(-50%, -50%);
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+  width: clamp(38px, 10vw, 50px);
   z-index: 2;
 }
 
@@ -421,7 +426,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   border-radius: 16px;
   color: var(--text-on-paper);
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  min-width: 0;
   padding: 6px 8px 6px 4px;
 }
 
@@ -439,8 +446,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   display: grid;
   flex: 1 1 auto;
   gap: 4px 8px;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr);
   min-height: 44px;
+  min-width: 0;
   padding: 6px 8px;
   text-align: left;
 }
@@ -480,6 +488,8 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   font-size: 0.9rem;
   font-weight: 800;
   line-height: 1.15;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .directory-meta {
@@ -487,6 +497,8 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   font-size: 0.72rem;
   font-weight: 700;
   grid-column: 2;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .directory-state {
@@ -497,8 +509,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   color: var(--text-on-paper-soft);
   font-size: 0.64rem;
   font-weight: 900;
-  grid-column: 3;
-  grid-row: 1 / span 2;
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: start;
   padding: 5px 8px;
   text-transform: uppercase;
 }
@@ -544,7 +557,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   }
 
   .chart-stage {
-    min-height: 286px;
+    width: min(100%, 342px);
   }
 
   .chart-hub {
