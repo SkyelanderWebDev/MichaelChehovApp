@@ -4,20 +4,41 @@
       <main class="page-shell">
         <TopStatusBar />
 
-        <header class="page-intro">
-          <p class="kicker">Chart of Inspired Action</p>
-          <h1>Chart</h1>
-          <p class="page-subtitle">
-            Quick access to the chart, its families, and tool basics. Deeper resources live in the Library.
-          </p>
-        </header>
-
         <CircleChart
           browse
           :show-directory="false"
           :selected-category-ids="[]"
           @open-category="openCategoryDetail"
         />
+
+        <section class="quick-draw-panel studio-panel" aria-labelledby="quick-draw-title">
+          <div class="quick-draw-heading">
+            <div>
+              <p class="kicker">Quick Draw</p>
+              <h2 id="quick-draw-title">Draw from the full chart</h2>
+            </div>
+            <ion-button data-testid="button-quick-draw" color="primary" @click="drawQuickTool">
+              {{ quickDrawResult ? 'Draw another' : 'Quick Draw' }}
+            </ion-button>
+          </div>
+
+          <article v-if="quickDrawResult" class="quick-result paper-object" aria-live="polite">
+            <div class="result-label-row">
+              <span>{{ quickDrawResult.categoryName }}</span>
+              <span v-if="quickDrawResult.scaleValue">Scale {{ quickDrawResult.scaleValue }}</span>
+            </div>
+            <strong>{{ quickDrawResult.parentToolName }}</strong>
+            <p v-if="quickDrawResult.childToolName">{{ quickDrawResult.childToolName }}</p>
+            <div class="quick-result-actions">
+              <button type="button" @click="router.push('/journal')">Begin POA in Journal</button>
+              <button type="button" @click="quickDrawResult = null">Dismiss</button>
+            </div>
+          </article>
+
+          <p v-else class="quick-draw-note">
+            Draw a category, parent tool, and child/example label without starting or saving today’s practice.
+          </p>
+        </section>
 
         <button class="journal-cta paper-object" type="button" @click="router.push('/journal')">
           <span class="cta-copy">
@@ -82,21 +103,24 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonContent, IonIcon, IonPage } from '@ionic/vue';
+import { IonButton, IonContent, IonIcon, IonPage } from '@ionic/vue';
 import { arrowForwardOutline } from 'ionicons/icons';
 import CategoryDetailSheet from '@/components/CategoryDetailSheet.vue';
 import CircleChart from '@/components/CircleChart.vue';
 import TopStatusBar from '@/components/TopStatusBar.vue';
 import { CHART_ATTRIBUTION } from '@/constants/attribution';
 import { CHART_CATEGORIES, getFamily } from '@/data/circleChartCatalog';
+import { createAllParentToolFilter, createRandomSelectionFromCategories } from '@/data/toolCatalog';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
 import { getTodayPractice } from '@/stores/dailyPracticeStore';
+import type { PracticeToolSelection } from '@/types/practice';
 
 const router = useRouter();
 
 const detailCategoryId = ref<string | null>(null);
 const isDetailOpen = ref(false);
 const hasStartedPractice = ref(false);
+const quickDrawResult = ref<PracticeToolSelection | null>(null);
 
 const journalCtaLabel = computed(() =>
   hasStartedPractice.value ? 'Return to today’s practice' : 'Begin today’s practice in Journal',
@@ -124,9 +148,106 @@ function openInLibrary(categoryId: string): void {
   isDetailOpen.value = false;
   router.push({ path: '/library', query: { category: categoryId } });
 }
+
+function drawQuickTool(): void {
+  quickDrawResult.value = createRandomSelectionFromCategories(
+    CHART_CATEGORIES.map((category) => category.id),
+    createAllParentToolFilter(),
+  );
+}
 </script>
 
 <style scoped>
+.quick-draw-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.quick-draw-heading {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.quick-draw-heading h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 5.5vw, 1.65rem);
+  font-weight: 600;
+  line-height: 1.06;
+  margin: 6px 0 0;
+}
+
+.quick-draw-heading ion-button {
+  flex: 0 0 auto;
+  min-height: 44px;
+}
+
+.quick-draw-note {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.quick-result {
+  display: grid;
+  gap: 10px;
+}
+
+.result-label-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.result-label-row span {
+  background: rgba(55, 36, 22, 0.08);
+  border: 1px solid var(--border-on-paper);
+  border-radius: 999px;
+  color: var(--text-on-paper-soft);
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 6px 9px;
+}
+
+.quick-result strong {
+  color: var(--text-on-paper);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 6vw, 2rem);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.quick-result p {
+  color: var(--text-on-paper-soft);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.quick-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.quick-result-actions button {
+  background: rgba(255, 253, 247, 0.8);
+  border: 1px solid var(--border-on-paper);
+  border-radius: 999px;
+  color: var(--text-on-paper);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  min-height: 40px;
+  padding: 8px 12px;
+}
+
 .journal-cta {
   align-items: center;
   display: flex;

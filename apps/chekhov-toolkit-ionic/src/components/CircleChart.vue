@@ -1,13 +1,17 @@
 <template>
-  <section class="circle-chart-shell" :class="{ locked: props.disabled }" aria-labelledby="circle-chart-title">
-    <div class="section-kicker">Chart of Inspired Action</div>
-    <div class="chart-heading-row">
+  <section
+    class="circle-chart-shell"
+    :class="{ locked: props.disabled }"
+    :aria-label="props.browse ? 'Chart of Inspired Action categories' : undefined"
+    :aria-labelledby="props.browse ? undefined : 'circle-chart-title'"
+  >
+    <div v-if="!props.browse" class="section-kicker">Chart of Inspired Action</div>
+    <div v-if="!props.browse" class="chart-heading-row">
       <div>
         <h2 id="circle-chart-title">Circle chart map</h2>
-        <p v-if="props.browse">Tap a chart node for category basics and tool labels.</p>
-        <p v-else>Tap a chart node for category details and tool filters. Tap a directory row to include or exclude that area from today’s pool.</p>
+        <p>Tap a chart node for category details and tool filters. Tap a directory row to include or exclude that area from today’s pool.</p>
       </div>
-      <span v-if="!props.browse" class="selected-pill">{{ selectedCategoryIds.length }} selected</span>
+      <span class="selected-pill">{{ selectedCategoryIds.length }} selected</span>
     </div>
 
     <div class="chart-stage" role="group" aria-label="Chart of Inspired Action categories">
@@ -130,7 +134,7 @@ const selectedCategories = computed(() =>
 );
 
 const hubTitle = computed(() => {
-  if (props.browse) return 'Chart of Inspired Action';
+  if (props.browse) return 'Inspired Action';
   if (selectedCategories.value.length === 0) return 'Choose chart areas';
   if (selectedCategories.value.length === 1) return selectedCategories.value[0].name;
   return `${selectedCategories.value.length} chart areas selected`;

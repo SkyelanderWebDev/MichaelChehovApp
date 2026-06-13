@@ -18,6 +18,7 @@ describe('parent-tool filter catalog helpers', () => {
     }
     for (const category of CHART_CATEGORIES) {
       expect(filter[category.id]).toBeDefined()
+      expect(category.toolCount).toBe(getToolCatalogCategory(category.id)?.tools.length)
     }
   })
 
@@ -40,7 +41,20 @@ describe('parent-tool filter catalog helpers', () => {
     expect(selection).not.toBeNull()
     expect(selection?.categoryName).toBe('Archetypal Gestures')
     expect(selection?.parentToolName).toBe('Penetrate')
-    expect(['Pierce', 'Stab', 'Puncture', 'Bore']).toContain(selection?.childToolName)
+    expect(['Pierce', 'Stab', 'Puncture', 'Bore', 'Drill', 'Probe', 'Enter', 'Infiltrate', 'Permeate', 'Cut Through', 'Impale', 'Insinuate', 'Seek', 'Illuminate']).toContain(selection?.childToolName)
+  })
+
+  test('catalog includes full child labels and Imaginary Body scope metadata', () => {
+    const atmosphere = getToolCatalogCategory('atmosphere')
+    const naturalAtmosphere = atmosphere?.tools.find((tool) => tool.name === 'Overall — Nature / Natural')
+    const imaginaryBody = getToolCatalogCategory('imaginary-body')
+    const bodyPart = imaginaryBody?.tools.find((tool) => tool.name === 'Body Part')
+    const archetypalCharacters = imaginaryBody?.tools.find((tool) => tool.name === 'Archetypal Characters')
+
+    expect(naturalAtmosphere?.children).toContain('Cemetery')
+    expect(naturalAtmosphere?.children).toHaveLength(33)
+    expect(bodyPart?.scope).toBe('both')
+    expect(archetypalCharacters?.scope).toBe('full-body')
   })
 
   test('createSelectionForParentTool rejects names outside the taxonomy', () => {

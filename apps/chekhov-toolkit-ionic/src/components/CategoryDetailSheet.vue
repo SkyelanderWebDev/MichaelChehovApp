@@ -15,6 +15,7 @@
             <span class="family-dot" :style="{ backgroundColor: family.color }"></span>
             {{ family.label }} family · {{ tools.length }} parent tool{{ tools.length === 1 ? '' : 's' }}
           </p>
+          <p v-if="category.description" class="detail-description">{{ category.description }}</p>
         </header>
 
         <label v-if="!browse" class="include-row">
@@ -82,6 +83,7 @@
               >
                 {{ tool.name }}
               </ion-checkbox>
+              <span v-if="tool.scope" class="scope-pill">{{ formatScope(tool.scope) }}</span>
               <ion-button
                 v-if="!browse"
                 class="preview-tool-button"
@@ -176,6 +178,12 @@ function toggleTool(toolName: string, checked: boolean): void {
 
   emit('set-selected-tools', category.value.id, next);
 }
+
+function formatScope(scope: WeekendTool['scope']): string {
+  if (scope === 'full-body') return 'full body';
+  if (scope === 'parts') return 'parts';
+  return 'full body + parts';
+}
 </script>
 
 <style scoped>
@@ -217,6 +225,14 @@ function toggleTool(toolName: string, checked: boolean): void {
   font-weight: 700;
   gap: 7px;
   margin: 8px 0 0;
+}
+
+.detail-description {
+  color: rgba(55, 36, 22, 0.78);
+  font-size: 0.92rem;
+  font-weight: 650;
+  line-height: 1.42;
+  margin: 10px 0 0;
 }
 
 .family-dot {
@@ -302,6 +318,18 @@ function toggleTool(toolName: string, checked: boolean): void {
   color: #2e1c0f;
   font-size: 0.98rem;
   font-weight: 800;
+}
+
+.scope-pill {
+  background: rgba(55, 120, 72, 0.1);
+  border: 1px solid rgba(55, 120, 72, 0.22);
+  border-radius: 999px;
+  color: #244a2e;
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  font-weight: 900;
+  padding: 5px 8px;
+  text-transform: uppercase;
 }
 
 .detail-footer-inner {

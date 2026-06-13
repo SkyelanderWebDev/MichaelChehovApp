@@ -201,7 +201,7 @@ import {
   setPreview,
   startTodayPractice,
 } from '@/stores/dailyPracticeStore';
-import type { DailyPractice, POAEntry } from '@/types/practice';
+import type { DailyPractice, POADraft, POAEntry } from '@/types/practice';
 
 const router = useRouter();
 
@@ -397,22 +397,22 @@ async function startPractice(): Promise<void> {
   });
 }
 
-async function saveDailyAction(journalText: string): Promise<void> {
+async function saveDailyAction(payload: POADraft): Promise<void> {
   const practice = currentPractice.value;
   if (!practice || practice.status !== 'started') return;
 
   await withPracticeOperation(async () => {
     poaEntry.value = await savePOA({
       dailyPracticeId: practice.id,
-      mode: 'journal',
-      practiceNotes: '',
-      observeMorning: '',
-      observeMidday: '',
-      observeEvening: '',
-      applyMorning: '',
-      applyMidday: '',
-      applyEvening: '',
-      journalText,
+      mode: payload.mode,
+      practiceNotes: payload.practiceNotes,
+      observeMorning: payload.observeMorning,
+      observeMidday: payload.observeMidday,
+      observeEvening: payload.observeEvening,
+      applyMorning: payload.applyMorning,
+      applyMidday: payload.applyMidday,
+      applyEvening: payload.applyEvening,
+      journalText: payload.journalText,
     });
 
     currentPractice.value = (await getTodayPractice(practice.localDate)) ?? practice;

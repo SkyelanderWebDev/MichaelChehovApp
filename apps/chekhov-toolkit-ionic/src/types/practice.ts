@@ -33,3 +33,5 @@ export interface POAEntry {
   journalText: string;
   updatedAt: string;
 }
+
+export type POADraft = Omit<POAEntry, 'dailyPracticeId' | 'updatedAt'>;

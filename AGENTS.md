@@ -1,6 +1,6 @@
 # AGENTS.md — The Michael Chekhov Toolkit
 
-Last refreshed: 2026-06-05.
+Last refreshed: 2026-06-12.
 
 This file is for Hermes, Claude Code, Codex, and any other coding/review agent working in this repo.
 
@@ -8,17 +8,18 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 
 1. Read `CLAUDE.md`.
 2. Read `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-current-state-audit.md`.
-3. Read `brainstorms/michael-chekhov-toolkit-grill-me.md` and `brainstorms/agent-orchestration-final-plan-2026-06-04.md` before planning implementation.
-4. Run `git status --short` before editing.
-5. Preserve the existing dirty tree unless Dawson explicitly approves a cleanup/commit/reset.
+3. For the June 12/13 demo-parity pass, read `.claude/plans/2026-06-12-demo-parity-fable-handoff.md` before implementation.
+4. Read `brainstorms/michael-chekhov-toolkit-grill-me.md` and `brainstorms/agent-orchestration-final-plan-2026-06-04.md` before broader planning.
+5. Run `git status --short` before editing.
+6. Preserve the existing dirty tree unless Dawson explicitly approves a cleanup/commit/reset.
 
 ## Project truth
 
 - Product name: **The Michael Chekhov Toolkit**.
 - Official context: NMCA / Lisa Dalton sanctioned private-beta practice app.
-- Current repo code: React/Vite/Express/SQLite prototype.
-- Forward beta target: Ionic Vue + Capacitor/PWA + Supabase Auth/Postgres/RLS.
-- React prototype is behavior/reference material, not necessarily the production foundation.
+- Current repo code includes both the React/Vite/Express/SQLite prototype and the active Ionic Vue secure-beta PWA under `apps/chekhov-toolkit-ionic/`.
+- For the June 12/13 demo-parity pass, edit the Ionic app under `apps/chekhov-toolkit-ionic/` and use the React prototype as behavior/content reference.
+- React source file `client/src/lib/toolData.ts` is the canonical source for intentionally typed taxonomy labels/descriptions/child tools during this parity pass.
 
 ## Non-negotiables
 
@@ -32,17 +33,17 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 - Do not claim secure beta unless auth/RLS/user-owned access has been implemented and verified.
 - Keep infrastructure free-first unless Dawson approves spend.
 
-## Current Phase 0 next artifact
+## Current demo-parity artifact
 
-The immediate implementation spec is expected at:
+The immediate implementation spec is:
 
-`.claude/plans/2026-06-05-weekend-lisa-pilot.md`
+`.claude/plans/2026-06-12-demo-parity-fable-handoff.md`
 
 Use that plan for the next build pass unless Dawson replaces it.
 
-## Weekend slice target
+## Current demo slice target
 
-Build a narrow Lisa confidence demo, not a full June 13 beta:
+For the June 12/13 morning demo, build React-functionality parity where it matters while preserving the new clean Ionic/Fable design:
 
 - Ionic Vue/PWA shell or equivalent app-like pilot.
 - Official app name and attribution.
@@ -50,7 +51,10 @@ Build a narrow Lisa confidence demo, not a full June 13 beta:
 - Three choices: Pick My Own, Draw Random, Daily Tool seed/static placeholder.
 - Preview/re-roll/change before commitment.
 - `Start Today’s Practice` locks the local-day choice.
-- POA remains prominent and supports save/return/reload if possible.
+- Chart Quick Draw exists on the Chart page, with the chart hub reading `Inspired Action` and no top text above the chart.
+- React taxonomy copy from `client/src/lib/toolData.ts` is restored in Ionic: descriptions, parent tools, child/example labels, and Imaginary Body scope metadata.
+- Library becomes a source-safe skeleton for deeper tool/resource buckets, not merely a flat list.
+- POA remains prominent and supports structured + free-response save/return/reload if possible.
 - Mobile-width smoke and real iPhone smoke before Lisa sees it.
 
 Defer:
@@ -59,9 +63,9 @@ Defer:
 - Push notifications.
 - Real global scheduler/admin CMS.
 - Native store/TestFlight/Play distribution.
-- Broad Library.
+- Full approved Library content/excerpts or unverified public links.
 - AI-generated embodied prompts.
-- Full React feature parity.
+- Full history/Flyback/Unveiled parity unless all must-land demo gates are already green.
 
 ## Agent split
 

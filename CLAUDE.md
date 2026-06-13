@@ -1,8 +1,8 @@
 # The Michael Chekhov Toolkit — Agent Context
 
-Last refreshed: 2026-06-05 during Phase 0.
+Last refreshed: 2026-06-12 for demo-parity/Fable handoff.
 
-This file is the working source of truth for Claude Code and other repo agents. If this file conflicts with older `replit.md`, `.claude/plans/phase1-prototype.md`, or stale April/November notes, prefer this file unless Dawson explicitly says otherwise.
+This file is the working source of truth for Claude Code/Fable and other repo agents. If this file conflicts with older `replit.md`, `.claude/plans/phase1-prototype.md`, or stale April/November notes, prefer this file unless Dawson explicitly says otherwise. For the June 12/13 demo-parity pass, also read `.claude/plans/2026-06-12-demo-parity-fable-handoff.md` before implementation.
 
 ## What this project is
 
@@ -39,15 +39,22 @@ Keep attribution text centralized in implementation so Lisa can refine it after 
 
 ## Current repository state
 
-This repository currently contains a working React/Vite/Express/SQLite prototype. It is not yet the approved Ionic Vue + Capacitor/PWA + Supabase beta architecture.
+This repository now contains two important app surfaces:
 
-Current stack in this repo:
+1. The original React/Vite/Express/SQLite prototype at the repo root / `client/src/`. Treat it as behavior and content reference material, especially `client/src/lib/toolData.ts`, `client/src/pages/Home.tsx`, and `client/src/components/POAJournal.tsx`.
+2. The active secure-beta/demo PWA at `apps/chekhov-toolkit-ionic/`, built with Ionic Vue + Vite + Supabase. This is the current target for Fable/demo work unless Dawson explicitly says otherwise.
+
+Current React reference stack:
 - Frontend: React 18, Vite, Tailwind, shadcn/Radix primitives, wouter, TanStack Query.
 - Backend: Express, Drizzle ORM, better-sqlite3.
 - Database: local SQLite at `data/chekhov.db`; `data/` is gitignored.
-- No Vue/Ionic/Capacitor/Supabase app code exists yet unless a later plan creates it.
 
-Current prototype behavior:
+Current Ionic target stack:
+- Frontend: Ionic Vue, Vue Router, Vite, TypeScript.
+- Auth/persistence: Supabase Auth/Postgres/RLS for the secure tester beta path.
+- Active app directory: `apps/chekhov-toolkit-ionic/`.
+
+Current React prototype behavior:
 - Category wheel and detail modal use the Chekhov taxonomy from `client/src/lib/toolData.ts`.
 - Random draw chooses category, parent tool, optional child/example, optional Tempo/Rhythm scale, and optional Unveiled value.
 - Reveal card offers Draw Again, Flyback, Begin POA, and Change Categories.
@@ -56,12 +63,12 @@ Current prototype behavior:
 - History loads previous draws from SQLite and can reopen a reveal card.
 - Server routes exist for drawn tools and journal entries.
 
-Known current gaps:
-- UI still needs full official naming/attribution pass.
-- Mature product should be Today’s Practice-centered, not merely draw-centered.
-- POA should ultimately attach to a Daily Practice / tool-day object.
-- Mobile and accessibility need direct verification, especially on a real iPhone.
-- Automated tests beyond typecheck/build are not yet present.
+Known current demo-parity gaps in the Ionic app:
+- Ionic taxonomy data is currently truncated relative to `client/src/lib/toolData.ts`; restore all descriptions, child/example labels, and Imaginary Body scope metadata for the June 12/13 pass.
+- Chart needs demo cleanup: no top text above the chart in browse mode, center hub main text `Inspired Action`, and a Chart-tab Quick Draw path.
+- Library needs source-safe resource buckets beyond the current taxonomy lists.
+- Daily Action / POA UI needs structured + free-response parity; the Supabase/store types already carry the structured fields.
+- Mobile/browser verification is required, and real iPhone smoke is still the bar before `phone/Lisa ready` language.
 
 ## Current strategic direction
 

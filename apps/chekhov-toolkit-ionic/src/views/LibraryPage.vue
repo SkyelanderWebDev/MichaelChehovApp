@@ -6,7 +6,7 @@
           <p class="kicker">Source-grounded reference</p>
           <h1>Library</h1>
           <p class="page-subtitle">
-            Browse the Chart of Inspired Action taxonomy: families, chart areas, parent tools, and label seeds.
+            Browse the Chart of Inspired Action taxonomy and source-safe slots for future approved beta resources.
           </p>
         </header>
 
@@ -15,38 +15,64 @@
           source-backed taxonomy only — no generated practice prompts.
         </p>
 
-        <section
-          v-for="familyGroup in familyGroups"
-          :key="familyGroup.family.id"
-          class="studio-panel family-shelf"
-          :aria-label="`${familyGroup.family.label} family`"
-        >
-          <p class="kicker family-kicker">
-            <span class="family-dot" :style="{ backgroundColor: familyGroup.family.color }"></span>
-            {{ familyGroup.family.label }}
-          </p>
+        <section class="library-section" aria-labelledby="dive-deeper-title">
+          <div class="section-heading">
+            <p class="kicker">Tool taxonomy</p>
+            <h2 id="dive-deeper-title">Dive Deeper into the Tools</h2>
+          </div>
 
-          <details
-            v-for="entry in familyGroup.categories"
-            :key="entry.category.id"
-            :ref="(el) => registerCategoryRef(entry.category.id, el)"
-            class="category-entry"
-            :open="entry.category.id === focusedCategoryId"
+          <section
+            v-for="familyGroup in familyGroups"
+            :key="familyGroup.family.id"
+            class="studio-panel family-shelf"
+            :aria-label="`${familyGroup.family.label} family`"
           >
-            <summary>
-              <span class="entry-name">{{ entry.category.name }}</span>
-              <span class="entry-meta">{{ entry.tools.length }} parent tool{{ entry.tools.length === 1 ? '' : 's' }}</span>
-            </summary>
+            <p class="kicker family-kicker">
+              <span class="family-dot" :style="{ backgroundColor: familyGroup.family.color }"></span>
+              {{ familyGroup.family.label }}
+            </p>
 
-            <ul class="tool-list">
-              <li v-for="tool in entry.tools" :key="tool.name" class="tool-row">
-                <strong>{{ tool.name }}</strong>
-                <span v-if="tool.children.length > 0" class="child-labels">
-                  {{ tool.children.join(' · ') }}
-                </span>
-              </li>
-            </ul>
-          </details>
+            <details
+              v-for="entry in familyGroup.categories"
+              :key="entry.category.id"
+              :ref="(el) => registerCategoryRef(entry.category.id, el)"
+              class="category-entry"
+              :open="entry.category.id === focusedCategoryId"
+            >
+              <summary>
+                <span class="entry-name">{{ entry.category.name }}</span>
+                <span class="entry-meta">{{ entry.tools.length }} parent tool{{ entry.tools.length === 1 ? '' : 's' }}</span>
+              </summary>
+
+              <div class="entry-body">
+                <p v-if="entry.category.description" class="entry-description">{{ entry.category.description }}</p>
+
+                <ul class="tool-list">
+                  <li v-for="tool in entry.tools" :key="tool.name" class="tool-row">
+                    <strong>{{ tool.name }}</strong>
+                    <span v-if="tool.scope" class="scope-note">{{ formatScope(tool.scope) }}</span>
+                    <span v-if="tool.children.length > 0" class="child-labels">
+                      {{ tool.children.join(' · ') }}
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </section>
+        </section>
+
+        <section class="library-section" aria-labelledby="resource-buckets-title">
+          <div class="section-heading">
+            <p class="kicker">Future resources</p>
+            <h2 id="resource-buckets-title">Source-safe resource buckets</h2>
+          </div>
+
+          <div class="resource-grid">
+            <article v-for="bucket in resourceBuckets" :key="bucket.title" class="studio-panel resource-card">
+              <h3>{{ bucket.title }}</h3>
+              <p>{{ bucket.placeholder }}</p>
+            </article>
+          </div>
         </section>
 
         <footer class="paper-object attribution-card">
@@ -76,6 +102,14 @@ interface FamilyGroup {
   family: ChartFamily;
   categories: LibraryEntry[];
 }
+
+const resourceBuckets = [
+  { title: 'Videos & Demonstrations', placeholder: 'Link slot reserved for approved beta resource.' },
+  { title: 'Chekhov Lectures & Writings', placeholder: 'Link slot reserved for approved beta resource.' },
+  { title: 'Lisa Dalton / NMCA Books & Excerpts', placeholder: 'Link slot reserved for approved beta resource.' },
+  { title: 'Michael Chekhov Archives', placeholder: 'Link slot reserved for approved beta resource.' },
+  { title: 'Lisa’s YouTube', placeholder: 'Link slot reserved for approved beta resource.' },
+] as const;
 
 const route = useRoute();
 
@@ -131,6 +165,12 @@ function scrollToFocusedCategory(): void {
     target.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }, 80);
 }
+
+function formatScope(scope: WeekendTool['scope']): string {
+  if (scope === 'full-body') return 'full body';
+  if (scope === 'parts') return 'parts';
+  return 'full body + parts';
+}
 </script>
 
 <style scoped>
@@ -143,6 +183,20 @@ function scrollToFocusedCategory(): void {
   line-height: 1.45;
   margin: 0;
   padding: 12px 14px;
+}
+
+.library-section {
+  display: grid;
+  gap: 12px;
+}
+
+.section-heading h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 6vw, 1.85rem);
+  font-weight: 600;
+  line-height: 1.06;
+  margin: 6px 0 0;
 }
 
 .family-shelf {
@@ -211,13 +265,27 @@ function scrollToFocusedCategory(): void {
   font-weight: 700;
 }
 
-.tool-list {
+.entry-body {
   border-top: 1px solid var(--border-subtle);
+  display: grid;
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+
+.entry-description {
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.tool-list {
   display: grid;
   gap: 10px;
   list-style: none;
   margin: 0;
-  padding: 12px 14px 14px;
+  padding: 0;
 }
 
 .tool-row {
@@ -230,10 +298,39 @@ function scrollToFocusedCategory(): void {
   font-size: 0.92rem;
 }
 
+.scope-note {
+  color: #244a2e;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .child-labels {
   color: var(--text-secondary);
   font-size: 0.8rem;
   line-height: 1.4;
+}
+
+.resource-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.resource-card {
+  gap: 6px;
+}
+
+.resource-card h3 {
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.resource-card p {
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  margin: 0;
 }
 
 .attribution-card {
@@ -250,5 +347,11 @@ function scrollToFocusedCategory(): void {
   color: var(--text-on-paper-soft);
   line-height: 1.45;
   margin: 6px 0 0;
+}
+
+@media (min-width: 760px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 </style>

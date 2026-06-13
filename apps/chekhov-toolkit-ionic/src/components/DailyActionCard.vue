@@ -16,13 +16,113 @@
         <span class="poa-section">Apply</span>
       </div>
 
-      <div class="daily-action-field">
-        <label for="daily-action-note">Daily Action / POA note</label>
+      <div class="mode-control" role="group" aria-label="POA entry mode">
+        <button
+          type="button"
+          :class="{ active: draft.mode === 'structured' }"
+          :aria-pressed="draft.mode === 'structured'"
+          @click="draft.mode = 'structured'"
+        >
+          Structured
+        </button>
+        <button
+          type="button"
+          :class="{ active: draft.mode === 'journal' }"
+          :aria-pressed="draft.mode === 'journal'"
+          @click="draft.mode = 'journal'"
+        >
+          Free response
+        </button>
+      </div>
+
+      <div v-if="draft.mode === 'structured'" class="structured-fields">
+        <section class="poa-field-group" aria-labelledby="practice-field-label">
+          <h3 id="practice-field-label">Practice</h3>
+          <div class="daily-action-field">
+            <label for="poa-practice">Practice</label>
+            <textarea
+              id="poa-practice"
+              v-model="draft.practiceNotes"
+              rows="4"
+              placeholder="Practice notes for today."
+            />
+          </div>
+        </section>
+
+        <section class="poa-field-group" aria-labelledby="observe-field-label">
+          <h3 id="observe-field-label">Observe</h3>
+          <div class="field-grid">
+            <div class="daily-action-field">
+              <label for="poa-observe-morning">Observe Morning</label>
+              <textarea
+                id="poa-observe-morning"
+                v-model="draft.observeMorning"
+                rows="3"
+                placeholder="Morning observation."
+              />
+            </div>
+            <div class="daily-action-field">
+              <label for="poa-observe-midday">Observe Midday</label>
+              <textarea
+                id="poa-observe-midday"
+                v-model="draft.observeMidday"
+                rows="3"
+                placeholder="Midday observation."
+              />
+            </div>
+            <div class="daily-action-field">
+              <label for="poa-observe-evening">Observe Evening</label>
+              <textarea
+                id="poa-observe-evening"
+                v-model="draft.observeEvening"
+                rows="3"
+                placeholder="Evening observation."
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="poa-field-group" aria-labelledby="apply-field-label">
+          <h3 id="apply-field-label">Apply</h3>
+          <div class="field-grid">
+            <div class="daily-action-field">
+              <label for="poa-apply-morning">Apply Morning</label>
+              <textarea
+                id="poa-apply-morning"
+                v-model="draft.applyMorning"
+                rows="3"
+                placeholder="Morning application."
+              />
+            </div>
+            <div class="daily-action-field">
+              <label for="poa-apply-midday">Apply Midday</label>
+              <textarea
+                id="poa-apply-midday"
+                v-model="draft.applyMidday"
+                rows="3"
+                placeholder="Midday application."
+              />
+            </div>
+            <div class="daily-action-field">
+              <label for="poa-apply-evening">Apply Evening</label>
+              <textarea
+                id="poa-apply-evening"
+                v-model="draft.applyEvening"
+                rows="3"
+                placeholder="Evening application."
+              />
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div v-else class="daily-action-field">
+        <label for="daily-action-note">Free response</label>
         <textarea
           id="daily-action-note"
-          v-model="draft"
-          aria-label="Daily Action / POA note"
-          rows="5"
+          v-model="draft.journalText"
+          aria-label="Free response POA note"
+          rows="8"
           placeholder="Optional note for today’s Practice / Observe / Apply work."
         />
       </div>
@@ -40,30 +140,45 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { IonButton, IonCard, IonCardContent, IonCardHeader } from '@ionic/vue';
-import type { POAEntry } from '@/types/practice';
+import type { POADraft, POAEntry } from '@/types/practice';
 
 const props = defineProps<{
   entry: POAEntry | null;
 }>();
 
 const emit = defineEmits<{
-  (event: 'save', journalText: string): void;
+  (event: 'save', payload: POADraft): void;
 }>();
 
-const draft = ref(props.entry?.journalText ?? '');
+const draft = reactive<POADraft>(createDraft(props.entry));
 const hasSavedEntry = computed(() => Boolean(props.entry?.updatedAt));
 
 watch(
-  () => props.entry?.journalText,
-  (journalText) => {
-    draft.value = journalText ?? '';
+  () => props.entry,
+  (entry) => {
+    Object.assign(draft, createDraft(entry));
   },
+  { deep: true },
 );
 
 function saveDailyAction(): void {
-  emit('save', draft.value);
+  emit('save', { ...draft });
+}
+
+function createDraft(entry: POAEntry | null): POADraft {
+  return {
+    mode: entry?.mode ?? 'structured',
+    practiceNotes: entry?.practiceNotes ?? '',
+    observeMorning: entry?.observeMorning ?? '',
+    observeMidday: entry?.observeMidday ?? '',
+    observeEvening: entry?.observeEvening ?? '',
+    applyMorning: entry?.applyMorning ?? '',
+    applyMidday: entry?.applyMidday ?? '',
+    applyEvening: entry?.applyEvening ?? '',
+    journalText: entry?.journalText ?? '',
+  };
 }
 </script>
 
@@ -149,6 +264,61 @@ function saveDailyAction(): void {
   outline: none;
 }
 
+.mode-control {
+  background: rgba(55, 36, 22, 0.06);
+  border: 1px solid rgba(75, 52, 29, 0.16);
+  border-radius: 999px;
+  display: grid;
+  gap: 4px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 0 14px;
+  padding: 4px;
+}
+
+.mode-control button {
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  color: rgba(55, 36, 22, 0.72);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  min-height: 40px;
+  padding: 8px 10px;
+}
+
+.mode-control button.active {
+  background: #fffdf7;
+  box-shadow: 0 6px 18px rgba(53, 35, 18, 0.1);
+  color: #244a2e;
+}
+
+.structured-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.poa-field-group {
+  background: rgba(55, 36, 22, 0.025);
+  border: 1px solid rgba(75, 52, 29, 0.12);
+  border-radius: 18px;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.poa-field-group h3 {
+  color: #2e1c0f;
+  font-size: 0.95rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.field-grid {
+  display: grid;
+  gap: 10px;
+}
+
 .daily-action-footer {
   align-items: center;
   display: flex;
@@ -166,5 +336,11 @@ function saveDailyAction(): void {
   font-weight: 900;
   margin: 0;
   padding: 8px 10px;
+}
+
+@media (min-width: 720px) {
+  .field-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 </style>

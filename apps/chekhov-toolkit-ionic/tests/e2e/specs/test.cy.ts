@@ -15,8 +15,8 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     cy.visit('/');
     cy.title().should('eq', 'The Michael Chekhov Toolkit');
     cy.location('pathname').should('eq', '/chart');
-    cy.contains('h1', 'Chart').should('exist');
-    cy.contains('Quick access to the chart').should('exist');
+    cy.contains('.chart-hub strong', 'Inspired Action').should('be.visible');
+    cy.contains('Circle chart map').should('not.exist');
 
     cy.visit('/home');
     cy.location('pathname').should('eq', '/chart');
@@ -38,5 +38,21 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     cy.contains('ion-tab-button', 'Chart').should('have.class', 'tab-selected');
     cy.get('.chart-orb').should('be.visible');
     expectNoHorizontalOverflow();
+  });
+
+  it('shows Chart Quick Draw and the Library resource skeleton', () => {
+    cy.visit('/chart');
+    cy.get('[data-testid="button-quick-draw"]').click();
+    cy.get('.quick-result').should('be.visible');
+    cy.get('.quick-result strong').invoke('text').should('not.be.empty');
+
+    cy.visit('/library');
+    cy.contains('Dive Deeper into the Tools').should('exist');
+    cy.contains('Videos & Demonstrations').should('exist');
+    cy.contains('Chekhov Lectures & Writings').should('exist');
+    cy.contains('Lisa Dalton / NMCA Books & Excerpts').should('exist');
+    cy.contains('Michael Chekhov Archives').should('exist');
+    cy.contains('Lisa’s YouTube').should('exist');
+    cy.contains('Link slot reserved for approved beta resource.').should('exist');
   });
 });
