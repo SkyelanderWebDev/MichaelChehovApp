@@ -61,7 +61,7 @@
               </p>
               <p v-if="!authConfigured">
                 This build is missing its Supabase configuration. Set <code>VITE_SUPABASE_URL</code>
-                and <code>VITE_SUPABASE_ANON_KEY</code> from the approved Supabase project before
+                and <code>VITE_SUPABASE_ANON_KEY</code> from the beta Supabase project before
                 beta testing.
               </p>
             </div>

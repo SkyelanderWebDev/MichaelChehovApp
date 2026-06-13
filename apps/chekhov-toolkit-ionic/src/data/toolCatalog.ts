@@ -1,4 +1,4 @@
-import type { PracticeToolSelection } from '@/types/practice';
+import type { PracticeToolComponent, PracticeToolSelection } from '@/types/practice';
 import { CHART_CATEGORIES, type ChartCategory } from './circleChartCatalog';
 
 export interface WeekendTool {
@@ -182,6 +182,16 @@ export const WEEKEND_TOOL_CATALOG: readonly WeekendToolCategory[] = [
 export type ParentToolFilter = Record<string, string[]>;
 export type ChildToolFilter = Record<string, Record<string, string[]>>;
 
+interface SelectionOptions {
+  includeUnveiling?: boolean;
+  deterministicSeed?: string;
+}
+
+interface DrawableTool {
+  tool: WeekendTool;
+  children: string[];
+}
+
 export function getToolCatalogCategory(categoryId: string): WeekendToolCategory | undefined {
   return WEEKEND_TOOL_CATALOG.find((category) => category.categoryId === categoryId);
 }
@@ -237,6 +247,38 @@ export function getFilteredChildren(
   return tool.children.filter((child) => allowed.has(child));
 }
 
+export function getDrawableTools(
+  categoryId: string,
+  filter?: ParentToolFilter,
+  childFilter?: ChildToolFilter,
+): DrawableTool[] {
+  const catalogCategory = getToolCatalogCategory(categoryId);
+  if (!catalogCategory) return [];
+
+  const selectedParents = filter && categoryId in filter ? new Set(filter[categoryId]) : null;
+
+  return catalogCategory.tools
+    .map((tool) => {
+      const selectedChildren = getFilteredChildren(categoryId, tool.name, childFilter);
+      const parentIncluded = !selectedParents || selectedParents.has(tool.name);
+
+      return parentIncluded && selectedChildren.length > 0 ? { tool, children: selectedChildren } : null;
+    })
+    .filter((candidate): candidate is DrawableTool => Boolean(candidate));
+}
+
+export function getDrawableSelectionCount(
+  categoryId: string,
+  filter?: ParentToolFilter,
+  childFilter?: ChildToolFilter,
+): number {
+  if (categoryId === 'movable-centers') {
+    return getMovableCenterComponents(categoryId, filter, childFilter).length === 3 ? 1 : 0;
+  }
+
+  return getDrawableTools(categoryId, filter, childFilter).length;
+}
+
 export function createFirstSelectionForCategory(categoryId: string): PracticeToolSelection | null {
   const chartCategory = getChartCategory(categoryId);
   const catalogCategory = getToolCatalogCategory(categoryId);
@@ -261,27 +303,38 @@ export function createRandomSelectionFromCategories(
   categoryIds: readonly string[],
   filter?: ParentToolFilter,
   childFilter?: ChildToolFilter,
+  options: SelectionOptions = {},
 ): PracticeToolSelection | null {
-  const categories = getCategoriesWithToolSeeds(categoryIds).filter((category) =>
-    getFilteredTools(category.id, filter).some(
-      (tool) => getFilteredChildren(category.id, tool.name, childFilter).length > 0,
-    ),
-  );
+  const categories = getCategoriesWithToolSeeds(categoryIds).filter((category) => {
+    if (category.id === 'movable-centers') {
+      return getMovableCenterComponents(category.id, filter, childFilter).length === 3;
+    }
+
+    return getDrawableTools(category.id, filter, childFilter).length > 0;
+  });
   const chartCategory = pickOne(categories);
   if (!chartCategory) return null;
 
   const catalogCategory = getToolCatalogCategory(chartCategory.id);
-  const drawableTools = getFilteredTools(chartCategory.id, filter).filter(
-    (candidate) => getFilteredChildren(chartCategory.id, candidate.name, childFilter).length > 0,
-  );
+  if (!catalogCategory) return null;
+
+  if (chartCategory.id === 'movable-centers') {
+    const components = getMovableCenterComponents(chartCategory.id, filter, childFilter);
+    if (components.length !== 3) return null;
+
+    return makeComponentSelection(chartCategory, components, options);
+  }
+
+  const drawableTools = getDrawableTools(chartCategory.id, filter, childFilter);
   const tool = pickOne(drawableTools);
-  if (!catalogCategory || !tool) return null;
+  if (!tool) return null;
 
   return makeSelection(
     chartCategory,
     catalogCategory,
-    tool,
-    pickOne(getFilteredChildren(chartCategory.id, tool.name, childFilter)) ?? null,
+    tool.tool,
+    pickOne(tool.children) ?? null,
+    options,
   );
 }
 
@@ -290,11 +343,19 @@ export function createDailyToolSelection(localDate: string): PracticeToolSelecti
   const categoryIndex = seededIndex(localDate, categories.length);
   const chartCategory = categories[categoryIndex] ?? categories[0];
   const catalogCategory = getToolCatalogCategory(chartCategory.id) ?? WEEKEND_TOOL_CATALOG[0];
+
+  if (chartCategory.id === 'movable-centers') {
+    const components = getMovableCenterComponents(chartCategory.id, undefined, undefined, localDate);
+    return makeComponentSelection(chartCategory, components, { deterministicSeed: localDate });
+  }
+
   const toolIndex = seededIndex(`${localDate}:${chartCategory.id}`, catalogCategory.tools.length);
   const tool = catalogCategory.tools[toolIndex] ?? catalogCategory.tools[0];
   const childIndex = seededIndex(`${localDate}:${chartCategory.id}:${tool.name}`, tool.children.length);
 
-  return makeSelection(chartCategory, catalogCategory, tool, tool.children[childIndex] ?? null);
+  return makeSelection(chartCategory, catalogCategory, tool, tool.children[childIndex] ?? null, {
+    deterministicSeed: localDate,
+  });
 }
 
 function getChartCategory(categoryId: string): ChartCategory | undefined {
@@ -306,15 +367,66 @@ function makeSelection(
   catalogCategory: WeekendToolCategory,
   tool: WeekendTool,
   childToolName: string | null,
+  options: SelectionOptions = {},
 ): PracticeToolSelection {
   return {
     categoryId: chartCategory.id,
     categoryName: chartCategory.name,
     parentToolName: tool.name,
     childToolName,
-    scaleValue: catalogCategory.hasScale ? seededIndex(`${chartCategory.id}:${tool.name}`, 7) + 1 : null,
-    unveiledValue: null,
+    scaleValue: catalogCategory.hasScale ? pickScaleValue(`${options.deterministicSeed ?? ''}:${chartCategory.id}:${tool.name}`, options) : null,
+    unveiledValue: options.includeUnveiling ? pickScaleValue(`${options.deterministicSeed ?? ''}:${chartCategory.id}:unveiling`, options) : null,
   };
+}
+
+function makeComponentSelection(
+  chartCategory: ChartCategory,
+  components: PracticeToolComponent[],
+  options: SelectionOptions = {},
+): PracticeToolSelection {
+  const primary = components[0] ?? null;
+
+  return {
+    categoryId: chartCategory.id,
+    categoryName: chartCategory.name,
+    parentToolName: primary?.label ?? chartCategory.name,
+    childToolName: primary?.value ?? null,
+    components,
+    scaleValue: null,
+    unveiledValue: options.includeUnveiling ? pickScaleValue(`${options.deterministicSeed ?? ''}:${chartCategory.id}:unveiling`, options) : null,
+  };
+}
+
+function getMovableCenterComponents(
+  categoryId: string,
+  filter?: ParentToolFilter,
+  childFilter?: ChildToolFilter,
+  deterministicSeed?: string,
+): PracticeToolComponent[] {
+  const componentOrder = [
+    { sourceName: 'Location', displayName: 'Location' },
+    { sourceName: 'Mobility', displayName: 'Movement' },
+    { sourceName: 'Quality', displayName: 'Quality' },
+  ];
+
+  return componentOrder.flatMap(({ sourceName, displayName }) => {
+    const drawable = getDrawableTools(categoryId, filter, childFilter).find(
+      (candidate) => candidate.tool.name === sourceName,
+    );
+    if (!drawable) return [];
+
+    const value = deterministicSeed
+      ? drawable.children[seededIndex(`${deterministicSeed}:${categoryId}:${sourceName}`, drawable.children.length)]
+      : pickOne(drawable.children);
+
+    return value ? [{ label: displayName, value }] : [];
+  });
+}
+
+function pickScaleValue(seed: string, options: SelectionOptions): number {
+  if (options.deterministicSeed) return seededIndex(seed, 10) + 1;
+
+  return Math.floor(Math.random() * 10) + 1;
 }
 
 function pickOne<T>(items: readonly T[]): T | undefined {

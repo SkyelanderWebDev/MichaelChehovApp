@@ -12,7 +12,7 @@
 
         <p v-if="practiceLoadError" class="error-banner" role="alert">{{ practiceLoadError }}</p>
         <p v-if="isPracticeStarted" class="lock-banner" aria-live="polite">
-          Started for {{ currentPractice?.localDate }}. Today’s tool is locked — return to POA below.
+          Started for {{ currentPractice?.localDate }}. Return to POA below, or unlock the selection if you chose the wrong tool.
         </p>
 
         <section v-if="authStatus === 'unknown'" class="studio-panel" aria-label="Checking session">
@@ -77,6 +77,7 @@
           @start="startPractice"
           @change="focusSelectedCategory"
           @reroll="drawRandomPractice"
+          @unlock="unlockPractice"
         />
 
         <p v-else-if="isSignedIn" class="empty-state">
@@ -96,7 +97,7 @@
               <h2 id="pool-title">Chart areas for Draw Random</h2>
             </div>
             <span class="status-pill">
-              {{ selectedCategoryIds.length }} / {{ CHART_CATEGORIES.length }} areas · {{ poolToolCount }} {{ poolToolCount === 1 ? 'tool' : 'tools' }}
+              {{ selectedCategoryIds.length }} / {{ CHART_CATEGORIES.length }} areas · {{ poolToolCount }} drawable option{{ poolToolCount === 1 ? '' : 's' }}
             </span>
           </div>
 
@@ -113,7 +114,7 @@
           </div>
 
           <p v-if="selectedCategoryIds.length > 0 && poolToolCount === 0" class="empty-pool-note">
-            All parent tools are deselected. Open a chart area’s details to select tools for Draw Random.
+            Nothing is selected to draw from. Open a chart area’s details to select parent tools or example labels.
           </p>
 
           <ul v-if="isPoolOpen" class="pool-list">
@@ -155,10 +156,12 @@
           :category-id="detailCategoryId"
           :included="isDetailCategoryIncluded"
           :selected-tool-names="detailSelectedToolNames"
+          :selected-children-by-tool="detailSelectedChildrenByTool"
           :locked="practiceControlsDisabled"
           @dismiss="closeCategoryDetail"
           @set-included="setCategoryIncluded"
           @set-selected-tools="setSelectedTools"
+          @set-selected-children="setSelectedChildren"
           @preview-tool="previewParentTool"
         />
 
@@ -174,7 +177,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { IonButton, IonContent, IonPage } from '@ionic/vue';
 import { handLeftOutline, shuffleOutline, todayOutline } from 'ionicons/icons';
 import CategoryDetailSheet from '@/components/CategoryDetailSheet.vue';
@@ -185,10 +188,12 @@ import ToolPreviewCard from '@/components/ToolPreviewCard.vue';
 import { CHART_CATEGORIES, getFamily, type ChartCategory } from '@/data/circleChartCatalog';
 import {
   createAllParentToolFilter,
+  createAllChildToolFilter,
   createDailyToolSelection,
   createRandomSelectionFromCategories,
   createSelectionForParentTool,
-  getFilteredTools,
+  getDrawableSelectionCount,
+  type ChildToolFilter,
   type ParentToolFilter,
 } from '@/data/toolCatalog';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
@@ -200,13 +205,16 @@ import {
   savePOA,
   setPreview,
   startTodayPractice,
+  unlockTodayPractice,
 } from '@/stores/dailyPracticeStore';
-import type { DailyPractice, POADraft, POAEntry } from '@/types/practice';
+import type { DailyPractice, POADraft, POAEntry, PracticeToolSelection } from '@/types/practice';
 
 const router = useRouter();
+const route = useRoute();
 
 const selectedCategoryIds = ref<string[]>(CHART_CATEGORIES.map((category) => category.id));
 const selectedToolsByCategory = ref<ParentToolFilter>(createAllParentToolFilter());
+const selectedChildTools = ref<ChildToolFilter>(createAllChildToolFilter());
 const previewCategoryId = ref<string | null>(CHART_CATEGORIES[0]?.id ?? null);
 const detailCategoryId = ref<string | null>(null);
 const isDetailOpen = ref(false);
@@ -214,6 +222,7 @@ const isPoolOpen = ref(false);
 const isAccessSheetOpen = ref(false);
 const currentPractice = ref<DailyPractice | null>(null);
 const poaEntry = ref<POAEntry | null>(null);
+const preservePreviewWithPOA = ref(false);
 const practiceLoadError = ref<string | null>(null);
 const practiceBusy = ref(false);
 
@@ -229,7 +238,7 @@ const previewCategory = computed<ChartCategory | null>(() => {
 const canPickFromPreview = computed(() => !practiceControlsDisabled.value && Boolean(previewCategory.value));
 const poolToolCount = computed(() =>
   selectedCategoryIds.value.reduce(
-    (count, categoryId) => count + getFilteredTools(categoryId, selectedToolsByCategory.value).length,
+    (count, categoryId) => count + getDrawableSelectionCount(categoryId, selectedToolsByCategory.value, selectedChildTools.value),
     0,
   ),
 );
@@ -242,14 +251,18 @@ const isDetailCategoryIncluded = computed(() =>
 const detailSelectedToolNames = computed(() =>
   detailCategoryId.value ? selectedToolsByCategory.value[detailCategoryId.value] ?? [] : [],
 );
+const detailSelectedChildrenByTool = computed(() =>
+  detailCategoryId.value ? selectedChildTools.value[detailCategoryId.value] ?? {} : {},
+);
 
 onMounted(async () => {
   await loadSession();
   await reloadPracticeFromSupabase();
+  await applyPendingQuickDrawPreview();
 });
 
 watch(currentUser, () => {
-  void reloadPracticeFromSupabase();
+  void reloadPracticeFromSupabase().then(() => applyPendingQuickDrawPreview());
 });
 
 function isCategorySelected(categoryId: string): boolean {
@@ -257,7 +270,7 @@ function isCategorySelected(categoryId: string): boolean {
 }
 
 function categoryPoolCount(category: ChartCategory): number {
-  return getFilteredTools(category.id, selectedToolsByCategory.value).length;
+  return getDrawableSelectionCount(category.id, selectedToolsByCategory.value, selectedChildTools.value);
 }
 
 async function reloadPracticeFromSupabase(): Promise<void> {
@@ -266,6 +279,7 @@ async function reloadPracticeFromSupabase(): Promise<void> {
   if (!isSignedIn.value) {
     currentPractice.value = null;
     poaEntry.value = null;
+    preservePreviewWithPOA.value = false;
     isDetailOpen.value = false;
     return;
   }
@@ -275,6 +289,7 @@ async function reloadPracticeFromSupabase(): Promise<void> {
     const saved = await getTodayPractice();
     currentPractice.value = saved;
     poaEntry.value = saved ? await getPOA(saved.id) : null;
+    preservePreviewWithPOA.value = saved?.status === 'preview' && Boolean(poaEntry.value);
     isDetailOpen.value = false;
 
     if (saved) {
@@ -310,6 +325,25 @@ async function setSelectedTools(categoryId: string, toolNames: string[]): Promis
   await clearPreviewState();
 }
 
+async function setSelectedChildren(categoryId: string, parentToolName: string, childNames: string[]): Promise<void> {
+  if (practiceControlsDisabled.value) return;
+
+  selectedChildTools.value = {
+    ...selectedChildTools.value,
+    [categoryId]: {
+      ...(selectedChildTools.value[categoryId] ?? {}),
+      [parentToolName]: childNames,
+    },
+  };
+
+  if (childNames.length > 0) {
+    ensureCategorySelected(categoryId);
+    ensureToolSelected(categoryId, parentToolName);
+  }
+
+  await clearPreviewState();
+}
+
 function openCategoryDetail(categoryId: string): void {
   previewCategoryId.value = categoryId;
   detailCategoryId.value = categoryId;
@@ -325,6 +359,7 @@ async function selectAllCategories(): Promise<void> {
 
   selectedCategoryIds.value = CHART_CATEGORIES.map((category) => category.id);
   selectedToolsByCategory.value = createAllParentToolFilter();
+  selectedChildTools.value = createAllChildToolFilter();
   previewCategoryId.value = selectedCategoryIds.value[0] ?? null;
   await clearPreviewState();
 }
@@ -363,7 +398,11 @@ async function previewParentTool(categoryId: string, parentToolName: string): Pr
 async function drawRandomPractice(): Promise<void> {
   if (!canDrawRandom.value) return;
 
-  const selection = createRandomSelectionFromCategories(selectedCategoryIds.value, selectedToolsByCategory.value);
+  const selection = createRandomSelectionFromCategories(
+    selectedCategoryIds.value,
+    selectedToolsByCategory.value,
+    selectedChildTools.value,
+  );
   if (!selection) return;
 
   await withPracticeOperation(async () => {
@@ -371,6 +410,30 @@ async function drawRandomPractice(): Promise<void> {
     ensureCategorySelected(selection.categoryId);
     poaEntry.value = null;
     currentPractice.value = await setPreview(selection, 'random');
+  });
+}
+
+async function applyPendingQuickDrawPreview(): Promise<void> {
+  if (!isSignedIn.value || isPracticeStarted.value || route.query.preview !== 'quick-draw') return;
+
+  const rawSelection = window.sessionStorage.getItem('chekhov:quick-draw-preview');
+  if (!rawSelection) return;
+
+  let selection: PracticeToolSelection;
+  try {
+    selection = JSON.parse(rawSelection) as PracticeToolSelection;
+  } catch {
+    window.sessionStorage.removeItem('chekhov:quick-draw-preview');
+    return;
+  }
+
+  await withPracticeOperation(async () => {
+    previewCategoryId.value = selection.categoryId;
+    ensureCategorySelected(selection.categoryId);
+    ensureToolSelected(selection.categoryId, selection.parentToolName);
+    currentPractice.value = await setPreview(selection, 'random');
+    poaEntry.value = currentPractice.value ? await getPOA(currentPractice.value.id) : null;
+    window.sessionStorage.removeItem('chekhov:quick-draw-preview');
   });
 }
 
@@ -393,6 +456,20 @@ async function startPractice(): Promise<void> {
     if (startedPractice) {
       currentPractice.value = startedPractice;
       poaEntry.value = await getPOA(startedPractice.id);
+      preservePreviewWithPOA.value = false;
+    }
+  });
+}
+
+async function unlockPractice(): Promise<void> {
+  if (!currentPractice.value || currentPractice.value.status !== 'started') return;
+
+  await withPracticeOperation(async () => {
+    const unlockedPractice = await unlockTodayPractice(currentPractice.value?.localDate);
+    if (unlockedPractice) {
+      currentPractice.value = unlockedPractice;
+      poaEntry.value = await getPOA(unlockedPractice.id);
+      preservePreviewWithPOA.value = Boolean(poaEntry.value);
     }
   });
 }
@@ -427,11 +504,18 @@ function focusSelectedCategory(): void {
 }
 
 async function clearPreviewState(): Promise<void> {
+  const shouldPreserveSavedPOA = preservePreviewWithPOA.value
+    || (currentPractice.value?.status === 'preview' && Boolean(poaEntry.value));
+  preservePreviewWithPOA.value = shouldPreserveSavedPOA;
+
   currentPractice.value = null;
   poaEntry.value = null;
 
+  if (shouldPreserveSavedPOA) return;
+
   try {
     await clearTodayPracticePreview();
+    preservePreviewWithPOA.value = false;
   } catch (error) {
     setPracticeError(error, 'Unable to clear the saved preview.');
   }

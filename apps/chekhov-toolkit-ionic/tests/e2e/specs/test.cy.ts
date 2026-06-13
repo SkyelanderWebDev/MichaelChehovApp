@@ -51,8 +51,8 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     cy.contains('Videos & Demonstrations').should('exist');
     cy.contains('Chekhov Lectures & Writings').should('exist');
     cy.contains('Lisa Dalton / NMCA Books & Excerpts').should('exist');
-    cy.contains('Michael Chekhov Archives').should('exist');
+    cy.contains('Windsor University’s Michael Chekhov Archive').should('exist');
     cy.contains('Lisa’s YouTube').should('exist');
-    cy.contains('Link slot reserved for approved beta resource.').should('exist');
+    cy.contains('More demonstrations and class clips coming soon.').should('exist');
   });
 });

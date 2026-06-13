@@ -33,39 +33,67 @@
         </label>
 
         <div v-if="!browse" class="filter-controls">
-          <ion-button
-            class="select-all-tools"
-            size="small"
-            fill="outline"
-            color="medium"
-            :disabled="locked || allToolsSelected"
-            @click="$emit('set-selected-tools', category.id, tools.map((tool) => tool.name))"
-          >
-            Select all parent tools
-          </ion-button>
-          <ion-button
-            class="deselect-all-tools"
-            size="small"
-            fill="clear"
-            color="medium"
-            :disabled="locked || selectedToolNames.length === 0"
-            @click="$emit('set-selected-tools', category.id, [])"
-          >
-            Deselect all
-          </ion-button>
-          <span class="tool-count-pill" aria-live="polite">
-            {{ selectedToolNames.length }} of {{ tools.length }} selected
-          </span>
+          <div class="filter-control-group">
+            <span class="filter-label">Parent tools</span>
+            <ion-button
+              class="select-all-tools"
+              size="small"
+              fill="outline"
+              color="medium"
+              :disabled="locked || allToolsSelected"
+              @click="$emit('set-selected-tools', category.id, tools.map((tool) => tool.name))"
+            >
+              All
+            </ion-button>
+            <ion-button
+              class="deselect-all-tools"
+              size="small"
+              fill="clear"
+              color="medium"
+              :disabled="locked || selectedToolNames.length === 0"
+              @click="$emit('set-selected-tools', category.id, [])"
+            >
+              None
+            </ion-button>
+            <span class="tool-count-pill" aria-live="polite">
+              {{ selectedToolNames.length }} / {{ tools.length }}
+            </span>
+          </div>
+
+          <div v-if="childSelectionEnabled" class="filter-control-group">
+            <span class="filter-label">Example labels</span>
+            <ion-button
+              size="small"
+              fill="outline"
+              color="medium"
+              :disabled="locked || allChildrenSelected"
+              @click="selectAllChildrenInCategory"
+            >
+              All
+            </ion-button>
+            <ion-button
+              size="small"
+              fill="clear"
+              color="medium"
+              :disabled="locked || selectedChildTotal === 0"
+              @click="deselectAllChildrenInCategory"
+            >
+              None
+            </ion-button>
+            <span class="tool-count-pill" aria-live="polite">
+              {{ selectedChildTotal }} / {{ totalChildLabels }}
+            </span>
+          </div>
         </div>
 
         <p v-if="browse" class="detail-note browse-note">
-          Source-backed taxonomy labels only. Choose and start tools from the Journal tab.
+          Browse this chart area here, or choose and start tools from the Journal tab.
         </p>
         <p v-else-if="locked" class="detail-note locked-note">
           Today’s practice is started, so this detail view is read-only until tomorrow.
         </p>
         <p v-else-if="selectedToolNames.length === 0" class="detail-note excluded-note">
-          No parent tools selected — this chart area is excluded from Draw Random until you select at least one.
+          Select a parent tool or any example label to add this chart area back to Draw Random.
         </p>
 
         <ul class="parent-tool-list">
@@ -103,20 +131,20 @@
             </div>
             <div v-if="childSelectionEnabled && tool.children.length > 0" class="child-filter-block">
               <div class="child-filter-actions">
-                <span>{{ selectedChildCount(tool.name) }} of {{ tool.children.length }} child labels selected</span>
+                <span>{{ selectedChildCount(tool.name) }} of {{ tool.children.length }} example labels selected</span>
                 <button
                   type="button"
-                  :disabled="locked || !selectedToolNames.includes(tool.name) || selectedChildCount(tool.name) === tool.children.length"
+                  :disabled="locked || selectedChildCount(tool.name) === tool.children.length"
                   @click="setSelectedChildren(tool.name, [...tool.children])"
                 >
-                  Select all children
+                  Select examples
                 </button>
                 <button
                   type="button"
-                  :disabled="locked || !selectedToolNames.includes(tool.name) || selectedChildCount(tool.name) === 0"
+                  :disabled="locked || selectedChildCount(tool.name) === 0"
                   @click="setSelectedChildren(tool.name, [])"
                 >
-                  Deselect children
+                  Deselect examples
                 </button>
               </div>
               <div class="child-selectors" aria-label="Child and example label selectors">
@@ -128,7 +156,7 @@
                   :data-child-name="child"
                   label-placement="end"
                   :checked="selectedChildrenForTool(tool.name).includes(child)"
-                  :disabled="locked || !selectedToolNames.includes(tool.name)"
+                  :disabled="locked"
                   :class="{ highlighted: isHighlightedChild(tool.name, child) }"
                   :aria-label="`Include ${child} under ${tool.name} in the ${poolLabel}`"
                   @ionChange="toggleChild(tool.name, child, $event.detail.checked)"
@@ -220,6 +248,13 @@ const allToolsSelected = computed(
 );
 
 const childSelectionEnabled = computed(() => Boolean(props.selectedChildrenByTool));
+const totalChildLabels = computed(() => tools.value.reduce((count, tool) => count + tool.children.length, 0));
+const selectedChildTotal = computed(() =>
+  tools.value.reduce((count, tool) => count + selectedChildrenForTool(tool.name).length, 0),
+);
+const allChildrenSelected = computed(
+  () => totalChildLabels.value > 0 && selectedChildTotal.value === totalChildLabels.value,
+);
 
 const poolLabel = computed(() => (props.selectionContext === 'chart' ? 'Quick Draw pool' : 'practice pool'));
 
@@ -255,6 +290,22 @@ function setSelectedChildren(toolName: string, childNames: string[]): void {
   if (!category.value) return;
 
   emit('set-selected-children', category.value.id, toolName, childNames);
+}
+
+function selectAllChildrenInCategory(): void {
+  if (!category.value) return;
+
+  for (const tool of tools.value) {
+    emit('set-selected-children', category.value.id, tool.name, [...tool.children]);
+  }
+}
+
+function deselectAllChildrenInCategory(): void {
+  if (!category.value) return;
+
+  for (const tool of tools.value) {
+    emit('set-selected-children', category.value.id, tool.name, []);
+  }
 }
 
 function toggleChild(toolName: string, childName: string, checked: boolean): void {
@@ -366,10 +417,28 @@ function formatScope(scope: WeekendTool['scope']): string {
 }
 
 .filter-controls {
+  display: grid;
+  gap: 8px;
+}
+
+.filter-control-group {
   align-items: center;
+  background: rgba(255, 253, 247, 0.78);
+  border: 1px solid rgba(75, 52, 29, 0.14);
+  border-radius: 16px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
+  padding: 8px;
+}
+
+.filter-label {
+  color: rgba(55, 36, 22, 0.72);
+  flex: 1 1 112px;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .tool-count-pill {

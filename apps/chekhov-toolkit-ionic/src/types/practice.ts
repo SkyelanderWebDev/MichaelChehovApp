@@ -5,8 +5,14 @@ export interface PracticeToolSelection {
   categoryName: string;
   parentToolName: string;
   childToolName?: string | null;
+  components?: PracticeToolComponent[];
   scaleValue?: number | null;
   unveiledValue?: number | null;
+}
+
+export interface PracticeToolComponent {
+  label: string;
+  value: string;
 }
 
 export interface DailyPractice {

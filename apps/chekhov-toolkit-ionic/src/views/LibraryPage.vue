@@ -6,18 +6,17 @@
           <p class="kicker">Source-grounded reference</p>
           <h1>Library</h1>
           <p class="page-subtitle">
-            Browse the Chart of Inspired Action taxonomy and source-safe slots for future approved beta resources.
+            Browse the Chart of Inspired Action and trusted resource paths for deeper study.
           </p>
         </header>
 
         <p class="library-note">
-          Source cards and approved excerpts arrive as beta material is approved. Labels below are
-          source-backed taxonomy only — no generated practice prompts.
+          This first Library pass keeps the chart tools close at hand while deeper videos, writings, and excerpts are prepared.
         </p>
 
         <section class="library-section" aria-labelledby="dive-deeper-title">
           <div class="section-heading">
-            <p class="kicker">Tool taxonomy</p>
+            <p class="kicker">Chart tools</p>
             <h2 id="dive-deeper-title">Dive Deeper into the Tools</h2>
           </div>
 
@@ -63,14 +62,17 @@
 
         <section class="library-section" aria-labelledby="resource-buckets-title">
           <div class="section-heading">
-            <p class="kicker">Future resources</p>
-            <h2 id="resource-buckets-title">Source-safe resource buckets</h2>
+            <p class="kicker">Study paths</p>
+            <h2 id="resource-buckets-title">Resources</h2>
           </div>
 
           <div class="resource-grid">
             <article v-for="bucket in resourceBuckets" :key="bucket.title" class="studio-panel resource-card">
               <h3>{{ bucket.title }}</h3>
               <p>{{ bucket.placeholder }}</p>
+              <a v-if="bucket.href" :href="bucket.href" target="_blank" rel="noreferrer">
+                Open resource
+              </a>
             </article>
           </div>
         </section>
@@ -103,13 +105,27 @@ interface FamilyGroup {
   categories: LibraryEntry[];
 }
 
-const resourceBuckets = [
-  { title: 'Videos & Demonstrations', placeholder: 'Link slot reserved for approved beta resource.' },
-  { title: 'Chekhov Lectures & Writings', placeholder: 'Link slot reserved for approved beta resource.' },
-  { title: 'Lisa Dalton / NMCA Books & Excerpts', placeholder: 'Link slot reserved for approved beta resource.' },
-  { title: 'Michael Chekhov Archives', placeholder: 'Link slot reserved for approved beta resource.' },
-  { title: 'Lisa’s YouTube', placeholder: 'Link slot reserved for approved beta resource.' },
-] as const;
+interface ResourceBucket {
+  title: string;
+  placeholder: string;
+  href?: string;
+}
+
+const resourceBuckets: ResourceBucket[] = [
+  {
+    title: 'Lisa’s YouTube',
+    placeholder: 'Lisa Dalton’s public Michael Chekhov video library.',
+    href: 'https://www.youtube.com/c/LisaDaltonandMichaelChekhov/videos',
+  },
+  { title: 'Videos & Demonstrations', placeholder: 'More demonstrations and class clips coming soon.' },
+  { title: 'Chekhov Lectures & Writings', placeholder: 'More lecture and writing references coming soon.' },
+  { title: 'Lisa Dalton / NMCA Books & Excerpts', placeholder: 'More book and excerpt references coming soon.' },
+  {
+    title: 'Windsor University’s Michael Chekhov Archive',
+    placeholder: 'University of Windsor archive overview for Michael Chekhov materials.',
+    href: 'https://collections.uwindsor.ca/chekhov/about',
+  },
+];
 
 const route = useRoute();
 
@@ -331,6 +347,25 @@ function formatScope(scope: WeekendTool['scope']): string {
   font-size: 0.88rem;
   line-height: 1.45;
   margin: 0;
+}
+
+.resource-card a {
+  align-self: start;
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  color: var(--accent-primary);
+  font-size: 0.82rem;
+  font-weight: 900;
+  margin-top: 4px;
+  min-height: 38px;
+  padding: 9px 12px;
+  text-decoration: none;
+}
+
+.resource-card a:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 .attribution-card {

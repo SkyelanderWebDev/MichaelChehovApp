@@ -64,6 +64,7 @@
           <span class="directory-meta">
             {{ getFamily(category.family).label }} · {{ poolToolCount(category) }} of {{ category.toolCount }} tools in pool
           </span>
+          <span class="directory-state">{{ isSelected(category.id) ? 'Selected' : 'Excluded' }}</span>
         </button>
         <button
           class="directory-details"
@@ -90,6 +91,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { CHART_CATEGORIES, CHART_FAMILIES, getCategory, getFamily, type ChartCategory } from '@/data/circleChartCatalog';
+import { getDrawableSelectionCount, type ChildToolFilter, type ParentToolFilter } from '@/data/toolCatalog';
 
 interface PositionedCategory extends ChartCategory {
   angle: number;
@@ -99,7 +101,8 @@ interface PositionedCategory extends ChartCategory {
 const props = withDefaults(
   defineProps<{
     selectedCategoryIds: string[];
-    toolFilter?: Record<string, string[]>;
+    toolFilter?: ParentToolFilter;
+    childFilter?: ChildToolFilter;
     disabled?: boolean;
     /** Read-only quick-access mode for the Chart tab: no pool selection state. */
     browse?: boolean;
@@ -107,6 +110,7 @@ const props = withDefaults(
   }>(),
   {
     toolFilter: undefined,
+    childFilter: undefined,
     disabled: false,
     browse: false,
     showDirectory: true,
@@ -143,7 +147,7 @@ const hubTitle = computed(() => {
 
 const hubSubtitle = computed(() => {
   if (props.browse) return `${CHART_CATEGORIES.length} chart areas · ${CHART_FAMILIES.length} families`;
-  if (selectedCategories.value.length === 0) return 'Official taxonomy labels only';
+  if (selectedCategories.value.length === 0) return 'Choose one or more areas';
   if (selectedCategories.value.length === 1) return getFamily(selectedCategories.value[0].family).label;
   return 'Ready for Pick My Own or Draw Random';
 });
@@ -155,9 +159,7 @@ function isSelected(categoryId: string): boolean {
 }
 
 function poolToolCount(category: ChartCategory): number {
-  if (!props.toolFilter || !(category.id in props.toolFilter)) return category.toolCount;
-
-  return props.toolFilter[category.id].length;
+  return getDrawableSelectionCount(category.id, props.toolFilter, props.childFilter);
 }
 
 function handleNodeClick(categoryId: string): void {
@@ -437,7 +439,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   display: grid;
   flex: 1 1 auto;
   gap: 4px 8px;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   min-height: 44px;
   padding: 6px 8px;
   text-align: left;
@@ -485,6 +487,25 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   font-size: 0.72rem;
   font-weight: 700;
   grid-column: 2;
+}
+
+.directory-state {
+  align-self: center;
+  background: rgba(55, 36, 22, 0.07);
+  border: 1px solid var(--border-on-paper);
+  border-radius: 999px;
+  color: var(--text-on-paper-soft);
+  font-size: 0.64rem;
+  font-weight: 900;
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  padding: 5px 8px;
+  text-transform: uppercase;
+}
+
+.directory-row.selected .directory-state {
+  background: rgba(138, 92, 36, 0.14);
+  color: #8a5c25;
 }
 
 .family-legend {

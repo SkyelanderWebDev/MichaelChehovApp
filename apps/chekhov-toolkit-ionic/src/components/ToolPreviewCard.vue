@@ -2,7 +2,7 @@
   <ion-card class="tool-preview-card" :class="{ locked: practice.status === 'started' }">
     <ion-card-header>
       <ion-card-subtitle>{{ sourceLabel }} · {{ statusLabel }}</ion-card-subtitle>
-      <ion-card-title>{{ practice.selectedTool.parentToolName }}</ion-card-title>
+      <ion-card-title>{{ cardTitle }}</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -11,19 +11,31 @@
           <dt>Chart area</dt>
           <dd>{{ practice.selectedTool.categoryName }}</dd>
         </div>
-        <div v-if="practice.selectedTool.childToolName">
+        <div v-if="practice.selectedTool.childToolName && !practice.selectedTool.components?.length">
           <dt>Tool seed</dt>
           <dd>{{ practice.selectedTool.childToolName }}</dd>
+        </div>
+        <div v-if="practice.selectedTool.components?.length" class="component-detail">
+          <dt>Components</dt>
+          <dd>
+            <span v-for="component in practice.selectedTool.components" :key="component.label">
+              <small>{{ component.label }}</small>
+              <b>{{ component.value }}</b>
+            </span>
+          </dd>
         </div>
         <div v-if="practice.selectedTool.scaleValue">
           <dt>Scale</dt>
           <dd>{{ practice.selectedTool.scaleValue }}</dd>
         </div>
+        <div v-if="practice.selectedTool.unveiledValue">
+          <dt>Veiling</dt>
+          <dd>{{ practice.selectedTool.unveiledValue }}</dd>
+        </div>
       </dl>
 
       <p class="neutral-note">
-        Source-backed taxonomy label. No generated practice prompt. Starting today’s practice locks
-        this selection to today’s POA path.
+        Starting today’s practice links this selection to today’s POA path.
       </p>
 
       <div v-if="practice.status === 'preview'" class="preview-actions">
@@ -41,8 +53,11 @@
       <div v-else class="locked-state" aria-live="polite">
         <strong>Today’s practice is started.</strong>
         <p>
-          This tool is locked for {{ practice.localDate }}. Use the Daily Action / POA card below to save and return to today’s note.
+          Use the Daily Action / POA card below to save and return to today’s note. If this is not the tool you meant to choose, unlock it and pick again.
         </p>
+        <ion-button fill="outline" color="medium" expand="block" @click="$emit('unlock')">
+          Unlock and change tool
+        </ion-button>
       </div>
     </ion-card-content>
   </ion-card>
@@ -61,10 +76,16 @@ defineEmits<{
   (event: 'start'): void;
   (event: 'change'): void;
   (event: 'reroll'): void;
+  (event: 'unlock'): void;
 }>();
 
 const sourceLabel = computed(() => sourceLabels[props.practice.source]);
-const statusLabel = computed(() => (props.practice.status === 'started' ? 'Locked' : 'Preview'));
+const statusLabel = computed(() => (props.practice.status === 'started' ? 'Started' : 'Preview'));
+const cardTitle = computed(() =>
+  props.practice.selectedTool.components?.length
+    ? props.practice.selectedTool.categoryName
+    : props.practice.selectedTool.parentToolName,
+);
 
 const sourceLabels: Record<PracticeSource, string> = {
   'self-selected': 'Pick My Own',
@@ -128,6 +149,37 @@ const sourceLabels: Record<PracticeSource, string> = {
   margin: 4px 0 0;
 }
 
+.component-detail dd {
+  display: grid;
+  gap: 7px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.component-detail span {
+  background: rgba(255, 253, 247, 0.7);
+  border: 1px solid rgba(75, 52, 29, 0.12);
+  border-radius: 12px;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px;
+}
+
+.component-detail small {
+  color: rgba(55, 36, 22, 0.6);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.component-detail b {
+  color: #372416;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
 .neutral-note,
 .locked-state p {
   color: rgba(55, 36, 22, 0.72);
@@ -162,5 +214,9 @@ const sourceLabels: Record<PracticeSource, string> = {
 
 .locked-state p {
   margin: 0;
+}
+
+.locked-state ion-button {
+  margin-top: 12px;
 }
 </style>

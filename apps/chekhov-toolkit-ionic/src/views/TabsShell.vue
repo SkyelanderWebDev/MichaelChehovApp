@@ -41,13 +41,22 @@ import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutli
 </script>
 
 <style scoped>
+:deep(ion-tabs),
+:deep(ion-tab-bar),
+:deep(ion-tab-button) {
+  overflow: visible;
+}
+
 .studio-tab-bar {
   border-top: 1px solid var(--border-subtle);
-  height: calc(60px + env(safe-area-inset-bottom));
+  height: calc(72px + env(safe-area-inset-bottom));
+  padding-top: 12px;
   padding-bottom: env(safe-area-inset-bottom);
   /* Let the raised center Chart orb overflow above the bar. */
   contain: none;
   overflow: visible;
+  position: relative;
+  z-index: 50;
 }
 
 .studio-tab {
@@ -56,6 +65,8 @@ import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutli
   letter-spacing: 0.02em;
   min-height: 44px;
   overflow: visible;
+  position: relative;
+  z-index: 1;
 }
 
 .studio-tab ion-icon {
@@ -69,6 +80,7 @@ import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutli
 /* Center signature tab: raised brass-ringed sigil. */
 .chart-tab {
   overflow: visible;
+  z-index: 3;
 }
 
 .chart-orb {
@@ -81,9 +93,11 @@ import { apertureOutline, bookOutline, journalOutline, mapOutline, settingsOutli
   display: flex;
   height: 46px;
   justify-content: center;
-  margin-top: -18px;
+  margin-top: -28px;
+  position: relative;
   transition: box-shadow 180ms ease, transform 180ms ease;
   width: 46px;
+  z-index: 4;
 }
 
 .chart-orb ion-icon {
