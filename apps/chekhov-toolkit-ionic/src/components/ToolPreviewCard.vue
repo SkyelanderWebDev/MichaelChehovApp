@@ -25,7 +25,7 @@
           </dd>
         </div>
         <div v-if="practice.selectedTool.scaleValue">
-          <dt>Scale</dt>
+          <dt>Tempo #</dt>
           <dd>{{ practice.selectedTool.scaleValue }}</dd>
         </div>
         <div v-if="practice.selectedTool.unveiledValue">

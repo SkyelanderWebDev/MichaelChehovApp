@@ -15,17 +15,25 @@ ion-content {
 
 /* One comfortable mobile-first column for every tab page. */
 .page-shell {
+  box-sizing: border-box;
   display: grid;
   gap: 14px;
   margin: 0 auto;
   max-width: 720px;
-  padding: 14px 16px calc(24px + env(safe-area-inset-bottom));
+  min-width: 0;
+  overflow-x: clip;
+  padding: 14px 16px calc(104px + env(safe-area-inset-bottom));
+  width: 100%;
+}
+
+.page-shell > * {
+  min-width: 0;
 }
 
 @media (min-width: 760px) {
   .page-shell {
     gap: 18px;
-    padding: 24px 20px 40px;
+    padding: 24px 20px calc(104px + env(safe-area-inset-bottom));
   }
 }
 
