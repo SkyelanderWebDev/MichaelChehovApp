@@ -9,6 +9,21 @@ function expectNoHorizontalOverflow() {
   });
 }
 
+function selectOnlyOpening() {
+  cy.get('[data-testid="chart-deselect-all"]').click();
+  cy.get('[data-testid="category-toggle-expanding-contracting"]').click();
+  cy.contains('.category-card', 'Expanding & Contracting').within(() => {
+    cy.contains('button', 'Details').click();
+  });
+
+  cy.get('.category-detail-modal').should('be.visible');
+  cy.contains('.parent-tool-row', 'Expanding').within(() => {
+    cy.contains('ion-checkbox', 'Expanding').click({ force: true });
+    cy.get('[data-testid="child-selector"][data-child-name="Opening"]').click({ force: true });
+  });
+  cy.get('.detail-footer-bar').contains('ion-button', 'Done').click();
+}
+
 describe('Chart browse and Library depth', () => {
   beforeEach(() => {
     cy.viewport(MOBILE_VIEWPORT.width, MOBILE_VIEWPORT.height);
@@ -19,10 +34,12 @@ describe('Chart browse and Library depth', () => {
     });
   });
 
-  it('opens category basics from the Chart without practice controls', () => {
+  it('opens category selectors from the Chart with child labels', () => {
     cy.contains('.chart-hub strong', 'Inspired Action').should('be.visible');
     cy.contains('Circle chart map').should('not.exist');
-    cy.get('.chart-node').first().click({ force: true });
+    cy.contains('.category-card', 'Expanding & Contracting').within(() => {
+      cy.contains('button', 'Details').click();
+    });
 
     cy.get('.category-detail-modal').should('be.visible');
     cy.get('.detail-title').should('contain.text', 'Expanding & Contracting');
@@ -30,12 +47,12 @@ describe('Chart browse and Library depth', () => {
     cy.get('.detail-description').should('contain.text', 'Core PsychoPhysical movement');
     cy.get('.parent-tool-row').should('have.length', 2);
     cy.contains('.parent-tool-row', 'Expanding').within(() => {
-      cy.contains('.child-chip', 'Opening').should('be.visible');
-      cy.contains('.child-chip', 'Blossoming').should('be.visible');
-      cy.contains('.child-chip', 'Ebbing').should('be.visible');
+      cy.get('[data-testid="child-selector"][data-child-name="Opening"]').should('be.visible');
+      cy.get('[data-testid="child-selector"][data-child-name="Blossoming"]').should('be.visible');
+      cy.get('[data-testid="child-selector"][data-child-name="Ebbing"]').should('be.visible');
     });
-    cy.contains('Source-backed taxonomy labels only').should('exist');
-    cy.get('.select-all-tools').should('not.exist');
+    cy.contains('Include in Quick Draw pool').should('exist');
+    cy.get('.select-all-tools').should('exist');
     cy.get('.preview-tool-button').should('not.exist');
 
     expectNoHorizontalOverflow();
@@ -48,6 +65,49 @@ describe('Chart browse and Library depth', () => {
     cy.contains('h1', 'Library').should('exist');
     cy.contains('Expanding & Contracting').should('exist');
     cy.contains('source-backed taxonomy only').should('exist');
+    expectNoHorizontalOverflow();
+  });
+
+  it('shows an empty Quick Draw state after master deselect all', () => {
+    cy.get('[data-testid="chart-deselect-all"]').click();
+    cy.get('[data-testid="button-quick-draw"]').click();
+
+    cy.contains('Nothing is selected for Quick Draw').should('be.visible');
+    cy.get('.quick-result').should('not.exist');
+    expectNoHorizontalOverflow();
+  });
+
+  it('draws from one selected category, parent tool, and child label', () => {
+    selectOnlyOpening();
+
+    cy.get('[data-testid="button-quick-draw"]').click();
+    cy.get('.quick-result').should('be.visible');
+    cy.get('[data-testid="quick-draw-result"]').should('contain.text', 'Expanding & Contracting');
+    cy.get('[data-testid="quick-draw-result"]').should('contain.text', 'Expanding');
+    cy.get('[data-testid="quick-draw-result"]').should('contain.text', 'Opening');
+    expectNoHorizontalOverflow();
+  });
+
+  it('opens and highlights the Quick Draw result detail', () => {
+    selectOnlyOpening();
+
+    cy.get('[data-testid="button-quick-draw"]').click();
+    cy.get('[data-testid="quick-draw-result"]').click();
+
+    cy.get('.category-detail-modal').should('be.visible');
+    cy.get('.detail-title').should('contain.text', 'Expanding & Contracting');
+    cy.get('.parent-tool-row.highlighted').should('contain.text', 'Expanding');
+    cy.get('[data-testid="child-selector"][data-child-name="Opening"]').should('have.class', 'highlighted');
+    expectNoHorizontalOverflow();
+  });
+
+  it('centers Quick Draw result text', () => {
+    selectOnlyOpening();
+
+    cy.get('[data-testid="button-quick-draw"]').click();
+    cy.get('[data-testid="quick-draw-result"]').then(($result) => {
+      expect(getComputedStyle($result[0]).textAlign).to.eq('center');
+    });
     expectNoHorizontalOverflow();
   });
 

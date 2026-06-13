@@ -20,14 +20,14 @@
 
         <label v-if="!browse" class="include-row">
           <span class="include-copy">
-            <strong>Include in practice pool</strong>
-            <small>Draw Random only uses included chart areas.</small>
+            <strong>Include in {{ poolLabel }}</strong>
+            <small>{{ poolDescription }}</small>
           </span>
           <ion-toggle
             class="include-toggle"
             :checked="included"
             :disabled="locked"
-            aria-label="Include this chart area in the practice pool"
+            :aria-label="`Include this chart area in the ${poolLabel}`"
             @ionChange="$emit('set-included', category.id, $event.detail.checked)"
           />
         </label>
@@ -41,7 +41,7 @@
             :disabled="locked || allToolsSelected"
             @click="$emit('set-selected-tools', category.id, tools.map((tool) => tool.name))"
           >
-            Select all tools
+            Select all parent tools
           </ion-button>
           <ion-button
             class="deselect-all-tools"
@@ -69,7 +69,12 @@
         </p>
 
         <ul class="parent-tool-list">
-          <li v-for="tool in tools" :key="tool.name" class="parent-tool-row">
+          <li
+            v-for="tool in tools"
+            :key="tool.name"
+            class="parent-tool-row"
+            :class="{ highlighted: isHighlightedParent(tool.name) }"
+          >
             <div class="tool-row-head">
               <span v-if="browse" class="tool-name">{{ tool.name }}</span>
               <ion-checkbox
@@ -78,14 +83,14 @@
                 label-placement="end"
                 :checked="selectedToolNames.includes(tool.name)"
                 :disabled="locked"
-                :aria-label="`Include ${tool.name} in the practice pool`"
+                :aria-label="`Include ${tool.name} in the ${poolLabel}`"
                 @ionChange="toggleTool(tool.name, $event.detail.checked)"
               >
                 {{ tool.name }}
               </ion-checkbox>
               <span v-if="tool.scope" class="scope-pill">{{ formatScope(tool.scope) }}</span>
               <ion-button
-                v-if="!browse"
+                v-if="!browse && selectionContext === 'practice'"
                 class="preview-tool-button"
                 size="small"
                 fill="outline"
@@ -96,7 +101,43 @@
                 Preview
               </ion-button>
             </div>
-            <div v-if="tool.children.length > 0" class="child-chips" aria-label="Child and example labels">
+            <div v-if="childSelectionEnabled && tool.children.length > 0" class="child-filter-block">
+              <div class="child-filter-actions">
+                <span>{{ selectedChildCount(tool.name) }} of {{ tool.children.length }} child labels selected</span>
+                <button
+                  type="button"
+                  :disabled="locked || !selectedToolNames.includes(tool.name) || selectedChildCount(tool.name) === tool.children.length"
+                  @click="setSelectedChildren(tool.name, [...tool.children])"
+                >
+                  Select all children
+                </button>
+                <button
+                  type="button"
+                  :disabled="locked || !selectedToolNames.includes(tool.name) || selectedChildCount(tool.name) === 0"
+                  @click="setSelectedChildren(tool.name, [])"
+                >
+                  Deselect children
+                </button>
+              </div>
+              <div class="child-selectors" aria-label="Child and example label selectors">
+                <ion-checkbox
+                  v-for="child in tool.children"
+                  :key="child"
+                  class="child-selector"
+                  data-testid="child-selector"
+                  :data-child-name="child"
+                  label-placement="end"
+                  :checked="selectedChildrenForTool(tool.name).includes(child)"
+                  :disabled="locked || !selectedToolNames.includes(tool.name)"
+                  :class="{ highlighted: isHighlightedChild(tool.name, child) }"
+                  :aria-label="`Include ${child} under ${tool.name} in the ${poolLabel}`"
+                  @ionChange="toggleChild(tool.name, child, $event.detail.checked)"
+                >
+                  {{ child }}
+                </ion-checkbox>
+              </div>
+            </div>
+            <div v-else-if="tool.children.length > 0" class="child-chips" aria-label="Child and example labels">
               <span v-for="child in tool.children" :key="child" class="child-chip">{{ child }}</span>
             </div>
           </li>
@@ -139,9 +180,17 @@ const props = withDefaults(
     locked: boolean;
     /** Read-only quick-access mode for the Chart tab: no pool editing controls. */
     browse?: boolean;
+    selectionContext?: 'practice' | 'chart';
+    selectedChildrenByTool?: Record<string, string[]>;
+    highlightedParentToolName?: string | null;
+    highlightedChildToolName?: string | null;
   }>(),
   {
     browse: false,
+    selectionContext: 'practice',
+    selectedChildrenByTool: undefined,
+    highlightedParentToolName: null,
+    highlightedChildToolName: null,
   },
 );
 
@@ -149,6 +198,7 @@ const emit = defineEmits<{
   (event: 'dismiss'): void;
   (event: 'set-included', categoryId: string, included: boolean): void;
   (event: 'set-selected-tools', categoryId: string, toolNames: string[]): void;
+  (event: 'set-selected-children', categoryId: string, parentToolName: string, childNames: string[]): void;
   (event: 'preview-tool', categoryId: string, parentToolName: string): void;
   (event: 'open-library', categoryId: string): void;
 }>();
@@ -169,6 +219,16 @@ const allToolsSelected = computed(
   () => tools.value.length > 0 && props.selectedToolNames.length === tools.value.length,
 );
 
+const childSelectionEnabled = computed(() => Boolean(props.selectedChildrenByTool));
+
+const poolLabel = computed(() => (props.selectionContext === 'chart' ? 'Quick Draw pool' : 'practice pool'));
+
+const poolDescription = computed(() =>
+  props.selectionContext === 'chart'
+    ? 'Chart Quick Draw only uses included chart areas.'
+    : 'Draw Random only uses included chart areas.',
+);
+
 function toggleTool(toolName: string, checked: boolean): void {
   if (!category.value) return;
 
@@ -177,6 +237,41 @@ function toggleTool(toolName: string, checked: boolean): void {
     : props.selectedToolNames.filter((name) => name !== toolName);
 
   emit('set-selected-tools', category.value.id, next);
+}
+
+function selectedChildrenForTool(toolName: string): string[] {
+  if (!props.selectedChildrenByTool || !(toolName in props.selectedChildrenByTool)) {
+    return [...(tools.value.find((tool) => tool.name === toolName)?.children ?? [])];
+  }
+
+  return props.selectedChildrenByTool[toolName];
+}
+
+function selectedChildCount(toolName: string): number {
+  return selectedChildrenForTool(toolName).length;
+}
+
+function setSelectedChildren(toolName: string, childNames: string[]): void {
+  if (!category.value) return;
+
+  emit('set-selected-children', category.value.id, toolName, childNames);
+}
+
+function toggleChild(toolName: string, childName: string, checked: boolean): void {
+  const current = selectedChildrenForTool(toolName);
+  const next = checked
+    ? [...new Set([...current, childName])]
+    : current.filter((name) => name !== childName);
+
+  setSelectedChildren(toolName, next);
+}
+
+function isHighlightedParent(toolName: string): boolean {
+  return props.highlightedParentToolName === toolName;
+}
+
+function isHighlightedChild(toolName: string, childName: string): boolean {
+  return props.highlightedParentToolName === toolName && props.highlightedChildToolName === childName;
 }
 
 function formatScope(scope: WeekendTool['scope']): string {
@@ -354,6 +449,12 @@ function formatScope(scope: WeekendTool['scope']): string {
   padding: 12px 14px;
 }
 
+.parent-tool-row.highlighted {
+  background: #fff4d0;
+  border-color: rgba(138, 92, 36, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(138, 92, 36, 0.15);
+}
+
 .tool-row-head {
   align-items: center;
   display: flex;
@@ -381,6 +482,47 @@ function formatScope(scope: WeekendTool['scope']): string {
   gap: 6px;
 }
 
+.child-filter-block {
+  display: grid;
+  gap: 8px;
+}
+
+.child-filter-actions {
+  align-items: center;
+  color: rgba(55, 36, 22, 0.68);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  font-weight: 800;
+  gap: 6px;
+}
+
+.child-filter-actions span {
+  margin-right: auto;
+}
+
+.child-filter-actions button {
+  background: rgba(255, 253, 247, 0.78);
+  border: 1px solid rgba(75, 52, 29, 0.16);
+  border-radius: 999px;
+  color: #5b3a17;
+  font: inherit;
+  font-size: 0.7rem;
+  min-height: 32px;
+  padding: 5px 9px;
+}
+
+.child-filter-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.child-selectors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .child-chip {
   background: rgba(55, 36, 22, 0.06);
   border: 1px solid rgba(75, 52, 29, 0.14);
@@ -389,6 +531,25 @@ function formatScope(scope: WeekendTool['scope']): string {
   font-size: 0.74rem;
   font-weight: 700;
   padding: 5px 9px;
+}
+
+.child-selector {
+  --checkbox-background-checked: #8a5c25;
+  --border-color-checked: #8a5c25;
+  background: rgba(55, 36, 22, 0.06);
+  border: 1px solid rgba(75, 52, 29, 0.14);
+  border-radius: 999px;
+  color: rgba(55, 36, 22, 0.82);
+  font-size: 0.74rem;
+  font-weight: 750;
+  min-height: 34px;
+  padding: 4px 9px 4px 7px;
+}
+
+.child-selector.highlighted {
+  background: rgba(138, 92, 36, 0.17);
+  border-color: rgba(138, 92, 36, 0.48);
+  color: #372416;
 }
 
 .detail-footer-bar {

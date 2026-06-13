@@ -23,14 +23,15 @@
         v-for="category in positionedCategories"
         :key="category.id"
         class="chart-node"
-        :class="{ selected: !props.browse && isSelected(category.id) }"
+        :class="{ selected: isSelected(category.id) }"
         :style="nodeStyle(category)"
         type="button"
         :title="category.name"
-        aria-haspopup="dialog"
-        :aria-label="`${category.name}, ${getFamily(category.family).label}, ${category.toolCount} tools. Opens category detail.`"
+        :aria-pressed="props.browse ? isSelected(category.id) : undefined"
+        :aria-haspopup="props.browse ? undefined : 'dialog'"
+        :aria-label="nodeAriaLabel(category)"
         :disabled="props.disabled"
-        @click="$emit('open-category', category.id)"
+        @click="handleNodeClick(category.id)"
       >
         <span class="node-number">{{ category.indexLabel }}</span>
         <span class="node-family" :style="{ backgroundColor: getFamily(category.family).color }"></span>
@@ -54,7 +55,7 @@
           class="directory-toggle"
           type="button"
           :aria-pressed="isSelected(category.id)"
-          :aria-label="`${category.name}: ${isSelected(category.id) ? 'remove from' : 'add to'} practice pool`"
+          :aria-label="`${category.name}: ${isSelected(category.id) ? 'remove from' : 'add to'} ${poolLabel}`"
           :disabled="props.disabled"
           @click="$emit('toggle-category', category.id)"
         >
@@ -112,7 +113,7 @@ const props = withDefaults(
   },
 );
 
-defineEmits<{
+const emit = defineEmits<{
   (event: 'toggle-category', categoryId: string): void;
   (event: 'open-category', categoryId: string): void;
 }>();
@@ -147,6 +148,8 @@ const hubSubtitle = computed(() => {
   return 'Ready for Pick My Own or Draw Random';
 });
 
+const poolLabel = computed(() => (props.browse ? 'Quick Draw pool' : 'practice pool'));
+
 function isSelected(categoryId: string): boolean {
   return props.selectedCategoryIds.includes(categoryId);
 }
@@ -155,6 +158,25 @@ function poolToolCount(category: ChartCategory): number {
   if (!props.toolFilter || !(category.id in props.toolFilter)) return category.toolCount;
 
   return props.toolFilter[category.id].length;
+}
+
+function handleNodeClick(categoryId: string): void {
+  if (props.browse) {
+    emit('toggle-category', categoryId);
+    return;
+  }
+
+  emit('open-category', categoryId);
+}
+
+function nodeAriaLabel(category: ChartCategory): string {
+  if (props.browse) {
+    return `${category.name}, ${getFamily(category.family).label}, ${category.toolCount} tools. ${
+      isSelected(category.id) ? 'Remove from' : 'Add to'
+    } Quick Draw pool.`;
+  }
+
+  return `${category.name}, ${getFamily(category.family).label}, ${category.toolCount} tools. Opens category detail.`;
 }
 
 function nodeStyle(category: PositionedCategory): Record<string, string> {

@@ -6,8 +6,10 @@
 
         <CircleChart
           browse
-          :show-directory="false"
-          :selected-category-ids="[]"
+          :show-directory="true"
+          :selected-category-ids="selectedCategoryIds"
+          :tool-filter="selectedParentToolsByCategory"
+          @toggle-category="toggleCategory"
           @open-category="openCategoryDetail"
         />
 
@@ -16,6 +18,10 @@
             <div>
               <p class="kicker">Quick Draw</p>
               <h2 id="quick-draw-title">Draw from the full chart</h2>
+              <p class="quick-draw-count" aria-live="polite">
+                {{ selectedCategoryIds.length }} chart area{{ selectedCategoryIds.length === 1 ? '' : 's' }} ·
+                {{ drawablePoolCount }} drawable parent tool{{ drawablePoolCount === 1 ? '' : 's' }}
+              </p>
             </div>
             <ion-button data-testid="button-quick-draw" color="primary" @click="drawQuickTool">
               {{ quickDrawResult ? 'Draw another' : 'Quick Draw' }}
@@ -23,17 +29,29 @@
           </div>
 
           <article v-if="quickDrawResult" class="quick-result paper-object" aria-live="polite">
-            <div class="result-label-row">
-              <span>{{ quickDrawResult.categoryName }}</span>
-              <span v-if="quickDrawResult.scaleValue">Scale {{ quickDrawResult.scaleValue }}</span>
-            </div>
-            <strong>{{ quickDrawResult.parentToolName }}</strong>
-            <p v-if="quickDrawResult.childToolName">{{ quickDrawResult.childToolName }}</p>
+            <button
+              class="quick-result-main"
+              type="button"
+              data-testid="quick-draw-result"
+              :aria-label="`Open ${quickDrawResult.categoryName} detail for ${quickDrawResult.parentToolName}${quickDrawResult.childToolName ? `, ${quickDrawResult.childToolName}` : ''}`"
+              @click="openQuickDrawDetail"
+            >
+              <span class="result-label-row">
+                <span>{{ quickDrawResult.categoryName }}</span>
+                <span v-if="quickDrawResult.scaleValue">Scale {{ quickDrawResult.scaleValue }}</span>
+              </span>
+              <strong>{{ quickDrawResult.parentToolName }}</strong>
+              <span v-if="quickDrawResult.childToolName" class="quick-child">{{ quickDrawResult.childToolName }}</span>
+            </button>
             <div class="quick-result-actions">
-              <button type="button" @click="router.push('/journal')">Begin POA in Journal</button>
-              <button type="button" @click="quickDrawResult = null">Dismiss</button>
+              <button type="button" @click.stop="router.push('/journal')">Begin POA in Journal</button>
+              <button type="button" @click.stop="dismissQuickDraw">Dismiss</button>
             </div>
           </article>
+
+          <p v-else-if="quickDrawEmpty" class="quick-draw-empty" role="status">
+            Nothing is selected for Quick Draw. Select at least one category, parent tool, and child label.
+          </p>
 
           <p v-else class="quick-draw-note">
             Draw a category, parent tool, and child/example label without starting or saving today’s practice.
@@ -49,24 +67,62 @@
         </button>
 
         <section class="studio-panel directory-panel" aria-labelledby="chart-directory-title">
-          <p class="kicker">Chart areas</p>
-          <h2 id="chart-directory-title">Categories at a glance</h2>
+          <div class="directory-heading">
+            <div>
+              <p class="kicker">Chart areas</p>
+              <h2 id="chart-directory-title">Categories at a glance</h2>
+            </div>
+            <span class="status-pill">
+              {{ selectedCategoryIds.length }} / {{ CHART_CATEGORIES.length }} selected
+            </span>
+          </div>
+
+          <div class="selector-actions" aria-label="Quick Draw pool controls">
+            <ion-button
+              data-testid="chart-select-all"
+              size="small"
+              fill="outline"
+              color="medium"
+              @click="selectAllChartPool"
+            >
+              Select all
+            </ion-button>
+            <ion-button
+              data-testid="chart-deselect-all"
+              size="small"
+              fill="clear"
+              color="medium"
+              @click="deselectAllChartPool"
+            >
+              Deselect all
+            </ion-button>
+          </div>
 
           <ul class="category-cards">
             <li v-for="category in CHART_CATEGORIES" :key="category.id">
-              <div class="category-card">
+              <div class="category-card" :class="{ selected: isCategorySelected(category.id) }">
                 <button
-                  class="category-open"
+                  class="category-toggle"
                   type="button"
-                  aria-haspopup="dialog"
-                  :aria-label="`${category.name}: open basics`"
-                  @click="openCategoryDetail(category.id)"
+                  :data-testid="`category-toggle-${category.id}`"
+                  :aria-pressed="isCategorySelected(category.id)"
+                  :aria-label="`${category.name}: ${isCategorySelected(category.id) ? 'remove from' : 'add to'} Quick Draw pool`"
+                  @click="toggleCategory(category.id)"
                 >
                   <span class="family-dot" :style="{ backgroundColor: getFamily(category.family).color }"></span>
                   <span class="category-name">{{ category.name }}</span>
                   <span class="category-meta">
-                    {{ getFamily(category.family).label }} · {{ category.toolCount }} parent tool{{ category.toolCount === 1 ? '' : 's' }}
+                    {{ getFamily(category.family).label }} · {{ categoryDrawableCount(category.id) }} of {{ category.toolCount }} drawable
                   </span>
+                </button>
+                <button
+                  class="detail-link"
+                  type="button"
+                  aria-haspopup="dialog"
+                  :aria-label="`Open ${category.name} details`"
+                  @click="openCategoryDetail(category.id)"
+                >
+                  Details
                 </button>
                 <button
                   class="library-link"
@@ -82,13 +138,19 @@
         </section>
 
         <CategoryDetailSheet
-          browse
           :is-open="isDetailOpen"
           :category-id="detailCategoryId"
-          :included="false"
-          :selected-tool-names="[]"
+          :included="isDetailCategoryIncluded"
+          :selected-tool-names="detailSelectedParentToolNames"
+          :selected-children-by-tool="detailSelectedChildrenByTool"
+          :highlighted-parent-tool-name="highlightedDetailSelection?.parentToolName ?? null"
+          :highlighted-child-tool-name="highlightedDetailSelection?.childToolName ?? null"
           :locked="false"
+          selection-context="chart"
           @dismiss="isDetailOpen = false"
+          @set-included="setCategoryIncluded"
+          @set-selected-tools="setSelectedParentTools"
+          @set-selected-children="setSelectedChildren"
           @open-library="openInLibrary"
         />
 
@@ -110,7 +172,16 @@ import CircleChart from '@/components/CircleChart.vue';
 import TopStatusBar from '@/components/TopStatusBar.vue';
 import { CHART_ATTRIBUTION } from '@/constants/attribution';
 import { CHART_CATEGORIES, getFamily } from '@/data/circleChartCatalog';
-import { createAllParentToolFilter, createRandomSelectionFromCategories } from '@/data/toolCatalog';
+import {
+  createAllChildToolFilter,
+  createAllParentToolFilter,
+  createRandomSelectionFromCategories,
+  getFilteredChildren,
+  getFilteredTools,
+  getToolCatalogCategory,
+  type ChildToolFilter,
+  type ParentToolFilter,
+} from '@/data/toolCatalog';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
 import { getTodayPractice } from '@/stores/dailyPracticeStore';
 import type { PracticeToolSelection } from '@/types/practice';
@@ -121,9 +192,30 @@ const detailCategoryId = ref<string | null>(null);
 const isDetailOpen = ref(false);
 const hasStartedPractice = ref(false);
 const quickDrawResult = ref<PracticeToolSelection | null>(null);
+const quickDrawEmpty = ref(false);
+const highlightedDetailSelection = ref<PracticeToolSelection | null>(null);
+const selectedCategoryIds = ref<string[]>(CHART_CATEGORIES.map((category) => category.id));
+const selectedParentToolsByCategory = ref<ParentToolFilter>(createAllParentToolFilter());
+const selectedChildTools = ref<ChildToolFilter>(createAllChildToolFilter());
 
 const journalCtaLabel = computed(() =>
   hasStartedPractice.value ? 'Return to today’s practice' : 'Begin today’s practice in Journal',
+);
+
+const drawablePoolCount = computed(() =>
+  selectedCategoryIds.value.reduce((count, categoryId) => count + categoryDrawableCount(categoryId), 0),
+);
+
+const isDetailCategoryIncluded = computed(() =>
+  Boolean(detailCategoryId.value && selectedCategoryIds.value.includes(detailCategoryId.value)),
+);
+
+const detailSelectedParentToolNames = computed(() =>
+  detailCategoryId.value ? selectedParentToolsByCategory.value[detailCategoryId.value] ?? [] : [],
+);
+
+const detailSelectedChildrenByTool = computed(() =>
+  detailCategoryId.value ? selectedChildTools.value[detailCategoryId.value] ?? {} : {},
 );
 
 onMounted(async () => {
@@ -139,7 +231,18 @@ onMounted(async () => {
   }
 });
 
+function isCategorySelected(categoryId: string): boolean {
+  return selectedCategoryIds.value.includes(categoryId);
+}
+
+function categoryDrawableCount(categoryId: string): number {
+  return getFilteredTools(categoryId, selectedParentToolsByCategory.value).filter(
+    (tool) => getFilteredChildren(categoryId, tool.name, selectedChildTools.value).length > 0,
+  ).length;
+}
+
 function openCategoryDetail(categoryId: string): void {
+  highlightedDetailSelection.value = null;
   detailCategoryId.value = categoryId;
   isDetailOpen.value = true;
 }
@@ -149,11 +252,114 @@ function openInLibrary(categoryId: string): void {
   router.push({ path: '/library', query: { category: categoryId } });
 }
 
+function toggleCategory(categoryId: string): void {
+  quickDrawEmpty.value = false;
+  selectedCategoryIds.value = selectedCategoryIds.value.includes(categoryId)
+    ? selectedCategoryIds.value.filter((id) => id !== categoryId)
+    : [...new Set([...selectedCategoryIds.value, categoryId])];
+}
+
+function setCategoryIncluded(categoryId: string, included: boolean): void {
+  quickDrawEmpty.value = false;
+  selectedCategoryIds.value = included
+    ? [...new Set([...selectedCategoryIds.value, categoryId])]
+    : selectedCategoryIds.value.filter((id) => id !== categoryId);
+}
+
+function setSelectedParentTools(categoryId: string, toolNames: string[]): void {
+  quickDrawEmpty.value = false;
+  selectedParentToolsByCategory.value = {
+    ...selectedParentToolsByCategory.value,
+    [categoryId]: toolNames,
+  };
+
+  if (toolNames.length > 0) {
+    setCategoryIncluded(categoryId, true);
+  }
+}
+
+function setSelectedChildren(categoryId: string, parentToolName: string, childNames: string[]): void {
+  quickDrawEmpty.value = false;
+  selectedChildTools.value = {
+    ...selectedChildTools.value,
+    [categoryId]: {
+      ...(selectedChildTools.value[categoryId] ?? {}),
+      [parentToolName]: childNames,
+    },
+  };
+
+  if (childNames.length > 0) {
+    setCategoryIncluded(categoryId, true);
+    const currentParents = selectedParentToolsByCategory.value[categoryId] ?? [];
+    if (!currentParents.includes(parentToolName)) {
+      selectedParentToolsByCategory.value = {
+        ...selectedParentToolsByCategory.value,
+        [categoryId]: [...currentParents, parentToolName],
+      };
+    }
+  }
+}
+
+function selectAllChartPool(): void {
+  quickDrawResult.value = null;
+  quickDrawEmpty.value = false;
+  highlightedDetailSelection.value = null;
+  selectedCategoryIds.value = CHART_CATEGORIES.map((category) => category.id);
+  selectedParentToolsByCategory.value = createAllParentToolFilter();
+  selectedChildTools.value = createAllChildToolFilter();
+}
+
+function deselectAllChartPool(): void {
+  quickDrawResult.value = null;
+  quickDrawEmpty.value = false;
+  highlightedDetailSelection.value = null;
+  selectedCategoryIds.value = [];
+  selectedParentToolsByCategory.value = createEmptyParentToolFilter();
+  selectedChildTools.value = createEmptyChildToolFilter();
+}
+
 function drawQuickTool(): void {
   quickDrawResult.value = createRandomSelectionFromCategories(
-    CHART_CATEGORIES.map((category) => category.id),
-    createAllParentToolFilter(),
+    selectedCategoryIds.value,
+    selectedParentToolsByCategory.value,
+    selectedChildTools.value,
   );
+  quickDrawEmpty.value = !quickDrawResult.value;
+  highlightedDetailSelection.value = quickDrawResult.value;
+}
+
+function openQuickDrawDetail(): void {
+  if (!quickDrawResult.value) return;
+
+  highlightedDetailSelection.value = quickDrawResult.value;
+  detailCategoryId.value = quickDrawResult.value.categoryId;
+  isDetailOpen.value = true;
+}
+
+function dismissQuickDraw(): void {
+  quickDrawResult.value = null;
+  quickDrawEmpty.value = false;
+  highlightedDetailSelection.value = null;
+}
+
+function createEmptyParentToolFilter(): ParentToolFilter {
+  const filter: ParentToolFilter = {};
+  for (const category of CHART_CATEGORIES) {
+    filter[category.id] = [];
+  }
+  return filter;
+}
+
+function createEmptyChildToolFilter(): ChildToolFilter {
+  const filter: ChildToolFilter = {};
+  for (const category of CHART_CATEGORIES) {
+    const catalogCategory = getToolCatalogCategory(category.id);
+    filter[category.id] = {};
+    for (const tool of catalogCategory?.tools ?? []) {
+      filter[category.id][tool.name] = [];
+    }
+  }
+  return filter;
 }
 </script>
 
@@ -184,6 +390,7 @@ function drawQuickTool(): void {
   min-height: 44px;
 }
 
+.quick-draw-count,
 .quick-draw-note {
   color: var(--text-secondary);
   font-size: 0.9rem;
@@ -191,9 +398,47 @@ function drawQuickTool(): void {
   margin: 0;
 }
 
+.quick-draw-count {
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+.quick-draw-empty {
+  background: rgba(184, 74, 72, 0.12);
+  border: 1px solid rgba(184, 74, 72, 0.4);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-weight: 750;
+  line-height: 1.4;
+  margin: 0;
+  padding: 12px;
+}
+
 .quick-result {
   display: grid;
   gap: 10px;
+  text-align: center;
+}
+
+.quick-result-main {
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: inherit;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.quick-result-main:focus-visible {
+  border-radius: 14px;
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 4px;
 }
 
 .result-label-row {
@@ -201,6 +446,7 @@ function drawQuickTool(): void {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: center;
 }
 
 .result-label-row span {
@@ -221,8 +467,9 @@ function drawQuickTool(): void {
   line-height: 1.05;
 }
 
-.quick-result p {
+.quick-child {
   color: var(--text-on-paper-soft);
+  display: block;
   font-size: 1rem;
   font-weight: 800;
   line-height: 1.35;
@@ -233,6 +480,7 @@ function drawQuickTool(): void {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  justify-content: center;
   margin-top: 2px;
 }
 
@@ -294,8 +542,25 @@ function drawQuickTool(): void {
   gap: 12px;
 }
 
+.directory-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
 .directory-panel h2 {
   margin-top: 6px;
+}
+
+.selector-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selector-actions ion-button {
+  min-height: 44px;
 }
 
 .category-cards {
@@ -316,7 +581,12 @@ function drawQuickTool(): void {
   padding: 4px 8px 4px 4px;
 }
 
-.category-open {
+.category-card.selected {
+  background: var(--surface);
+  border-color: var(--accent-primary);
+}
+
+.category-toggle {
   align-items: center;
   background: transparent;
   border: none;
@@ -329,6 +599,13 @@ function drawQuickTool(): void {
   min-height: 44px;
   padding: 8px;
   text-align: left;
+}
+
+.category-toggle:focus-visible,
+.detail-link:focus-visible,
+.library-link:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 .family-dot {
@@ -351,16 +628,21 @@ function drawQuickTool(): void {
   grid-column: 2;
 }
 
+.detail-link,
 .library-link {
   background: var(--surface);
   border: 1px solid var(--border-subtle);
   border-radius: 999px;
-  color: var(--accent-primary);
+  color: var(--text-primary);
   flex: 0 0 auto;
   font-size: 0.74rem;
   font-weight: 800;
   min-height: 40px;
   padding: 8px 12px;
+}
+
+.library-link {
+  color: var(--accent-primary);
 }
 
 .chart-attribution p {
