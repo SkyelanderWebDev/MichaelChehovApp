@@ -44,7 +44,7 @@ describe('Chart browse and Library depth', () => {
     cy.get('.category-detail-modal').should('be.visible');
     cy.get('.detail-title').should('contain.text', 'Expanding & Contracting');
     cy.get('.detail-family').should('contain.text', 'PsychoPhysical Exercises');
-    cy.get('.detail-description').should('contain.text', 'Core PsychoPhysical Exercises');
+    cy.get('.detail-description').should('contain.text', 'PsychoPhysical Exercises');
     cy.get('.parent-tool-row').should('have.length', 2);
     cy.contains('.parent-tool-row', 'Expanding').within(() => {
       cy.get('[data-testid="child-selector"][data-child-name="Opening"]').should('be.visible');

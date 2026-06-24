@@ -30,7 +30,7 @@ export const CHART_FAMILIES: ChartFamily[] = [
 // Category names and descriptions copied from client/src/lib/toolData.ts.
 // Keep these aligned with the NMCA/Chekhov taxonomy source; do not casually rename.
 export const CHART_CATEGORIES: ChartCategory[] = [
-  { id: 'expanding-contracting', name: 'Expanding & Contracting', description: 'Core PsychoPhysical Exercises', family: 'psycho-physical', toolCount: 2 },
+  { id: 'expanding-contracting', name: 'Expanding & Contracting', description: 'PsychoPhysical Exercises', family: 'psycho-physical', toolCount: 2 },
   { id: 'qualities-of-movement', name: 'Qualities of Movement', description: 'The degree of resistance the movement meets', family: 'psycho-physical', toolCount: 7 },
   { id: 'archetypal-gestures', name: 'Archetypal Gestures', description: 'Pure will — Movement + Intent = Gesture', family: 'psycho-physical', toolCount: 10 },
   { id: 'three-sisters', name: 'Three Sister Sensations of Equilibrium', description: 'How the body\'s felt relationship with gravity lives inside our emotions and language', family: 'emotional-life', toolCount: 3 },
