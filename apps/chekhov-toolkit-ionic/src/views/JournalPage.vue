@@ -567,50 +567,53 @@ async function saveDailyAction(payload: POADraft): Promise<void> {
 // We do not reassign poaEntry here, so an in-flight save cannot clobber newer
 // keystrokes mid-typing; explicit Save / reload refresh the canonical entry.
 //
-// RACE GUARD: completion must win against any in-flight/late autosave. We track
-// the in-flight autosave promise so Complete can drain it first, and a flag that
-// blocks any new autosave once completion is underway.
-let inFlightAutosave: Promise<void> | null = null;
+// RACE GUARD: completion must win against any in-flight/late autosave.
+// Autosaves are SERIALIZED on a single chain tail so at most one savePOA is ever
+// in flight and writes are strictly ordered. `isCompleting` blocks any NEW
+// autosave from joining the chain once completion starts; completePractice
+// drains the ENTIRE chain before its explicit save. With multiple overlapping
+// autosaves, none can interleave with — or land after — the Complete-save.
+let autosaveChain: Promise<void> = Promise.resolve();
 let isCompleting = false;
 
 async function autosaveDailyAction(payload: POADraft): Promise<void> {
   const practice = currentPractice.value;
   if (!isSignedIn.value || !practice || practice.status !== 'started') return;
-  // Do not start a new autosave while completion is in progress; the explicit
+  // Do not join the chain while completion is in progress; the explicit
   // Complete-save owns the final write.
   if (isCompleting) return;
 
-  const run = (async () => {
+  // Queue behind the previous autosave so only one savePOA runs at a time and
+  // order is preserved.
+  const run = autosaveChain.then(async () => {
+    // Skip if the day stopped being editable by the time this link runs.
+    if (currentPractice.value?.status !== 'started') return;
     try {
       await savePOA({ dailyPracticeId: practice.id, ...payload });
     } catch (error) {
       setPracticeError(error, 'Unable to autosave the POA draft.');
     }
-  })();
+  });
 
-  inFlightAutosave = run;
-  try {
-    await run;
-  } finally {
-    if (inFlightAutosave === run) inFlightAutosave = null;
-  }
+  // Keep the chain non-rejecting so a failed link cannot break serialization.
+  autosaveChain = run.catch(() => undefined);
+  await run;
 }
 
 async function completePractice(payload: POADraft): Promise<void> {
   const practice = currentPractice.value;
   if (!practice || practice.status !== 'started') return;
 
-  // Block new autosaves and drain any in-flight one BEFORE the explicit save, so
-  // a late autosave (which passed its status check while still 'started') cannot
-  // resolve after completion and clobber the latest draft.
+  // Block new autosaves, then drain the WHOLE autosave chain (every queued and
+  // in-flight save) BEFORE the explicit save, so no autosave — even one of
+  // several overlapping ones — can resolve after completion and clobber the
+  // latest draft.
   isCompleting = true;
   try {
-    if (inFlightAutosave) {
-      try {
-        await inFlightAutosave;
-      } catch {
-        // Autosave errors are surfaced by autosaveDailyAction; ignore here.
-      }
+    try {
+      await autosaveChain;
+    } catch {
+      // Autosave errors are surfaced by autosaveDailyAction; ignore here.
     }
 
     await withPracticeOperation(async () => {

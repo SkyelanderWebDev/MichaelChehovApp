@@ -69,6 +69,9 @@ const stubs = {
 }
 
 beforeEach(() => {
+  // Reset call history/order between tests (keeps factory implementations).
+  vi.clearAllMocks()
+  vi.mocked(store.getLocalDate).mockReturnValue('2026-06-24')
   vi.mocked(store.getTodayPractice).mockResolvedValue({ ...STARTED_PRACTICE })
   vi.mocked(store.getPOA).mockResolvedValue(null)
   vi.mocked(store.getPOANotes).mockResolvedValue([])
@@ -122,6 +125,54 @@ describe('Complete vs in-flight autosave race', () => {
     expect(store.completeTodayPractice).toHaveBeenCalledTimes(1)
 
     // No write lands after the day is completed.
+    const lastSaveOrder = vi.mocked(store.savePOA).mock.invocationCallOrder.at(-1) ?? 0
+    const completeOrder = vi.mocked(store.completeTodayPractice).mock.invocationCallOrder[0]
+    expect(completeOrder).toBeGreaterThan(lastSaveOrder)
+  })
+
+  test('two overlapping autosaves are serialized and cannot land after Complete', async () => {
+    const landed: string[] = []
+    let resolveA: (() => void) | null = null
+
+    vi.mocked(store.savePOA).mockImplementation((entry) => {
+      if (entry.journalText === 'A') {
+        // First autosave held open; the second must queue behind it.
+        return new Promise((resolve) => {
+          resolveA = () => {
+            landed.push('A')
+            resolve({ ...entry, updatedAt: 'ta' })
+          }
+        })
+      }
+      landed.push(entry.journalText)
+      return Promise.resolve({ ...entry, updatedAt: 'tx' })
+    })
+
+    const wrapper = mount(JournalPage, { global: { stubs } })
+    await flushPromises()
+
+    const card = wrapper.findComponent(DailyActionCard)
+
+    // Two autosaves submitted while A is still in flight, then Complete tapped.
+    card.vm.$emit('autosave', draft('A'))
+    await Promise.resolve()
+    card.vm.$emit('autosave', draft('B'))
+    await Promise.resolve()
+    card.vm.$emit('complete', draft('COMPLETE'))
+    await Promise.resolve()
+
+    // Nothing has landed: A is in flight, B is queued behind it, Complete drains.
+    expect(landed).toEqual([])
+
+    resolveA?.()
+    await flushPromises()
+
+    // Strict order: A, then B (serialized), then the Complete-save last.
+    expect(landed).toEqual(['A', 'B', 'COMPLETE'])
+    expect(landed.at(-1)).toBe('COMPLETE')
+    expect(store.completeTodayPractice).toHaveBeenCalledTimes(1)
+
+    // Every POA write is ordered before completion — none resolves afterwards.
     const lastSaveOrder = vi.mocked(store.savePOA).mock.invocationCallOrder.at(-1) ?? 0
     const completeOrder = vi.mocked(store.completeTodayPractice).mock.invocationCallOrder[0]
     expect(completeOrder).toBeGreaterThan(lastSaveOrder)

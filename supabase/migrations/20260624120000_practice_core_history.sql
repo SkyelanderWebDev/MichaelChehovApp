@@ -44,10 +44,9 @@ create index if not exists draw_history_user_date_idx
 -- 3. F1 POST-LOCK NOTES — append-only notes added AFTER the POA is locked.
 --    Tied to the owning daily_practice via the (id, user_id) composite, matching
 --    poa_entries so RLS and ownership stay consistent.
---    FOLLOW-UP (tracked, not this round): DB-level enforcement that a note may
---    only be inserted when the owning daily_practice.status = 'completed', and
---    that poa_entries cannot be updated once the day is completed. For the beta
---    these invariants are enforced in the store layer (see dailyPracticeStore).
+--    DB-LEVEL LOCK ENFORCEMENT is now implemented in section 5 below (triggers).
+--    The client store guards (see dailyPracticeStore) remain as belt-and-
+--    suspenders for the pre-apply window, but the trigger is the real lock.
 create table if not exists public.poa_notes (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -84,3 +83,58 @@ create policy poa_notes_select_own
 create policy poa_notes_insert_own
   on public.poa_notes for insert to authenticated
   with check (auth.uid() = user_id);
+
+-- 5. DEFINITIVE LOCK ENFORCEMENT (DB triggers).
+--    The database itself refuses to mutate a locked day, independent of any
+--    client race. This is the authoritative lock; the store-layer guards are the
+--    pre-apply belt-and-suspenders. Idempotent (create or replace + drop if
+--    exists) so re-running the migration is safe.
+--
+--    Note: poa_notes are intentionally NOT covered here — post-lock notes are
+--    meant to append after completion. Only the core POA (poa_entries) and the
+--    daily_practices status transition are frozen.
+
+create or replace function public.reject_locked_poa_write()
+returns trigger
+language plpgsql
+as $$
+declare
+  day_status text;
+begin
+  select status into day_status
+    from public.daily_practices
+    where id = new.daily_practice_id;
+
+  if day_status = 'completed' then
+    raise exception 'POA for a completed daily_practice is locked and cannot be modified'
+      using errcode = 'check_violation';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists poa_entries_locked_guard on public.poa_entries;
+create trigger poa_entries_locked_guard
+  before insert or update on public.poa_entries
+  for each row execute function public.reject_locked_poa_write();
+
+create or replace function public.reject_completed_status_change()
+returns trigger
+language plpgsql
+as $$
+begin
+  -- A completed day may never leave the completed state.
+  if old.status = 'completed' and new.status is distinct from 'completed' then
+    raise exception 'A completed daily_practice cannot leave the completed state'
+      using errcode = 'check_violation';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists daily_practices_completed_guard on public.daily_practices;
+create trigger daily_practices_completed_guard
+  before update on public.daily_practices
+  for each row execute function public.reject_completed_status_change();
