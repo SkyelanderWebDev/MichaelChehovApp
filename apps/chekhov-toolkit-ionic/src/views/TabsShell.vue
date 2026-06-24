@@ -26,6 +26,11 @@
           <ion-label>Map</ion-label>
         </ion-tab-button>
 
+        <ion-tab-button tab="history" href="/history" class="studio-tab" @click="go('/history')">
+          <ion-icon aria-hidden="true" :icon="timeOutline" />
+          <ion-label>History</ion-label>
+        </ion-tab-button>
+
         <ion-tab-button tab="settings" href="/settings" class="studio-tab" @click="go('/settings')">
           <ion-icon aria-hidden="true" :icon="settingsOutline" />
           <ion-label>Settings</ion-label>
@@ -37,7 +42,7 @@
 
 <script setup lang="ts">
 import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/vue';
-import { bookOutline, journalOutline, mapOutline, settingsOutline, sunnyOutline } from 'ionicons/icons';
+import { bookOutline, journalOutline, mapOutline, settingsOutline, sunnyOutline, timeOutline } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

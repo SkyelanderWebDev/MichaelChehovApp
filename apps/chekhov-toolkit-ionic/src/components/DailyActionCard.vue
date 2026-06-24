@@ -16,11 +16,16 @@
         <span class="poa-section">Apply</span>
       </div>
 
+      <p v-if="readonly" class="poa-lock-badge" aria-live="polite">
+        Practice completed and locked. The POA below is read-only — add a timestamped note instead.
+      </p>
+
       <div class="mode-control" role="group" aria-label="POA entry mode">
         <button
           type="button"
           :class="{ active: draft.mode === 'structured' }"
           :aria-pressed="draft.mode === 'structured'"
+          :disabled="readonly"
           @click="draft.mode = 'structured'"
         >
           Structured
@@ -29,6 +34,7 @@
           type="button"
           :class="{ active: draft.mode === 'journal' }"
           :aria-pressed="draft.mode === 'journal'"
+          :disabled="readonly"
           @click="draft.mode = 'journal'"
         >
           Free response
@@ -44,6 +50,7 @@
               id="poa-practice"
               v-model="draft.practiceNotes"
               rows="4"
+              :disabled="readonly"
               placeholder="Practice notes for today."
             />
           </div>
@@ -58,6 +65,7 @@
                 id="poa-observe-morning"
                 v-model="draft.observeMorning"
                 rows="3"
+                :disabled="readonly"
                 placeholder="Morning observation."
               />
             </div>
@@ -67,6 +75,7 @@
                 id="poa-observe-midday"
                 v-model="draft.observeMidday"
                 rows="3"
+                :disabled="readonly"
                 placeholder="Midday observation."
               />
             </div>
@@ -76,6 +85,7 @@
                 id="poa-observe-evening"
                 v-model="draft.observeEvening"
                 rows="3"
+                :disabled="readonly"
                 placeholder="Evening observation."
               />
             </div>
@@ -91,6 +101,7 @@
                 id="poa-apply-morning"
                 v-model="draft.applyMorning"
                 rows="3"
+                :disabled="readonly"
                 placeholder="Morning application."
               />
             </div>
@@ -100,6 +111,7 @@
                 id="poa-apply-midday"
                 v-model="draft.applyMidday"
                 rows="3"
+                :disabled="readonly"
                 placeholder="Midday application."
               />
             </div>
@@ -109,6 +121,7 @@
                 id="poa-apply-evening"
                 v-model="draft.applyEvening"
                 rows="3"
+                :disabled="readonly"
                 placeholder="Evening application."
               />
             </div>
@@ -123,48 +136,148 @@
           v-model="draft.journalText"
           aria-label="Free response POA note"
           rows="8"
+          :disabled="readonly"
           placeholder="Optional note for today’s Practice / Observe / Apply work."
         />
       </div>
 
-      <div class="daily-action-footer">
+      <div v-if="!readonly" class="daily-action-footer">
         <ion-button color="primary" @click="saveDailyAction">
           Save Daily Action
         </ion-button>
-        <p v-if="hasSavedEntry" class="saved-note" aria-live="polite">
+        <ion-button fill="outline" color="success" @click="completePractice">
+          Complete Practice
+        </ion-button>
+        <p v-if="autosaveState" class="saved-note" aria-live="polite">
+          {{ autosaveState }}
+        </p>
+        <p v-else-if="hasSavedEntry" class="saved-note" aria-live="polite">
           Daily Action saved.
         </p>
       </div>
+
+      <section v-if="readonly" class="post-lock-notes" aria-labelledby="post-lock-notes-title">
+        <h3 id="post-lock-notes-title">Notes after completion</h3>
+        <p class="poa-copy">
+          The POA above is locked. Add short, timestamped reflections without changing it.
+        </p>
+
+        <ul v-if="notes.length" class="note-list">
+          <li v-for="note in notes" :key="note.id" class="note-item">
+            <time :datetime="note.createdAt">{{ formatNoteTime(note.createdAt) }}</time>
+            <p>{{ note.note }}</p>
+          </li>
+        </ul>
+
+        <div class="daily-action-field">
+          <label for="post-lock-note-input">Add a note</label>
+          <textarea
+            id="post-lock-note-input"
+            v-model="noteDraft"
+            rows="3"
+            placeholder="A short reflection to append."
+          />
+        </div>
+        <div class="daily-action-footer">
+          <ion-button color="primary" :disabled="!noteDraft.trim()" @click="addNote">
+            Add note
+          </ion-button>
+        </div>
+      </section>
     </ion-card-content>
   </ion-card>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue';
 import { IonButton, IonCard, IonCardContent, IonCardHeader } from '@ionic/vue';
-import type { POADraft, POAEntry } from '@/types/practice';
+import type { POADraft, POAEntry, POANote } from '@/types/practice';
 
-const props = defineProps<{
-  entry: POAEntry | null;
-}>();
+const AUTOSAVE_DELAY_MS = 1000;
+
+const props = withDefaults(
+  defineProps<{
+    entry: POAEntry | null;
+    readonly?: boolean;
+    notes?: POANote[];
+  }>(),
+  {
+    readonly: false,
+    notes: () => [],
+  },
+);
 
 const emit = defineEmits<{
   (event: 'save', payload: POADraft): void;
+  (event: 'autosave', payload: POADraft): void;
+  (event: 'complete'): void;
+  (event: 'add-note', note: string): void;
 }>();
 
 const draft = reactive<POADraft>(createDraft(props.entry));
+const noteDraft = ref('');
+const autosaveState = ref('');
 const hasSavedEntry = computed(() => Boolean(props.entry?.updatedAt));
+
+let autosaveTimer: ReturnType<typeof setTimeout> | null = null;
+// Set when we overwrite the local draft from incoming props, so the resulting
+// reactive change does not re-trigger an autosave loop.
+let suppressAutosave = false;
 
 watch(
   () => props.entry,
   (entry) => {
+    suppressAutosave = true;
     Object.assign(draft, createDraft(entry));
   },
   { deep: true },
 );
 
+// A4 AUTOSAVE: debounce edits and emit an autosave so a reload or background
+// auth refresh cannot wipe an unsaved draft before the day is locked.
+watch(
+  draft,
+  () => {
+    if (suppressAutosave) {
+      suppressAutosave = false;
+      return;
+    }
+    if (props.readonly) return;
+
+    if (autosaveTimer) clearTimeout(autosaveTimer);
+    autosaveTimer = setTimeout(() => {
+      autosaveState.value = 'Draft autosaved.';
+      emit('autosave', { ...draft });
+    }, AUTOSAVE_DELAY_MS);
+  },
+  { deep: true },
+);
+
+onBeforeUnmount(() => {
+  if (autosaveTimer) clearTimeout(autosaveTimer);
+});
+
 function saveDailyAction(): void {
+  if (autosaveTimer) clearTimeout(autosaveTimer);
+  autosaveState.value = '';
   emit('save', { ...draft });
+}
+
+function completePractice(): void {
+  if (autosaveTimer) clearTimeout(autosaveTimer);
+  emit('complete');
+}
+
+function addNote(): void {
+  const trimmed = noteDraft.value.trim();
+  if (!trimmed) return;
+  emit('add-note', trimmed);
+  noteDraft.value = '';
+}
+
+function formatNoteTime(iso: string): string {
+  const date = new Date(iso);
+  return Number.isNaN(date.getTime()) ? iso : date.toLocaleString();
 }
 
 function createDraft(entry: POAEntry | null): POADraft {
@@ -336,6 +449,69 @@ function createDraft(entry: POAEntry | null): POADraft {
   font-weight: 900;
   margin: 0;
   padding: 8px 10px;
+}
+
+.poa-lock-badge {
+  background: rgba(55, 120, 72, 0.12);
+  border: 1px solid rgba(55, 120, 72, 0.3);
+  border-radius: 16px;
+  color: #244a2e;
+  font-size: 0.86rem;
+  font-weight: 800;
+  line-height: 1.4;
+  margin: 0 0 12px;
+  padding: 10px 12px;
+}
+
+.daily-action-field textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.post-lock-notes {
+  border-top: 1px solid rgba(75, 52, 29, 0.16);
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+}
+
+.post-lock-notes h3 {
+  color: #2e1c0f;
+  font-size: 0.95rem;
+  font-weight: 900;
+  margin: 0;
+}
+
+.note-list {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.note-item {
+  background: rgba(55, 36, 22, 0.04);
+  border: 1px solid rgba(75, 52, 29, 0.14);
+  border-radius: 14px;
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.note-item time {
+  color: #39764a;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.note-item p {
+  color: #372416;
+  line-height: 1.45;
+  margin: 0;
 }
 
 @media (min-width: 720px) {

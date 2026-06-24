@@ -72,7 +72,7 @@
         </section>
 
         <ToolPreviewCard
-          v-if="currentPractice"
+          v-if="currentPractice && !isPracticeCompleted"
           :practice="currentPractice"
           @start="startPractice"
           @change="focusSelectedCategory"
@@ -80,14 +80,58 @@
           @unlock="unlockPractice"
         />
 
+        <section
+          v-else-if="isPracticeCompleted && currentPractice"
+          class="studio-panel completed-summary"
+          aria-label="Completed practice"
+        >
+          <p class="kicker">Completed &amp; locked</p>
+          <h2>{{ completedToolTitle }}</h2>
+          <p class="panel-copy">
+            {{ currentPractice.selectedTool.categoryName }} · locked for {{ currentPractice.localDate }}. The POA below is read-only; add timestamped notes instead.
+          </p>
+        </section>
+
         <p v-else-if="isSignedIn" class="empty-state">
           No practice selected yet. Use an entry path above to preview today’s tool.
         </p>
 
+        <section
+          v-if="currentPractice && !isPracticeCompleted"
+          class="studio-panel flyback-panel"
+          aria-labelledby="flyback-title"
+        >
+          <p class="kicker">Flyback</p>
+          <h2 id="flyback-title">Quick reflection</h2>
+          <p class="panel-copy">
+            A lightweight reflection on today’s draw, kept separate from your full POA.
+          </p>
+          <div class="flyback-field">
+            <label for="flyback-note" class="sr-only">Flyback reflection</label>
+            <textarea
+              id="flyback-note"
+              v-model="flybackDraft"
+              rows="3"
+              placeholder="A quick note on this draw."
+            />
+          </div>
+          <div class="button-row">
+            <ion-button size="small" color="primary" :disabled="practiceBusy" @click="saveFlyback">
+              Save reflection
+            </ion-button>
+            <span v-if="flybackSavedAt" class="status-pill" aria-live="polite">Reflection saved</span>
+          </div>
+        </section>
+
         <DailyActionCard
-          v-if="isPracticeStarted"
+          v-if="isPracticeStarted || isPracticeCompleted"
           :entry="poaEntry"
+          :readonly="isPracticeCompleted"
+          :notes="poaNotes"
           @save="saveDailyAction"
+          @autosave="autosaveDailyAction"
+          @complete="completePractice"
+          @add-note="addPoaNote"
         />
 
         <section class="studio-panel pool-panel" aria-labelledby="pool-title">
@@ -198,16 +242,20 @@ import {
 } from '@/data/toolCatalog';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
 import {
+  addPOANote,
   clearTodayPracticePreview,
+  completeTodayPractice,
   getLocalDate,
   getPOA,
+  getPOANotes,
   getTodayPractice,
   savePOA,
+  saveFlybackNote,
   setPreview,
   startTodayPractice,
   unlockTodayPractice,
 } from '@/stores/dailyPracticeStore';
-import type { DailyPractice, POADraft, POAEntry, PracticeToolSelection } from '@/types/practice';
+import type { DailyPractice, POADraft, POAEntry, POANote, PracticeToolSelection } from '@/types/practice';
 
 const router = useRouter();
 const route = useRoute();
@@ -222,13 +270,23 @@ const isPoolOpen = ref(false);
 const isAccessSheetOpen = ref(false);
 const currentPractice = ref<DailyPractice | null>(null);
 const poaEntry = ref<POAEntry | null>(null);
+const poaNotes = ref<POANote[]>([]);
+const flybackDraft = ref('');
+const flybackSavedAt = ref<string | null>(null);
 const preservePreviewWithPOA = ref(false);
 const practiceLoadError = ref<string | null>(null);
 const practiceBusy = ref(false);
 
 const isSignedIn = computed(() => authStatus.value === 'signed-in' && Boolean(currentUser.value));
 const isPracticeStarted = computed(() => currentPractice.value?.status === 'started');
-const practiceControlsDisabled = computed(() => !isSignedIn.value || practiceBusy.value || isPracticeStarted.value);
+const isPracticeCompleted = computed(() => currentPractice.value?.status === 'completed');
+const isPracticeLocked = computed(() => isPracticeStarted.value || isPracticeCompleted.value);
+const practiceControlsDisabled = computed(() => !isSignedIn.value || practiceBusy.value || isPracticeLocked.value);
+const completedToolTitle = computed(() => {
+  const tool = currentPractice.value?.selectedTool;
+  if (!tool) return 'Today’s practice';
+  return tool.components?.length ? tool.categoryName : tool.parentToolName;
+});
 
 const previewCategory = computed<ChartCategory | null>(() => {
   if (!previewCategoryId.value) return null;
@@ -279,6 +337,9 @@ async function reloadPracticeFromSupabase(): Promise<void> {
   if (!isSignedIn.value) {
     currentPractice.value = null;
     poaEntry.value = null;
+    poaNotes.value = [];
+    flybackDraft.value = '';
+    flybackSavedAt.value = null;
     preservePreviewWithPOA.value = false;
     isDetailOpen.value = false;
     return;
@@ -289,6 +350,10 @@ async function reloadPracticeFromSupabase(): Promise<void> {
     const saved = await getTodayPractice();
     currentPractice.value = saved;
     poaEntry.value = saved ? await getPOA(saved.id) : null;
+    // F1 POST-LOCK NOTES restore on reload for a completed (locked) day.
+    poaNotes.value = saved?.status === 'completed' ? await getPOANotes(saved.id) : [];
+    flybackDraft.value = saved?.flybackNote ?? '';
+    flybackSavedAt.value = saved?.flybackNote ? saved.updatedAt : null;
     preservePreviewWithPOA.value = saved?.status === 'preview' && Boolean(poaEntry.value);
     isDetailOpen.value = false;
 
@@ -398,10 +463,12 @@ async function previewParentTool(categoryId: string, parentToolName: string): Pr
 async function drawRandomPractice(): Promise<void> {
   if (!canDrawRandom.value) return;
 
+  // G5 UNVEILED: Journal draws include the Unveiled value, matching Chart draws.
   const selection = createRandomSelectionFromCategories(
     selectedCategoryIds.value,
     selectedToolsByCategory.value,
     selectedChildTools.value,
+    { includeUnveiling: true },
   );
   if (!selection) return;
 
@@ -493,6 +560,58 @@ async function saveDailyAction(payload: POADraft): Promise<void> {
     });
 
     currentPractice.value = (await getTodayPractice(practice.localDate)) ?? practice;
+  });
+}
+
+// A4 AUTOSAVE: persist the POA draft silently while the day is still editable.
+// We do not reassign poaEntry here, so an in-flight save cannot clobber newer
+// keystrokes mid-typing; explicit Save / reload refresh the canonical entry.
+async function autosaveDailyAction(payload: POADraft): Promise<void> {
+  const practice = currentPractice.value;
+  if (!isSignedIn.value || !practice || practice.status !== 'started') return;
+
+  try {
+    await savePOA({ dailyPracticeId: practice.id, ...payload });
+  } catch (error) {
+    setPracticeError(error, 'Unable to autosave the POA draft.');
+  }
+}
+
+async function completePractice(): Promise<void> {
+  if (!currentPractice.value || currentPractice.value.status !== 'started') return;
+
+  await withPracticeOperation(async () => {
+    const completed = await completeTodayPractice(currentPractice.value?.localDate);
+    if (completed) {
+      currentPractice.value = completed;
+      poaEntry.value = await getPOA(completed.id);
+      poaNotes.value = await getPOANotes(completed.id);
+    }
+  });
+}
+
+async function addPoaNote(note: string): Promise<void> {
+  const practice = currentPractice.value;
+  if (!practice || practice.status !== 'completed') return;
+
+  await withPracticeOperation(async () => {
+    const saved = await addPOANote(practice.id, note);
+    if (saved) {
+      poaNotes.value = [...poaNotes.value, saved];
+    }
+  });
+}
+
+async function saveFlyback(): Promise<void> {
+  const practice = currentPractice.value;
+  if (!practice || practice.status === 'completed') return;
+
+  await withPracticeOperation(async () => {
+    const updated = await saveFlybackNote(flybackDraft.value, practice.localDate);
+    if (updated) {
+      currentPractice.value = updated;
+      flybackSavedAt.value = updated.updatedAt;
+    }
   });
 }
 
@@ -732,6 +851,64 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
 
 .pool-footnote {
   font-size: 0.84rem;
+}
+
+.completed-summary {
+  display: grid;
+  gap: 6px;
+}
+
+.completed-summary h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 5.5vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.06;
+  margin: 4px 0 0;
+}
+
+.flyback-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.flyback-panel h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 5vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  margin: 4px 0 0;
+}
+
+.flyback-field textarea {
+  background: var(--app-bg-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font: inherit;
+  line-height: 1.45;
+  min-height: 80px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.flyback-field textarea:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .feedback-nudge {
