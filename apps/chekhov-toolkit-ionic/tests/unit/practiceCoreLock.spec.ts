@@ -80,7 +80,7 @@ vi.mock('@/lib/supabaseClient', () => ({
   requireSupabase: () => state.client,
 }))
 
-import { addPOANote, savePOA, unlockTodayPractice } from '@/stores/dailyPracticeStore'
+import { addPOANote, savePOA, startTodayPractice, unlockTodayPractice } from '@/stores/dailyPracticeStore'
 
 function seedCompletedDay() {
   state.dailyPractices.push({
@@ -159,6 +159,15 @@ describe('completed-day lock enforcement (store guards)', () => {
     seedCompletedDay()
 
     const result = await unlockTodayPractice('2026-06-20')
+
+    expect(state.calls.update).toBe(0)
+    expect(result?.status).toBe('completed')
+  })
+
+  test('startTodayPractice cannot resurrect a completed day', async () => {
+    seedCompletedDay()
+
+    const result = await startTodayPractice('2026-06-20')
 
     expect(state.calls.update).toBe(0)
     expect(result?.status).toBe('completed')

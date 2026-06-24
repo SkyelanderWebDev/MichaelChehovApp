@@ -146,7 +146,10 @@ export async function startTodayPractice(localDate = getLocalDate()): Promise<Da
 
   const existing = await getTodayPractice(localDate);
   if (!existing) return null;
-  if (existing.status === 'started') return existing;
+  // LOCK ENFORCEMENT: only a preview day can be (re)started. A started day is a
+  // no-op; a completed day must NOT be resurrected to 'started' (that would let
+  // savePOA overwrite the locked core POA).
+  if (existing.status !== 'preview') return existing;
 
   const { data, error } = await requireSupabase()
     .from('daily_practices')

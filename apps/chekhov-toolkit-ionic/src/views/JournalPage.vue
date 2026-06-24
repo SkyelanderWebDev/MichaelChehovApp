@@ -566,14 +566,33 @@ async function saveDailyAction(payload: POADraft): Promise<void> {
 // A4 AUTOSAVE: persist the POA draft silently while the day is still editable.
 // We do not reassign poaEntry here, so an in-flight save cannot clobber newer
 // keystrokes mid-typing; explicit Save / reload refresh the canonical entry.
+//
+// RACE GUARD: completion must win against any in-flight/late autosave. We track
+// the in-flight autosave promise so Complete can drain it first, and a flag that
+// blocks any new autosave once completion is underway.
+let inFlightAutosave: Promise<void> | null = null;
+let isCompleting = false;
+
 async function autosaveDailyAction(payload: POADraft): Promise<void> {
   const practice = currentPractice.value;
   if (!isSignedIn.value || !practice || practice.status !== 'started') return;
+  // Do not start a new autosave while completion is in progress; the explicit
+  // Complete-save owns the final write.
+  if (isCompleting) return;
 
+  const run = (async () => {
+    try {
+      await savePOA({ dailyPracticeId: practice.id, ...payload });
+    } catch (error) {
+      setPracticeError(error, 'Unable to autosave the POA draft.');
+    }
+  })();
+
+  inFlightAutosave = run;
   try {
-    await savePOA({ dailyPracticeId: practice.id, ...payload });
-  } catch (error) {
-    setPracticeError(error, 'Unable to autosave the POA draft.');
+    await run;
+  } finally {
+    if (inFlightAutosave === run) inFlightAutosave = null;
   }
 }
 
@@ -581,19 +600,35 @@ async function completePractice(payload: POADraft): Promise<void> {
   const practice = currentPractice.value;
   if (!practice || practice.status !== 'started') return;
 
-  await withPracticeOperation(async () => {
-    // Persist the latest draft BEFORE locking, so tapping Complete mid-typing
-    // never discards in-progress edits (the lock guard would otherwise no-op a
-    // late save). Save first while still 'started', then complete.
-    poaEntry.value = await savePOA({ dailyPracticeId: practice.id, ...payload });
-
-    const completed = await completeTodayPractice(practice.localDate);
-    if (completed) {
-      currentPractice.value = completed;
-      poaEntry.value = await getPOA(completed.id);
-      poaNotes.value = await getPOANotes(completed.id);
+  // Block new autosaves and drain any in-flight one BEFORE the explicit save, so
+  // a late autosave (which passed its status check while still 'started') cannot
+  // resolve after completion and clobber the latest draft.
+  isCompleting = true;
+  try {
+    if (inFlightAutosave) {
+      try {
+        await inFlightAutosave;
+      } catch {
+        // Autosave errors are surfaced by autosaveDailyAction; ignore here.
+      }
     }
-  });
+
+    await withPracticeOperation(async () => {
+      // Persist the latest draft BEFORE locking, so tapping Complete mid-typing
+      // never discards in-progress edits. Save first while still 'started', then
+      // complete; the savePOA lock guard then freezes the day.
+      poaEntry.value = await savePOA({ dailyPracticeId: practice.id, ...payload });
+
+      const completed = await completeTodayPractice(practice.localDate);
+      if (completed) {
+        currentPractice.value = completed;
+        poaEntry.value = await getPOA(completed.id);
+        poaNotes.value = await getPOANotes(completed.id);
+      }
+    });
+  } finally {
+    isCompleting = false;
+  }
 }
 
 async function addPoaNote(note: string): Promise<void> {
