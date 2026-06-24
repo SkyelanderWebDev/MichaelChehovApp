@@ -30,6 +30,16 @@
           <ion-icon aria-hidden="true" :icon="settingsOutline" />
           <ion-label>Settings</ion-label>
         </ion-tab-button>
+
+        <ion-tab-button tab="struggles" href="/struggles" class="studio-tab" @click="go('/struggles')">
+          <ion-icon aria-hidden="true" :icon="alertCircleOutline" />
+          <ion-label>Struggles</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="quiz" href="/quiz" class="studio-tab" @click="go('/quiz')">
+          <ion-icon aria-hidden="true" :icon="helpCircleOutline" />
+          <ion-label>Quiz</ion-label>
+        </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
@@ -37,7 +47,15 @@
 
 <script setup lang="ts">
 import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/vue';
-import { bookOutline, journalOutline, mapOutline, settingsOutline, sunnyOutline } from 'ionicons/icons';
+import {
+  alertCircleOutline,
+  bookOutline,
+  helpCircleOutline,
+  journalOutline,
+  mapOutline,
+  settingsOutline,
+  sunnyOutline,
+} from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -125,5 +143,22 @@ function go(path: string): void {
 
 .chart-tab ion-label {
   font-weight: 800;
+}
+
+@media (max-width: 430px) {
+  .studio-tab {
+    font-size: 0.62rem;
+  }
+
+  .studio-tab ion-icon {
+    font-size: 1.2rem;
+  }
+
+  .studio-tab ion-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 </style>
