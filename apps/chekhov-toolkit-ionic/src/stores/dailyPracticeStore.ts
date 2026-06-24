@@ -167,7 +167,9 @@ export async function unlockTodayPractice(localDate = getLocalDate()): Promise<D
 
   const existing = await getTodayPractice(localDate);
   if (!existing) return null;
-  if (existing.status === 'preview') return existing;
+  // LOCK ENFORCEMENT: only a started day can be unlocked. A completed day stays
+  // locked; never move it back to preview/started.
+  if (existing.status !== 'started') return existing;
 
   const { data, error } = await requireSupabase()
     .from('daily_practices')
@@ -243,6 +245,11 @@ export async function addPOANote(dailyPracticeId: string, note: string): Promise
 
   const trimmed = note.trim();
   if (!trimmed) return null;
+
+  // POST-LOCK ONLY: notes append solely after the day is completed/locked.
+  // (DB-level enforcement is a tracked follow-up; see the migration comment.)
+  const status = await getPracticeStatusById(userId, dailyPracticeId);
+  if (status !== 'completed') return null;
 
   const { data, error } = await requireSupabase()
     .from('poa_notes')
@@ -394,6 +401,13 @@ export async function savePOA(entry: Omit<POAEntry, 'updatedAt'>): Promise<POAEn
   const userId = await getSignedInUserId();
   if (!userId) return null;
 
+  // LOCK ENFORCEMENT (data integrity): once the owning day is completed, its
+  // core POA is immutable. No-op and return the persisted entry unchanged.
+  const status = await getPracticeStatusById(userId, entry.dailyPracticeId);
+  if (status === 'completed') {
+    return getPOA(entry.dailyPracticeId);
+  }
+
   const payload = {
     user_id: userId,
     daily_practice_id: entry.dailyPracticeId,
@@ -441,6 +455,28 @@ export async function resetTodayPracticeForLocalDemo(localDate = getLocalDate())
     .delete()
     .eq('user_id', userId)
     .eq('local_date', localDate);
+}
+
+/**
+ * LOCK ENFORCEMENT helper. Fetch the owning day's status by id, so core-POA
+ * mutations can refuse to touch a completed (locked) day. DB-level enforcement
+ * (trigger/RPC) is a separate tracked follow-up; this is the beta client+store
+ * guard.
+ */
+async function getPracticeStatusById(
+  userId: string,
+  dailyPracticeId: string,
+): Promise<PracticeStatus | null> {
+  const { data, error } = await requireSupabase()
+    .from('daily_practices')
+    .select('status')
+    .eq('id', dailyPracticeId)
+    .eq('user_id', userId)
+    .maybeSingle();
+
+  if (error) throw error;
+
+  return (data?.status as PracticeStatus | undefined) ?? null;
 }
 
 async function getSignedInUserId(): Promise<string | null> {

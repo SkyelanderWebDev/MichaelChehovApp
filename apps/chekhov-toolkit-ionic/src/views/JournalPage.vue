@@ -577,11 +577,17 @@ async function autosaveDailyAction(payload: POADraft): Promise<void> {
   }
 }
 
-async function completePractice(): Promise<void> {
-  if (!currentPractice.value || currentPractice.value.status !== 'started') return;
+async function completePractice(payload: POADraft): Promise<void> {
+  const practice = currentPractice.value;
+  if (!practice || practice.status !== 'started') return;
 
   await withPracticeOperation(async () => {
-    const completed = await completeTodayPractice(currentPractice.value?.localDate);
+    // Persist the latest draft BEFORE locking, so tapping Complete mid-typing
+    // never discards in-progress edits (the lock guard would otherwise no-op a
+    // late save). Save first while still 'started', then complete.
+    poaEntry.value = await savePOA({ dailyPracticeId: practice.id, ...payload });
+
+    const completed = await completeTodayPractice(practice.localDate);
     if (completed) {
       currentPractice.value = completed;
       poaEntry.value = await getPOA(completed.id);

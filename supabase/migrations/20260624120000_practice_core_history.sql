@@ -44,6 +44,10 @@ create index if not exists draw_history_user_date_idx
 -- 3. F1 POST-LOCK NOTES — append-only notes added AFTER the POA is locked.
 --    Tied to the owning daily_practice via the (id, user_id) composite, matching
 --    poa_entries so RLS and ownership stay consistent.
+--    FOLLOW-UP (tracked, not this round): DB-level enforcement that a note may
+--    only be inserted when the owning daily_practice.status = 'completed', and
+--    that poa_entries cannot be updated once the day is completed. For the beta
+--    these invariants are enforced in the store layer (see dailyPracticeStore).
 create table if not exists public.poa_notes (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,

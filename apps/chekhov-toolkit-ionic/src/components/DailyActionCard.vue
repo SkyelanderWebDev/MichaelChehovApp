@@ -210,7 +210,7 @@ const props = withDefaults(
 const emit = defineEmits<{
   (event: 'save', payload: POADraft): void;
   (event: 'autosave', payload: POADraft): void;
-  (event: 'complete'): void;
+  (event: 'complete', payload: POADraft): void;
   (event: 'add-note', note: string): void;
 }>();
 
@@ -264,8 +264,11 @@ function saveDailyAction(): void {
 }
 
 function completePractice(): void {
+  // Flush the pending debounce and hand the latest draft to the parent so it can
+  // persist-then-lock atomically. Tapping Complete mid-typing must not discard
+  // the current edits.
   if (autosaveTimer) clearTimeout(autosaveTimer);
-  emit('complete');
+  emit('complete', { ...draft });
 }
 
 function addNote(): void {

@@ -90,8 +90,11 @@ describe('DailyActionCard POA draft contract', () => {
     })
   })
 
-  test('emits complete when the day is still editable', async () => {
+  test('emits complete with the current draft so a mid-typing tap is not lost', async () => {
     const wrapper = mountCard()
+
+    // Type but do NOT click Save — the Complete tap must flush this draft.
+    await wrapper.find('#poa-practice').setValue('Last edit before completing.')
 
     const completeButton = wrapper
       .findAll('.daily-action-footer button')
@@ -100,7 +103,8 @@ describe('DailyActionCard POA draft contract', () => {
     expect(completeButton).toBeTruthy()
     await completeButton!.trigger('click')
 
-    expect(wrapper.emitted('complete')).toBeTruthy()
+    const payload = wrapper.emitted('complete')?.[0]?.[0] as POADraft | undefined
+    expect(payload?.practiceNotes).toBe('Last edit before completing.')
   })
 })
 
