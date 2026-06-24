@@ -24,8 +24,14 @@
                 {{ drawablePoolCount }} drawable option{{ drawablePoolCount === 1 ? '' : 's' }}
               </p>
             </div>
-            <ion-button data-testid="button-quick-draw" color="primary" @click="drawQuickTool">
-              {{ quickDrawResult ? 'Draw another' : 'Quick Draw' }}
+            <ion-button
+              data-testid="button-quick-draw"
+              color="primary"
+              :disabled="isDrawing"
+              :aria-busy="isDrawing"
+              @click="drawQuickTool"
+            >
+              {{ quickDrawButtonLabel }}
             </ion-button>
           </div>
 
@@ -41,7 +47,12 @@
             />
           </label>
 
-          <article v-if="quickDrawResult" class="quick-result paper-object" aria-live="polite">
+          <p v-if="isDrawing" class="quick-draw-drawing paper-object" role="status" aria-live="assertive">
+            <span class="drawing-dot" aria-hidden="true"></span>
+            <span>Drawing…</span>
+          </p>
+
+          <article v-else-if="quickDrawResult" class="quick-result paper-object" aria-live="polite">
             <button
               class="quick-result-main"
               type="button"
@@ -50,6 +61,7 @@
               @click="openQuickDrawDetail"
             >
               <span class="result-label-row">
+                <span class="result-family" v-if="quickDrawFamilyLabel">{{ quickDrawFamilyLabel }}</span>
                 <span>{{ quickDrawResult.categoryName }}</span>
                 <span v-if="quickDrawResult.scaleValue">Tempo #{{ quickDrawResult.scaleValue }}</span>
                 <span v-if="quickDrawResult.unveiledValue">Veiling {{ quickDrawResult.unveiledValue }}</span>
@@ -62,6 +74,9 @@
                 </span>
               </div>
               <span v-else-if="quickDrawResult.childToolName" class="quick-child">{{ quickDrawResult.childToolName }}</span>
+              <p v-if="quickDrawDescription" class="quick-result-desc" data-testid="quick-draw-description">
+                {{ quickDrawDescription }}
+              </p>
             </button>
             <div class="quick-result-actions">
               <button type="button" @click.stop="beginQuickDrawPOA">Begin POA in Journal</button>
@@ -184,7 +199,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonButton, IonContent, IonIcon, IonPage, IonToggle } from '@ionic/vue';
 import { arrowForwardOutline } from 'ionicons/icons';
@@ -213,6 +228,7 @@ const isDetailOpen = ref(false);
 const hasStartedPractice = ref(false);
 const quickDrawResult = ref<PracticeToolSelection | null>(null);
 const quickDrawEmpty = ref(false);
+const isDrawing = ref(false);
 const includeUnveiling = ref(false);
 const highlightedDetailSelection = ref<PracticeToolSelection | null>(null);
 const selectedCategoryIds = ref<string[]>(CHART_CATEGORIES.map((category) => category.id));
@@ -222,6 +238,24 @@ const selectedChildTools = ref<ChildToolFilter>(createAllChildToolFilter());
 const journalCtaLabel = computed(() =>
   hasStartedPractice.value ? 'Return to today’s practice' : 'Begin today’s practice in Journal',
 );
+
+const quickDrawButtonLabel = computed(() => {
+  if (isDrawing.value) return 'Drawing…';
+  return quickDrawResult.value ? 'Draw another' : 'Quick Draw';
+});
+
+const quickDrawCategory = computed(() =>
+  quickDrawResult.value
+    ? CHART_CATEGORIES.find((category) => category.id === quickDrawResult.value?.categoryId) ?? null
+    : null,
+);
+
+const quickDrawFamilyLabel = computed(() =>
+  quickDrawCategory.value ? getFamily(quickDrawCategory.value.family).label : '',
+);
+
+// Sanctioned NMCA/source chart-area description (from circleChartCatalog); no AI-invented text.
+const quickDrawDescription = computed(() => quickDrawCategory.value?.description ?? '');
 
 const drawablePoolCount = computed(() =>
   selectedCategoryIds.value.reduce((count, categoryId) => count + categoryDrawableCount(categoryId), 0),
@@ -337,16 +371,38 @@ function deselectAllChartPool(): void {
   selectedChildTools.value = createEmptyChildToolFilter();
 }
 
+// Brief LOCAL suspense so the draw reads as a deliberate reveal, not an instant flip.
+// 100% page-local — no store, mirroring the spirit of the Journal busy flag.
+const DRAW_SUSPENSE_MS = 280;
+let drawTimer: ReturnType<typeof setTimeout> | null = null;
+
 function drawQuickTool(): void {
-  quickDrawResult.value = createRandomSelectionFromCategories(
-    selectedCategoryIds.value,
-    selectedParentToolsByCategory.value,
-    selectedChildTools.value,
-    { includeUnveiling: includeUnveiling.value },
-  );
-  quickDrawEmpty.value = !quickDrawResult.value;
-  highlightedDetailSelection.value = quickDrawResult.value;
+  if (isDrawing.value) return;
+
+  isDrawing.value = true;
+  quickDrawResult.value = null;
+  quickDrawEmpty.value = false;
+  highlightedDetailSelection.value = null;
+
+  if (drawTimer) clearTimeout(drawTimer);
+  drawTimer = setTimeout(() => {
+    const result = createRandomSelectionFromCategories(
+      selectedCategoryIds.value,
+      selectedParentToolsByCategory.value,
+      selectedChildTools.value,
+      { includeUnveiling: includeUnveiling.value },
+    );
+    quickDrawResult.value = result;
+    quickDrawEmpty.value = !result;
+    highlightedDetailSelection.value = result;
+    isDrawing.value = false;
+    drawTimer = null;
+  }, DRAW_SUSPENSE_MS);
 }
+
+onBeforeUnmount(() => {
+  if (drawTimer) clearTimeout(drawTimer);
+});
 
 function beginQuickDrawPOA(): void {
   if (!quickDrawResult.value) return;
@@ -479,10 +535,74 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   padding: 12px;
 }
 
+.quick-draw-drawing {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 0;
+  min-height: 64px;
+  padding: 18px 16px;
+}
+
+.quick-draw-drawing span:not(.drawing-dot) {
+  color: var(--text-on-paper);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.drawing-dot {
+  animation: drawing-pulse 900ms ease-in-out infinite;
+  background: var(--accent-primary);
+  border-radius: 999px;
+  flex: 0 0 auto;
+  height: 12px;
+  width: 12px;
+}
+
+@keyframes drawing-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawing-dot {
+    animation: none;
+    opacity: 0.85;
+  }
+}
+
 .quick-result {
   display: grid;
   gap: 10px;
   text-align: center;
+}
+
+.result-family {
+  background: var(--accent-soft) !important;
+  border-color: rgba(138, 92, 36, 0.32) !important;
+  color: var(--accent-primary) !important;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.quick-result-desc {
+  color: var(--text-on-paper-soft);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin: 2px 0 0;
+  max-width: 34ch;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 .quick-result-main {
