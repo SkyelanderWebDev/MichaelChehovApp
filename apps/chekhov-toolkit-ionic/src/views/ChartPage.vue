@@ -94,7 +94,7 @@
               v-if="quickDrawResult.components?.length"
               class="component-grid"
               role="group"
-              aria-label="Movable Centers draw — lock a component to keep it on the next draw"
+              aria-label="Movable Centers draw: lock a component to keep it on the next draw"
             >
               <button
                 v-for="component in quickDrawResult.components"

@@ -9,10 +9,10 @@ export interface ActorStruggle {
   sourceRef: string;
 }
 
-export const PENDING_LISA_CLEARANCE_COPY = 'TBD — pending Lisa clearance';
+export const PENDING_LISA_CLEARANCE_COPY = 'TBD: pending Lisa clearance';
 
 export const ACTOR_STRUGGLES_SOURCE_ATTRIBUTION =
-  'Source: NMCA Michael Chekhov Technique Playbook — Dalton, Kilroy, Bowles. [attribution pending]';
+  'Source: NMCA Michael Chekhov Technique Playbook (Dalton, Kilroy, Bowles). [attribution pending]';
 
 export const ACTOR_STRUGGLES: readonly ActorStruggle[] = [
   { id: 'problem-01', problemTitle: 'TBD', relatedToolName: 'TBD', sourceRef: 'NMCA Problems in Acting #1' },

@@ -73,7 +73,7 @@
               <dd>{{ field.value }}</dd>
             </div>
           </dl>
-          <p v-else class="poa-freetext">{{ day.poa.journalText || '—' }}</p>
+          <p v-else class="poa-freetext">{{ day.poa.journalText || 'No notes' }}</p>
         </section>
 
         <section v-if="day.draws.length" class="day-block" aria-label="Draw history">
@@ -194,12 +194,12 @@ function drawTitle(draw: DrawHistoryEntry): string {
 function structuredFields(poa: POAEntry): Array<{ label: string; value: string }> {
   return [
     { label: 'Practice', value: poa.practiceNotes },
-    { label: 'Observe — Morning', value: poa.observeMorning },
-    { label: 'Observe — Midday', value: poa.observeMidday },
-    { label: 'Observe — Evening', value: poa.observeEvening },
-    { label: 'Apply — Morning', value: poa.applyMorning },
-    { label: 'Apply — Midday', value: poa.applyMidday },
-    { label: 'Apply — Evening', value: poa.applyEvening },
+    { label: 'Observe: Morning', value: poa.observeMorning },
+    { label: 'Observe: Midday', value: poa.observeMidday },
+    { label: 'Observe: Evening', value: poa.observeEvening },
+    { label: 'Apply: Morning', value: poa.applyMorning },
+    { label: 'Apply: Midday', value: poa.applyMidday },
+    { label: 'Apply: Evening', value: poa.applyEvening },
   ].filter((field) => field.value.trim().length > 0);
 }
 

@@ -17,7 +17,7 @@
       </div>
 
       <p v-if="readonly" class="poa-lock-badge" aria-live="polite">
-        Practice completed and locked. The POA below is read-only — add a timestamped note instead.
+        Practice completed and locked. The POA below is read-only. Add a timestamped note instead.
       </p>
 
       <div class="mode-control" role="group" aria-label="POA entry mode">

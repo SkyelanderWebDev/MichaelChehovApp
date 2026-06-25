@@ -6,7 +6,7 @@
           <p class="kicker">Coming soon</p>
           <h1>Connect</h1>
           <p class="page-subtitle">
-            A future home for the Michael Chekhov community around you — not part of this beta yet.
+            A future home for the Michael Chekhov community around you. Not part of this beta yet.
           </p>
         </header>
 
@@ -16,7 +16,7 @@
           </span>
           <h2>Studios &amp; teachers near you</h2>
           <p class="panel-copy">
-            Find nearby Michael Chekhov studios and teachers. This arrives in a later beta — nothing
+            Find nearby Michael Chekhov studios and teachers. This arrives in a later beta. Nothing
             here uses your location today.
           </p>
         </section>
@@ -37,7 +37,7 @@
           </span>
           <h2>Class &amp; show group chat</h2>
           <p class="panel-copy">
-            A shared group chat for a class or a show — one space for the whole ensemble. Group
+            A shared group chat for a class or a show, one space for the whole ensemble. Group
             conversations only; there is no one-to-one direct messaging. Planned for a later beta.
           </p>
         </section>

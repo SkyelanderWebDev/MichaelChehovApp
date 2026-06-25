@@ -271,7 +271,7 @@ function formatScope(scope: WeekendTool['scope']): string {
 }
 
 .category-entry[open] summary::after {
-  content: '–';
+  content: '-';
 }
 
 .entry-name {
