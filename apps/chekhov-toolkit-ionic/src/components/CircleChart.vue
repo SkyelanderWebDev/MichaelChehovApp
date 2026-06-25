@@ -79,11 +79,19 @@
       </div>
     </div>
 
-    <div class="family-legend" aria-label="Chart families">
-      <span v-for="family in CHART_FAMILIES" :key="family.id" class="family-chip">
-        <span class="family-dot" :style="{ backgroundColor: family.color }"></span>
-        {{ family.label }}
-      </span>
+    <div class="chart-key" aria-label="Chart number key, grouped by family">
+      <div v-for="family in keyFamilies" :key="family.id" class="key-group">
+        <p class="key-group-label">
+          <span class="family-dot" :style="{ backgroundColor: family.color }"></span>
+          {{ family.label }}
+        </p>
+        <ul class="key-list">
+          <li v-for="item in family.items" :key="item.id" class="key-item">
+            <span class="key-num" :style="{ borderColor: family.color }">{{ item.indexLabel }}</span>
+            <span class="key-name">{{ item.name }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>
@@ -139,6 +147,21 @@ const positionedCategories = computed<PositionedCategory[]>(() => {
     angle: getChartNodeAngle(index, total),
     indexLabel: String(index + 1).padStart(2, '0'),
   }));
+});
+
+// Number key, grouped by NMCA family. Each item carries the SAME global index
+// label as its radial node (position in CHART_CATEGORIES), so the key reads as a
+// legend for the numbered nodes rather than a per-family re-count.
+const keyFamilies = computed(() => {
+  const numbered = CHART_CATEGORIES.map((category, index) => ({
+    ...category,
+    indexLabel: String(index + 1).padStart(2, '0'),
+  }));
+
+  return CHART_FAMILIES.map((family) => ({
+    ...family,
+    items: numbered.filter((category) => category.family === family.id),
+  })).filter((family) => family.items.length > 0);
 });
 
 const selectedCategories = computed(() =>
@@ -536,24 +559,76 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   color: #8a5c25;
 }
 
-.family-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
+.chart-key {
+  border-top: 1px solid var(--border-on-paper);
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
 }
 
-.family-chip {
+.key-group {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.key-group-label {
   align-items: center;
-  background: rgba(255, 253, 247, 0.78);
-  border: 1px solid var(--border-on-paper);
-  border-radius: var(--radius-pill);
-  color: var(--text-on-paper-soft);
-  display: inline-flex;
-  font-size: 0.72rem;
-  font-weight: 800;
+  color: var(--text-on-paper);
+  display: flex;
+  font-size: 0.7rem;
+  font-weight: 900;
+  gap: 7px;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.key-list {
+  display: grid;
   gap: 6px;
-  padding: 7px 9px;
+  list-style: none;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.key-item {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto minmax(0, 1fr);
+  min-width: 0;
+}
+
+/* Mirrors the radial node: paper fill, family-color border, dark ink number —
+   so the legend chip reads as the same object as its node, and the digits stay
+   fully legible regardless of the family hue. */
+.key-num {
+  align-items: center;
+  background: var(--surface-paper-soft);
+  border: 2px solid var(--border-on-paper);
+  border-radius: 999px;
+  box-sizing: border-box;
+  color: var(--text-on-paper);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 900;
+  height: 26px;
+  justify-content: center;
+  letter-spacing: -0.04em;
+  width: 26px;
+}
+
+.key-name {
+  color: var(--text-on-paper);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.25;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 @media (min-width: 760px) {
@@ -563,6 +638,11 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 
   .category-directory {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .chart-key {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 24px;
   }
 }
 

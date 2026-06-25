@@ -137,10 +137,8 @@
               <li v-for="entry in quickDrawHistory" :key="entry.id" class="quick-draw-log-row paper-object">
                 <div class="log-main">
                   <span class="log-family" v-if="logFamilyLabel(entry)">{{ logFamilyLabel(entry) }}</span>
-                  <strong>{{ logTitle(entry) }}</strong>
-                  <span v-if="entry.selectedTool.childToolName" class="log-child">
-                    {{ entry.selectedTool.childToolName }}
-                  </span>
+                  <strong class="log-headline">{{ logHeadline(entry) }}</strong>
+                  <span v-if="logParent(entry)" class="log-parent">{{ logParent(entry) }}</span>
                   <span class="log-category">{{ entry.selectedTool.categoryName }}</span>
                 </div>
                 <time class="log-time" :datetime="entry.drawnAt">{{ formatDrawTime(entry.drawnAt) }}</time>
@@ -211,23 +209,25 @@
                   </span>
                   <span class="selection-state">{{ isCategorySelected(category.id) ? 'Selected' : 'Excluded' }}</span>
                 </button>
-                <button
-                  class="detail-link"
-                  type="button"
-                  aria-haspopup="dialog"
-                  :aria-label="`Open ${category.name} details`"
-                  @click="openCategoryDetail(category.id)"
-                >
-                  Details
-                </button>
-                <button
-                  class="library-link"
-                  type="button"
-                  :aria-label="`Open ${category.name} in Library`"
-                  @click="openInLibrary(category.id)"
-                >
-                  Library
-                </button>
+                <div class="category-actions">
+                  <button
+                    class="detail-link"
+                    type="button"
+                    aria-haspopup="dialog"
+                    :aria-label="`Open ${category.name} details`"
+                    @click="openCategoryDetail(category.id)"
+                  >
+                    Details
+                  </button>
+                  <button
+                    class="library-link"
+                    type="button"
+                    :aria-label="`Open ${category.name} in Library`"
+                    @click="openInLibrary(category.id)"
+                  >
+                    Library
+                  </button>
+                </div>
               </div>
             </li>
           </ul>
@@ -507,8 +507,16 @@ function resultTitle(selection: PracticeToolSelection): string {
   return selection.components?.length ? selection.categoryName : selection.parentToolName;
 }
 
-function logTitle(entry: QuickDrawHistoryEntry): string {
-  return resultTitle(entry.selectedTool);
+// History headline = the most specific tool drawn. The child/example tool is the
+// prominent top line; the parent tool drops to a secondary line beneath it. When
+// no child was drawn, the parent (or a Movable Centers composite) headlines and
+// the secondary line is omitted to avoid repeating the same label.
+function logHeadline(entry: QuickDrawHistoryEntry): string {
+  return entry.selectedTool.childToolName || resultTitle(entry.selectedTool);
+}
+
+function logParent(entry: QuickDrawHistoryEntry): string {
+  return entry.selectedTool.childToolName ? entry.selectedTool.parentToolName : '';
 }
 
 function logFamilyLabel(entry: QuickDrawHistoryEntry): string {
@@ -591,7 +599,7 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   overflow-wrap: anywhere;
 }
 
-.log-child {
+.log-parent {
   color: var(--text-on-paper-soft);
   font-size: 0.82rem;
   font-weight: 800;
@@ -944,15 +952,13 @@ function createEmptyChildToolFilter(): ChildToolFilter {
 }
 
 .category-card {
-  align-items: center;
   background: var(--app-bg-2);
   border: 1px solid var(--border-subtle);
   border-radius: 16px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 8px;
   min-width: 0;
-  padding: 4px 8px 4px 4px;
+  padding: 6px;
 }
 
 .category-card.selected {
@@ -1028,17 +1034,30 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   color: var(--accent-primary);
 }
 
+/* Two equal-width action buttons in a single tidy row: consistent width and
+   spacing, no flex-wrap offset. Restores the clean pill treatment from the
+   pre-refactor single-pill card (84fb147), extended to hold both actions. */
+.category-actions {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr 1fr;
+}
+
 .detail-link,
 .library-link {
+  align-items: center;
   background: var(--surface);
   border: 1px solid var(--border-subtle);
   border-radius: 999px;
   color: var(--text-primary);
-  flex: 0 0 auto;
-  font-size: 0.74rem;
+  display: inline-flex;
+  font-size: 0.78rem;
   font-weight: 800;
+  justify-content: center;
   min-height: 40px;
   padding: 8px 12px;
+  text-align: center;
+  width: 100%;
 }
 
 .library-link {
