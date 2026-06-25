@@ -3,10 +3,22 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY;
 const emailDomain = process.env.SUPABASE_RLS_EMAIL_DOMAIN ?? 'skyelandersolutions.com';
-const password = 'Secure-test-1234';
+const generatedUserPassword = process.env.SUPABASE_RLS_TEST_PASSWORD ?? 'Secure-test-1234';
+const localDate = process.env.SUPABASE_RLS_LOCAL_DATE ?? '2026-06-10';
+
+const testUserA = {
+  email: process.env.SUPABASE_RLS_USER_A_EMAIL,
+  password: process.env.SUPABASE_RLS_USER_A_PASSWORD,
+};
+const testUserB = {
+  email: process.env.SUPABASE_RLS_USER_B_EMAIL,
+  password: process.env.SUPABASE_RLS_USER_B_PASSWORD,
+};
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing VITE_SUPABASE_URL/SUPABASE_URL or VITE_SUPABASE_ANON_KEY/SUPABASE_ANON_KEY.');
+  console.error('Missing Supabase RLS verification env.');
+  console.error('Required: VITE_SUPABASE_URL or SUPABASE_URL.');
+  console.error('Required: VITE_SUPABASE_ANON_KEY or SUPABASE_ANON_KEY.');
   process.exit(2);
 }
 
@@ -20,10 +32,26 @@ function makeClient() {
   });
 }
 
-async function signUp(label) {
+async function getSmokeUser(label, configuredUser) {
+  if (configuredUser.email && configuredUser.password) {
+    return signInExistingUser(label, configuredUser.email, configuredUser.password);
+  }
+
+  return signUpGeneratedUser(label);
+}
+
+async function signInExistingUser(label, email, password) {
+  const client = makeClient();
+  const { data, error } = await client.auth.signInWithPassword({ email, password });
+  if (error) throw new Error(`${label} signIn failed: ${error.message}`);
+  if (!data.session?.user) throw new Error(`${label} signIn did not return a session.`);
+  return { client, email, userId: data.session.user.id };
+}
+
+async function signUpGeneratedUser(label) {
   const client = makeClient();
   const email = `rls-${label}-${Date.now()}-${Math.floor(Math.random() * 100000)}@${emailDomain}`;
-  const { data, error } = await client.auth.signUp({ email, password });
+  const { data, error } = await client.auth.signUp({ email, password: generatedUserPassword });
   if (error) throw new Error(`${label} signUp failed: ${error.message}`);
   if (!data.session?.user) {
     throw new Error(`${label} signUp did not return a session. Disable email confirmations for local smoke or sign in with a confirmed test user.`);
@@ -36,9 +64,44 @@ function expect(condition, message) {
   console.log(`PASS ${message}`);
 }
 
+async function cleanupUserRows(user, dates) {
+  const { data: practices, error: practiceReadError } = await user.client
+    .from('daily_practices')
+    .select('id')
+    .eq('user_id', user.userId)
+    .in('local_date', dates);
+  if (practiceReadError) throw practiceReadError;
+
+  const practiceIds = (practices ?? []).map((practice) => practice.id);
+  if (practiceIds.length > 0) {
+    const { error: poaDeleteError } = await user.client
+      .from('poa_entries')
+      .delete()
+      .eq('user_id', user.userId)
+      .in('daily_practice_id', practiceIds);
+    if (poaDeleteError) throw poaDeleteError;
+  }
+
+  const { error: feedbackDeleteError } = await user.client
+    .from('feedback')
+    .delete()
+    .eq('user_id', user.userId);
+  if (feedbackDeleteError) throw feedbackDeleteError;
+
+  const { error: practiceDeleteError } = await user.client
+    .from('daily_practices')
+    .delete()
+    .eq('user_id', user.userId)
+    .in('local_date', dates);
+  if (practiceDeleteError) throw practiceDeleteError;
+}
+
 async function run() {
-  const userA = await signUp('user-a');
-  const userB = await signUp('user-b');
+  const userA = await getSmokeUser('user-a', testUserA);
+  const userB = await getSmokeUser('user-b', testUserB);
+
+  await cleanupUserRows(userA, [localDate]);
+  await cleanupUserRows(userB, [localDate]);
 
   const { data: profileA, error: profileError } = await userA.client
     .from('profiles')
@@ -61,7 +124,7 @@ async function run() {
     .from('daily_practices')
     .insert({
       user_id: userA.userId,
-      local_date: '2026-06-10',
+      local_date: localDate,
       source: 'random',
       status: 'started',
       category_id: selectedTool.categoryId,
@@ -130,9 +193,8 @@ async function run() {
   if (authLibraryError) throw authLibraryError;
   expect(Array.isArray(authLibrary) && authLibrary.length >= 2, 'authenticated tester can read minimal library skeleton');
 
-  await userA.client.from('feedback').delete().eq('user_id', userA.userId);
-  await userA.client.from('daily_practices').delete().eq('user_id', userA.userId);
-  await userB.client.from('daily_practices').delete().eq('user_id', userB.userId);
+  await cleanupUserRows(userA, [localDate]);
+  await cleanupUserRows(userB, [localDate]);
 
   console.log('RLS smoke complete');
 }
