@@ -151,6 +151,32 @@
           @add-note="addPoaNote"
         />
 
+        <!-- L6 (F2) PDF SHARE: export today's POA as a PDF (Web Share API on
+             mobile, clean download / mailto fallback on desktop). -->
+        <section
+          v-if="(isPracticeStarted || isPracticeCompleted) && currentPractice"
+          class="studio-panel share-panel"
+          aria-labelledby="share-poa-title"
+        >
+          <p class="kicker">Export</p>
+          <h2 id="share-poa-title">Share your POA</h2>
+          <p class="panel-copy">
+            Save today’s Practice of the Day as a PDF, or share it from your phone.
+          </p>
+          <div class="button-row">
+            <ion-button
+              size="small"
+              color="primary"
+              data-testid="share-poa-pdf"
+              :disabled="sharingPoa"
+              @click="exportPoaPdf"
+            >
+              {{ sharingPoa ? 'Preparing…' : 'Share / Export PDF' }}
+            </ion-button>
+            <span v-if="shareStatus" class="status-pill" aria-live="polite">{{ shareStatus }}</span>
+          </div>
+        </section>
+
         <section class="studio-panel pool-panel" aria-labelledby="pool-title">
           <div class="pool-heading">
             <div>
@@ -275,6 +301,7 @@ import {
   unlockTodayPractice,
 } from '@/stores/dailyPracticeStore';
 import type { DailyPractice, POADraft, POAEntry, POANote, PracticeToolSelection } from '@/types/practice';
+import { sharePoaPdf } from '@/utils/poaPdf';
 
 const router = useRouter();
 const route = useRoute();
@@ -298,6 +325,8 @@ const flybackSavedAt = ref<string | null>(null);
 const preservePreviewWithPOA = ref(false);
 const practiceLoadError = ref<string | null>(null);
 const practiceBusy = ref(false);
+const sharingPoa = ref(false);
+const shareStatus = ref<string | null>(null);
 
 const isSignedIn = computed(() => authStatus.value === 'signed-in' && Boolean(currentUser.value));
 const isPracticeStarted = computed(() => currentPractice.value?.status === 'started');
@@ -681,6 +710,30 @@ async function saveFlyback(): Promise<void> {
   });
 }
 
+// L6 (F2): export/share the current POA as a PDF. Web Share API on mobile,
+// clean download / mailto fallback on desktop — never a dead end.
+async function exportPoaPdf(): Promise<void> {
+  const practice = currentPractice.value;
+  if (!practice || sharingPoa.value) return;
+
+  sharingPoa.value = true;
+  shareStatus.value = null;
+  try {
+    const result = await sharePoaPdf({ practice, poa: poaEntry.value, notes: poaNotes.value });
+    shareStatus.value = {
+      shared: 'Shared',
+      downloaded: 'PDF downloaded',
+      mailto: 'Opened email draft',
+      cancelled: 'Share cancelled',
+      failed: 'Could not export PDF',
+    }[result];
+  } catch {
+    shareStatus.value = 'Could not export PDF';
+  } finally {
+    sharingPoa.value = false;
+  }
+}
+
 function focusSelectedCategory(): void {
   if (currentPractice.value) {
     isPoolOpen.value = true;
@@ -934,6 +987,20 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
   font-size: clamp(1.3rem, 5.5vw, 1.7rem);
   font-weight: 600;
   line-height: 1.06;
+  margin: 4px 0 0;
+}
+
+.share-panel {
+  display: grid;
+  gap: 8px;
+}
+
+.share-panel h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 5vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.08;
   margin: 4px 0 0;
 }
 
