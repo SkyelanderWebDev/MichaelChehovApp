@@ -1,8 +1,9 @@
 -- Michael Chekhov Toolkit — practice-core history, lock, and post-lock notes.
 -- Append-only logging plus an explicit "completed" lock state for Daily Practice.
 --
--- HOSTED APPLY IS GATED: do NOT apply this migration to the hosted Supabase
--- project. Hosted apply is reserved for Dawson/Rudy. This file is authored only.
+-- HOSTED APPLY STATUS: applied to the linked hosted Supabase project by
+-- Dawson-approved Rudy/Hermes operation on 2026-06-25. Keep this migration in
+-- source control as the receipt-backed schema history for that apply.
 --
 -- Mirrors the per-user RLS pattern from 20260610192000_secure_beta_core.sql:
 -- every tester-owned table is auth.uid() = user_id, authenticated role only.
@@ -62,11 +63,25 @@ create table if not exists public.poa_notes (
 create index if not exists poa_notes_user_practice_idx
   on public.poa_notes (user_id, daily_practice_id, created_at desc);
 
+-- Supabase/PostgREST requires table privileges in addition to RLS policies.
+-- Backfill the least privileges needed for the practice-core flow this migration
+-- extends, while keeping draw_history/poa_notes append-only at SQL privilege level.
+grant select, insert, update on public.daily_practices to authenticated;
+grant select, insert, update on public.poa_entries to authenticated;
+grant select, insert on public.draw_history to authenticated;
+grant select, insert on public.poa_notes to authenticated;
+
 -- 4. RLS — per-user, authenticated only. Both tables are insert + select for the
 --    owner. They are append-only by design, so no update/delete policies are
 --    granted (cascade delete on auth.users still cleans up).
 alter table public.draw_history enable row level security;
 alter table public.poa_notes enable row level security;
+
+-- Policy creation is guarded for partial-apply recovery and SQL-editor reruns.
+drop policy if exists draw_history_select_own on public.draw_history;
+drop policy if exists draw_history_insert_own on public.draw_history;
+drop policy if exists poa_notes_select_own on public.poa_notes;
+drop policy if exists poa_notes_insert_own on public.poa_notes;
 
 create policy draw_history_select_own
   on public.draw_history for select to authenticated
@@ -90,13 +105,37 @@ create policy poa_notes_insert_own
 --    pre-apply belt-and-suspenders. Idempotent (create or replace + drop if
 --    exists) so re-running the migration is safe.
 --
---    Note: poa_notes are intentionally NOT covered here — post-lock notes are
---    meant to append after completion. Only the core POA (poa_entries) and the
---    daily_practices status transition are frozen.
+create or replace function public.reject_unlocked_poa_note()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  day_status text;
+begin
+  select status into day_status
+    from public.daily_practices
+    where id = new.daily_practice_id
+      and user_id = new.user_id;
+
+  if day_status is distinct from 'completed' then
+    raise exception 'POA notes can only be added after the daily_practice is completed'
+      using errcode = 'check_violation';
+  end if;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists poa_notes_post_lock_guard on public.poa_notes;
+create trigger poa_notes_post_lock_guard
+  before insert on public.poa_notes
+  for each row execute function public.reject_unlocked_poa_note();
 
 create or replace function public.reject_locked_poa_write()
 returns trigger
 language plpgsql
+set search_path = ''
 as $$
 declare
   day_status text;
@@ -122,6 +161,7 @@ create trigger poa_entries_locked_guard
 create or replace function public.reject_completed_status_change()
 returns trigger
 language plpgsql
+set search_path = ''
 as $$
 begin
   -- A completed day may never leave the completed state.
