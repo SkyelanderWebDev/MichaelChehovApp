@@ -262,7 +262,11 @@ export function getDrawableTools(
       const selectedChildren = getFilteredChildren(categoryId, tool.name, childFilter);
       const parentIncluded = !selectedParents || selectedParents.has(tool.name);
 
-      return parentIncluded && selectedChildren.length > 0 ? { tool, children: selectedChildren } : null;
+      // Flexible combination draw: a selected parent is drawable on its own.
+      // When no child/example is selected under it, the parent draws at the
+      // parent level (childToolName resolves to null downstream). Categories
+      // with NO parent selected (empty parent array) stay non-drawable.
+      return parentIncluded ? { tool, children: selectedChildren } : null;
     })
     .filter((candidate): candidate is DrawableTool => Boolean(candidate));
 }
