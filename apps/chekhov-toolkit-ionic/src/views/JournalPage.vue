@@ -747,6 +747,10 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
 </script>
 
 <style scoped>
+.journal-segment {
+  margin-top: 2px;
+}
+
 .lock-banner,
 .error-banner {
   background: rgba(111, 135, 88, 0.18);

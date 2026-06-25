@@ -54,3 +54,33 @@ export function getFamily(familyId: ChartFamilyId): ChartFamily {
 export function getCategory(categoryId: string): ChartCategory | undefined {
   return CHART_CATEGORIES.find((category) => category.id === categoryId);
 }
+
+/**
+ * Angle (degrees) for a chart node, CENTERED within its equal angular slot.
+ *
+ * `index * (360 / total)` lands a node on a slot boundary, which put nodes on the
+ * family-arc seams. The `+ 0.5` offset advances each node to the center of its
+ * own slot so they read as deliberately placed inside the ring.
+ */
+export function getChartNodeAngle(index: number, total: number): number {
+  if (total <= 0) return -90;
+  return -90 + ((index + 0.5) * 360) / total;
+}
+
+/**
+ * Percent coordinates (0–100, relative to the square chart stage) for a node,
+ * derived from the centered angle and a fixed orbit radius.
+ */
+export function getChartNodePosition(
+  index: number,
+  total: number,
+  radius = 39,
+): { angle: number; x: number; y: number } {
+  const angle = getChartNodeAngle(index, total);
+  const radians = (angle * Math.PI) / 180;
+  return {
+    angle,
+    x: 50 + Math.cos(radians) * radius,
+    y: 50 + Math.sin(radians) * radius,
+  };
+}

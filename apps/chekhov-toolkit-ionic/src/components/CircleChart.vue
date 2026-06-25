@@ -90,7 +90,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CHART_CATEGORIES, CHART_FAMILIES, getCategory, getFamily, type ChartCategory } from '@/data/circleChartCatalog';
+import {
+  CHART_CATEGORIES,
+  CHART_FAMILIES,
+  getCategory,
+  getChartNodeAngle,
+  getChartNodePosition,
+  getFamily,
+  type ChartCategory,
+} from '@/data/circleChartCatalog';
 import { getDrawableSelectionCount, type ChildToolFilter, type ParentToolFilter } from '@/data/toolCatalog';
 
 interface PositionedCategory extends ChartCategory {
@@ -127,7 +135,8 @@ const positionedCategories = computed<PositionedCategory[]>(() => {
 
   return CHART_CATEGORIES.map((category, index) => ({
     ...category,
-    angle: -90 + (index * 360) / total,
+    // Centered within each node's equal angular slot (see getChartNodeAngle).
+    angle: getChartNodeAngle(index, total),
     indexLabel: String(index + 1).padStart(2, '0'),
   }));
 });
@@ -182,10 +191,10 @@ function nodeAriaLabel(category: ChartCategory): string {
 }
 
 function nodeStyle(category: PositionedCategory): Record<string, string> {
-  const radians = (category.angle * Math.PI) / 180;
-  const radius = 39;
-  const x = 50 + Math.cos(radians) * radius;
-  const y = 50 + Math.sin(radians) * radius;
+  const { x, y } = getChartNodePosition(
+    CHART_CATEGORIES.findIndex((item) => item.id === category.id),
+    CHART_CATEGORIES.length,
+  );
 
   return {
     '--node-x': `${x}%`,
@@ -318,9 +327,12 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   border: 2px solid var(--node-color);
   border-radius: 999px;
   box-shadow: 0 10px 26px rgba(53, 35, 18, 0.18);
+  box-sizing: border-box;
   color: var(--text-on-paper);
   display: inline-flex;
-  height: clamp(38px, 10vw, 50px);
+  /* Stable, viewport-independent sizing: the orbit positions scale with the
+     square stage; the node size stays fixed so nodes never drift or overflow. */
+  height: 46px;
   justify-content: center;
   left: var(--node-x);
   min-width: 0;
@@ -328,7 +340,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   top: var(--node-y);
   transform: translate(-50%, -50%);
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  width: clamp(38px, 10vw, 50px);
+  width: 46px;
   z-index: 2;
 }
 
@@ -337,19 +349,22 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   outline-offset: 4px;
 }
 
-.chart-node:hover,
-.chart-node.selected {
+.chart-node:hover {
   background: #fff7df;
   box-shadow: 0 14px 34px rgba(53, 35, 18, 0.24);
   transform: translate(-50%, -50%) scale(1.06);
 }
 
 .chart-node.selected {
-  border-width: 3px;
+  background: #fff7df;
+  /* Selection is shown with a box-shadow ring (not a wider border), so the node's
+     box size is unchanged and its center never shifts. */
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 0 0 4px var(--node-color),
+    0 12px 30px rgba(53, 35, 18, 0.22);
 }
 
 .node-number {
-  font-size: clamp(0.66rem, 2.7vw, 0.9rem);
+  font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: -0.04em;
 }
@@ -558,6 +573,15 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 
   .chart-stage {
     width: min(100%, 342px);
+  }
+
+  .chart-node {
+    height: 42px;
+    width: 42px;
+  }
+
+  .node-number {
+    font-size: 0.76rem;
   }
 
   .chart-hub {
