@@ -21,7 +21,7 @@ describe('Studio Ritual route polish', () => {
     cy.contains('Studios & teachers near you').should('exist');
     cy.contains('Upcoming events & calendar').should('exist');
     cy.contains('Class & show group chat').should('exist');
-    cy.contains('nothing here uses your location today').should('exist');
+    cy.contains('Nothing here uses your location today').should('exist');
     cy.contains('Today’s Practice lives in the Journal tab').should('exist');
     expectNoHorizontalOverflow();
   });

@@ -78,7 +78,7 @@ describe('parent-tool filter catalog helpers', () => {
 
   test('catalog includes full child labels and Imaginary Body scope metadata', () => {
     const atmosphere = getToolCatalogCategory('atmosphere')
-    const naturalAtmosphere = atmosphere?.tools.find((tool) => tool.name === 'Overall — Nature / Natural')
+    const naturalAtmosphere = atmosphere?.tools.find((tool) => tool.name === 'Overall: Nature / Natural')
     const imaginaryBody = getToolCatalogCategory('imaginary-body')
     const bodyPart = imaginaryBody?.tools.find((tool) => tool.name === 'Body Part')
     const archetypalCharacters = imaginaryBody?.tools.find((tool) => tool.name === 'Archetypal Characters')
