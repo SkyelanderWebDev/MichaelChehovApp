@@ -42,7 +42,7 @@
             <ion-button
               data-testid="button-quick-draw"
               color="primary"
-              :disabled="isDrawing"
+              :disabled="isDrawing || isDrawLocked"
               :aria-busy="isDrawing"
               @click="drawQuickTool"
             >
@@ -82,18 +82,55 @@
                 <span v-if="quickDrawResult.unveiledValue">Veiling {{ quickDrawResult.unveiledValue }}</span>
               </span>
               <strong>{{ resultTitle(quickDrawResult) }}</strong>
-              <div v-if="quickDrawResult.components?.length" class="component-grid" aria-label="Movable Centers draw">
-                <span v-for="component in quickDrawResult.components" :key="component.label" class="component-chip">
-                  <small>{{ component.label }}</small>
-                  <b>{{ component.value }}</b>
-                </span>
-              </div>
-              <span v-else-if="quickDrawResult.childToolName" class="quick-child">{{ quickDrawResult.childToolName }}</span>
+              <span v-if="!quickDrawResult.components?.length && quickDrawResult.childToolName" class="quick-child">{{ quickDrawResult.childToolName }}</span>
               <p v-if="quickDrawDescription" class="quick-result-desc" data-testid="quick-draw-description">
                 {{ quickDrawDescription }}
               </p>
             </button>
+
+            <!-- Movable Centers: each component slot is its own device-local lock
+                 toggle. Locked slots are kept on the next "Draw another". -->
+            <div
+              v-if="quickDrawResult.components?.length"
+              class="component-grid"
+              role="group"
+              aria-label="Movable Centers draw — lock a component to keep it on the next draw"
+            >
+              <button
+                v-for="component in quickDrawResult.components"
+                :key="component.label"
+                type="button"
+                class="component-chip"
+                :class="{ locked: isComponentLocked(component.label) }"
+                :aria-pressed="isComponentLocked(component.label)"
+                :aria-label="`${isComponentLocked(component.label) ? 'Unlock' : 'Lock'} ${component.label}: ${component.value}`"
+                :data-testid="`quick-draw-component-lock-${component.label.toLowerCase()}`"
+                @click="toggleComponentLock(component.label)"
+              >
+                <small>{{ component.label }}</small>
+                <b>{{ component.value }}</b>
+                <ion-icon
+                  class="chip-lock-icon"
+                  aria-hidden="true"
+                  :icon="isComponentLocked(component.label) ? lockClosedOutline : lockOpenOutline"
+                />
+              </button>
+            </div>
+
             <div class="quick-result-actions">
+              <button
+                v-if="!quickDrawResult.components?.length"
+                type="button"
+                class="lock-toggle"
+                :class="{ locked: singleLocked }"
+                :aria-pressed="singleLocked"
+                :aria-label="singleLocked ? 'Unlock this draw so Draw another rolls fresh' : 'Lock this draw so Draw another keeps it'"
+                data-testid="quick-draw-lock"
+                @click.stop="toggleSingleLock"
+              >
+                <ion-icon aria-hidden="true" :icon="singleLocked ? lockClosedOutline : lockOpenOutline" />
+                <span>{{ singleLocked ? 'Locked' : 'Lock' }}</span>
+              </button>
               <button type="button" @click.stop="beginQuickDrawPOA">Begin POA in Journal</button>
               <button type="button" @click.stop="dismissQuickDraw">Dismiss</button>
             </div>
@@ -262,7 +299,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonButton, IonContent, IonIcon, IonLabel, IonPage, IonSegment, IonSegmentButton, IonToggle } from '@ionic/vue';
-import { arrowForwardOutline } from 'ionicons/icons';
+import { arrowForwardOutline, lockClosedOutline, lockOpenOutline } from 'ionicons/icons';
 import CategoryDetailSheet from '@/components/CategoryDetailSheet.vue';
 import CircleChart from '@/components/CircleChart.vue';
 import TopStatusBar from '@/components/TopStatusBar.vue';
@@ -278,12 +315,12 @@ import { CHART_CATEGORIES, getFamily } from '@/data/circleChartCatalog';
 import {
   createAllChildToolFilter,
   createAllParentToolFilter,
-  createRandomSelectionFromCategories,
   getDrawableSelectionCount,
   getToolCatalogCategory,
   type ChildToolFilter,
   type ParentToolFilter,
 } from '@/data/toolCatalog';
+import { drawNextQuickTool, isQuickDrawLocked } from '@/data/quickDrawLock';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
 import { getTodayPractice } from '@/stores/dailyPracticeStore';
 import type { PracticeToolSelection } from '@/types/practice';
@@ -298,6 +335,10 @@ const isDetailOpen = ref(false);
 const hasStartedPractice = ref(false);
 const quickDrawResult = ref<PracticeToolSelection | null>(null);
 const quickDrawEmpty = ref(false);
+// Device-local Quick Draw lock (Chart tab only). Separate from the Journal
+// daily-practice lock and from quick-draw history — see @/data/quickDrawLock.
+const singleLocked = ref(false);
+const lockedComponentLabels = ref<Set<string>>(new Set());
 const isDrawing = ref(false);
 const includeUnveiling = ref(false);
 const highlightedDetailSelection = ref<PracticeToolSelection | null>(null);
@@ -309,8 +350,18 @@ const journalCtaLabel = computed(() =>
   hasStartedPractice.value ? 'Return to today’s practice' : 'Begin today’s practice in Journal',
 );
 
+// True when the current result is fully locked (single lock, or every Movable
+// Centers component locked), so "Draw another" is a no-op and stays disabled.
+const isDrawLocked = computed(() =>
+  isQuickDrawLocked(quickDrawResult.value, {
+    singleLocked: singleLocked.value,
+    lockedComponentLabels: lockedComponentLabels.value,
+  }),
+);
+
 const quickDrawButtonLabel = computed(() => {
   if (isDrawing.value) return 'Drawing…';
+  if (isDrawLocked.value) return 'Locked';
   return quickDrawResult.value ? 'Draw another' : 'Quick Draw';
 });
 
@@ -429,6 +480,7 @@ function selectAllChartPool(): void {
   quickDrawResult.value = null;
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
+  resetQuickDrawLocks();
   selectedCategoryIds.value = CHART_CATEGORIES.map((category) => category.id);
   selectedParentToolsByCategory.value = createAllParentToolFilter();
   selectedChildTools.value = createAllChildToolFilter();
@@ -438,6 +490,7 @@ function deselectAllChartPool(): void {
   quickDrawResult.value = null;
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
+  resetQuickDrawLocks();
   selectedCategoryIds.value = [];
   selectedParentToolsByCategory.value = createEmptyParentToolFilter();
   selectedChildTools.value = createEmptyChildToolFilter();
@@ -449,20 +502,29 @@ const DRAW_SUSPENSE_MS = 280;
 let drawTimer: ReturnType<typeof setTimeout> | null = null;
 
 function drawQuickTool(): void {
-  if (isDrawing.value) return;
+  // Fully locked result (single lock, or all Movable Centers components locked):
+  // "Draw another" keeps the current result unchanged.
+  if (isDrawing.value || isDrawLocked.value) return;
 
   isDrawing.value = true;
-  quickDrawResult.value = null;
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
+  const previous = quickDrawResult.value;
+  quickDrawResult.value = null;
 
   if (drawTimer) clearTimeout(drawTimer);
   drawTimer = setTimeout(() => {
-    const result = createRandomSelectionFromCategories(
-      selectedCategoryIds.value,
-      selectedParentToolsByCategory.value,
-      selectedChildTools.value,
-      { includeUnveiling: includeUnveiling.value },
+    // Re-roll honors device-local locks: locked single result is preserved, and
+    // locked Movable Centers component slots are kept while the rest re-roll.
+    const result = drawNextQuickTool(
+      previous,
+      { singleLocked: singleLocked.value, lockedComponentLabels: lockedComponentLabels.value },
+      {
+        categoryIds: selectedCategoryIds.value,
+        parentFilter: selectedParentToolsByCategory.value,
+        childFilter: selectedChildTools.value,
+        includeUnveiling: includeUnveiling.value,
+      },
     );
     quickDrawResult.value = result;
     quickDrawEmpty.value = !result;
@@ -470,12 +532,53 @@ function drawQuickTool(): void {
     isDrawing.value = false;
     drawTimer = null;
 
+    syncLocksToResult(result);
+
     // Wave 1: chart Quick Draws are now logged, kept SEPARATE from Journal /
     // committed-practice history (device-local; no day is started or saved).
     if (result) {
       logQuickDraw(result);
     }
   }, DRAW_SUSPENSE_MS);
+}
+
+// Keep the device-local lock state consistent with the freshly drawn result.
+// A new single result always starts unlocked; Movable Centers component locks are
+// pruned to the labels that still exist in the new draw.
+function syncLocksToResult(result: PracticeToolSelection | null): void {
+  singleLocked.value = false;
+
+  if (result?.components?.length) {
+    const labels = new Set(result.components.map((component) => component.label));
+    lockedComponentLabels.value = new Set(
+      [...lockedComponentLabels.value].filter((label) => labels.has(label)),
+    );
+  } else {
+    lockedComponentLabels.value = new Set();
+  }
+}
+
+function toggleSingleLock(): void {
+  singleLocked.value = !singleLocked.value;
+}
+
+function isComponentLocked(label: string): boolean {
+  return lockedComponentLabels.value.has(label);
+}
+
+function toggleComponentLock(label: string): void {
+  const next = new Set(lockedComponentLabels.value);
+  if (next.has(label)) {
+    next.delete(label);
+  } else {
+    next.add(label);
+  }
+  lockedComponentLabels.value = next;
+}
+
+function resetQuickDrawLocks(): void {
+  singleLocked.value = false;
+  lockedComponentLabels.value = new Set();
 }
 
 onBeforeUnmount(() => {
@@ -501,6 +604,7 @@ function dismissQuickDraw(): void {
   quickDrawResult.value = null;
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
+  resetQuickDrawLocks();
 }
 
 function resultTitle(selection: PracticeToolSelection): string {
@@ -835,10 +939,39 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   background: rgba(55, 36, 22, 0.06);
   border: 1px solid var(--border-on-paper);
   border-radius: 14px;
+  color: inherit;
+  cursor: pointer;
   display: grid;
+  font: inherit;
   gap: 3px;
+  min-height: 44px;
   min-width: 0;
-  padding: 9px 8px;
+  padding: 9px 26px 9px 8px;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+.component-chip:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.component-chip.locked {
+  background: var(--accent-soft);
+  border-color: var(--accent-primary);
+}
+
+.chip-lock-icon {
+  color: var(--text-on-paper-soft);
+  font-size: 0.92rem;
+  position: absolute;
+  right: 7px;
+  top: 7px;
+}
+
+.component-chip.locked .chip-lock-icon {
+  color: var(--accent-primary);
 }
 
 .component-chip small {
@@ -874,6 +1007,22 @@ function createEmptyChildToolFilter(): ChildToolFilter {
   font-weight: 900;
   min-height: 40px;
   padding: 8px 12px;
+}
+
+.quick-result-actions .lock-toggle {
+  align-items: center;
+  display: inline-flex;
+  gap: 6px;
+}
+
+.quick-result-actions .lock-toggle ion-icon {
+  font-size: 1rem;
+}
+
+.quick-result-actions .lock-toggle.locked {
+  background: var(--accent-soft);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .journal-cta {

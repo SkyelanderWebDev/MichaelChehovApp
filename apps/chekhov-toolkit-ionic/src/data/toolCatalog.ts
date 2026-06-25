@@ -362,6 +362,32 @@ export function createDailyToolSelection(localDate: string): PracticeToolSelecti
   });
 }
 
+// Re-roll a Movable Centers result while PRESERVING locked component slots.
+// Fresh values are drawn for every slot from the same filter, then each locked
+// label (Location / Movement / Quality) is restored from the previous draw.
+// Used by the Chart tab's device-local Quick Draw lock; no Supabase, no history.
+export function createMovableCenterRedraw(
+  previousComponents: readonly PracticeToolComponent[],
+  lockedLabels: ReadonlySet<string>,
+  filter?: ParentToolFilter,
+  childFilter?: ChildToolFilter,
+  options: SelectionOptions = {},
+): PracticeToolSelection | null {
+  const chartCategory = getChartCategory('movable-centers');
+  if (!chartCategory) return null;
+
+  const fresh = getMovableCenterComponents('movable-centers', filter, childFilter);
+  if (fresh.length !== 3) return null;
+
+  const merged = fresh.map((component) => {
+    if (!lockedLabels.has(component.label)) return component;
+    const prior = previousComponents.find((candidate) => candidate.label === component.label);
+    return prior ?? component;
+  });
+
+  return makeComponentSelection(chartCategory, merged, options);
+}
+
 function getChartCategory(categoryId: string): ChartCategory | undefined {
   return CHART_CATEGORIES.find((category) => category.id === categoryId);
 }
