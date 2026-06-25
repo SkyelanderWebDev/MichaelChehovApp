@@ -6,6 +6,10 @@
     </ion-card-header>
 
     <ion-card-content>
+      <p v-if="areaDescription" class="area-description" data-testid="preview-area-description">
+        {{ areaDescription }}
+      </p>
+
       <dl class="selection-details">
         <div>
           <dt>Chart area</dt>
@@ -66,11 +70,19 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/vue';
+import { CHART_CATEGORIES } from '@/data/circleChartCatalog';
 import type { DailyPractice, PracticeSource } from '@/types/practice';
 
 const props = defineProps<{
   practice: DailyPractice;
 }>();
+
+// Sanctioned NMCA/source chart-area description, keyed by the selection's categoryId.
+// Presentation only — no AI-invented practice text.
+const areaDescription = computed(
+  () =>
+    CHART_CATEGORIES.find((category) => category.id === props.practice.selectedTool.categoryId)?.description ?? '',
+);
 
 defineEmits<{
   (event: 'start'): void;
@@ -119,6 +131,16 @@ const sourceLabels: Record<PracticeSource, string> = {
 .tool-preview-card ion-card-title {
   color: #2e1c0f;
   font-family: var(--font-display);
+}
+
+.area-description {
+  color: rgba(55, 36, 22, 0.78);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0 0 12px;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
 }
 
 .selection-details {

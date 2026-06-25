@@ -79,18 +79,34 @@
       </div>
     </div>
 
-    <div class="family-legend" aria-label="Chart families">
-      <span v-for="family in CHART_FAMILIES" :key="family.id" class="family-chip">
-        <span class="family-dot" :style="{ backgroundColor: family.color }"></span>
-        {{ family.label }}
-      </span>
+    <div class="chart-key" aria-label="Chart number key, grouped by family">
+      <div v-for="family in keyFamilies" :key="family.id" class="key-group">
+        <p class="key-group-label">
+          <span class="family-dot" :style="{ backgroundColor: family.color }"></span>
+          {{ family.label }}
+        </p>
+        <ul class="key-list">
+          <li v-for="item in family.items" :key="item.id" class="key-item">
+            <span class="key-num" :style="{ borderColor: family.color }">{{ item.indexLabel }}</span>
+            <span class="key-name">{{ item.name }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { CHART_CATEGORIES, CHART_FAMILIES, getCategory, getFamily, type ChartCategory } from '@/data/circleChartCatalog';
+import {
+  CHART_CATEGORIES,
+  CHART_FAMILIES,
+  getCategory,
+  getChartNodeAngle,
+  getChartNodePosition,
+  getFamily,
+  type ChartCategory,
+} from '@/data/circleChartCatalog';
 import { getDrawableSelectionCount, type ChildToolFilter, type ParentToolFilter } from '@/data/toolCatalog';
 
 interface PositionedCategory extends ChartCategory {
@@ -127,9 +143,25 @@ const positionedCategories = computed<PositionedCategory[]>(() => {
 
   return CHART_CATEGORIES.map((category, index) => ({
     ...category,
-    angle: -90 + (index * 360) / total,
+    // Centered within each node's equal angular slot (see getChartNodeAngle).
+    angle: getChartNodeAngle(index, total),
     indexLabel: String(index + 1).padStart(2, '0'),
   }));
+});
+
+// Number key, grouped by NMCA family. Each item carries the SAME global index
+// label as its radial node (position in CHART_CATEGORIES), so the key reads as a
+// legend for the numbered nodes rather than a per-family re-count.
+const keyFamilies = computed(() => {
+  const numbered = CHART_CATEGORIES.map((category, index) => ({
+    ...category,
+    indexLabel: String(index + 1).padStart(2, '0'),
+  }));
+
+  return CHART_FAMILIES.map((family) => ({
+    ...family,
+    items: numbered.filter((category) => category.family === family.id),
+  })).filter((family) => family.items.length > 0);
 });
 
 const selectedCategories = computed(() =>
@@ -182,10 +214,10 @@ function nodeAriaLabel(category: ChartCategory): string {
 }
 
 function nodeStyle(category: PositionedCategory): Record<string, string> {
-  const radians = (category.angle * Math.PI) / 180;
-  const radius = 39;
-  const x = 50 + Math.cos(radians) * radius;
-  const y = 50 + Math.sin(radians) * radius;
+  const { x, y } = getChartNodePosition(
+    CHART_CATEGORIES.findIndex((item) => item.id === category.id),
+    CHART_CATEGORIES.length,
+  );
 
   return {
     '--node-x': `${x}%`,
@@ -318,9 +350,12 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   border: 2px solid var(--node-color);
   border-radius: 999px;
   box-shadow: 0 10px 26px rgba(53, 35, 18, 0.18);
+  box-sizing: border-box;
   color: var(--text-on-paper);
   display: inline-flex;
-  height: clamp(38px, 10vw, 50px);
+  /* Stable, viewport-independent sizing: the orbit positions scale with the
+     square stage; the node size stays fixed so nodes never drift or overflow. */
+  height: 46px;
   justify-content: center;
   left: var(--node-x);
   min-width: 0;
@@ -328,7 +363,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   top: var(--node-y);
   transform: translate(-50%, -50%);
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-  width: clamp(38px, 10vw, 50px);
+  width: 46px;
   z-index: 2;
 }
 
@@ -337,19 +372,22 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   outline-offset: 4px;
 }
 
-.chart-node:hover,
-.chart-node.selected {
+.chart-node:hover {
   background: #fff7df;
   box-shadow: 0 14px 34px rgba(53, 35, 18, 0.24);
   transform: translate(-50%, -50%) scale(1.06);
 }
 
 .chart-node.selected {
-  border-width: 3px;
+  background: #fff7df;
+  /* Selection is shown with a box-shadow ring (not a wider border), so the node's
+     box size is unchanged and its center never shifts. */
+  box-shadow: 0 0 0 3px var(--accent-soft), 0 0 0 4px var(--node-color),
+    0 12px 30px rgba(53, 35, 18, 0.22);
 }
 
 .node-number {
-  font-size: clamp(0.66rem, 2.7vw, 0.9rem);
+  font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: -0.04em;
 }
@@ -521,24 +559,76 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   color: #8a5c25;
 }
 
-.family-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
+.chart-key {
+  border-top: 1px solid var(--border-on-paper);
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
 }
 
-.family-chip {
+.key-group {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.key-group-label {
   align-items: center;
-  background: rgba(255, 253, 247, 0.78);
-  border: 1px solid var(--border-on-paper);
-  border-radius: var(--radius-pill);
-  color: var(--text-on-paper-soft);
-  display: inline-flex;
-  font-size: 0.72rem;
-  font-weight: 800;
+  color: var(--text-on-paper);
+  display: flex;
+  font-size: 0.7rem;
+  font-weight: 900;
+  gap: 7px;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.key-list {
+  display: grid;
   gap: 6px;
-  padding: 7px 9px;
+  list-style: none;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.key-item {
+  align-items: center;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto minmax(0, 1fr);
+  min-width: 0;
+}
+
+/* Mirrors the radial node: paper fill, family-color border, dark ink number —
+   so the legend chip reads as the same object as its node, and the digits stay
+   fully legible regardless of the family hue. */
+.key-num {
+  align-items: center;
+  background: var(--surface-paper-soft);
+  border: 2px solid var(--border-on-paper);
+  border-radius: 999px;
+  box-sizing: border-box;
+  color: var(--text-on-paper);
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 900;
+  height: 26px;
+  justify-content: center;
+  letter-spacing: -0.04em;
+  width: 26px;
+}
+
+.key-name {
+  color: var(--text-on-paper);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.25;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 @media (min-width: 760px) {
@@ -549,6 +639,11 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   .category-directory {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .chart-key {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 24px;
+  }
 }
 
 @media (max-width: 370px) {
@@ -558,6 +653,15 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 
   .chart-stage {
     width: min(100%, 342px);
+  }
+
+  .chart-node {
+    height: 42px;
+    width: 42px;
+  }
+
+  .node-number {
+    font-size: 0.76rem;
   }
 
   .chart-hub {

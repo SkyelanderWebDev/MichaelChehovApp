@@ -75,15 +75,15 @@ export const WEEKEND_TOOL_CATALOG: readonly WeekendToolCategory[] = [
   {
     categoryId: 'atmosphere',
     tools: [
-      { name: 'Overall — Nature / Natural', children: ['Pre-Storm Stillness', 'Distant Thunder', 'Thunderstorm', 'Hard Driving Rain', 'Ominous Midnight Storm', 'Blizzard', 'Arctic Chill', 'Silent Snowy Peak', 'Bright Icicled Morning', 'Moonlit Winter Eve', 'Moonlit Summer Eve', 'Cloud-Masked Full Moon', 'Cloud-Clearing Full Moon', 'Warm Spring Day', 'Hot Flowery Meadow', 'Spring Day', 'Sunset', 'Sunrise', 'Beach', 'Ocean', 'Desert', 'Tiny Desert Island', 'Tropical Lagoon', 'Rain Forest', 'Steamy Volcanic Rim', 'Deep Forest', 'Cave', 'Garden', 'Meadow', 'Mountain', 'River', 'Wilderness', 'Cemetery'] },
-      { name: 'Overall — Events & Occasions', children: ['Wedding', 'Rehearsal Dinner', 'Funeral', 'Birthday Party', 'Birth of a Baby', 'Graduation', 'High School Prom', 'Bar Mitzvah', 'Coronation', 'Academy Awards', 'Fashion Show', 'Play Performance', 'Luau', 'Renaissance Faire', 'Costume Party', 'Christmas Party', 'New Year\'s Eve Party', '4th of July Picnic', 'Backyard Barbeque', 'Sporting Event', 'Battle', 'Victory', 'Defeat', 'Trial', 'Festival', 'Ceremony', 'Reunion'] },
-      { name: 'Overall — Architectural', children: ['Tomb', 'Cathedral', 'Chapel', 'Castle', 'Palace', 'Mansion', 'Elegant Hotel Suite', 'First Class Resort', 'Cruise Ship', 'Space Station', 'Planetarium', 'Concert Venue', 'Opera House', 'Museum', 'Sports Arena', 'Race Track', 'Skyscraper', 'War Memorial', 'Pyramid', 'Ancient Ruins', 'Zen Garden', 'Log Cabin', 'Ski Chalet', 'Beach House', 'Hospital', 'Courtroom', 'Prison', 'Cheap Motel', 'Shack', 'Hut', 'Outhouse', 'Factory', 'Mine', 'Circus Tent', 'Bridge', 'Zoo', 'Nursery', 'Theatre', 'Library'] },
-      { name: 'Overall — Emotional', children: ['Joyous', 'Depressing', 'Grievous', 'Terrifying', 'Ambiguous', 'Calm', 'Angry', 'Trusting', 'Surprised', 'Friendly', 'Hateful', 'Confident', 'Shameful', 'Indignant', 'Envious', 'Wondering', 'Amused', 'Courageous', 'Proud', 'Humble', 'Detached', 'Painful', 'Pleasurable', 'Cautious', 'Bold', 'Patient', 'Relaxed', 'Stressed', 'Hopeful', 'Despairing', 'Ecstatic', 'Gloomy', 'Dread', 'Suffocating', 'Isolated', 'Abandoned', 'Lonely', 'Intimate', 'Oppressive', 'Mysterious'] },
-      { name: 'Overall — Random Images & Idioms', children: ['Walking on Eggshells', 'Breaking the Ice', 'Under a Cloud', 'In the Spotlight', 'Tip of the Iceberg', 'Fish Out of Water', 'Calm Before the Storm', 'Storm Before the Calm', 'Light at the End', 'Champagne Bubbles', 'Popping Popcorn', 'Washing Machine', 'Meat Grinder', 'Snake Pit', 'Cotton', 'Silk', 'Velvet', 'Corduroy', 'Hemp', 'Blood Sucking'] },
-      { name: 'Personal — The "-ness" Essences', children: ['Pretentiousness', 'Humbleness', 'Meekness', 'Kindness', 'Boldness', 'Bitterness', 'Tenderness', 'Fierceness', 'Stillness', 'Restlessness', 'Weariness', 'Eagerness', 'Sadness', 'Wildness', 'Listlessness'] },
-      { name: 'Personal — The "-ion" Essences', children: ['Condescension', 'Depression', 'Erudition', 'Devotion', 'Desperation', 'Exaltation', 'Resignation', 'Determination', 'Adoration', 'Trepidation', 'Agitation', 'Elation', 'Obsession', 'Infatuation', 'Exasperation'] },
-      { name: 'Personal — The "-ity" Essences', children: ['Humility', 'Futility', 'Authority', 'Gentility', 'Stupidity', 'Superiority', 'Causticity', 'Vitality', 'Serenity', 'Ferocity', 'Curiosity', 'Fragility', 'Volatility', 'Gravity', 'Levity', 'Audacity', 'Tenacity', 'Nobility'] },
-      { name: 'Personal — The "-ism" Essences', children: ['Optimism', 'Pessimism', 'Hedonism', 'Narcissism', 'Opportunism', 'Perfectionism', 'Idealism', 'Cynicism', 'Stoicism', 'Romanticism', 'Mysticism', 'Heroism', 'Fatalism', 'Defeatism', 'Magnetism'] },
+      { name: 'Overall: Nature / Natural', children: ['Pre-Storm Stillness', 'Distant Thunder', 'Thunderstorm', 'Hard Driving Rain', 'Ominous Midnight Storm', 'Blizzard', 'Arctic Chill', 'Silent Snowy Peak', 'Bright Icicled Morning', 'Moonlit Winter Eve', 'Moonlit Summer Eve', 'Cloud-Masked Full Moon', 'Cloud-Clearing Full Moon', 'Warm Spring Day', 'Hot Flowery Meadow', 'Spring Day', 'Sunset', 'Sunrise', 'Beach', 'Ocean', 'Desert', 'Tiny Desert Island', 'Tropical Lagoon', 'Rain Forest', 'Steamy Volcanic Rim', 'Deep Forest', 'Cave', 'Garden', 'Meadow', 'Mountain', 'River', 'Wilderness', 'Cemetery'] },
+      { name: 'Overall: Events & Occasions', children: ['Wedding', 'Rehearsal Dinner', 'Funeral', 'Birthday Party', 'Birth of a Baby', 'Graduation', 'High School Prom', 'Bar Mitzvah', 'Coronation', 'Academy Awards', 'Fashion Show', 'Play Performance', 'Luau', 'Renaissance Faire', 'Costume Party', 'Christmas Party', 'New Year\'s Eve Party', '4th of July Picnic', 'Backyard Barbeque', 'Sporting Event', 'Battle', 'Victory', 'Defeat', 'Trial', 'Festival', 'Ceremony', 'Reunion'] },
+      { name: 'Overall: Architectural', children: ['Tomb', 'Cathedral', 'Chapel', 'Castle', 'Palace', 'Mansion', 'Elegant Hotel Suite', 'First Class Resort', 'Cruise Ship', 'Space Station', 'Planetarium', 'Concert Venue', 'Opera House', 'Museum', 'Sports Arena', 'Race Track', 'Skyscraper', 'War Memorial', 'Pyramid', 'Ancient Ruins', 'Zen Garden', 'Log Cabin', 'Ski Chalet', 'Beach House', 'Hospital', 'Courtroom', 'Prison', 'Cheap Motel', 'Shack', 'Hut', 'Outhouse', 'Factory', 'Mine', 'Circus Tent', 'Bridge', 'Zoo', 'Nursery', 'Theatre', 'Library'] },
+      { name: 'Overall: Emotional', children: ['Joyous', 'Depressing', 'Grievous', 'Terrifying', 'Ambiguous', 'Calm', 'Angry', 'Trusting', 'Surprised', 'Friendly', 'Hateful', 'Confident', 'Shameful', 'Indignant', 'Envious', 'Wondering', 'Amused', 'Courageous', 'Proud', 'Humble', 'Detached', 'Painful', 'Pleasurable', 'Cautious', 'Bold', 'Patient', 'Relaxed', 'Stressed', 'Hopeful', 'Despairing', 'Ecstatic', 'Gloomy', 'Dread', 'Suffocating', 'Isolated', 'Abandoned', 'Lonely', 'Intimate', 'Oppressive', 'Mysterious'] },
+      { name: 'Overall: Random Images & Idioms', children: ['Walking on Eggshells', 'Breaking the Ice', 'Under a Cloud', 'In the Spotlight', 'Tip of the Iceberg', 'Fish Out of Water', 'Calm Before the Storm', 'Storm Before the Calm', 'Light at the End', 'Champagne Bubbles', 'Popping Popcorn', 'Washing Machine', 'Meat Grinder', 'Snake Pit', 'Cotton', 'Silk', 'Velvet', 'Corduroy', 'Hemp', 'Blood Sucking'] },
+      { name: 'Personal: The "-ness" Essences', children: ['Pretentiousness', 'Humbleness', 'Meekness', 'Kindness', 'Boldness', 'Bitterness', 'Tenderness', 'Fierceness', 'Stillness', 'Restlessness', 'Weariness', 'Eagerness', 'Sadness', 'Wildness', 'Listlessness'] },
+      { name: 'Personal: The "-ion" Essences', children: ['Condescension', 'Depression', 'Erudition', 'Devotion', 'Desperation', 'Exaltation', 'Resignation', 'Determination', 'Adoration', 'Trepidation', 'Agitation', 'Elation', 'Obsession', 'Infatuation', 'Exasperation'] },
+      { name: 'Personal: The "-ity" Essences', children: ['Humility', 'Futility', 'Authority', 'Gentility', 'Stupidity', 'Superiority', 'Causticity', 'Vitality', 'Serenity', 'Ferocity', 'Curiosity', 'Fragility', 'Volatility', 'Gravity', 'Levity', 'Audacity', 'Tenacity', 'Nobility'] },
+      { name: 'Personal: The "-ism" Essences', children: ['Optimism', 'Pessimism', 'Hedonism', 'Narcissism', 'Opportunism', 'Perfectionism', 'Idealism', 'Cynicism', 'Stoicism', 'Romanticism', 'Mysticism', 'Heroism', 'Fatalism', 'Defeatism', 'Magnetism'] },
     ],
   },
   {
@@ -110,7 +110,7 @@ export const WEEKEND_TOOL_CATALOG: readonly WeekendToolCategory[] = [
     categoryId: 'truth',
     tools: [
       { name: 'Stylistic Truth', children: ['Contemporary Realism', 'Classical Verse', 'Avant-Garde', 'Experimental', 'Story Theatre', 'Epic', 'Absurdist', 'Poetic Naturalism', 'Heightened Reality', 'Magical Realism'] },
-      { name: 'Historical, Cultural & National Truth', children: ['Ancient Greek', 'Roman', 'Medieval European', 'Renaissance Italian', 'Elizabethan / Jacobean', 'Restoration', 'Georgian', 'Victorian', 'Edwardian', '1920s–30s', 'Post-War', 'Contemporary', 'Japanese', 'Indian Classical', 'West African', 'Latin American'] },
+      { name: 'Historical, Cultural & National Truth', children: ['Ancient Greek', 'Roman', 'Medieval European', 'Renaissance Italian', 'Elizabethan / Jacobean', 'Restoration', 'Georgian', 'Victorian', 'Edwardian', '1920s-30s', 'Post-War', 'Contemporary', 'Japanese', 'Indian Classical', 'West African', 'Latin American'] },
       { name: 'Truth of the Given Circumstances', children: ['Who am I?', 'Where am I?', 'What time is it?', 'What do I want?', 'Why do I want it?', 'What is my obstacle?', 'What just happened?', 'What are the stakes?'] },
       { name: 'Truth of the Character', children: ['Inner Life', 'Physical Life', 'Biography', 'Psychology', 'Desires', 'Fears', 'Secrets', 'Contradictions', 'Social Mask', 'True Self'] },
       { name: 'Truth of the Relationship', children: ['Status Dynamic', 'Shared History', 'Unspoken Desire', 'Power Balance', 'Attraction', 'Rivalry', 'Dependence', 'Betrayal', 'Trust', 'Need'] },
@@ -121,10 +121,10 @@ export const WEEKEND_TOOL_CATALOG: readonly WeekendToolCategory[] = [
   {
     categoryId: 'style',
     tools: [
-      { name: 'Style — Genres', children: ['Naturalism', 'Realism', 'Expressionism', 'Absurdism', 'Epic Theatre', 'Documentary', 'Story Theatre', 'Musical Theatre', 'Opera', 'Dance Theatre', 'Physical Theatre', 'Devised Theatre', 'Immersive', 'Commedia dell\'Arte'] },
-      { name: 'Style — Time Periods', children: ['Ancient Greek', 'Roman', 'Medieval', 'Renaissance', 'Elizabethan / Jacobean', 'Restoration', 'Georgian / Neo-Classical', 'Romantic', 'Victorian', 'Edwardian', '1920s–30s', 'Post-War', 'Contemporary'] },
-      { name: 'Style — Physicality & Posture', children: ['Upright & Formal', 'Relaxed & Casual', 'Elevated & Grand', 'Compressed & Internal', 'Open & Expansive', 'Grounded & Heavy', 'Light & Lifted', 'Asymmetric', 'Rigid', 'Fluid'] },
-      { name: 'Style — Mannerisms', children: ['Deliberate Gesture', 'Habitual Tic', 'Social Affectation', 'Class Marker', 'Period Convention', 'Comic Business', 'Tragic Weight', 'Rhythmic Pattern', 'Verbal Tic', 'Signature Walk'] },
+      { name: 'Style: Genres', children: ['Naturalism', 'Realism', 'Expressionism', 'Absurdism', 'Epic Theatre', 'Documentary', 'Story Theatre', 'Musical Theatre', 'Opera', 'Dance Theatre', 'Physical Theatre', 'Devised Theatre', 'Immersive', 'Commedia dell\'Arte'] },
+      { name: 'Style: Time Periods', children: ['Ancient Greek', 'Roman', 'Medieval', 'Renaissance', 'Elizabethan / Jacobean', 'Restoration', 'Georgian / Neo-Classical', 'Romantic', 'Victorian', 'Edwardian', '1920s-30s', 'Post-War', 'Contemporary'] },
+      { name: 'Style: Physicality & Posture', children: ['Upright & Formal', 'Relaxed & Casual', 'Elevated & Grand', 'Compressed & Internal', 'Open & Expansive', 'Grounded & Heavy', 'Light & Lifted', 'Asymmetric', 'Rigid', 'Fluid'] },
+      { name: 'Style: Mannerisms', children: ['Deliberate Gesture', 'Habitual Tic', 'Social Affectation', 'Class Marker', 'Period Convention', 'Comic Business', 'Tragic Weight', 'Rhythmic Pattern', 'Verbal Tic', 'Signature Walk'] },
     ],
   },
   {
@@ -262,7 +262,11 @@ export function getDrawableTools(
       const selectedChildren = getFilteredChildren(categoryId, tool.name, childFilter);
       const parentIncluded = !selectedParents || selectedParents.has(tool.name);
 
-      return parentIncluded && selectedChildren.length > 0 ? { tool, children: selectedChildren } : null;
+      // Flexible combination draw: a selected parent is drawable on its own.
+      // When no child/example is selected under it, the parent draws at the
+      // parent level (childToolName resolves to null downstream). Categories
+      // with NO parent selected (empty parent array) stay non-drawable.
+      return parentIncluded ? { tool, children: selectedChildren } : null;
     })
     .filter((candidate): candidate is DrawableTool => Boolean(candidate));
 }
@@ -356,6 +360,32 @@ export function createDailyToolSelection(localDate: string): PracticeToolSelecti
   return makeSelection(chartCategory, catalogCategory, tool, tool.children[childIndex] ?? null, {
     deterministicSeed: localDate,
   });
+}
+
+// Re-roll a Movable Centers result while PRESERVING locked component slots.
+// Fresh values are drawn for every slot from the same filter, then each locked
+// label (Location / Movement / Quality) is restored from the previous draw.
+// Used by the Chart tab's device-local Quick Draw lock; no Supabase, no history.
+export function createMovableCenterRedraw(
+  previousComponents: readonly PracticeToolComponent[],
+  lockedLabels: ReadonlySet<string>,
+  filter?: ParentToolFilter,
+  childFilter?: ChildToolFilter,
+  options: SelectionOptions = {},
+): PracticeToolSelection | null {
+  const chartCategory = getChartCategory('movable-centers');
+  if (!chartCategory) return null;
+
+  const fresh = getMovableCenterComponents('movable-centers', filter, childFilter);
+  if (fresh.length !== 3) return null;
+
+  const merged = fresh.map((component) => {
+    if (!lockedLabels.has(component.label)) return component;
+    const prior = previousComponents.find((candidate) => candidate.label === component.label);
+    return prior ?? component;
+  });
+
+  return makeComponentSelection(chartCategory, merged, options);
 }
 
 function getChartCategory(categoryId: string): ChartCategory | undefined {

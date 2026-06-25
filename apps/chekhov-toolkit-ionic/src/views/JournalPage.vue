@@ -6,10 +6,27 @@
           <p class="kicker">Today’s Practice</p>
           <h1>Journal</h1>
           <p class="page-subtitle">
-            Choose one tool for today’s work. Begin when you’re ready; return to POA throughout the day.
+            Choose one tool for today’s work, or look back at past locked practice days.
           </p>
         </header>
 
+        <ion-segment
+          class="journal-segment"
+          :value="journalTab"
+          aria-label="Journal view"
+          @ionChange="journalTab = ($event.detail.value as JournalTab) ?? 'today'"
+        >
+          <ion-segment-button value="today" data-testid="journal-tab-today">
+            <ion-label>Today</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="history" data-testid="journal-tab-history">
+            <ion-label>History</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <PracticeHistoryList v-if="journalTab === 'history'" />
+
+        <template v-else>
         <p v-if="practiceLoadError" class="error-banner" role="alert">{{ practiceLoadError }}</p>
         <p v-if="isPracticeStarted" class="lock-banner" aria-live="polite">
           Started for {{ currentPractice?.localDate }}. Return to POA below, or unlock the selection if you chose the wrong tool.
@@ -72,7 +89,7 @@
         </section>
 
         <ToolPreviewCard
-          v-if="currentPractice"
+          v-if="currentPractice && !isPracticeCompleted"
           :practice="currentPractice"
           @start="startPractice"
           @change="focusSelectedCategory"
@@ -80,14 +97,58 @@
           @unlock="unlockPractice"
         />
 
+        <section
+          v-else-if="isPracticeCompleted && currentPractice"
+          class="studio-panel completed-summary"
+          aria-label="Completed practice"
+        >
+          <p class="kicker">Completed &amp; locked</p>
+          <h2>{{ completedToolTitle }}</h2>
+          <p class="panel-copy">
+            {{ currentPractice.selectedTool.categoryName }} · locked for {{ currentPractice.localDate }}. The POA below is read-only; add timestamped notes instead.
+          </p>
+        </section>
+
         <p v-else-if="isSignedIn" class="empty-state">
           No practice selected yet. Use an entry path above to preview today’s tool.
         </p>
 
+        <section
+          v-if="currentPractice && !isPracticeCompleted"
+          class="studio-panel flyback-panel"
+          aria-labelledby="flyback-title"
+        >
+          <p class="kicker">Flyback</p>
+          <h2 id="flyback-title">Quick reflection</h2>
+          <p class="panel-copy">
+            A lightweight reflection on today’s draw, kept separate from your full POA.
+          </p>
+          <div class="flyback-field">
+            <label for="flyback-note" class="sr-only">Flyback reflection</label>
+            <textarea
+              id="flyback-note"
+              v-model="flybackDraft"
+              rows="3"
+              placeholder="A quick note on this draw."
+            />
+          </div>
+          <div class="button-row">
+            <ion-button size="small" color="primary" :disabled="practiceBusy" @click="saveFlyback">
+              Save reflection
+            </ion-button>
+            <span v-if="flybackSavedAt" class="status-pill" aria-live="polite">Reflection saved</span>
+          </div>
+        </section>
+
         <DailyActionCard
-          v-if="isPracticeStarted"
+          v-if="isPracticeStarted || isPracticeCompleted"
           :entry="poaEntry"
+          :readonly="isPracticeCompleted"
+          :notes="poaNotes"
           @save="saveDailyAction"
+          @autosave="autosaveDailyAction"
+          @complete="completePractice"
+          @add-note="addPoaNote"
         />
 
         <section class="studio-panel pool-panel" aria-labelledby="pool-title">
@@ -170,6 +231,7 @@
         <button class="feedback-nudge" type="button" @click="router.push('/settings')">
           Have beta feedback? Share it in Settings →
         </button>
+        </template>
       </main>
     </ion-content>
   </ion-page>
@@ -178,10 +240,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { IonButton, IonContent, IonPage } from '@ionic/vue';
+import { IonButton, IonContent, IonLabel, IonPage, IonSegment, IonSegmentButton } from '@ionic/vue';
 import { handLeftOutline, shuffleOutline, todayOutline } from 'ionicons/icons';
 import CategoryDetailSheet from '@/components/CategoryDetailSheet.vue';
 import DailyActionCard from '@/components/DailyActionCard.vue';
+import PracticeHistoryList from '@/components/PracticeHistoryList.vue';
 import PracticeRouteCard from '@/components/PracticeRouteCard.vue';
 import TesterAccessSheet from '@/components/TesterAccessSheet.vue';
 import ToolPreviewCard from '@/components/ToolPreviewCard.vue';
@@ -198,19 +261,26 @@ import {
 } from '@/data/toolCatalog';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
 import {
+  addPOANote,
   clearTodayPracticePreview,
+  completeTodayPractice,
   getLocalDate,
   getPOA,
+  getPOANotes,
   getTodayPractice,
   savePOA,
+  saveFlybackNote,
   setPreview,
   startTodayPractice,
   unlockTodayPractice,
 } from '@/stores/dailyPracticeStore';
-import type { DailyPractice, POADraft, POAEntry, PracticeToolSelection } from '@/types/practice';
+import type { DailyPractice, POADraft, POAEntry, POANote, PracticeToolSelection } from '@/types/practice';
 
 const router = useRouter();
 const route = useRoute();
+
+type JournalTab = 'today' | 'history';
+const journalTab = ref<JournalTab>('today');
 
 const selectedCategoryIds = ref<string[]>(CHART_CATEGORIES.map((category) => category.id));
 const selectedToolsByCategory = ref<ParentToolFilter>(createAllParentToolFilter());
@@ -222,13 +292,23 @@ const isPoolOpen = ref(false);
 const isAccessSheetOpen = ref(false);
 const currentPractice = ref<DailyPractice | null>(null);
 const poaEntry = ref<POAEntry | null>(null);
+const poaNotes = ref<POANote[]>([]);
+const flybackDraft = ref('');
+const flybackSavedAt = ref<string | null>(null);
 const preservePreviewWithPOA = ref(false);
 const practiceLoadError = ref<string | null>(null);
 const practiceBusy = ref(false);
 
 const isSignedIn = computed(() => authStatus.value === 'signed-in' && Boolean(currentUser.value));
 const isPracticeStarted = computed(() => currentPractice.value?.status === 'started');
-const practiceControlsDisabled = computed(() => !isSignedIn.value || practiceBusy.value || isPracticeStarted.value);
+const isPracticeCompleted = computed(() => currentPractice.value?.status === 'completed');
+const isPracticeLocked = computed(() => isPracticeStarted.value || isPracticeCompleted.value);
+const practiceControlsDisabled = computed(() => !isSignedIn.value || practiceBusy.value || isPracticeLocked.value);
+const completedToolTitle = computed(() => {
+  const tool = currentPractice.value?.selectedTool;
+  if (!tool) return 'Today’s practice';
+  return tool.components?.length ? tool.categoryName : tool.parentToolName;
+});
 
 const previewCategory = computed<ChartCategory | null>(() => {
   if (!previewCategoryId.value) return null;
@@ -279,6 +359,9 @@ async function reloadPracticeFromSupabase(): Promise<void> {
   if (!isSignedIn.value) {
     currentPractice.value = null;
     poaEntry.value = null;
+    poaNotes.value = [];
+    flybackDraft.value = '';
+    flybackSavedAt.value = null;
     preservePreviewWithPOA.value = false;
     isDetailOpen.value = false;
     return;
@@ -289,6 +372,10 @@ async function reloadPracticeFromSupabase(): Promise<void> {
     const saved = await getTodayPractice();
     currentPractice.value = saved;
     poaEntry.value = saved ? await getPOA(saved.id) : null;
+    // F1 POST-LOCK NOTES restore on reload for a completed (locked) day.
+    poaNotes.value = saved?.status === 'completed' ? await getPOANotes(saved.id) : [];
+    flybackDraft.value = saved?.flybackNote ?? '';
+    flybackSavedAt.value = saved?.flybackNote ? saved.updatedAt : null;
     preservePreviewWithPOA.value = saved?.status === 'preview' && Boolean(poaEntry.value);
     isDetailOpen.value = false;
 
@@ -398,10 +485,12 @@ async function previewParentTool(categoryId: string, parentToolName: string): Pr
 async function drawRandomPractice(): Promise<void> {
   if (!canDrawRandom.value) return;
 
+  // G5 UNVEILED: Journal draws include the Unveiled value, matching Chart draws.
   const selection = createRandomSelectionFromCategories(
     selectedCategoryIds.value,
     selectedToolsByCategory.value,
     selectedChildTools.value,
+    { includeUnveiling: true },
   );
   if (!selection) return;
 
@@ -496,6 +585,102 @@ async function saveDailyAction(payload: POADraft): Promise<void> {
   });
 }
 
+// A4 AUTOSAVE: persist the POA draft silently while the day is still editable.
+// We do not reassign poaEntry here, so an in-flight save cannot clobber newer
+// keystrokes mid-typing; explicit Save / reload refresh the canonical entry.
+//
+// RACE GUARD: completion must win against any in-flight/late autosave.
+// Autosaves are SERIALIZED on a single chain tail so at most one savePOA is ever
+// in flight and writes are strictly ordered. `isCompleting` blocks any NEW
+// autosave from joining the chain once completion starts; completePractice
+// drains the ENTIRE chain before its explicit save. With multiple overlapping
+// autosaves, none can interleave with — or land after — the Complete-save.
+let autosaveChain: Promise<void> = Promise.resolve();
+let isCompleting = false;
+
+async function autosaveDailyAction(payload: POADraft): Promise<void> {
+  const practice = currentPractice.value;
+  if (!isSignedIn.value || !practice || practice.status !== 'started') return;
+  // Do not join the chain while completion is in progress; the explicit
+  // Complete-save owns the final write.
+  if (isCompleting) return;
+
+  // Queue behind the previous autosave so only one savePOA runs at a time and
+  // order is preserved.
+  const run = autosaveChain.then(async () => {
+    // Skip if the day stopped being editable by the time this link runs.
+    if (currentPractice.value?.status !== 'started') return;
+    try {
+      await savePOA({ dailyPracticeId: practice.id, ...payload });
+    } catch (error) {
+      setPracticeError(error, 'Unable to autosave the POA draft.');
+    }
+  });
+
+  // Keep the chain non-rejecting so a failed link cannot break serialization.
+  autosaveChain = run.catch(() => undefined);
+  await run;
+}
+
+async function completePractice(payload: POADraft): Promise<void> {
+  const practice = currentPractice.value;
+  if (!practice || practice.status !== 'started') return;
+
+  // Block new autosaves, then drain the WHOLE autosave chain (every queued and
+  // in-flight save) BEFORE the explicit save, so no autosave — even one of
+  // several overlapping ones — can resolve after completion and clobber the
+  // latest draft.
+  isCompleting = true;
+  try {
+    try {
+      await autosaveChain;
+    } catch {
+      // Autosave errors are surfaced by autosaveDailyAction; ignore here.
+    }
+
+    await withPracticeOperation(async () => {
+      // Persist the latest draft BEFORE locking, so tapping Complete mid-typing
+      // never discards in-progress edits. Save first while still 'started', then
+      // complete; the savePOA lock guard then freezes the day.
+      poaEntry.value = await savePOA({ dailyPracticeId: practice.id, ...payload });
+
+      const completed = await completeTodayPractice(practice.localDate);
+      if (completed) {
+        currentPractice.value = completed;
+        poaEntry.value = await getPOA(completed.id);
+        poaNotes.value = await getPOANotes(completed.id);
+      }
+    });
+  } finally {
+    isCompleting = false;
+  }
+}
+
+async function addPoaNote(note: string): Promise<void> {
+  const practice = currentPractice.value;
+  if (!practice || practice.status !== 'completed') return;
+
+  await withPracticeOperation(async () => {
+    const saved = await addPOANote(practice.id, note);
+    if (saved) {
+      poaNotes.value = [...poaNotes.value, saved];
+    }
+  });
+}
+
+async function saveFlyback(): Promise<void> {
+  const practice = currentPractice.value;
+  if (!practice || practice.status === 'completed') return;
+
+  await withPracticeOperation(async () => {
+    const updated = await saveFlybackNote(flybackDraft.value, practice.localDate);
+    if (updated) {
+      currentPractice.value = updated;
+      flybackSavedAt.value = updated.updatedAt;
+    }
+  });
+}
+
 function focusSelectedCategory(): void {
   if (currentPractice.value) {
     isPoolOpen.value = true;
@@ -562,6 +747,10 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
 </script>
 
 <style scoped>
+.journal-segment {
+  margin-top: 2px;
+}
+
 .lock-banner,
 .error-banner {
   background: rgba(111, 135, 88, 0.18);
@@ -732,6 +921,64 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
 
 .pool-footnote {
   font-size: 0.84rem;
+}
+
+.completed-summary {
+  display: grid;
+  gap: 6px;
+}
+
+.completed-summary h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 5.5vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.06;
+  margin: 4px 0 0;
+}
+
+.flyback-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.flyback-panel h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 5vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  margin: 4px 0 0;
+}
+
+.flyback-field textarea {
+  background: var(--app-bg-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  color: var(--text-primary);
+  font: inherit;
+  line-height: 1.45;
+  min-height: 80px;
+  padding: 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.flyback-field textarea:focus {
+  border-color: var(--accent-primary);
+  outline: none;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 .feedback-nudge {

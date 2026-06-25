@@ -74,6 +74,11 @@
                 Open resource
               </a>
             </article>
+
+            <article class="studio-panel resource-card" aria-label="Common Struggles, coming soon">
+              <h3>Common Struggles</h3>
+              <p>Coming soon. Dawson and Lisa Dalton are preparing this material.</p>
+            </article>
           </div>
         </section>
 
@@ -266,7 +271,7 @@ function formatScope(scope: WeekendTool['scope']): string {
 }
 
 .category-entry[open] summary::after {
-  content: '–';
+  content: '-';
 }
 
 .entry-name {

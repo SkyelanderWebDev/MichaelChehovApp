@@ -213,7 +213,7 @@ async function submitBetaFeedback(): Promise<void> {
 }
 
 .beta-disclosure[open] summary::after {
-  content: '–';
+  content: '-';
 }
 
 .disclosure-body {
