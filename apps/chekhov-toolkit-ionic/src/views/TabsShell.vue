@@ -22,8 +22,8 @@
         </ion-tab-button>
 
         <ion-tab-button tab="map" href="/map" class="studio-tab" @click="go('/map')">
-          <ion-icon aria-hidden="true" :icon="mapOutline" />
-          <ion-label>Map</ion-label>
+          <ion-icon aria-hidden="true" :icon="peopleOutline" />
+          <ion-label>Connect</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="settings" href="/settings" class="studio-tab" @click="go('/settings')">
@@ -37,7 +37,13 @@
 
 <script setup lang="ts">
 import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/vue';
-import { bookOutline, journalOutline, mapOutline, settingsOutline, sunnyOutline } from 'ionicons/icons';
+import {
+  bookOutline,
+  journalOutline,
+  peopleOutline,
+  settingsOutline,
+  sunnyOutline,
+} from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -125,5 +131,22 @@ function go(path: string): void {
 
 .chart-tab ion-label {
   font-weight: 800;
+}
+
+@media (max-width: 430px) {
+  .studio-tab {
+    font-size: 0.62rem;
+  }
+
+  .studio-tab ion-icon {
+    font-size: 1.2rem;
+  }
+
+  .studio-tab ion-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 </style>

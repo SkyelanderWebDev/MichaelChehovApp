@@ -1,0 +1,94 @@
+name: Ionic CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - secure-beta-weekend
+      - 'polly/**'
+
+jobs:
+  app-checks:
+    name: Lint, build, unit, and e2e
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/chekhov-toolkit-ionic
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/chekhov-toolkit-ionic/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: E2E tests
+        run: npm run test:e2e:ci
+
+  verify-rls:
+    name: Supabase RLS receipt
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/chekhov-toolkit-ionic
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/chekhov-toolkit-ionic/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check RLS secrets
+        id: rls-env
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: |
+          if [ -n "$VITE_SUPABASE_URL" ] && [ -n "$VITE_SUPABASE_ANON_KEY" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping verify:rls because VITE_SUPABASE_URL and/or VITE_SUPABASE_ANON_KEY secrets are absent."
+          fi
+
+      - name: Run RLS cross-user denial receipt
+        if: steps.rls-env.outputs.ready == 'true'
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          SUPABASE_RLS_USER_A_EMAIL: ${{ secrets.SUPABASE_RLS_USER_A_EMAIL }}
+          SUPABASE_RLS_USER_A_PASSWORD: ${{ secrets.SUPABASE_RLS_USER_A_PASSWORD }}
+          SUPABASE_RLS_USER_B_EMAIL: ${{ secrets.SUPABASE_RLS_USER_B_EMAIL }}
+          SUPABASE_RLS_USER_B_PASSWORD: ${{ secrets.SUPABASE_RLS_USER_B_PASSWORD }}
+          SUPABASE_RLS_EMAIL_DOMAIN: ${{ secrets.SUPABASE_RLS_EMAIL_DOMAIN }}
+          SUPABASE_RLS_TEST_PASSWORD: ${{ secrets.SUPABASE_RLS_TEST_PASSWORD }}
+          SUPABASE_RLS_LOCAL_DATE: ${{ secrets.SUPABASE_RLS_LOCAL_DATE }}
+        run: npm run verify:rls
+
+      - name: Skip RLS receipt
+        if: steps.rls-env.outputs.ready != 'true'
+        run: echo "verify:rls was not run; hosted Supabase credentials are gated to Dawson/Rudy."

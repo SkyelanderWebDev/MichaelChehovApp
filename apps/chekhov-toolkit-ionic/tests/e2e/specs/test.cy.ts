@@ -22,7 +22,7 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     cy.location('pathname').should('eq', '/chart');
   });
 
-  it('renders the bottom tabs in Dawson’s order with Chart selected', () => {
+  it('renders exactly the five bottom tabs in Dawson’s order with Chart selected', () => {
     cy.visit('/chart');
 
     cy.get('ion-tab-bar ion-tab-button').then(($tabs) => {
@@ -30,7 +30,7 @@ describe('The Michael Chekhov Toolkit app shell', () => {
         'Library',
         'Journal',
         'Chart',
-        'Map',
+        'Connect',
         'Settings',
       ]);
     });
@@ -40,11 +40,16 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     expectNoHorizontalOverflow();
   });
 
-  it('shows Chart Quick Draw and the Library resource skeleton', () => {
+  it('shows Chart Quick Draw, its draw history, and the Library resource skeleton', () => {
     cy.visit('/chart');
     cy.get('[data-testid="button-quick-draw"]').click();
     cy.get('.quick-result').should('be.visible');
     cy.get('.quick-result strong').invoke('text').should('not.be.empty');
+
+    // The drawn roll is logged to the Chart's own Quick-Draw history.
+    cy.get('[data-testid="quick-draw-tab-history"]').click();
+    cy.get('[data-testid="quick-draw-history-list"] li').should('have.length.greaterThan', 0);
+    expectNoHorizontalOverflow();
 
     cy.visit('/library');
     cy.contains('Dive Deeper into the Tools').should('exist');
@@ -54,5 +59,30 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     cy.contains('Windsor University’s Michael Chekhov Archive').should('exist');
     cy.contains('Lisa’s YouTube').should('exist');
     cy.contains('More demonstrations and class clips coming soon.').should('exist');
+    // Wave 1: Common Struggles is an empty coming-soon placeholder in Library.
+    cy.contains('Common Struggles').should('exist');
+  });
+
+  it('exposes the Journal Today/History segment', () => {
+    cy.visit('/journal');
+    cy.get('[data-testid="journal-tab-today"]').should('exist');
+    cy.get('[data-testid="journal-tab-history"]').click();
+    cy.contains('Tester access').should('exist');
+    expectNoHorizontalOverflow();
+  });
+
+  it('shows the Connect group-chat coming-soon card', () => {
+    cy.visit('/map');
+    cy.contains('h1', 'Connect').should('be.visible');
+    cy.contains('Class & show group chat').should('be.visible');
+    expectNoHorizontalOverflow();
+  });
+
+  it('routes removed tabs and unknown paths to NotFound without horizontal overflow', () => {
+    for (const path of ['/struggles', '/quiz', '/history', '/route-that-does-not-exist']) {
+      cy.visit(path);
+      cy.contains('Page not found').should('be.visible');
+      expectNoHorizontalOverflow();
+    }
   });
 });

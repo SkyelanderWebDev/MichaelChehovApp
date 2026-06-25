@@ -1,3 +1,4 @@
+// @vitest-environment jsdom
 import { describe, expect, test } from 'vitest'
 import { getLocalDate, getPOA, getTodayPractice, savePOA, setPreview } from '@/stores/dailyPracticeStore'
 import type { PracticeToolSelection } from '@/types/practice'

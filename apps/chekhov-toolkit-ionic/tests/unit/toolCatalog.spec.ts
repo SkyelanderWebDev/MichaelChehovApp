@@ -78,7 +78,7 @@ describe('parent-tool filter catalog helpers', () => {
 
   test('catalog includes full child labels and Imaginary Body scope metadata', () => {
     const atmosphere = getToolCatalogCategory('atmosphere')
-    const naturalAtmosphere = atmosphere?.tools.find((tool) => tool.name === 'Overall — Nature / Natural')
+    const naturalAtmosphere = atmosphere?.tools.find((tool) => tool.name === 'Overall: Nature / Natural')
     const imaginaryBody = getToolCatalogCategory('imaginary-body')
     const bodyPart = imaginaryBody?.tools.find((tool) => tool.name === 'Body Part')
     const archetypalCharacters = imaginaryBody?.tools.find((tool) => tool.name === 'Archetypal Characters')
@@ -153,7 +153,7 @@ describe('parent-tool filter catalog helpers', () => {
     }
   })
 
-  test('Draw Random skips parents with no selected children', () => {
+  test('Draw Random draws a selected parent with no selected children at the parent level', () => {
     const parentFilter = {
       'expanding-contracting': ['Expanding', 'Contracting'],
     }
@@ -164,13 +164,27 @@ describe('parent-tool filter catalog helpers', () => {
       },
     }
 
-    for (let draw = 0; draw < 30; draw += 1) {
+    let drewExpandingParentOnly = false
+    let drewContractingChild = false
+
+    for (let draw = 0; draw < 60; draw += 1) {
       const selection = createRandomSelectionFromCategories(['expanding-contracting'], parentFilter, childFilter)
-      expect(selection).toMatchObject({
-        parentToolName: 'Contracting',
-        childToolName: 'Closing',
-      })
+      expect(selection).not.toBeNull()
+      expect(['Expanding', 'Contracting']).toContain(selection!.parentToolName)
+
+      if (selection!.parentToolName === 'Expanding') {
+        // No children selected → parent-level draw, childToolName null.
+        expect(selection!.childToolName).toBeNull()
+        drewExpandingParentOnly = true
+      } else {
+        expect(selection!.childToolName).toBe('Closing')
+        drewContractingChild = true
+      }
     }
+
+    // Both branches are reachable now that an example-less parent stays drawable.
+    expect(drewExpandingParentOnly).toBe(true)
+    expect(drewContractingChild).toBe(true)
   })
 
   test('Draw Random does not let default child selections re-include deselected parents', () => {
@@ -233,7 +247,7 @@ describe('parent-tool filter catalog helpers', () => {
     expect(selection?.unveiledValue).toBeLessThanOrEqual(10)
   })
 
-  test('Draw Random skips categories whose selected parents have no selected children', () => {
+  test('Draw Random keeps an example-less selected parent in the pool alongside a child-level parent', () => {
     const parentFilter = {
       'expanding-contracting': ['Expanding'],
       'four-brothers': ['Ease'],
@@ -247,18 +261,33 @@ describe('parent-tool filter catalog helpers', () => {
       },
     }
 
-    for (let draw = 0; draw < 30; draw += 1) {
+    let drewExpandingParentOnly = false
+    let drewEaseChild = false
+
+    for (let draw = 0; draw < 80; draw += 1) {
       const selection = createRandomSelectionFromCategories(
         ['expanding-contracting', 'four-brothers'],
         parentFilter,
         childFilter,
       )
-      expect(selection).toMatchObject({
-        categoryId: 'four-brothers',
-        parentToolName: 'Ease',
-        childToolName: 'Flow',
-      })
+      expect(selection).not.toBeNull()
+
+      if (selection!.categoryId === 'expanding-contracting') {
+        expect(selection!.parentToolName).toBe('Expanding')
+        expect(selection!.childToolName).toBeNull()
+        drewExpandingParentOnly = true
+      } else {
+        expect(selection).toMatchObject({
+          categoryId: 'four-brothers',
+          parentToolName: 'Ease',
+          childToolName: 'Flow',
+        })
+        drewEaseChild = true
+      }
     }
+
+    expect(drewExpandingParentOnly).toBe(true)
+    expect(drewEaseChild).toBe(true)
   })
 
   test('Draw Random returns null when every selected category is fully deselected', () => {
@@ -267,13 +296,109 @@ describe('parent-tool filter catalog helpers', () => {
     expect(selection).toBeNull()
   })
 
-  test('Draw Random returns null when every selected child is deselected', () => {
-    const selection = createRandomSelectionFromCategories(
-      ['expanding-contracting'],
-      { 'expanding-contracting': ['Expanding'] },
-      { 'expanding-contracting': { Expanding: [] } },
-    )
+  test('Draw Random draws at the parent level when a selected parent has every example deselected', () => {
+    for (let draw = 0; draw < 30; draw += 1) {
+      const selection = createRandomSelectionFromCategories(
+        ['expanding-contracting'],
+        { 'expanding-contracting': ['Expanding'] },
+        { 'expanding-contracting': { Expanding: [] } },
+      )
 
-    expect(selection).toBeNull()
+      expect(selection).not.toBeNull()
+      expect(selection).toMatchObject({
+        categoryId: 'expanding-contracting',
+        parentToolName: 'Expanding',
+      })
+      // Parent-level draw: no child/example is chosen.
+      expect(selection!.childToolName).toBeNull()
+    }
+  })
+
+  // --- Flexible-combination Quick Draw: category / parent / child levels ---
+
+  test('Flexible draw: category-level (all parents, all children) draws a random parent + child', () => {
+    const parentFilter = createAllParentToolFilter()
+    const childFilter = createAllChildToolFilter()
+    const fourBrothers = getToolCatalogCategory('four-brothers')!
+    const parentNames = new Set(fourBrothers.tools.map((tool) => tool.name))
+    const drawnParents = new Set<string>()
+
+    for (let draw = 0; draw < 60; draw += 1) {
+      const selection = createRandomSelectionFromCategories(['four-brothers'], parentFilter, childFilter)
+      expect(selection).not.toBeNull()
+      expect(parentNames.has(selection!.parentToolName)).toBe(true)
+
+      const parentChildren = fourBrothers.tools.find((tool) => tool.name === selection!.parentToolName)!.children
+      expect(parentChildren).toContain(selection!.childToolName)
+      drawnParents.add(selection!.parentToolName)
+    }
+
+    // Category-level draw should reach more than one parent across repeated draws.
+    expect(drawnParents.size).toBeGreaterThan(1)
+  })
+
+  test('Flexible draw: parent-only Four Brothers (examples deselected) draws one of the four brothers, never null', () => {
+    const parentFilter = {
+      'four-brothers': ['Beauty', 'Ease', 'Entirety', 'Form'],
+    }
+    const childFilter = {
+      'four-brothers': {
+        Beauty: [],
+        Ease: [],
+        Entirety: [],
+        Form: [],
+      },
+    }
+    const brothers = new Set(['Beauty', 'Ease', 'Entirety', 'Form'])
+    const drawn = new Set<string>()
+
+    expect(getDrawableSelectionCount('four-brothers', parentFilter, childFilter)).toBe(4)
+
+    for (let draw = 0; draw < 80; draw += 1) {
+      const selection = createRandomSelectionFromCategories(['four-brothers'], parentFilter, childFilter)
+      expect(selection).not.toBeNull()
+      expect(brothers.has(selection!.parentToolName)).toBe(true)
+      // Parent-only draw: no example selected.
+      expect(selection!.childToolName).toBeNull()
+      drawn.add(selection!.parentToolName)
+    }
+
+    // Every brother is reachable from the parent-only pool.
+    expect(drawn.size).toBe(4)
+  })
+
+  test('Flexible draw: child-level draw still honors the single selected example', () => {
+    const parentFilter = {
+      'four-brothers': ['Form'],
+    }
+    const childFilter = {
+      'four-brothers': {
+        Form: ['Structure'],
+      },
+    }
+
+    for (let draw = 0; draw < 40; draw += 1) {
+      const selection = createRandomSelectionFromCategories(['four-brothers'], parentFilter, childFilter)
+      expect(selection).toMatchObject({
+        categoryId: 'four-brothers',
+        parentToolName: 'Form',
+        childToolName: 'Structure',
+      })
+    }
+  })
+
+  test('Flexible draw: Movable Centers still requires all three components and stays a 3-part result', () => {
+    // Full selection draws all three components.
+    const full = createRandomSelectionFromCategories(['movable-centers'])
+    expect(full?.components).toHaveLength(3)
+    expect(full?.components?.map((component) => component.label)).toEqual(['Location', 'Movement', 'Quality'])
+
+    // Dropping one component parent makes the category non-drawable (no partial Movable Centers draw).
+    const partialParentFilter = {
+      'movable-centers': ['Location', 'Quality'],
+    }
+    const childFilter = createAllChildToolFilter()
+    expect(getDrawableSelectionCount('movable-centers', partialParentFilter, childFilter)).toBe(0)
+    expect(createRandomSelectionFromCategories(['movable-centers'], partialParentFilter, childFilter)).toBeNull()
   })
 })

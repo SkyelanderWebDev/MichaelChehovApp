@@ -14,13 +14,14 @@ describe('Studio Ritual route polish', () => {
     cy.viewport(MOBILE_VIEWPORT.width, MOBILE_VIEWPORT.height);
   });
 
-  it('keeps Map as a polished Coming Soon surface', () => {
+  it('keeps Connect as a polished Coming Soon surface', () => {
     cy.visit('/map');
-    cy.contains('h1', 'Map').should('exist');
+    cy.contains('h1', 'Connect').should('exist');
     cy.contains('Coming soon').should('exist');
     cy.contains('Studios & teachers near you').should('exist');
     cy.contains('Upcoming events & calendar').should('exist');
-    cy.contains('nothing here uses your location today').should('exist');
+    cy.contains('Class & show group chat').should('exist');
+    cy.contains('Nothing here uses your location today').should('exist');
     cy.contains('Today’s Practice lives in the Journal tab').should('exist');
     expectNoHorizontalOverflow();
   });
