@@ -22,28 +22,13 @@
         </ion-tab-button>
 
         <ion-tab-button tab="map" href="/map" class="studio-tab" @click="go('/map')">
-          <ion-icon aria-hidden="true" :icon="mapOutline" />
-          <ion-label>Map</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="history" href="/history" class="studio-tab" @click="go('/history')">
-          <ion-icon aria-hidden="true" :icon="timeOutline" />
-          <ion-label>History</ion-label>
+          <ion-icon aria-hidden="true" :icon="peopleOutline" />
+          <ion-label>Connect</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="settings" href="/settings" class="studio-tab" @click="go('/settings')">
           <ion-icon aria-hidden="true" :icon="settingsOutline" />
           <ion-label>Settings</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="struggles" href="/struggles" class="studio-tab" @click="go('/struggles')">
-          <ion-icon aria-hidden="true" :icon="alertCircleOutline" />
-          <ion-label>Struggles</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="quiz" href="/quiz" class="studio-tab" @click="go('/quiz')">
-          <ion-icon aria-hidden="true" :icon="helpCircleOutline" />
-          <ion-label>Quiz</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>
@@ -53,14 +38,11 @@
 <script setup lang="ts">
 import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/vue';
 import {
-  alertCircleOutline,
   bookOutline,
-  helpCircleOutline,
   journalOutline,
-  mapOutline,
+  peopleOutline,
   settingsOutline,
   sunnyOutline,
-  timeOutline,
 } from 'ionicons/icons';
 import { useRouter } from 'vue-router';
 

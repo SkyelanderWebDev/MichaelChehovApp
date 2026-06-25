@@ -1,120 +1,107 @@
 <template>
-  <ion-page>
-    <ion-content class="history-page">
-      <main class="page-shell">
-        <header class="page-intro">
-          <p class="kicker">Your practice</p>
-          <h1>History</h1>
-          <p class="page-subtitle">
-            A read-only look back at past days — each locked POA, every draw you logged, and notes added after completion.
-          </p>
-        </header>
+  <div class="practice-history">
+    <p v-if="loadError" class="error-banner" role="alert">{{ loadError }}</p>
 
-        <p v-if="loadError" class="error-banner" role="alert">{{ loadError }}</p>
+    <section v-if="authStatus === 'unknown'" class="studio-panel" aria-label="Checking session">
+      <p class="panel-copy">Checking your session…</p>
+    </section>
 
-        <section v-if="authStatus === 'unknown'" class="studio-panel" aria-label="Checking session">
-          <p class="panel-copy">Checking your session…</p>
-        </section>
+    <section v-else-if="!isSignedIn" class="studio-panel" aria-labelledby="history-gate-title">
+      <p class="kicker">Private beta</p>
+      <h2 id="history-gate-title">Tester access</h2>
+      <p class="panel-copy">Tester access is required to view your saved practice history.</p>
+    </section>
 
-        <section v-else-if="!isSignedIn" class="studio-panel" aria-labelledby="history-gate-title">
-          <p class="kicker">Private beta</p>
-          <h2 id="history-gate-title">Tester access</h2>
-          <p class="panel-copy">Tester access is required to view your saved practice history.</p>
-        </section>
+    <section v-else-if="!isLoading && days.length === 0" class="studio-panel" aria-label="No history yet">
+      <p class="panel-copy">
+        No past practice days yet. Draw and start a practice on the Today tab; it will appear here.
+      </p>
+    </section>
 
-        <section v-else-if="!isLoading && days.length === 0" class="studio-panel" aria-label="No history yet">
-          <p class="panel-copy">
-            No past practice days yet. Draw and start a practice on the Journal tab; it will appear here.
-          </p>
-        </section>
+    <ul v-else class="history-list">
+      <li v-for="day in days" :key="day.practice.id" class="studio-panel history-day">
+        <div class="day-head">
+          <div>
+            <p class="kicker">{{ day.practice.localDate }} · {{ sourceLabel(day.practice.source) }}</p>
+            <h2>{{ toolTitle(day) }}</h2>
+            <p class="panel-copy day-sub">{{ day.practice.selectedTool.categoryName }}</p>
+          </div>
+          <span class="status-pill">{{ statusLabel(day.practice.status) }}</span>
+        </div>
 
-        <ul v-else class="history-list">
-          <li v-for="day in days" :key="day.practice.id" class="studio-panel history-day">
-            <div class="day-head">
-              <div>
-                <p class="kicker">{{ day.practice.localDate }} · {{ sourceLabel(day.practice.source) }}</p>
-                <h2>{{ toolTitle(day) }}</h2>
-                <p class="panel-copy day-sub">{{ day.practice.selectedTool.categoryName }}</p>
-              </div>
-              <span class="status-pill">{{ statusLabel(day.practice.status) }}</span>
+        <button
+          class="reveal-toggle"
+          type="button"
+          :aria-expanded="isRevealOpen(day.practice.id)"
+          @click="toggleReveal(day.practice.id)"
+        >
+          {{ isRevealOpen(day.practice.id) ? 'Hide reveal' : 'Reopen the reveal' }}
+        </button>
+
+        <dl v-if="isRevealOpen(day.practice.id)" class="reveal-details">
+          <div>
+            <dt>Chart area</dt>
+            <dd>{{ day.practice.selectedTool.categoryName }}</dd>
+          </div>
+          <div v-if="day.practice.selectedTool.parentToolName">
+            <dt>Parent tool</dt>
+            <dd>{{ day.practice.selectedTool.parentToolName }}</dd>
+          </div>
+          <div v-if="day.practice.selectedTool.childToolName">
+            <dt>Tool seed</dt>
+            <dd>{{ day.practice.selectedTool.childToolName }}</dd>
+          </div>
+          <div v-for="component in day.practice.selectedTool.components ?? []" :key="component.label">
+            <dt>{{ component.label }}</dt>
+            <dd>{{ component.value }}</dd>
+          </div>
+          <div v-if="day.practice.selectedTool.scaleValue">
+            <dt>Tempo #</dt>
+            <dd>{{ day.practice.selectedTool.scaleValue }}</dd>
+          </div>
+          <div v-if="day.practice.selectedTool.unveiledValue">
+            <dt>Veiling</dt>
+            <dd>{{ day.practice.selectedTool.unveiledValue }}</dd>
+          </div>
+        </dl>
+
+        <section v-if="day.poa" class="day-block" aria-label="Locked POA">
+          <h3>POA ({{ day.poa.mode === 'structured' ? 'Structured' : 'Free response' }})</h3>
+          <dl v-if="day.poa.mode === 'structured'" class="poa-readout">
+            <div v-for="field in structuredFields(day.poa)" :key="field.label">
+              <dt>{{ field.label }}</dt>
+              <dd>{{ field.value }}</dd>
             </div>
+          </dl>
+          <p v-else class="poa-freetext">{{ day.poa.journalText || '—' }}</p>
+        </section>
 
-            <button
-              class="reveal-toggle"
-              type="button"
-              :aria-expanded="isRevealOpen(day.practice.id)"
-              @click="toggleReveal(day.practice.id)"
-            >
-              {{ isRevealOpen(day.practice.id) ? 'Hide reveal' : 'Reopen the reveal' }}
-            </button>
+        <section v-if="day.draws.length" class="day-block" aria-label="Draw history">
+          <h3>Draw log ({{ day.draws.length }})</h3>
+          <ul class="draw-list">
+            <li v-for="draw in day.draws" :key="draw.id">
+              <span class="draw-tool">{{ drawTitle(draw) }}</span>
+              <span class="draw-meta">{{ sourceLabel(draw.source) }} · {{ formatTime(draw.drawnAt) }}</span>
+            </li>
+          </ul>
+        </section>
 
-            <dl v-if="isRevealOpen(day.practice.id)" class="reveal-details">
-              <div>
-                <dt>Chart area</dt>
-                <dd>{{ day.practice.selectedTool.categoryName }}</dd>
-              </div>
-              <div v-if="day.practice.selectedTool.parentToolName">
-                <dt>Parent tool</dt>
-                <dd>{{ day.practice.selectedTool.parentToolName }}</dd>
-              </div>
-              <div v-if="day.practice.selectedTool.childToolName">
-                <dt>Tool seed</dt>
-                <dd>{{ day.practice.selectedTool.childToolName }}</dd>
-              </div>
-              <div v-for="component in day.practice.selectedTool.components ?? []" :key="component.label">
-                <dt>{{ component.label }}</dt>
-                <dd>{{ component.value }}</dd>
-              </div>
-              <div v-if="day.practice.selectedTool.scaleValue">
-                <dt>Tempo #</dt>
-                <dd>{{ day.practice.selectedTool.scaleValue }}</dd>
-              </div>
-              <div v-if="day.practice.selectedTool.unveiledValue">
-                <dt>Veiling</dt>
-                <dd>{{ day.practice.selectedTool.unveiledValue }}</dd>
-              </div>
-            </dl>
-
-            <section v-if="day.poa" class="day-block" aria-label="Locked POA">
-              <h3>POA ({{ day.poa.mode === 'structured' ? 'Structured' : 'Free response' }})</h3>
-              <dl v-if="day.poa.mode === 'structured'" class="poa-readout">
-                <div v-for="field in structuredFields(day.poa)" :key="field.label">
-                  <dt>{{ field.label }}</dt>
-                  <dd>{{ field.value }}</dd>
-                </div>
-              </dl>
-              <p v-else class="poa-freetext">{{ day.poa.journalText || '—' }}</p>
-            </section>
-
-            <section v-if="day.draws.length" class="day-block" aria-label="Draw history">
-              <h3>Draw log ({{ day.draws.length }})</h3>
-              <ul class="draw-list">
-                <li v-for="draw in day.draws" :key="draw.id">
-                  <span class="draw-tool">{{ drawTitle(draw) }}</span>
-                  <span class="draw-meta">{{ sourceLabel(draw.source) }} · {{ formatTime(draw.drawnAt) }}</span>
-                </li>
-              </ul>
-            </section>
-
-            <section v-if="day.notes.length" class="day-block" aria-label="Post-completion notes">
-              <h3>Notes after completion</h3>
-              <ul class="note-list">
-                <li v-for="note in day.notes" :key="note.id">
-                  <time :datetime="note.createdAt">{{ formatTime(note.createdAt) }}</time>
-                  <p>{{ note.note }}</p>
-                </li>
-              </ul>
-            </section>
-          </li>
-        </ul>
-      </main>
-    </ion-content>
-  </ion-page>
+        <section v-if="day.notes.length" class="day-block" aria-label="Post-completion notes">
+          <h3>Notes after completion</h3>
+          <ul class="note-list">
+            <li v-for="note in day.notes" :key="note.id">
+              <time :datetime="note.createdAt">{{ formatTime(note.createdAt) }}</time>
+              <p>{{ note.note }}</p>
+            </li>
+          </ul>
+        </section>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { IonContent, IonPage } from '@ionic/vue';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
 import { getPracticeHistory } from '@/stores/dailyPracticeStore';
 import type {
@@ -223,6 +210,11 @@ function formatTime(iso: string): string {
 </script>
 
 <style scoped>
+.practice-history {
+  display: grid;
+  gap: 14px;
+}
+
 .error-banner {
   background: rgba(184, 74, 72, 0.14);
   border: 1px solid rgba(184, 74, 72, 0.45);

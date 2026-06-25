@@ -6,10 +6,27 @@
           <p class="kicker">Today’s Practice</p>
           <h1>Journal</h1>
           <p class="page-subtitle">
-            Choose one tool for today’s work. Begin when you’re ready; return to POA throughout the day.
+            Choose one tool for today’s work, or look back at past locked practice days.
           </p>
         </header>
 
+        <ion-segment
+          class="journal-segment"
+          :value="journalTab"
+          aria-label="Journal view"
+          @ionChange="journalTab = ($event.detail.value as JournalTab) ?? 'today'"
+        >
+          <ion-segment-button value="today" data-testid="journal-tab-today">
+            <ion-label>Today</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="history" data-testid="journal-tab-history">
+            <ion-label>History</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <PracticeHistoryList v-if="journalTab === 'history'" />
+
+        <template v-else>
         <p v-if="practiceLoadError" class="error-banner" role="alert">{{ practiceLoadError }}</p>
         <p v-if="isPracticeStarted" class="lock-banner" aria-live="polite">
           Started for {{ currentPractice?.localDate }}. Return to POA below, or unlock the selection if you chose the wrong tool.
@@ -214,6 +231,7 @@
         <button class="feedback-nudge" type="button" @click="router.push('/settings')">
           Have beta feedback? Share it in Settings →
         </button>
+        </template>
       </main>
     </ion-content>
   </ion-page>
@@ -222,10 +240,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { IonButton, IonContent, IonPage } from '@ionic/vue';
+import { IonButton, IonContent, IonLabel, IonPage, IonSegment, IonSegmentButton } from '@ionic/vue';
 import { handLeftOutline, shuffleOutline, todayOutline } from 'ionicons/icons';
 import CategoryDetailSheet from '@/components/CategoryDetailSheet.vue';
 import DailyActionCard from '@/components/DailyActionCard.vue';
+import PracticeHistoryList from '@/components/PracticeHistoryList.vue';
 import PracticeRouteCard from '@/components/PracticeRouteCard.vue';
 import TesterAccessSheet from '@/components/TesterAccessSheet.vue';
 import ToolPreviewCard from '@/components/ToolPreviewCard.vue';
@@ -259,6 +278,9 @@ import type { DailyPractice, POADraft, POAEntry, POANote, PracticeToolSelection 
 
 const router = useRouter();
 const route = useRoute();
+
+type JournalTab = 'today' | 'history';
+const journalTab = ref<JournalTab>('today');
 
 const selectedCategoryIds = ref<string[]>(CHART_CATEGORIES.map((category) => category.id));
 const selectedToolsByCategory = ref<ParentToolFilter>(createAllParentToolFilter());

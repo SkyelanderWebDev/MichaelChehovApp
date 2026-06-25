@@ -6,7 +6,7 @@
 
         <CircleChart
           browse
-          :show-directory="true"
+          :show-directory="false"
           :selected-category-ids="selectedCategoryIds"
           :tool-filter="selectedParentToolsByCategory"
           :child-filter="selectedChildTools"
@@ -15,6 +15,21 @@
         />
 
         <section class="quick-draw-panel studio-panel" aria-labelledby="quick-draw-title">
+          <ion-segment
+            class="quick-draw-segment"
+            :value="quickDrawView"
+            aria-label="Quick Draw view"
+            @ionChange="quickDrawView = ($event.detail.value as QuickDrawView) ?? 'draw'"
+          >
+            <ion-segment-button value="draw" data-testid="quick-draw-tab-draw">
+              <ion-label>Draw</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="history" data-testid="quick-draw-tab-history">
+              <ion-label>History</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+
+          <template v-if="quickDrawView === 'draw'">
           <div class="quick-draw-heading">
             <div>
               <p class="kicker">Quick Draw</p>
@@ -91,6 +106,51 @@
           <p v-else class="quick-draw-note">
             Draw from the chart without starting or saving today’s practice.
           </p>
+          </template>
+
+          <template v-else>
+            <div class="quick-draw-heading">
+              <div>
+                <p class="kicker">Quick Draw history</p>
+                <h2 id="quick-draw-title">Past chart draws</h2>
+                <p class="quick-draw-count">
+                  {{ quickDrawHistory.length }} draw{{ quickDrawHistory.length === 1 ? '' : 's' }} on this device
+                </p>
+              </div>
+              <ion-button
+                v-if="quickDrawHistory.length"
+                size="small"
+                fill="clear"
+                color="medium"
+                data-testid="quick-draw-history-clear"
+                @click="clearQuickDrawHistory"
+              >
+                Clear
+              </ion-button>
+            </div>
+
+            <p class="quick-draw-note">
+              These chart draws are kept separate from your started practice and Journal history.
+            </p>
+
+            <ul v-if="quickDrawHistory.length" class="quick-draw-log" data-testid="quick-draw-history-list">
+              <li v-for="entry in quickDrawHistory" :key="entry.id" class="quick-draw-log-row paper-object">
+                <div class="log-main">
+                  <span class="log-family" v-if="logFamilyLabel(entry)">{{ logFamilyLabel(entry) }}</span>
+                  <strong>{{ logTitle(entry) }}</strong>
+                  <span v-if="entry.selectedTool.childToolName" class="log-child">
+                    {{ entry.selectedTool.childToolName }}
+                  </span>
+                  <span class="log-category">{{ entry.selectedTool.categoryName }}</span>
+                </div>
+                <time class="log-time" :datetime="entry.drawnAt">{{ formatDrawTime(entry.drawnAt) }}</time>
+              </li>
+            </ul>
+
+            <p v-else class="quick-draw-note" data-testid="quick-draw-history-empty">
+              No chart draws yet. Use the Draw tab to roll from the chart.
+            </p>
+          </template>
         </section>
 
         <button class="journal-cta paper-object" type="button" @click="router.push('/journal')">
@@ -201,11 +261,18 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonButton, IonContent, IonIcon, IonPage, IonToggle } from '@ionic/vue';
+import { IonButton, IonContent, IonIcon, IonLabel, IonPage, IonSegment, IonSegmentButton, IonToggle } from '@ionic/vue';
 import { arrowForwardOutline } from 'ionicons/icons';
 import CategoryDetailSheet from '@/components/CategoryDetailSheet.vue';
 import CircleChart from '@/components/CircleChart.vue';
 import TopStatusBar from '@/components/TopStatusBar.vue';
+import {
+  clearQuickDrawHistory,
+  loadQuickDrawHistory,
+  logQuickDraw,
+  quickDrawHistory,
+  type QuickDrawHistoryEntry,
+} from '@/stores/quickDrawHistoryStore';
 import { CHART_ATTRIBUTION } from '@/constants/attribution';
 import { CHART_CATEGORIES, getFamily } from '@/data/circleChartCatalog';
 import {
@@ -222,6 +289,9 @@ import { getTodayPractice } from '@/stores/dailyPracticeStore';
 import type { PracticeToolSelection } from '@/types/practice';
 
 const router = useRouter();
+
+type QuickDrawView = 'draw' | 'history';
+const quickDrawView = ref<QuickDrawView>('draw');
 
 const detailCategoryId = ref<string | null>(null);
 const isDetailOpen = ref(false);
@@ -274,6 +344,8 @@ const detailSelectedChildrenByTool = computed(() =>
 );
 
 onMounted(async () => {
+  loadQuickDrawHistory();
+
   await loadSession();
 
   if (authStatus.value !== 'signed-in' || !currentUser.value) return;
@@ -397,6 +469,12 @@ function drawQuickTool(): void {
     highlightedDetailSelection.value = result;
     isDrawing.value = false;
     drawTimer = null;
+
+    // Wave 1: chart Quick Draws are now logged, kept SEPARATE from Journal /
+    // committed-practice history (device-local; no day is started or saved).
+    if (result) {
+      logQuickDraw(result);
+    }
   }, DRAW_SUSPENSE_MS);
 }
 
@@ -429,6 +507,20 @@ function resultTitle(selection: PracticeToolSelection): string {
   return selection.components?.length ? selection.categoryName : selection.parentToolName;
 }
 
+function logTitle(entry: QuickDrawHistoryEntry): string {
+  return resultTitle(entry.selectedTool);
+}
+
+function logFamilyLabel(entry: QuickDrawHistoryEntry): string {
+  const category = CHART_CATEGORIES.find((item) => item.id === entry.selectedTool.categoryId);
+  return category ? getFamily(category.family).label : '';
+}
+
+function formatDrawTime(iso: string): string {
+  const date = new Date(iso);
+  return Number.isNaN(date.getTime()) ? iso : date.toLocaleString();
+}
+
 function createEmptyParentToolFilter(): ParentToolFilter {
   const filter: ParentToolFilter = {};
   for (const category of CHART_CATEGORIES) {
@@ -454,6 +546,71 @@ function createEmptyChildToolFilter(): ChildToolFilter {
 .quick-draw-panel {
   display: grid;
   gap: 12px;
+}
+
+.quick-draw-segment {
+  margin-bottom: 2px;
+}
+
+.quick-draw-log {
+  display: grid;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.quick-draw-log-row {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 12px 14px;
+}
+
+.quick-draw-log-row .log-main {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.log-family {
+  color: var(--accent-primary);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-draw-log-row strong {
+  color: var(--text-on-paper);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.log-child {
+  color: var(--text-on-paper-soft);
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.log-category {
+  color: var(--text-on-paper-soft);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.log-time {
+  color: var(--text-on-paper-soft);
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: right;
 }
 
 .quick-draw-heading {

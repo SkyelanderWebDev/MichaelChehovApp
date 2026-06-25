@@ -77,6 +77,20 @@
           </div>
         </section>
 
+        <section class="library-section" aria-labelledby="common-struggles-title">
+          <div class="section-heading">
+            <p class="kicker">Coming soon</p>
+            <h2 id="common-struggles-title">Common Struggles</h2>
+          </div>
+
+          <article class="studio-panel struggles-coming" aria-label="Common Struggles, coming soon">
+            <p class="panel-copy">
+              A guide to common actor struggles and the Chart tools that meet them is coming soon.
+              Dawson and Lisa Dalton are preparing this material.
+            </p>
+          </article>
+        </section>
+
         <footer class="paper-object attribution-card">
           <strong>{{ APP_NAME }}</strong>
           <p>{{ BETA_DESCRIPTION }}</p>

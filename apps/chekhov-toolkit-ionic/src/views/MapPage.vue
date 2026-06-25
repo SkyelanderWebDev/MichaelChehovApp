@@ -4,7 +4,7 @@
       <main class="page-shell">
         <header class="page-intro">
           <p class="kicker">Coming soon</p>
-          <h1>Map</h1>
+          <h1>Connect</h1>
           <p class="page-subtitle">
             A future home for the Michael Chekhov community around you — not part of this beta yet.
           </p>
@@ -31,6 +31,17 @@
           </p>
         </section>
 
+        <section class="studio-panel coming-card" aria-label="Class or show group chat, coming soon">
+          <span class="coming-icon" aria-hidden="true">
+            <ion-icon :icon="chatbubblesOutline" />
+          </span>
+          <h2>Class &amp; show group chat</h2>
+          <p class="panel-copy">
+            A shared group chat for a class or a show — one space for the whole ensemble. Group
+            conversations only; there is no one-to-one direct messaging. Planned for a later beta.
+          </p>
+        </section>
+
         <p class="map-footnote">
           Today’s Practice lives in the Journal tab; the Chart of Inspired Action lives in Chart.
         </p>
@@ -41,7 +52,7 @@
 
 <script setup lang="ts">
 import { IonContent, IonIcon, IonPage } from '@ionic/vue';
-import { calendarOutline, locationOutline } from 'ionicons/icons';
+import { calendarOutline, chatbubblesOutline, locationOutline } from 'ionicons/icons';
 </script>
 
 <style scoped>

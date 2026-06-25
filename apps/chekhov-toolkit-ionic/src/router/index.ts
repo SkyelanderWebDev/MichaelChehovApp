@@ -32,29 +32,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/ChartPage.vue'),
       },
       {
+        // Connect tab. Path stays /map so existing links and the PWA history
+        // keep resolving; only the tab label changed to "Connect".
         path: 'map',
         name: 'Map',
         component: () => import('../views/MapPage.vue'),
       },
       {
-        path: 'history',
-        name: 'History',
-        component: () => import('../views/HistoryPage.vue'),
-      },
-      {
         path: 'settings',
         name: 'Settings',
         component: () => import('../views/SettingsPage.vue'),
-      },
-      {
-        path: 'struggles',
-        name: 'Struggles',
-        component: () => import('../views/StrugglesPage.vue'),
-      },
-      {
-        path: 'quiz',
-        name: 'Quiz',
-        component: () => import('../views/QuizPage.vue'),
       },
       {
         path: ':pathMatch(.*)*',
