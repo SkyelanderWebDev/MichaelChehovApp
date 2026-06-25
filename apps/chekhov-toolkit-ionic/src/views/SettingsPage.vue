@@ -48,16 +48,18 @@
           <p class="kicker">Beta data &amp; security</p>
           <h2 id="beta-details-title">How your data is stored</h2>
 
+          <p class="panel-copy">
+            Your practice, POA notes, and feedback are private to your account. When you're signed in,
+            only you can see or edit your own entries. They're stored securely and never shared with
+            other testers.
+          </p>
+
           <details class="beta-disclosure">
             <summary>Technical details</summary>
             <div class="disclosure-body">
               <p>
                 Tester accounts use Supabase Auth with Postgres and Row Level Security, so each
                 tester can only read and write their own practice, POA, and feedback rows.
-              </p>
-              <p>
-                The browser uses only the Supabase anon key; service-role keys must never be placed
-                in Vite env.
               </p>
               <p v-if="!authConfigured">
                 This build is missing its Supabase configuration. Set <code>VITE_SUPABASE_URL</code>

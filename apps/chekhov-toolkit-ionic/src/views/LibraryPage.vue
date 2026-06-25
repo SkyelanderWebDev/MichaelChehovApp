@@ -11,7 +11,7 @@
         </header>
 
         <p class="library-note">
-          This first Library pass keeps the chart tools close at hand while deeper videos, writings, and excerpts are prepared.
+          We’re building the Library with you. Right now it keeps your chart tools handy while we put together deeper videos, writings, and excerpts. If there’s something that would make your practice more meaningful, like a resource, a struggle you want help with, or a tool you wish were here, tell us. We read every suggestion, and we’re shaping this around what you need to become “happier, healthier human beings.”
         </p>
 
         <section class="library-section" aria-labelledby="dive-deeper-title">

@@ -63,22 +63,15 @@
           <div v-if="childSelectionEnabled" class="filter-control-group">
             <span class="filter-label">Example labels</span>
             <ion-button
+              class="toggle-all-examples"
               size="small"
-              fill="outline"
+              :fill="allChildrenSelected ? 'solid' : 'outline'"
               color="medium"
-              :disabled="locked || allChildrenSelected"
-              @click="selectAllChildrenInCategory"
+              :disabled="locked || totalChildLabels === 0"
+              :aria-label="categoryExamplesAriaLabel"
+              @click="toggleAllChildrenInCategory"
             >
-              All
-            </ion-button>
-            <ion-button
-              size="small"
-              fill="clear"
-              color="medium"
-              :disabled="locked || selectedChildTotal === 0"
-              @click="deselectAllChildrenInCategory"
-            >
-              None
+              {{ categoryExamplesLabel }}
             </ion-button>
             <span class="tool-count-pill" aria-live="polite">
               {{ selectedChildTotal }} / {{ totalChildLabels }}
@@ -134,17 +127,11 @@
                 <span>{{ selectedChildCount(tool.name) }} of {{ tool.children.length }} example labels selected</span>
                 <button
                   type="button"
-                  :disabled="locked || selectedChildCount(tool.name) === tool.children.length"
-                  @click="setSelectedChildren(tool.name, [...tool.children])"
+                  :disabled="locked"
+                  :aria-label="toolExamplesAriaLabel(tool)"
+                  @click="toggleToolExamples(tool)"
                 >
-                  Select examples
-                </button>
-                <button
-                  type="button"
-                  :disabled="locked || selectedChildCount(tool.name) === 0"
-                  @click="setSelectedChildren(tool.name, [])"
-                >
-                  Deselect examples
+                  {{ toolExamplesLabel(tool.name) }}
                 </button>
               </div>
               <div class="child-selectors" aria-label="Child and example label selectors">
@@ -256,6 +243,16 @@ const allChildrenSelected = computed(
   () => totalChildLabels.value > 0 && selectedChildTotal.value === totalChildLabels.value,
 );
 
+// Single category-level examples toggle. Label reflects state: "No examples" only
+// when fully cleared, otherwise "All examples" (covers both all-on and mixed).
+const categoryExamplesLabel = computed(() => (selectedChildTotal.value === 0 ? 'No examples' : 'All examples'));
+
+const categoryExamplesAriaLabel = computed(() =>
+  allChildrenSelected.value
+    ? `Clear all example labels for ${category.value?.name ?? 'this chart area'}`
+    : `Select all example labels for ${category.value?.name ?? 'this chart area'}`,
+);
+
 const poolLabel = computed(() => (props.selectionContext === 'chart' ? 'Quick Draw pool' : 'practice pool'));
 
 const poolDescription = computed(() =>
@@ -305,6 +302,34 @@ function deselectAllChildrenInCategory(): void {
 
   for (const tool of tools.value) {
     emit('set-selected-children', category.value.id, tool.name, []);
+  }
+}
+
+function toggleAllChildrenInCategory(): void {
+  if (allChildrenSelected.value) {
+    deselectAllChildrenInCategory();
+  } else {
+    selectAllChildrenInCategory();
+  }
+}
+
+// Single per-tool examples toggle. "No examples" only when that tool has none
+// selected; otherwise "All examples". Clicking selects all unless already all-on.
+function toolExamplesLabel(toolName: string): string {
+  return selectedChildCount(toolName) === 0 ? 'No examples' : 'All examples';
+}
+
+function toolExamplesAriaLabel(tool: WeekendTool): string {
+  return selectedChildCount(tool.name) === tool.children.length
+    ? `Clear all example labels under ${tool.name}`
+    : `Select all example labels under ${tool.name}`;
+}
+
+function toggleToolExamples(tool: WeekendTool): void {
+  if (selectedChildCount(tool.name) === tool.children.length) {
+    setSelectedChildren(tool.name, []);
+  } else {
+    setSelectedChildren(tool.name, [...tool.children]);
   }
 }
 
@@ -438,7 +463,16 @@ function formatScope(scope: WeekendTool['scope']): string {
   font-size: 0.76rem;
   font-weight: 900;
   letter-spacing: 0.06em;
+  min-width: 0;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
+}
+
+/* Keep the single examples toggle from being squeezed flush against the label /
+   count pill at ~390px; it wraps to its own line before it overflows. */
+.toggle-all-examples {
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .tool-count-pill {
