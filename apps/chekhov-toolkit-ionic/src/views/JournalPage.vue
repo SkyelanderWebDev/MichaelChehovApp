@@ -195,6 +195,17 @@
             <ion-button size="small" fill="clear" color="medium" :disabled="practiceControlsDisabled" @click="clearCategories">
               Clear
             </ion-button>
+            <ion-button
+              size="small"
+              :fill="allExamplesSelected ? 'solid' : 'outline'"
+              color="medium"
+              data-testid="journal-examples-toggle"
+              :disabled="practiceControlsDisabled"
+              :aria-label="examplesToggleAriaLabel"
+              @click="toggleAllExamples"
+            >
+              {{ examplesToggleLabel }}
+            </ion-button>
             <ion-button size="small" fill="outline" color="medium" :disabled="practiceControlsDisabled" @click="isPoolOpen = !isPoolOpen">
               {{ isPoolOpen ? 'Hide areas' : 'Adjust areas' }}
             </ion-button>
@@ -281,7 +292,10 @@ import {
   createDailyToolSelection,
   createRandomSelectionFromCategories,
   createSelectionForParentTool,
+  childExamplesToggleLabel,
   getDrawableSelectionCount,
+  isAllChildToolsSelected,
+  toggleAllChildTools,
   type ChildToolFilter,
   type ParentToolFilter,
 } from '@/data/toolCatalog';
@@ -353,6 +367,18 @@ const poolToolCount = computed(() =>
 );
 const canDrawRandom = computed(() => !practiceControlsDisabled.value && poolToolCount.value > 0);
 const canChooseDailyTool = computed(() => !practiceControlsDisabled.value);
+
+// Single global examples toggle for the Draw Random pool. Label reflects state:
+// "No examples" only when fully cleared, otherwise "All examples".
+const allExamplesSelected = computed(() => isAllChildToolsSelected(selectedChildTools.value));
+const examplesToggleLabel = computed(() => childExamplesToggleLabel(selectedChildTools.value));
+const examplesToggleAriaLabel = computed(() =>
+  `${examplesToggleLabel.value} selected; ${
+    allExamplesSelected.value
+      ? 'tap to clear all from the Draw Random pool'
+      : 'tap to select all for the Draw Random pool'
+  }`,
+);
 
 const isDetailCategoryIncluded = computed(() =>
   Boolean(detailCategoryId.value && selectedCategoryIds.value.includes(detailCategoryId.value)),
@@ -486,6 +512,15 @@ async function clearCategories(): Promise<void> {
   selectedCategoryIds.value = [];
   previewCategoryId.value = null;
   await clearPreviewState();
+}
+
+// Global examples on/off across ALL categories; feeds the Draw Random pool via
+// childFilter. Parents/categories stay as-is so clearing examples falls back to
+// parent-level draws.
+function toggleAllExamples(): void {
+  if (practiceControlsDisabled.value) return;
+
+  selectedChildTools.value = toggleAllChildTools(selectedChildTools.value);
 }
 
 function pickMyOwn(): void {
@@ -867,8 +902,13 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
 .pool-heading {
   align-items: flex-start;
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   justify-content: space-between;
+}
+
+.pool-heading > div {
+  min-width: 0;
 }
 
 .pool-heading h2 {
@@ -928,8 +968,9 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
   display: grid;
   flex: 1 1 auto;
   gap: 2px 8px;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   min-height: 44px;
+  min-width: 0;
   padding: 8px;
   text-align: left;
 }
@@ -951,6 +992,8 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
   font-size: 0.92rem;
   font-weight: 800;
   line-height: 1.2;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .pool-meta {
@@ -958,6 +1001,8 @@ function ensureToolSelected(categoryId: string, parentToolName: string): void {
   font-size: 0.74rem;
   font-weight: 700;
   grid-column: 2;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .pool-details {

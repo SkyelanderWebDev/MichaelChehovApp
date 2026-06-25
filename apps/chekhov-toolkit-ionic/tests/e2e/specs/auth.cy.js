@@ -38,10 +38,17 @@ describe('Tester access beta gate', () => {
 
     cy.contains('h1', 'Settings').should('exist');
     cy.contains('Beta data & security').should('exist');
+
+    // Plain, customer-facing privacy copy sits outside the collapsible.
+    cy.contains('private to your account').should('be.visible');
+    cy.contains('never shared with other testers').should('be.visible');
+    // Dev-only service-role / Vite-env guidance is no longer customer-visible copy.
+    cy.contains('service-role keys must never be placed').should('not.exist');
+
     cy.contains('summary', 'Technical details').click();
+    cy.contains('Row Level Security').should('exist');
     cy.contains('VITE_SUPABASE_URL').should('exist');
     cy.contains('VITE_SUPABASE_ANON_KEY').should('exist');
-    cy.contains('service-role keys must never be placed').should('exist');
   });
 
   it('shows appearance choices in Settings', () => {

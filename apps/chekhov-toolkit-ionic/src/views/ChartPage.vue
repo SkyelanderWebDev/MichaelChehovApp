@@ -226,6 +226,16 @@
             >
               Deselect all
             </ion-button>
+            <ion-button
+              data-testid="chart-examples-toggle"
+              size="small"
+              :fill="allExamplesSelected ? 'solid' : 'outline'"
+              color="medium"
+              :aria-label="examplesToggleAriaLabel"
+              @click="toggleAllExamples"
+            >
+              {{ examplesToggleLabel }}
+            </ion-button>
           </div>
 
           <ul class="category-cards">
@@ -315,8 +325,11 @@ import { CHART_CATEGORIES, getFamily } from '@/data/circleChartCatalog';
 import {
   createAllChildToolFilter,
   createAllParentToolFilter,
+  childExamplesToggleLabel,
+  createEmptyChildToolFilter,
   getDrawableSelectionCount,
-  getToolCatalogCategory,
+  isAllChildToolsSelected,
+  toggleAllChildTools,
   type ChildToolFilter,
   type ParentToolFilter,
 } from '@/data/toolCatalog';
@@ -380,6 +393,18 @@ const quickDrawDescription = computed(() => quickDrawCategory.value?.description
 
 const drawablePoolCount = computed(() =>
   selectedCategoryIds.value.reduce((count, categoryId) => count + categoryDrawableCount(categoryId), 0),
+);
+
+// Single global examples toggle for the directory. Label reflects state: "No examples"
+// only when fully cleared, otherwise "All examples" (covers all-on and mixed).
+const allExamplesSelected = computed(() => isAllChildToolsSelected(selectedChildTools.value));
+const examplesToggleLabel = computed(() => childExamplesToggleLabel(selectedChildTools.value));
+const examplesToggleAriaLabel = computed(() =>
+  `${examplesToggleLabel.value} selected; ${
+    allExamplesSelected.value
+      ? 'tap to clear all from the Quick Draw pool'
+      : 'tap to select all for the Quick Draw pool'
+  }`,
 );
 
 const isDetailCategoryIncluded = computed(() =>
@@ -494,6 +519,13 @@ function deselectAllChartPool(): void {
   selectedCategoryIds.value = [];
   selectedParentToolsByCategory.value = createEmptyParentToolFilter();
   selectedChildTools.value = createEmptyChildToolFilter();
+}
+
+// Global examples on/off across ALL categories; feeds Quick Draw via childFilter.
+// Parents/categories stay as-is so clearing examples falls back to parent-level draws.
+function toggleAllExamples(): void {
+  quickDrawEmpty.value = false;
+  selectedChildTools.value = toggleAllChildTools(selectedChildTools.value);
 }
 
 // Brief LOCAL suspense so the draw reads as a deliberate reveal, not an instant flip.
@@ -637,18 +669,6 @@ function createEmptyParentToolFilter(): ParentToolFilter {
   const filter: ParentToolFilter = {};
   for (const category of CHART_CATEGORIES) {
     filter[category.id] = [];
-  }
-  return filter;
-}
-
-function createEmptyChildToolFilter(): ChildToolFilter {
-  const filter: ChildToolFilter = {};
-  for (const category of CHART_CATEGORIES) {
-    const catalogCategory = getToolCatalogCategory(category.id);
-    filter[category.id] = {};
-    for (const tool of catalogCategory?.tools ?? []) {
-      filter[category.id][tool.name] = [];
-    }
   }
   return filter;
 }

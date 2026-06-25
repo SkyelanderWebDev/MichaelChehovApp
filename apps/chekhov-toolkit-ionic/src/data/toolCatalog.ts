@@ -223,6 +223,79 @@ export function createAllChildToolFilter(): ChildToolFilter {
   return filter;
 }
 
+export function createEmptyChildToolFilter(): ChildToolFilter {
+  const filter: ChildToolFilter = {};
+  for (const category of WEEKEND_TOOL_CATALOG) {
+    filter[category.categoryId] = {};
+    for (const tool of category.tools) {
+      filter[category.categoryId][tool.name] = [];
+    }
+  }
+  return filter;
+}
+
+/**
+ * True when every example label in the catalog is currently selected. An undefined
+ * per-tool entry counts as "all selected" to match getFilteredChildren's fallback.
+ */
+export function isAllChildToolsSelected(childFilter: ChildToolFilter): boolean {
+  let total = 0;
+  for (const category of WEEKEND_TOOL_CATALOG) {
+    for (const tool of category.tools) {
+      total += tool.children.length;
+      const selected = childFilter[category.categoryId]?.[tool.name];
+      const count = selected ? selected.length : tool.children.length;
+      if (count !== tool.children.length) return false;
+    }
+  }
+  return total > 0;
+}
+
+/** True when no example label is selected anywhere (parents may still be selected). */
+export function isNoChildToolsSelected(childFilter: ChildToolFilter): boolean {
+  for (const category of WEEKEND_TOOL_CATALOG) {
+    for (const tool of category.tools) {
+      const selected = childFilter[category.categoryId]?.[tool.name];
+      const count = selected ? selected.length : tool.children.length;
+      if (count > 0) return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Single global examples on/off toggle. When every example is already selected,
+ * clears them (parents stay selected so Draw falls back to parent-level); otherwise
+ * selects all examples. Reuses the existing all/empty child-filter shapes only.
+ */
+export function toggleAllChildTools(childFilter: ChildToolFilter): ChildToolFilter {
+  return isAllChildToolsSelected(childFilter) ? createEmptyChildToolFilter() : createAllChildToolFilter();
+}
+
+export type ChildExamplesSelectionState = 'all' | 'some' | 'none';
+
+/** Tri-state of the example-label selection: none, partial/mixed, or all. */
+export function getChildExamplesSelectionState(childFilter: ChildToolFilter): ChildExamplesSelectionState {
+  if (isNoChildToolsSelected(childFilter)) return 'none';
+  if (isAllChildToolsSelected(childFilter)) return 'all';
+  return 'some';
+}
+
+/**
+ * Visible label for the examples toggle. Never claims "All examples" unless every
+ * example label is selected; a partial selection reads "Some examples".
+ */
+export function childExamplesToggleLabel(childFilter: ChildToolFilter): string {
+  switch (getChildExamplesSelectionState(childFilter)) {
+    case 'all':
+      return 'All examples';
+    case 'none':
+      return 'No examples';
+    default:
+      return 'Some examples';
+  }
+}
+
 export function getFilteredTools(categoryId: string, filter?: ParentToolFilter): WeekendTool[] {
   const catalogCategory = getToolCatalogCategory(categoryId);
   if (!catalogCategory) return [];

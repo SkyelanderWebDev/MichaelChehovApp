@@ -71,6 +71,21 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     expectNoHorizontalOverflow();
   });
 
+  it('keeps the “Chart areas for Draw Random” pool card within phone width', () => {
+    cy.visit('/journal');
+    cy.get('[data-testid="journal-tab-today"]').should('exist');
+
+    // The pool card and its global examples toggle render even when signed out.
+    cy.contains('.pool-panel h2', 'Chart areas for Draw Random').should('exist');
+    cy.get('[data-testid="journal-examples-toggle"]').should('exist');
+
+    cy.get('.pool-panel').then(($panel) => {
+      const el = $panel[0];
+      expect(el.scrollWidth, 'pool card has no horizontal overflow').to.be.lte(el.clientWidth);
+    });
+    expectNoHorizontalOverflow();
+  });
+
   it('shows the Connect group-chat coming-soon card', () => {
     cy.visit('/map');
     cy.contains('h1', 'Connect').should('be.visible');
