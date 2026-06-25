@@ -1,9 +1,11 @@
 import { describe, expect, test } from 'vitest'
 import { CHART_CATEGORIES } from '@/data/circleChartCatalog'
 import {
+  childExamplesToggleLabel,
   createAllChildToolFilter,
   createAllParentToolFilter,
   createEmptyChildToolFilter,
+  getChildExamplesSelectionState,
   getDrawableSelectionCount,
   isAllChildToolsSelected,
   isNoChildToolsSelected,
@@ -55,6 +57,19 @@ describe('global examples toggle (Chart + Journal pools)', () => {
     expect(isAllChildToolsSelected(mixed)).toBe(false)
     expect(isNoChildToolsSelected(mixed)).toBe(false)
     expect(isAllChildToolsSelected(toggleAllChildTools(mixed))).toBe(true)
+  })
+
+  test('tri-state label never claims "All examples" for a partial selection', () => {
+    expect(childExamplesToggleLabel(createAllChildToolFilter())).toBe('All examples')
+    expect(childExamplesToggleLabel(createEmptyChildToolFilter())).toBe('No examples')
+
+    const mixed = createAllChildToolFilter()
+    mixed['four-brothers'].Beauty = []
+    expect(getChildExamplesSelectionState(mixed)).toBe('some')
+    expect(childExamplesToggleLabel(mixed)).toBe('Some examples')
+
+    expect(getChildExamplesSelectionState(createAllChildToolFilter())).toBe('all')
+    expect(getChildExamplesSelectionState(createEmptyChildToolFilter())).toBe('none')
   })
 
   test('Journal Draw pool count reflects the toggled child filter', () => {

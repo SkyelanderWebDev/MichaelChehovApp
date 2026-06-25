@@ -272,6 +272,30 @@ export function toggleAllChildTools(childFilter: ChildToolFilter): ChildToolFilt
   return isAllChildToolsSelected(childFilter) ? createEmptyChildToolFilter() : createAllChildToolFilter();
 }
 
+export type ChildExamplesSelectionState = 'all' | 'some' | 'none';
+
+/** Tri-state of the example-label selection: none, partial/mixed, or all. */
+export function getChildExamplesSelectionState(childFilter: ChildToolFilter): ChildExamplesSelectionState {
+  if (isNoChildToolsSelected(childFilter)) return 'none';
+  if (isAllChildToolsSelected(childFilter)) return 'all';
+  return 'some';
+}
+
+/**
+ * Visible label for the examples toggle. Never claims "All examples" unless every
+ * example label is selected; a partial selection reads "Some examples".
+ */
+export function childExamplesToggleLabel(childFilter: ChildToolFilter): string {
+  switch (getChildExamplesSelectionState(childFilter)) {
+    case 'all':
+      return 'All examples';
+    case 'none':
+      return 'No examples';
+    default:
+      return 'Some examples';
+  }
+}
+
 export function getFilteredTools(categoryId: string, filter?: ParentToolFilter): WeekendTool[] {
   const catalogCategory = getToolCatalogCategory(categoryId);
   if (!catalogCategory) return [];

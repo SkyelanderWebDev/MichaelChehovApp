@@ -131,7 +131,7 @@
                   :aria-label="toolExamplesAriaLabel(tool)"
                   @click="toggleToolExamples(tool)"
                 >
-                  {{ toolExamplesLabel(tool.name) }}
+                  {{ toolExamplesLabel(tool) }}
                 </button>
               </div>
               <div class="child-selectors" aria-label="Child and example label selectors">
@@ -243,15 +243,21 @@ const allChildrenSelected = computed(
   () => totalChildLabels.value > 0 && selectedChildTotal.value === totalChildLabels.value,
 );
 
-// Single category-level examples toggle. Label reflects state: "No examples" only
-// when fully cleared, otherwise "All examples" (covers both all-on and mixed).
-const categoryExamplesLabel = computed(() => (selectedChildTotal.value === 0 ? 'No examples' : 'All examples'));
+// Single category-level examples toggle. Tri-state label: "No examples" when
+// cleared, "All examples" only when every label is selected, "Some examples"
+// for a partial selection (reachable via the per-tool / child toggles).
+const categoryExamplesLabel = computed(() => {
+  if (selectedChildTotal.value === 0) return 'No examples';
+  return allChildrenSelected.value ? 'All examples' : 'Some examples';
+});
 
-const categoryExamplesAriaLabel = computed(() =>
-  allChildrenSelected.value
-    ? `Clear all example labels for ${category.value?.name ?? 'this chart area'}`
-    : `Select all example labels for ${category.value?.name ?? 'this chart area'}`,
-);
+const categoryExamplesAriaLabel = computed(() => {
+  const name = category.value?.name ?? 'this chart area';
+  const action = allChildrenSelected.value
+    ? `tap to clear all example labels for ${name}`
+    : `tap to select all example labels for ${name}`;
+  return `${categoryExamplesLabel.value} selected; ${action}`;
+});
 
 const poolLabel = computed(() => (props.selectionContext === 'chart' ? 'Quick Draw pool' : 'practice pool'));
 
@@ -313,16 +319,20 @@ function toggleAllChildrenInCategory(): void {
   }
 }
 
-// Single per-tool examples toggle. "No examples" only when that tool has none
-// selected; otherwise "All examples". Clicking selects all unless already all-on.
-function toolExamplesLabel(toolName: string): string {
-  return selectedChildCount(toolName) === 0 ? 'No examples' : 'All examples';
+// Single per-tool examples toggle. Tri-state: "No examples" when none, "All
+// examples" only when every child is selected, "Some examples" for a partial
+// selection. Clicking selects all unless already all-on.
+function toolExamplesLabel(tool: WeekendTool): string {
+  const count = selectedChildCount(tool.name);
+  if (count === 0) return 'No examples';
+  return count === tool.children.length ? 'All examples' : 'Some examples';
 }
 
 function toolExamplesAriaLabel(tool: WeekendTool): string {
-  return selectedChildCount(tool.name) === tool.children.length
-    ? `Clear all example labels under ${tool.name}`
-    : `Select all example labels under ${tool.name}`;
+  const action = selectedChildCount(tool.name) === tool.children.length
+    ? `tap to clear all example labels under ${tool.name}`
+    : `tap to select all example labels under ${tool.name}`;
+  return `${toolExamplesLabel(tool)} selected; ${action}`;
 }
 
 function toggleToolExamples(tool: WeekendTool): void {

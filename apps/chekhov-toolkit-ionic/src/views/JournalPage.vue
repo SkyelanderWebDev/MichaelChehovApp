@@ -292,9 +292,9 @@ import {
   createDailyToolSelection,
   createRandomSelectionFromCategories,
   createSelectionForParentTool,
+  childExamplesToggleLabel,
   getDrawableSelectionCount,
   isAllChildToolsSelected,
-  isNoChildToolsSelected,
   toggleAllChildTools,
   type ChildToolFilter,
   type ParentToolFilter,
@@ -371,13 +371,13 @@ const canChooseDailyTool = computed(() => !practiceControlsDisabled.value);
 // Single global examples toggle for the Draw Random pool. Label reflects state:
 // "No examples" only when fully cleared, otherwise "All examples".
 const allExamplesSelected = computed(() => isAllChildToolsSelected(selectedChildTools.value));
-const examplesToggleLabel = computed(() =>
-  isNoChildToolsSelected(selectedChildTools.value) ? 'No examples' : 'All examples',
-);
+const examplesToggleLabel = computed(() => childExamplesToggleLabel(selectedChildTools.value));
 const examplesToggleAriaLabel = computed(() =>
-  allExamplesSelected.value
-    ? 'Clear all example labels from the Draw Random pool'
-    : 'Select all example labels for the Draw Random pool',
+  `${examplesToggleLabel.value} selected; ${
+    allExamplesSelected.value
+      ? 'tap to clear all from the Draw Random pool'
+      : 'tap to select all for the Draw Random pool'
+  }`,
 );
 
 const isDetailCategoryIncluded = computed(() =>

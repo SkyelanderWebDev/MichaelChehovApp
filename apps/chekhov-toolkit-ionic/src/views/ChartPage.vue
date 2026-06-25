@@ -325,10 +325,10 @@ import { CHART_CATEGORIES, getFamily } from '@/data/circleChartCatalog';
 import {
   createAllChildToolFilter,
   createAllParentToolFilter,
+  childExamplesToggleLabel,
   createEmptyChildToolFilter,
   getDrawableSelectionCount,
   isAllChildToolsSelected,
-  isNoChildToolsSelected,
   toggleAllChildTools,
   type ChildToolFilter,
   type ParentToolFilter,
@@ -398,13 +398,13 @@ const drawablePoolCount = computed(() =>
 // Single global examples toggle for the directory. Label reflects state: "No examples"
 // only when fully cleared, otherwise "All examples" (covers all-on and mixed).
 const allExamplesSelected = computed(() => isAllChildToolsSelected(selectedChildTools.value));
-const examplesToggleLabel = computed(() =>
-  isNoChildToolsSelected(selectedChildTools.value) ? 'No examples' : 'All examples',
-);
+const examplesToggleLabel = computed(() => childExamplesToggleLabel(selectedChildTools.value));
 const examplesToggleAriaLabel = computed(() =>
-  allExamplesSelected.value
-    ? 'Clear all example labels from the Quick Draw pool'
-    : 'Select all example labels for the Quick Draw pool',
+  `${examplesToggleLabel.value} selected; ${
+    allExamplesSelected.value
+      ? 'tap to clear all from the Quick Draw pool'
+      : 'tap to select all for the Quick Draw pool'
+  }`,
 );
 
 const isDetailCategoryIncluded = computed(() =>
