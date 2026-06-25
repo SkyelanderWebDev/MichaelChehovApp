@@ -1,18 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 
+function envOrDefault(name, fallback) {
+  const value = process.env[name]?.trim();
+  return value ? value : fallback;
+}
+
 const supabaseUrl = process.env.VITE_SUPABASE_URL ?? process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY ?? process.env.SUPABASE_ANON_KEY;
-const emailDomain = process.env.SUPABASE_RLS_EMAIL_DOMAIN ?? 'skyelandersolutions.com';
-const generatedUserPassword = process.env.SUPABASE_RLS_TEST_PASSWORD ?? 'Secure-test-1234';
-const localDate = process.env.SUPABASE_RLS_LOCAL_DATE ?? '2026-06-10';
+const emailDomain = envOrDefault('SUPABASE_RLS_EMAIL_DOMAIN', 'skyelandersolutions.com');
+const generatedUserPassword = envOrDefault('SUPABASE_RLS_TEST_PASSWORD', 'Secure-test-1234');
+const localDate = envOrDefault('SUPABASE_RLS_LOCAL_DATE', '2026-06-10');
 
 const testUserA = {
-  email: process.env.SUPABASE_RLS_USER_A_EMAIL,
-  password: process.env.SUPABASE_RLS_USER_A_PASSWORD,
+  email: envOrDefault('SUPABASE_RLS_USER_A_EMAIL', ''),
+  password: envOrDefault('SUPABASE_RLS_USER_A_PASSWORD', ''),
 };
 const testUserB = {
-  email: process.env.SUPABASE_RLS_USER_B_EMAIL,
-  password: process.env.SUPABASE_RLS_USER_B_PASSWORD,
+  email: envOrDefault('SUPABASE_RLS_USER_B_EMAIL', ''),
+  password: envOrDefault('SUPABASE_RLS_USER_B_PASSWORD', ''),
 };
 
 if (!supabaseUrl || !supabaseAnonKey) {
