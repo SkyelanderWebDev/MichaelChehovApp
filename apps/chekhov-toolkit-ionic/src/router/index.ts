@@ -46,6 +46,21 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Settings',
         component: () => import('../views/SettingsPage.vue'),
       },
+      {
+        path: 'struggles',
+        name: 'Struggles',
+        component: () => import('../views/StrugglesPage.vue'),
+      },
+      {
+        path: 'quiz',
+        name: 'Quiz',
+        component: () => import('../views/QuizPage.vue'),
+      },
+      {
+        path: ':pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('../views/NotFoundPage.vue'),
+      },
     ],
   },
 ];

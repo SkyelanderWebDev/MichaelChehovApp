@@ -32,6 +32,8 @@ describe('The Michael Chekhov Toolkit app shell', () => {
         'Chart',
         'Map',
         'Settings',
+        'Struggles',
+        'Quiz',
       ]);
     });
 
@@ -54,5 +56,22 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     cy.contains('Windsor University’s Michael Chekhov Archive').should('exist');
     cy.contains('Lisa’s YouTube').should('exist');
     cy.contains('More demonstrations and class clips coming soon.').should('exist');
+  });
+
+  it('renders Struggles, Quiz, and 404 routes without horizontal overflow', () => {
+    cy.visit('/struggles');
+    cy.contains('Common Actor Struggles').should('be.visible');
+    cy.contains('39 placeholder entries').should('be.visible');
+    cy.contains('TBD — pending Lisa clearance').should('be.visible');
+    expectNoHorizontalOverflow();
+
+    cy.visit('/quiz');
+    cy.contains('Quiz').should('be.visible');
+    cy.contains('Answer key pending').should('be.visible');
+    expectNoHorizontalOverflow();
+
+    cy.visit('/route-that-does-not-exist');
+    cy.contains('Page not found').should('be.visible');
+    expectNoHorizontalOverflow();
   });
 });
