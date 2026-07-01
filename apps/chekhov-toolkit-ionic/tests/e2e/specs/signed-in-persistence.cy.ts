@@ -59,7 +59,7 @@ describe('signed-in Today’s Practice persistence', () => {
     const observeNote = `A5 morning observe ${Date.now()}`;
     const freeResponse = `A5 free response should stay empty for structured mode ${Date.now()}`;
 
-    cy.wrap(prepareTesterRows(today, yesterday));
+    cy.then(() => prepareTesterRows(today, yesterday));
 
     cy.visit('/journal', {
       onBeforeLoad(win) {
@@ -100,7 +100,7 @@ describe('signed-in Today’s Practice persistence', () => {
     cy.get('#daily-action-note').should('have.value', freeResponse);
     cy.contains(yesterday).should('not.exist');
 
-    cy.wrap(readTesterRows(today, yesterday)).then((snapshot) => {
+    cy.then(() => readTesterRows(today, yesterday)).then((snapshot) => {
       expect(snapshot.todayPractice?.local_date).to.equal(today);
       expect(snapshot.todayPractice?.status).to.equal('started');
       expect(snapshot.yesterdayPractice?.local_date).to.equal(yesterday);

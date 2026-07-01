@@ -63,7 +63,9 @@ Current React prototype behavior:
 - History loads previous draws from SQLite and can reopen a reveal card.
 - Server routes exist for drawn tools and journal entries.
 
-Known current demo-parity gaps in the Ionic app:
+> **STATUS UPDATE (2026-07-01): `phone-ready secure tester beta v1`.** The demo-parity gaps below are RESOLVED and receipt-verified: full taxonomy parity (15 categories / 84 tools / 1,144 children), chart cleanup + Quick Draw, Library skeleton, structured + free-response POA with autosave guard, hosted RLS PASS, signed-in persistence e2e PASS, CI RLS job green, security headers live in production, and Dawson's real iPhone home-screen smoke PASS. Receipts: `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`. Linear ledger: SKY-16…22. List below retained for history only.
+
+Known current demo-parity gaps in the Ionic app (historical, resolved as of 2026-07-01):
 - Ionic taxonomy data is currently truncated relative to `client/src/lib/toolData.ts`; restore all descriptions, child/example labels, and Imaginary Body scope metadata for the June 12/13 pass.
 - Chart needs demo cleanup: no top text above the chart in browse mode, center hub main text `Inspired Action`, and a Chart-tab Quick Draw path.
 - Library needs source-safe resource buckets beyond the current taxonomy lists.

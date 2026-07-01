@@ -1,4 +1,7 @@
 # New Features Scope — History, PDF Share, Actor-Struggles + Quiz
+
+> **STATUS CORRECTION (2026-07-01):** Several "NOT yet built" claims below are stale. As of 2026-07-01: A2 security headers are live in production; A3 iOS meta/zoom and A4 POA autosave guard exist in code; A5 signed-in persistence e2e exists and now PASSES against hosted Supabase; A1 hosted RLS verify PASSES (locally and in CI job "Supabase RLS receipt"). G1 History (Journals + Quick Draw History) is implemented. See `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md` for receipts.
+
 Date: 2026-06-24 · Target: closed beta Friday · Author: polly (orchestrator)
 Source: 3 read-only scout reports (codex sandbox-blocked on external path; claude_code ×2 delivered).
 
