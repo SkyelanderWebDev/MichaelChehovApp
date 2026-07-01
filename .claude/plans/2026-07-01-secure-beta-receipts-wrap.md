@@ -53,6 +53,16 @@ RLS smoke complete
 - 06-24 "G1 History" roadmap line is stale — Journals + Quick Draw History are implemented (Dawson-confirmed; `20260624120000_practice_core_history.sql`, quickDrawLock/practiceCoreLock unit tests, PR #10).
 - 2026-06-24 audit items B1 (CI-ready e2e) and B4 (RLS in CI) are done; B2 orphan `cypress/e2e/phase1-lock.cy.js` still on disk but outside active `specPattern` (cosmetic).
 
+## PR / deploy update (Rudy, 2026-07-01)
+
+- Commit created: `67b79db` — `test/docs: record secure beta receipts`.
+- Branch pushed: `claude/vigilant-hugle-385312`.
+- Pull request opened: https://github.com/SkyelanderWebDev/MichaelChehovApp/pull/11 (`base: secure-beta-weekend`).
+- GitHub checks on PR #11: `Ionic CI / Lint, build, unit, and e2e` SUCCESS; `Ionic CI / Supabase RLS receipt` SUCCESS.
+- Production deploy completed via Vercel CLI for project `michael-chekhov-toolkit-beta` under `skyelandersolutions`.
+- Deployment id: `dpl_2NoERBBr58KXhiy1Ytp6xchvSAgi`; deployment URL: `https://michael-chekhov-toolkit-beta-129ohygh6-skyelandersolutions.vercel.app`; alias: `https://michael-chekhov-toolkit-beta.vercel.app`.
+- Post-deploy route/header smoke PASS: `/`, `/chart`, `/journal`, `/settings`, `/manifest.webmanifest` all HTTP 200 with CSP, HSTS, `X-Frame-Options: DENY`, and `nosniff`.
+
 ## Known limitations / follow-ups
 
 - **Spec matrix flip:** `tests/e2e/specs/auth.cy.js` asserts the "tester access unavailable" gate and only passes when Supabase env is ABSENT. Running the full suite with env set fails those 2 tests by design. Follow-up: gate auth.cy.js on the inverse env flag (small test-only change).
