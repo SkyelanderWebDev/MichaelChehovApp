@@ -63,6 +63,12 @@ RLS smoke complete
 - Deployment id: `dpl_2NoERBBr58KXhiy1Ytp6xchvSAgi`; deployment URL: `https://michael-chekhov-toolkit-beta-129ohygh6-skyelandersolutions.vercel.app`; alias: `https://michael-chekhov-toolkit-beta.vercel.app`.
 - Post-deploy route/header smoke PASS: `/`, `/chart`, `/journal`, `/settings`, `/manifest.webmanifest` all HTTP 200 with CSP, HSTS, `X-Frame-Options: DENY`, and `nosniff`.
 
+## Merge / post-merge deploy update (Rudy, 2026-07-01)
+
+- PR #11 merged into `secure-beta-weekend` at merge commit `1366d6e` (`1366d6ef6341e89c077f57cd1f836708c762046a`).
+- This wrap received a final post-merge receipt update on `secure-beta-weekend` after the PR merge.
+- Post-merge production deploy was run from the merged `secure-beta-weekend` branch after this wrap update; see final session reply for the deployment id and route/header smoke receipt.
+
 ## Known limitations / follow-ups
 
 - **Spec matrix flip:** `tests/e2e/specs/auth.cy.js` asserts the "tester access unavailable" gate and only passes when Supabase env is ABSENT. Running the full suite with env set fails those 2 tests by design. Follow-up: gate auth.cy.js on the inverse env flag (small test-only change).
