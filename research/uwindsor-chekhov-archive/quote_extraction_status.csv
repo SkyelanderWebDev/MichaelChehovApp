@@ -1,0 +1,546 @@
+item_id,media_id,title,date,status,pages,chars,pdf_path,text_path,candidate_count_so_far
+546,1095,"""The First Studio Grows Up."" Inside the Moscow Art Theatre. (New York, Brentano's, Inc., 1925), pp. 162-172",1925,ok,13,20039,pdf_cache/item_546_the-first-studio-grows-up-inside-the-moscow-art-theatre-new-york-brentano-s-inc-1925-pp-16.pdf,extracted_text_all/item_546_the-first-studio-grows-up-inside-the-moscow-art-theatre-new-york-brentano-s-inc-1925-pp-16.txt,26
+547,1099,The Actor's Problem: Preface to the Memoirs of M. A. Chekhov,04-Nov-27,ok,9,11929,pdf_cache/item_547_the-actor-s-problem-preface-to-the-memoirs-of-m-a-chekhov.pdf,extracted_text_all/item_547_the-actor-s-problem-preface-to-the-memoirs-of-m-a-chekhov.txt,63
+548,1098,"Extracts from ""The wind from the Caucasus""",1929,ok,2,1989,pdf_cache/item_548_extracts-from-the-wind-from-the-caucasus.pdf,extracted_text_all/item_548_extracts-from-the-wind-from-the-caucasus.txt,64
+549,1100,Epigraph from Michael Chekhov and His Characters,1932-33,ok,1,648,pdf_cache/item_549_epigraph-from-michael-chekhov-and-his-characters.pdf,extracted_text_all/item_549_epigraph-from-michael-chekhov-and-his-characters.txt,64
+550,1101,"April 3, 1935: Thank you note to Deirdre Hurst",03-Apr-35,ok,1,407,pdf_cache/item_550_april-3-1935-thank-you-note-to-deirdre-hurst.pdf,extracted_text_all/item_550_april-3-1935-thank-you-note-to-deirdre-hurst.txt,64
+551,1102,"April 7, 1935: Thank you note to Beatrice Straight",07-Apr-35,ok,1,548,pdf_cache/item_551_april-7-1935-thank-you-note-to-beatrice-straight.pdf,extracted_text_all/item_551_april-7-1935-thank-you-note-to-beatrice-straight.txt,67
+552,1103,"March, 1935: Cable to Beatrice Straight","March, 1935",ok,1,462,pdf_cache/item_552_march-1935-cable-to-beatrice-straight.pdf,extracted_text_all/item_552_march-1935-cable-to-beatrice-straight.txt,67
+553,1104,"March 16, 1935: Three lessons given to Beatrice Straight and Deirdre Hurst: First Lesson",16-Mar-35,ok,7,7885,pdf_cache/item_553_march-16-1935-three-lessons-given-to-beatrice-straight-and-deirdre-hurst-first-lesson.pdf,extracted_text_all/item_553_march-16-1935-three-lessons-given-to-beatrice-straight-and-deirdre-hurst-first-lesson.txt,174
+554,1105,"March 18, 1935: Three lessons given to Beatrice Straight and Deirdre Hurst: Second lesson",18-Mar-35,ok,5,5692,pdf_cache/item_554_march-18-1935-three-lessons-given-to-beatrice-straight-and-deirdre-hurst-second-lesson.pdf,extracted_text_all/item_554_march-18-1935-three-lessons-given-to-beatrice-straight-and-deirdre-hurst-second-lesson.txt,249
+555,1106,"March 22, 1935: Three lessons given to Beatrice Straight and Deirdre Hurst: Third lesson",22-Mar-35,ok,4,4460,pdf_cache/item_555_march-22-1935-three-lessons-given-to-beatrice-straight-and-deirdre-hurst-third-lesson.pdf,extracted_text_all/item_555_march-22-1935-three-lessons-given-to-beatrice-straight-and-deirdre-hurst-third-lesson.txt,300
+556,1107,Chekhov Theatre Studio,1936,ok,25,25142,pdf_cache/item_556_chekhov-theatre-studio.pdf,extracted_text_all/item_556_chekhov-theatre-studio.txt,457
+557,1108,The path of the actor,1926; translation 1936,ok,121,166309,pdf_cache/item_557_the-path-of-the-actor.pdf,extracted_text_all/item_557_the-path-of-the-actor.txt,1644
+558,1109,The theatre of the future,1936,ok,14,23935,pdf_cache/item_558_the-theatre-of-the-future.pdf,extracted_text_all/item_558_the-theatre-of-the-future.txt,1945
+559,1110,Immensity,"June 6, 1931; translation 1936-37",ok,8,11357,pdf_cache/item_559_immensity.pdf,extracted_text_all/item_559_immensity.txt,1952
+560,1111,"Prince Sergi Volkonsky, Paris, 1931",1931,ok,4,5272,pdf_cache/item_560_prince-sergi-volkonsky-paris-1931.pdf,extracted_text_all/item_560_prince-sergi-volkonsky-paris-1931.txt,1955
+561,1112,Chart of exploration given by Michael Chekhov as a guide for using his method,1937,ok,2,1319,pdf_cache/item_561_chart-of-exploration-given-by-michael-chekhov-as-a-guide-for-using-his-method.pdf,extracted_text_all/item_561_chart-of-exploration-given-by-michael-chekhov-as-a-guide-for-using-his-method.txt,1972
+562,1113,Suggestions for article by M. Chekhov,1940-41,ok,2,2528,pdf_cache/item_562_suggestions-for-article-by-m-chekhov.pdf,extracted_text_all/item_562_suggestions-for-article-by-m-chekhov.txt,1979
+563,1114,"January 12, 1948: Recommendation letter for Deirdre Hurst du Prey",12-Jan-48,ok,1,610,pdf_cache/item_563_january-12-1948-recommendation-letter-for-deirdre-hurst-du-prey.pdf,extracted_text_all/item_563_january-12-1948-recommendation-letter-for-deirdre-hurst-du-prey.txt,1984
+564,1115,King Lear and its appeal to the director,1941,ok,3,4218,pdf_cache/item_564_king-lear-and-its-appeal-to-the-director.pdf,extracted_text_all/item_564_king-lear-and-its-appeal-to-the-director.txt,2004
+565,1116,"Impressions of Michael Chekhov, the actor, and recollections of the Chekhov Theatre Studio","March, 1976",ok,5,6429,pdf_cache/item_565_impressions-of-michael-chekhov-the-actor-and-recollections-of-the-chekhov-theatre-studio.pdf,extracted_text_all/item_565_impressions-of-michael-chekhov-the-actor-and-recollections-of-the-chekhov-theatre-studio.txt,2021
+566,1117,To the reader,"June, 1977",ok,10,13754,pdf_cache/item_566_to-the-reader.pdf,extracted_text_all/item_566_to-the-reader.txt,2027
+567,1119,History of Dartington Hall,,ok,3,4358,pdf_cache/item_567_history-of-dartington-hall.pdf,extracted_text_all/item_567_history-of-dartington-hall.txt,2028
+568,1120,Preface,,ok,1,1555,pdf_cache/item_568_preface.pdf,extracted_text_all/item_568_preface.txt,2031
+569,1121,"Michael Chekhov biography, incomplete, no page number",,ok,1,1717,pdf_cache/item_569_michael-chekhov-biography-incomplete-no-page-number.pdf,extracted_text_all/item_569_michael-chekhov-biography-incomplete-no-page-number.txt,2045
+570,1122,"Michael Chekhov biography, incomplete, page 6",,ok,1,547,pdf_cache/item_570_michael-chekhov-biography-incomplete-page-6.pdf,extracted_text_all/item_570_michael-chekhov-biography-incomplete-page-6.txt,2045
+571,1123,Lecture flyer: Michael Chekhov -- The actor and the theatre of tomorrow,,ok,1,774,pdf_cache/item_571_lecture-flyer-michael-chekhov-the-actor-and-the-theatre-of-tomorrow.pdf,extracted_text_all/item_571_lecture-flyer-michael-chekhov-the-actor-and-the-theatre-of-tomorrow.txt,2045
+572,1124,Author agreement between Performing Arts Journal Inc. and Deirdre Hurst du Prey,"July 19, 1984",ok,2,8047,pdf_cache/item_572_author-agreement-between-performing-arts-journal-inc-and-deirdre-hurst-du-prey.pdf,extracted_text_all/item_572_author-agreement-between-performing-arts-journal-inc-and-deirdre-hurst-du-prey.txt,2045
+573,1125,"Letter to Deirdre Hurst du Prey, notes attached",,ok,6,4705,pdf_cache/item_573_letter-to-deirdre-hurst-du-prey-notes-attached.pdf,extracted_text_all/item_573_letter-to-deirdre-hurst-du-prey-notes-attached.txt,2045
+574,1126,The actor is the theatre (title page and introduction),1977,ok,11,15256,pdf_cache/item_574_the-actor-is-the-theatre-title-page-and-introduction.pdf,extracted_text_all/item_574_the-actor-is-the-theatre-title-page-and-introduction.txt,2047
+575,1127,"April 8, 1936: Lessons to teachers: Lesson I",08-Apr-36,ok,7,8153,pdf_cache/item_575_april-8-1936-lessons-to-teachers-lesson-i.pdf,extracted_text_all/item_575_april-8-1936-lessons-to-teachers-lesson-i.txt,2159
+576,1128,"April 11, 1936: Lessons to teachers: Lesson II",11-Apr-36,ok,4,4378,pdf_cache/item_576_april-11-1936-lessons-to-teachers-lesson-ii.pdf,extracted_text_all/item_576_april-11-1936-lessons-to-teachers-lesson-ii.txt,2219
+577,1129,"April 13, 1936: Lessons to teachers: Lesson III",13-Apr-36,ok,5,5386,pdf_cache/item_577_april-13-1936-lessons-to-teachers-lesson-iii.pdf,extracted_text_all/item_577_april-13-1936-lessons-to-teachers-lesson-iii.txt,2290
+578,1130,"April 15, 1936: Lessons to teachers: Lesson IV",15-Apr-36,ok,6,6805,pdf_cache/item_578_april-15-1936-lessons-to-teachers-lesson-iv.pdf,extracted_text_all/item_578_april-15-1936-lessons-to-teachers-lesson-iv.txt,2381
+579,1131,"April 17, 1936: Notes taken during conversation",17-Apr-36,ok,4,4558,pdf_cache/item_579_april-17-1936-notes-taken-during-conversation.pdf,extracted_text_all/item_579_april-17-1936-notes-taken-during-conversation.txt,2444
+580,1136,"April 25, 1936: Lessons to teachers: Lesson V",25-Apr-36,ok,3,3318,pdf_cache/item_580_april-25-1936-lessons-to-teachers-lesson-v.pdf,extracted_text_all/item_580_april-25-1936-lessons-to-teachers-lesson-v.txt,2488
+581,1137,"May 1, 1936: Lessons to teachers: Lesson VI",01-May-36,ok,4,4726,pdf_cache/item_581_may-1-1936-lessons-to-teachers-lesson-vi.pdf,extracted_text_all/item_581_may-1-1936-lessons-to-teachers-lesson-vi.txt,2543
+582,1138,"May 5, 1936: Lessons to teachers: Lesson VII",05-May-36,ok,3,2697,pdf_cache/item_582_may-5-1936-lessons-to-teachers-lesson-vii.pdf,extracted_text_all/item_582_may-5-1936-lessons-to-teachers-lesson-vii.txt,2578
+583,1139,"May 7, 1936: Lessons to teachers: Lesson VIII",07-May-36,ok,3,3412,pdf_cache/item_583_may-7-1936-lessons-to-teachers-lesson-viii.pdf,extracted_text_all/item_583_may-7-1936-lessons-to-teachers-lesson-viii.txt,2622
+584,1140,"May 10, 1936: Lessons to teachers: Lesson IX",10-May-36,ok,5,4794,pdf_cache/item_584_may-10-1936-lessons-to-teachers-lesson-ix.pdf,extracted_text_all/item_584_may-10-1936-lessons-to-teachers-lesson-ix.txt,2689
+585,1141,"May 10, 1936: Lessons to teachers: Lesson X",10-May-36,ok,5,5527,pdf_cache/item_585_may-10-1936-lessons-to-teachers-lesson-x.pdf,extracted_text_all/item_585_may-10-1936-lessons-to-teachers-lesson-x.txt,2748
+586,1142,"May 14, 1936: Lessons to teachers: Lesson XI",14-May-36,ok,2,2224,pdf_cache/item_586_may-14-1936-lessons-to-teachers-lesson-xi.pdf,extracted_text_all/item_586_may-14-1936-lessons-to-teachers-lesson-xi.txt,2772
+587,1143,"May 15, 1936: Lessons to teachers: Lesson XII",15-May-36,ok,3,3631,pdf_cache/item_587_may-15-1936-lessons-to-teachers-lesson-xii.pdf,extracted_text_all/item_587_may-15-1936-lessons-to-teachers-lesson-xii.txt,2811
+588,1144,"May 19, 1936: Lessons to teachers: Lesson XIII",19-May-36,ok,4,4801,pdf_cache/item_588_may-19-1936-lessons-to-teachers-lesson-xiii.pdf,extracted_text_all/item_588_may-19-1936-lessons-to-teachers-lesson-xiii.txt,2855
+589,1145,"May 23, 1936: Lessons to teachers: Lesson XIV",23-May-36,ok,3,3047,pdf_cache/item_589_may-23-1936-lessons-to-teachers-lesson-xiv.pdf,extracted_text_all/item_589_may-23-1936-lessons-to-teachers-lesson-xiv.txt,2889
+590,1719,"May 26, 1936: Lessons to teachers: Lesson XV",26-May-36,ok,3,2992,pdf_cache/item_590_may-26-1936-lessons-to-teachers-lesson-xv.pdf,extracted_text_all/item_590_may-26-1936-lessons-to-teachers-lesson-xv.txt,2924
+591,1146,"June 2, 1936: Lessons to teachers: Lesson XVI",02-Jun-36,ok,4,4125,pdf_cache/item_591_june-2-1936-lessons-to-teachers-lesson-xvi.pdf,extracted_text_all/item_591_june-2-1936-lessons-to-teachers-lesson-xvi.txt,2961
+592,1147,"June 4, 1936: Lessons to teachers: Lesson XVII",04-Jun-36,ok,10,13266,pdf_cache/item_592_june-4-1936-lessons-to-teachers-lesson-xvii.pdf,extracted_text_all/item_592_june-4-1936-lessons-to-teachers-lesson-xvii.txt,3140
+593,1149,"June 8, 1936: Lessons to teachers: Lesson XVIII",08-Jun-36,ok,3,2780,pdf_cache/item_593_june-8-1936-lessons-to-teachers-lesson-xviii.pdf,extracted_text_all/item_593_june-8-1936-lessons-to-teachers-lesson-xviii.txt,3180
+594,1150,"October 5, 1936: Opening Day -- Chekhov Theatre Studio",05-Oct-36,ok,4,4086,pdf_cache/item_594_october-5-1936-opening-day-chekhov-theatre-studio.pdf,extracted_text_all/item_594_october-5-1936-opening-day-chekhov-theatre-studio.txt,3232
+595,1151,"October 6, 1936: Lesson given after performance at Dartington of Uday Shankar and his Company of Dancers and Musicians",06-Oct-36,ok,5,6024,pdf_cache/item_595_october-6-1936-lesson-given-after-performance-at-dartington-of-uday-shankar-and-his-compan.pdf,extracted_text_all/item_595_october-6-1936-lesson-given-after-performance-at-dartington-of-uday-shankar-and-his-compan.txt,3283
+596,1152,"October 8, 1936",08-Oct-36,ok,8,10912,pdf_cache/item_596_october-8-1936.pdf,extracted_text_all/item_596_october-8-1936.txt,3414
+597,1153,"October 9, 1936",09-Oct-36,ok,2,2107,pdf_cache/item_597_october-9-1936.pdf,extracted_text_all/item_597_october-9-1936.txt,3440
+598,1154,"October 10, 1936: Demonstration lecture for audience",10-Oct-36,ok,1,658,pdf_cache/item_598_october-10-1936-demonstration-lecture-for-audience.pdf,extracted_text_all/item_598_october-10-1936-demonstration-lecture-for-audience.txt,3448
+599,1155,"October 12, 1936",12-Oct-36,ok,2,1756,pdf_cache/item_599_october-12-1936.pdf,extracted_text_all/item_599_october-12-1936.txt,3469
+600,1156,"October 13, 1936",13-Oct-36,ok,1,936,pdf_cache/item_600_october-13-1936.pdf,extracted_text_all/item_600_october-13-1936.txt,3474
+601,1157,"October 14, 1936",14-Oct-36,ok,1,907,pdf_cache/item_601_october-14-1936.pdf,extracted_text_all/item_601_october-14-1936.txt,3484
+602,1158,"October 15, 1936",15-Oct-36,ok,1,1369,pdf_cache/item_602_october-15-1936.pdf,extracted_text_all/item_602_october-15-1936.txt,3497
+603,1159,"October 16, 1936",16-Oct-36,ok,7,9378,pdf_cache/item_603_october-16-1936.pdf,extracted_text_all/item_603_october-16-1936.txt,3640
+604,1160,"October 20, 1936",20-Oct-36,ok,2,1398,pdf_cache/item_604_october-20-1936.pdf,extracted_text_all/item_604_october-20-1936.txt,3656
+605,1161,"October 21, 1936",21-Oct-36,ok,1,726,pdf_cache/item_605_october-21-1936.pdf,extracted_text_all/item_605_october-21-1936.txt,3666
+606,1162,"October 22, 1936","October 22, 1936",ok,4,5137,pdf_cache/item_606_october-22-1936.pdf,extracted_text_all/item_606_october-22-1936.txt,3745
+607,1163,"October 23, 1936",23-Oct-36,ok,3,3304,pdf_cache/item_607_october-23-1936.pdf,extracted_text_all/item_607_october-23-1936.txt,3772
+608,1164,"October 24, 1936",24-Oct-36,ok,1,1231,pdf_cache/item_608_october-24-1936.pdf,extracted_text_all/item_608_october-24-1936.txt,3787
+609,1165,"October 27, 1936",27-Oct-36,ok,4,4218,pdf_cache/item_609_october-27-1936.pdf,extracted_text_all/item_609_october-27-1936.txt,3844
+610,1166,"October 28, 1936",28-Oct-36,ok,6,6926,pdf_cache/item_610_october-28-1936.pdf,extracted_text_all/item_610_october-28-1936.txt,3913
+611,1167,"October 30, 1936",30-Oct-36,ok,4,4330,pdf_cache/item_611_october-30-1936.pdf,extracted_text_all/item_611_october-30-1936.txt,3964
+612,1168,"November 2, 1936",02-Nov-36,ok,2,2096,pdf_cache/item_612_november-2-1936.pdf,extracted_text_all/item_612_november-2-1936.txt,3993
+613,1169,"November 2, 1936",02-Nov-36,ok,1,648,pdf_cache/item_613_november-2-1936.pdf,extracted_text_all/item_613_november-2-1936.txt,3999
+614,1170,"November 3, 1936",03-Nov-36,ok,1,663,pdf_cache/item_614_november-3-1936.pdf,extracted_text_all/item_614_november-3-1936.txt,4008
+615,1171,"November 5, 1936",05-Nov-36,ok,3,3254,pdf_cache/item_615_november-5-1936.pdf,extracted_text_all/item_615_november-5-1936.txt,4060
+616,1172,"November 6, 1936",06-Nov-36,ok,3,2751,pdf_cache/item_616_november-6-1936.pdf,extracted_text_all/item_616_november-6-1936.txt,4096
+617,1173,"November 7, 1936",07-Nov-36,ok,1,490,pdf_cache/item_617_november-7-1936.pdf,extracted_text_all/item_617_november-7-1936.txt,4097
+618,1174,"November 8, 1936",08-Nov-36,ok,5,5891,pdf_cache/item_618_november-8-1936.pdf,extracted_text_all/item_618_november-8-1936.txt,4177
+619,1175,"November 10, 1936","November 10, 1936",ok,3,3505,pdf_cache/item_619_november-10-1936.pdf,extracted_text_all/item_619_november-10-1936.txt,4227
+620,1176,"November 11, 1936","November 11, 1936",ok,1,730,pdf_cache/item_620_november-11-1936.pdf,extracted_text_all/item_620_november-11-1936.txt,4233
+621,1177,"November 12, 1936","November 12, 1936",ok,1,856,pdf_cache/item_621_november-12-1936.pdf,extracted_text_all/item_621_november-12-1936.txt,4245
+622,1178,"November 13, 1936","November 13, 1936",ok,3,3812,pdf_cache/item_622_november-13-1936.pdf,extracted_text_all/item_622_november-13-1936.txt,4299
+623,1179,"November 16, 1936","November 16, 1936",ok,9,11103,pdf_cache/item_623_november-16-1936.pdf,extracted_text_all/item_623_november-16-1936.txt,4446
+624,1180,"November 17, 1936","November 17, 1936",ok,4,4183,pdf_cache/item_624_november-17-1936.pdf,extracted_text_all/item_624_november-17-1936.txt,4508
+625,1181,"November 18, 1936","November 18, 1936",ok,2,2704,pdf_cache/item_625_november-18-1936.pdf,extracted_text_all/item_625_november-18-1936.txt,4540
+626,1182,"November 20, 1936","November 20, 1936",ok,7,8613,pdf_cache/item_626_november-20-1936.pdf,extracted_text_all/item_626_november-20-1936.txt,4640
+627,1183,"November 21, 1936","November 21, 1936",ok,3,3881,pdf_cache/item_627_november-21-1936.pdf,extracted_text_all/item_627_november-21-1936.txt,4686
+628,1184,"November 23, 1936","November 23, 1936",ok,5,5524,pdf_cache/item_628_november-23-1936.pdf,extracted_text_all/item_628_november-23-1936.txt,4753
+629,1185,"November 24, 1936","November 24, 1936",ok,4,5124,pdf_cache/item_629_november-24-1936.pdf,extracted_text_all/item_629_november-24-1936.txt,4808
+630,1186,"November 25, 1936","November 25, 1936",ok,5,6027,pdf_cache/item_630_november-25-1936.pdf,extracted_text_all/item_630_november-25-1936.txt,4874
+631,1187,"November 25, 1936","November 25, 1936",ok,2,795,pdf_cache/item_631_november-25-1936.pdf,extracted_text_all/item_631_november-25-1936.txt,4878
+632,1188,"November 26, 1936","November 26, 1936",ok,8,8943,pdf_cache/item_632_november-26-1936.pdf,extracted_text_all/item_632_november-26-1936.txt,4969
+633,1189,"November 27, 1936","November 27, 1936",ok,6,6642,pdf_cache/item_633_november-27-1936.pdf,extracted_text_all/item_633_november-27-1936.txt,5064
+634,1190,"November 30, 1936","November 30, 1936",ok,6,7949,pdf_cache/item_634_november-30-1936.pdf,extracted_text_all/item_634_november-30-1936.txt,5131
+635,1191,"November 30, 1936 (afternoon)","November 30, 1936",ok,3,3861,pdf_cache/item_635_november-30-1936-afternoon.pdf,extracted_text_all/item_635_november-30-1936-afternoon.txt,5180
+636,1192,"December 1, 1936: First Lecture on the History of the Theatre, Given by Miss Georgette Boner","December 1, 1936",ok,8,10267,pdf_cache/item_636_december-1-1936-first-lecture-on-the-history-of-the-theatre-given-by-miss-georgette-boner.pdf,extracted_text_all/item_636_december-1-1936-first-lecture-on-the-history-of-the-theatre-given-by-miss-georgette-boner.txt,5200
+637,1193,"December 2, 1936","December 2, 1936",ok,3,3434,pdf_cache/item_637_december-2-1936.pdf,extracted_text_all/item_637_december-2-1936.txt,5228
+638,1194,"December 3, 1936: The Theatre as a Building: Second Lecture Given by Miss Georgette Boner","December 3, 1936",ok,3,3162,pdf_cache/item_638_december-3-1936-the-theatre-as-a-building-second-lecture-given-by-miss-georgette-boner.pdf,extracted_text_all/item_638_december-3-1936-the-theatre-as-a-building-second-lecture-given-by-miss-georgette-boner.txt,5233
+639,1195,"December 4, 1936","December 4, 1936",ok,4,4640,pdf_cache/item_639_december-4-1936.pdf,extracted_text_all/item_639_december-4-1936.txt,5293
+640,1196,"December 5, 1936","December 5, 1936",ok,1,782,pdf_cache/item_640_december-5-1936.pdf,extracted_text_all/item_640_december-5-1936.txt,5301
+641,1197,"December 7, 1936: Miss Boner's lecture, ""The Theatre as A  Buillding,"" continued","December 7, 1936",ok,4,4149,pdf_cache/item_641_december-7-1936-miss-boner-s-lecture-the-theatre-as-a-buillding-continued.pdf,extracted_text_all/item_641_december-7-1936-miss-boner-s-lecture-the-theatre-as-a-buillding-continued.txt,5344
+642,1198,"December 8, 1936","December 8, 1936",ok,2,2421,pdf_cache/item_642_december-8-1936.pdf,extracted_text_all/item_642_december-8-1936.txt,5373
+643,1199,"December 9, 1936","December 9, 1936",ok,3,3289,pdf_cache/item_643_december-9-1936.pdf,extracted_text_all/item_643_december-9-1936.txt,5421
+644,1200,"December 10, 1936","December 10, 1936",ok,12,16164,pdf_cache/item_644_december-10-1936.pdf,extracted_text_all/item_644_december-10-1936.txt,5625
+645,1201,"December 10, 1936: Exploring our world of the theatre: The appointment of Beatrice Straight and Alan Harkness to the staff","December 10, 1936",ok,2,1579,pdf_cache/item_645_december-10-1936-exploring-our-world-of-the-theatre-the-appointment-of-beatrice-straight-a.pdf,extracted_text_all/item_645_december-10-1936-exploring-our-world-of-the-theatre-the-appointment-of-beatrice-straight-a.txt,5641
+646,1202,"December 11, 1936","December 11, 1936",ok,2,2517,pdf_cache/item_646_december-11-1936.pdf,extracted_text_all/item_646_december-11-1936.txt,5671
+647,1203,"December 12, 1936","December 12, 1936",ok,4,5082,pdf_cache/item_647_december-12-1936.pdf,extracted_text_all/item_647_december-12-1936.txt,5726
+648,1204,"December 14, 1936","December 15, 1936",ok,4,4650,pdf_cache/item_648_december-14-1936.pdf,extracted_text_all/item_648_december-14-1936.txt,5787
+649,1205,"December 15, 1936","December 15, 1936",ok,4,4455,pdf_cache/item_649_december-15-1936.pdf,extracted_text_all/item_649_december-15-1936.txt,5857
+650,1206,"December 16, 1936","December 16, 1936",ok,1,871,pdf_cache/item_650_december-16-1936.pdf,extracted_text_all/item_650_december-16-1936.txt,5869
+651,1207,"December 16, 1936: Evening lesson with Michael Chekhov, Alan, and Beatrice Straight for work on exercises to be given next term","December 16, 1936",ok,7,7080,pdf_cache/item_651_december-16-1936-evening-lesson-with-michael-chekhov-alan-and-beatrice-straight-for-work-o.pdf,extracted_text_all/item_651_december-16-1936-evening-lesson-with-michael-chekhov-alan-and-beatrice-straight-for-work-o.txt,5942
+652,1208,"January 14, 1937","January 14, 1937",ok,10,15062,pdf_cache/item_652_january-14-1937.pdf,extracted_text_all/item_652_january-14-1937.txt,6135
+653,1209,"January 16, 1937","January 16, 1937",ok,12,15646,pdf_cache/item_653_january-16-1937.pdf,extracted_text_all/item_653_january-16-1937.txt,6341
+654,1210,"January 18, 1937","January 18, 1937",ok,12,16431,pdf_cache/item_654_january-18-1937.pdf,extracted_text_all/item_654_january-18-1937.txt,6552
+655,1211,"January 18, 1937 (afternoon)","January 18, 1937",ok,4,4287,pdf_cache/item_655_january-18-1937-afternoon.pdf,extracted_text_all/item_655_january-18-1937-afternoon.txt,6613
+656,1212,"January 19, 1937","January 19, 1937",ok,15,19997,pdf_cache/item_656_january-19-1937.pdf,extracted_text_all/item_656_january-19-1937.txt,6875
+657,1216,"January 20, 1937","January 20, 1937",ok,2,2509,pdf_cache/item_657_january-20-1937.pdf,extracted_text_all/item_657_january-20-1937.txt,6910
+658,1217,"January 21, 1937","January 21, 1937",ok,2,2175,pdf_cache/item_658_january-21-1937.pdf,extracted_text_all/item_658_january-21-1937.txt,6944
+659,1218,"January 23, 1937","January 23, 1937",ok,11,14416,pdf_cache/item_659_january-23-1937.pdf,extracted_text_all/item_659_january-23-1937.txt,7133
+660,1219,"January 25, 1937","January 25, 1937",ok,11,14189,pdf_cache/item_660_january-25-1937.pdf,extracted_text_all/item_660_january-25-1937.txt,7302
+661,1220,"January 28, 1937","January 28, 1937",ok,6,7378,pdf_cache/item_661_january-28-1937.pdf,extracted_text_all/item_661_january-28-1937.txt,7403
+662,1221,"February 1, 1937","February 1, 1937",ok,8,10626,pdf_cache/item_662_february-1-1937.pdf,extracted_text_all/item_662_february-1-1937.txt,7562
+663,1222,"February 3, 1937","February 3, 1937",ok,5,6426,pdf_cache/item_663_february-3-1937.pdf,extracted_text_all/item_663_february-3-1937.txt,7647
+664,1223,"February 4, 1937","February 4, 1937",ok,8,10268,pdf_cache/item_664_february-4-1937.pdf,extracted_text_all/item_664_february-4-1937.txt,7786
+665,1224,"February 8, 1937","February 8, 1937",ok,7,9457,pdf_cache/item_665_february-8-1937.pdf,extracted_text_all/item_665_february-8-1937.txt,7908
+666,1225,"February 9, 1937","February 9, 1937",ok,7,8577,pdf_cache/item_666_february-9-1937.pdf,extracted_text_all/item_666_february-9-1937.txt,8027
+667,1226,"February 11, 1937","February 11, 1937",ok,14,19091,pdf_cache/item_667_february-11-1937.pdf,extracted_text_all/item_667_february-11-1937.txt,8267
+668,1227,"February 15, 1937","February 15, 1937",ok,5,6148,pdf_cache/item_668_february-15-1937.pdf,extracted_text_all/item_668_february-15-1937.txt,8355
+669,1228,"February 18, 1937","February 18, 1937",ok,10,12377,pdf_cache/item_669_february-18-1937.pdf,extracted_text_all/item_669_february-18-1937.txt,8521
+670,1229,"February 22, 1937","February 22, 1937",ok,3,3604,pdf_cache/item_670_february-22-1937.pdf,extracted_text_all/item_670_february-22-1937.txt,8572
+671,1230,"February 23, 1937","February 23, 1937",ok,4,5451,pdf_cache/item_671_february-23-1937.pdf,extracted_text_all/item_671_february-23-1937.txt,8641
+672,1231,"February 25, 1937: Performance of Sketches","February 25, 1937",ok,1,1352,pdf_cache/item_672_february-25-1937-performance-of-sketches.pdf,extracted_text_all/item_672_february-25-1937-performance-of-sketches.txt,8663
+673,1232,"March 2, 1937","March 2, 1937",ok,1,360,pdf_cache/item_673_march-2-1937.pdf,extracted_text_all/item_673_march-2-1937.txt,8669
+674,1233,"March 2, 1937","March 2, 1937",ok,2,1619,pdf_cache/item_674_march-2-1937.pdf,extracted_text_all/item_674_march-2-1937.txt,8699
+675,1234,"March 4, 1937","March 4, 1937",ok,2,2424,pdf_cache/item_675_march-4-1937.pdf,extracted_text_all/item_675_march-4-1937.txt,8740
+676,1255,"March 4, 1937: The fishing scene: Director's plan submitted for approval by Deirdre Hurst","March 4, 1937",ok,2,1374,pdf_cache/item_676_march-4-1937-the-fishing-scene-director-s-plan-submitted-for-approval-by-deirdre-hurst.pdf,extracted_text_all/item_676_march-4-1937-the-fishing-scene-director-s-plan-submitted-for-approval-by-deirdre-hurst.txt,8748
+677,1256,"March 9, 1937: Appraisal or evaluation of performance: The First Studio (Moscow Art Theatre Second)","March 9, 1937",ok,2,1853,pdf_cache/item_677_march-9-1937-appraisal-or-evaluation-of-performance-the-first-studio-moscow-art-theatre-se.pdf,extracted_text_all/item_677_march-9-1937-appraisal-or-evaluation-of-performance-the-first-studio-moscow-art-theatre-se.txt,8769
+678,1257,"March 12, 1937","March 12, 1937",ok,4,4971,pdf_cache/item_678_march-12-1937.pdf,extracted_text_all/item_678_march-12-1937.txt,8828
+679,1258,"March 16, 1937","March 16, 1937",ok,6,7472,pdf_cache/item_679_march-16-1937.pdf,extracted_text_all/item_679_march-16-1937.txt,8890
+680,1259,"March 16, 1937 (afternoon)","March 16, 1937",ok,45,60961,pdf_cache/item_680_march-16-1937-afternoon.pdf,extracted_text_all/item_680_march-16-1937-afternoon.txt,9433
+681,1260,"March 16, 1937: Colour and light","March 16, 1937",ok,7,12526,pdf_cache/item_681_march-16-1937-colour-and-light.pdf,extracted_text_all/item_681_march-16-1937-colour-and-light.txt,9452
+682,1261,"March 17, 1937","March 17, 1937",ok,16,16636,pdf_cache/item_682_march-17-1937.pdf,extracted_text_all/item_682_march-17-1937.txt,9461
+683,1262,"March 18, 1937","March 18, 1937",ok,4,4047,pdf_cache/item_683_march-18-1937.pdf,extracted_text_all/item_683_march-18-1937.txt,9461
+684,1263,"March 19, 1937: Advice for directors","March 19, 1937",ok,3,2230,pdf_cache/item_684_march-19-1937-advice-for-directors.pdf,extracted_text_all/item_684_march-19-1937-advice-for-directors.txt,9461
+685,1264,"March 24, 1937","March 24, 1937",ok,1,591,pdf_cache/item_685_march-24-1937.pdf,extracted_text_all/item_685_march-24-1937.txt,9461
+686,1265,"March 25, 1937","March 25, 1937",ok,2,1097,pdf_cache/item_686_march-25-1937.pdf,extracted_text_all/item_686_march-25-1937.txt,9461
+687,1266,"March 25, 1937","March 25, 1937",ok,1,434,pdf_cache/item_687_march-25-1937.pdf,extracted_text_all/item_687_march-25-1937.txt,9461
+688,1267,"March 26, 1937","March 28, 1937",ok,10,9610,pdf_cache/item_688_march-26-1937.pdf,extracted_text_all/item_688_march-26-1937.txt,9466
+689,1268,"March 29, 1937","March 29, 1937",ok,2,1220,pdf_cache/item_689_march-29-1937.pdf,extracted_text_all/item_689_march-29-1937.txt,9466
+690,1269,"March 30, 1937","March 30, 1937",ok,1,831,pdf_cache/item_690_march-30-1937.pdf,extracted_text_all/item_690_march-30-1937.txt,9469
+691,1270,"March 31, 1937","March 31, 1937",ok,8,8090,pdf_cache/item_691_march-31-1937.pdf,extracted_text_all/item_691_march-31-1937.txt,9475
+692,1271,"April 1, 1937","April 1, 1937",ok,3,2780,pdf_cache/item_692_april-1-1937.pdf,extracted_text_all/item_692_april-1-1937.txt,9477
+693,1272,"April 2, 1937","April 2, 1937",ok,14,13903,pdf_cache/item_693_april-2-1937.pdf,extracted_text_all/item_693_april-2-1937.txt,9481
+694,1273,"April 26, 1937","April 26, 1937",ok,12,11448,pdf_cache/item_694_april-26-1937.pdf,extracted_text_all/item_694_april-26-1937.txt,9487
+695,1274,"April 27, 1937","April 27, 1937",ok,12,11579,pdf_cache/item_695_april-27-1937.pdf,extracted_text_all/item_695_april-27-1937.txt,9490
+696,1275,"April 28, 1937","April 28, 1937",ok,9,9025,pdf_cache/item_696_april-28-1937.pdf,extracted_text_all/item_696_april-28-1937.txt,9493
+697,1276,"May 1, 1937","May 1, 1937",ok,7,7603,pdf_cache/item_697_may-1-1937.pdf,extracted_text_all/item_697_may-1-1937.txt,9502
+698,1277,"May 2, 1937","May 2, 1937",ok,3,2340,pdf_cache/item_698_may-2-1937.pdf,extracted_text_all/item_698_may-2-1937.txt,9502
+699,1278,"May 4, 1937","May 4, 1937",ok,6,8496,pdf_cache/item_699_may-4-1937.pdf,extracted_text_all/item_699_may-4-1937.txt,9575
+700,1279,"May 6, 1937","May 6, 1937",ok,8,10441,pdf_cache/item_700_may-6-1937.pdf,extracted_text_all/item_700_may-6-1937.txt,9689
+701,1280,"May 11, 1937","May 11, 1937",ok,3,4185,pdf_cache/item_701_may-11-1937.pdf,extracted_text_all/item_701_may-11-1937.txt,9735
+702,1281,"May 17, 1937","May 17, 1937",ok,3,3952,pdf_cache/item_702_may-17-1937.pdf,extracted_text_all/item_702_may-17-1937.txt,9788
+703,1282,"May 18, 1937","May 18, 1937",ok,3,3214,pdf_cache/item_703_may-18-1937.pdf,extracted_text_all/item_703_may-18-1937.txt,9788
+704,1283,"May 19, 1937","May 19, 1937",ok,2,1554,pdf_cache/item_704_may-19-1937.pdf,extracted_text_all/item_704_may-19-1937.txt,9788
+705,1284,"May 20, 1937","May 20, 1937",ok,7,6411,pdf_cache/item_705_may-20-1937.pdf,extracted_text_all/item_705_may-20-1937.txt,9788
+706,1285,"May 26, 1937","May 26, 1937",ok,3,2478,pdf_cache/item_706_may-26-1937.pdf,extracted_text_all/item_706_may-26-1937.txt,9788
+707,1286,"May 28, 1937","May 28, 1937",ok,4,4049,pdf_cache/item_707_may-28-1937.pdf,extracted_text_all/item_707_may-28-1937.txt,9788
+708,1287,"May 31, 1937","May 31, 1937",ok,1,582,pdf_cache/item_708_may-31-1937.pdf,extracted_text_all/item_708_may-31-1937.txt,9788
+709,1288,"June 1, 1937","June 1, 1937",ok,5,5156,pdf_cache/item_709_june-1-1937.pdf,extracted_text_all/item_709_june-1-1937.txt,9791
+710,1289,"June 3, 1937","June 3, 1937",ok,12,11886,pdf_cache/item_710_june-3-1937.pdf,extracted_text_all/item_710_june-3-1937.txt,9794
+711,1290,"June 3, 1937 (afternoon)","June 3, 1937",ok,4,3145,pdf_cache/item_711_june-3-1937-afternoon.pdf,extracted_text_all/item_711_june-3-1937-afternoon.txt,9797
+712,1291,"June 5, 1937","June 5, 1937",ok,6,6068,pdf_cache/item_712_june-5-1937.pdf,extracted_text_all/item_712_june-5-1937.txt,9800
+713,1292,"June 7, 1937","June 7, 1937",ok,1,666,pdf_cache/item_713_june-7-1937.pdf,extracted_text_all/item_713_june-7-1937.txt,9800
+714,1293,"June 8, 1937","June 8, 1937",ok,2,1954,pdf_cache/item_714_june-8-1937.pdf,extracted_text_all/item_714_june-8-1937.txt,9800
+715,1294,"June 9, 1937","June 9, 1937",ok,2,1292,pdf_cache/item_715_june-9-1937.pdf,extracted_text_all/item_715_june-9-1937.txt,9800
+716,1295,"June 10, 1937","June 10, 1937",ok,5,4309,pdf_cache/item_716_june-10-1937.pdf,extracted_text_all/item_716_june-10-1937.txt,9800
+717,1296,"June 11, 1937","June 11, 1937",ok,6,5880,pdf_cache/item_717_june-11-1937.pdf,extracted_text_all/item_717_june-11-1937.txt,9806
+718,1297,"June 12, 1937","June 12, 1937",ok,3,2123,pdf_cache/item_718_june-12-1937.pdf,extracted_text_all/item_718_june-12-1937.txt,9806
+719,1298,"June 14, 1937","June 14, 1937",ok,6,5419,pdf_cache/item_719_june-14-1937.pdf,extracted_text_all/item_719_june-14-1937.txt,9806
+720,1299,"June 15, 1937","June 15, 1937",ok,7,9292,pdf_cache/item_720_june-15-1937.pdf,extracted_text_all/item_720_june-15-1937.txt,9893
+721,1300,"June 16, 1937","June 16, 1937",ok,6,8223,pdf_cache/item_721_june-16-1937.pdf,extracted_text_all/item_721_june-16-1937.txt,9969
+722,1301,"June 17, 1937","June 17, 1937",ok,2,2535,pdf_cache/item_722_june-17-1937.pdf,extracted_text_all/item_722_june-17-1937.txt,9988
+723,1302,"June 18, 1937","June 18, 1937",ok,5,6065,pdf_cache/item_723_june-18-1937.pdf,extracted_text_all/item_723_june-18-1937.txt,10036
+724,1303,"June 21, 1937","June 21, 1937",ok,1,906,pdf_cache/item_724_june-21-1937.pdf,extracted_text_all/item_724_june-21-1937.txt,10046
+725,1304,"June 22, 1937","June 22, 1937",ok,5,5906,pdf_cache/item_725_june-22-1937.pdf,extracted_text_all/item_725_june-22-1937.txt,10092
+726,1305,"June 23, 1937","June 23, 1937",ok,9,11372,pdf_cache/item_726_june-23-1937.pdf,extracted_text_all/item_726_june-23-1937.txt,10203
+727,1306,"June 24, 1937","June 24, 1937",ok,3,2945,pdf_cache/item_727_june-24-1937.pdf,extracted_text_all/item_727_june-24-1937.txt,10249
+728,1307,"June 25, 1937","June 25, 1937",ok,4,5390,pdf_cache/item_728_june-25-1937.pdf,extracted_text_all/item_728_june-25-1937.txt,10315
+729,1308,"June 26, 1937","June 26, 1937",ok,2,2711,pdf_cache/item_729_june-26-1937.pdf,extracted_text_all/item_729_june-26-1937.txt,10350
+730,1309,"June 28, 1937","June 28, 1937",ok,3,3332,pdf_cache/item_730_june-28-1937.pdf,extracted_text_all/item_730_june-28-1937.txt,10397
+731,1310,"June 28, 1937 (afternoon)","June 28, 1937",ok,8,10607,pdf_cache/item_731_june-28-1937-afternoon.pdf,extracted_text_all/item_731_june-28-1937-afternoon.txt,10539
+732,1311,"June 29, 1937","June 29, 1937",ok,1,1301,pdf_cache/item_732_june-29-1937.pdf,extracted_text_all/item_732_june-29-1937.txt,10557
+733,1312,"June 29, 1937 (afternoon)","June 29, 1937",ok,2,1710,pdf_cache/item_733_june-29-1937-afternoon.pdf,extracted_text_all/item_733_june-29-1937-afternoon.txt,10576
+734,1313,"June 30, 1937","June 30, 1937",ok,1,382,pdf_cache/item_734_june-30-1937.pdf,extracted_text_all/item_734_june-30-1937.txt,10580
+735,1314,"June 30, 1937","June 30, 1937",ok,5,6780,pdf_cache/item_735_june-30-1937.pdf,extracted_text_all/item_735_june-30-1937.txt,10681
+736,1315,"July 1, 1937","July 1, 1937",ok,2,1966,pdf_cache/item_736_july-1-1937.pdf,extracted_text_all/item_736_july-1-1937.txt,10714
+737,1316,"July 2, 1937","July 2, 1937",ok,4,4516,pdf_cache/item_737_july-2-1937.pdf,extracted_text_all/item_737_july-2-1937.txt,10772
+738,1317,"July 3, 1937","July 3, 1937",ok,6,6909,pdf_cache/item_738_july-3-1937.pdf,extracted_text_all/item_738_july-3-1937.txt,10861
+739,1318,"July 7, 1937","July 7, 1937",ok,6,7648,pdf_cache/item_739_july-7-1937.pdf,extracted_text_all/item_739_july-7-1937.txt,10955
+740,1319,"July 8, 1937","July 8, 1937",ok,9,11465,pdf_cache/item_740_july-8-1937.pdf,extracted_text_all/item_740_july-8-1937.txt,11113
+741,1320,"July 12, 1937","July 12, 1937",ok,2,1313,pdf_cache/item_741_july-12-1937.pdf,extracted_text_all/item_741_july-12-1937.txt,11126
+742,1321,"July 13, 1937","July 13, 1937",ok,1,1204,pdf_cache/item_742_july-13-1937.pdf,extracted_text_all/item_742_july-13-1937.txt,11142
+743,1322,"July 14, 1937","July 14, 1937",ok,3,3604,pdf_cache/item_743_july-14-1937.pdf,extracted_text_all/item_743_july-14-1937.txt,11184
+744,1323,"July 15, 1937","July 15, 1937",ok,1,1333,pdf_cache/item_744_july-15-1937.pdf,extracted_text_all/item_744_july-15-1937.txt,11207
+745,1325,"July 17, 1937","July 17, 1937",ok,1,770,pdf_cache/item_745_july-17-1937.pdf,extracted_text_all/item_745_july-17-1937.txt,11218
+746,1324,"July 18, 1937","July 18, 1937",ok,41,51349,pdf_cache/item_746_july-18-1937.pdf,extracted_text_all/item_746_july-18-1937.txt,11827
+747,1326,"July 19, 1937: Mr. Chekhov's speech after the last performance","July 19, 1937",ok,1,1266,pdf_cache/item_747_july-19-1937-mr-chekhov-s-speech-after-the-last-performance.pdf,extracted_text_all/item_747_july-19-1937-mr-chekhov-s-speech-after-the-last-performance.txt,11840
+748,1327,"September 27, 1937","September 27, 1937",ok,15,21308,pdf_cache/item_748_september-27-1937.pdf,extracted_text_all/item_748_september-27-1937.txt,12066
+749,1328,"September 27, 1937 (afternoon)","September 27, 1937",ok,6,8241,pdf_cache/item_749_september-27-1937-afternoon.pdf,extracted_text_all/item_749_september-27-1937-afternoon.txt,12176
+750,1329,"September 28, 1937","September 28, 1937",ok,10,13459,pdf_cache/item_750_september-28-1937.pdf,extracted_text_all/item_750_september-28-1937.txt,12354
+751,1330,"September 29, 1937","September 29, 1937",ok,19,26182,pdf_cache/item_751_september-29-1937.pdf,extracted_text_all/item_751_september-29-1937.txt,12696
+752,1331,"September 30, 1937","September 30, 1937",ok,25,33571,pdf_cache/item_752_september-30-1937.pdf,extracted_text_all/item_752_september-30-1937.txt,13097
+753,1332,"October 1, 1937","October 1, 1937",ok,10,12945,pdf_cache/item_753_october-1-1937.pdf,extracted_text_all/item_753_october-1-1937.txt,13258
+754,1333,"October 2, 1937","October 2, 1937",ok,7,9194,pdf_cache/item_754_october-2-1937.pdf,extracted_text_all/item_754_october-2-1937.txt,13354
+755,1334,"October 4, 1937","October 4, 1937",ok,15,20063,pdf_cache/item_755_october-4-1937.pdf,extracted_text_all/item_755_october-4-1937.txt,13572
+756,1335,"October 6, 1937","October 6, 1937",ok,8,10475,pdf_cache/item_756_october-6-1937.pdf,extracted_text_all/item_756_october-6-1937.txt,13717
+757,1336,"October 7, 1937","October 7, 1937",ok,7,9238,pdf_cache/item_757_october-7-1937.pdf,extracted_text_all/item_757_october-7-1937.txt,13815
+758,8502,"October 8, 1937","October 8, 1937",ok,11,15577,pdf_cache/item_758_october-8-1937.pdf,extracted_text_all/item_758_october-8-1937.txt,13989
+759,1338,"October 9, 1937","October 9, 1937",ok,11,14931,pdf_cache/item_759_october-9-1937.pdf,extracted_text_all/item_759_october-9-1937.txt,14182
+760,1339,"October 11, 1937","October 11, 1937",ok,6,8133,pdf_cache/item_760_october-11-1937.pdf,extracted_text_all/item_760_october-11-1937.txt,14280
+761,1340,"October 12, 1937","October 12, 1937",ok,5,5544,pdf_cache/item_761_october-12-1937.pdf,extracted_text_all/item_761_october-12-1937.txt,14345
+762,1341,"October 14, 1937","October 14, 1937",ok,9,12382,pdf_cache/item_762_october-14-1937.pdf,extracted_text_all/item_762_october-14-1937.txt,14465
+763,1342,"October 15, 1937","October 15, 1937",ok,8,9926,pdf_cache/item_763_october-15-1937.pdf,extracted_text_all/item_763_october-15-1937.txt,14593
+764,1343,"October 16, 1937","October 16, 1937",ok,9,11105,pdf_cache/item_764_october-16-1937.pdf,extracted_text_all/item_764_october-16-1937.txt,14722
+765,1344,"October 18, 1937","October 18, 1937",ok,3,3359,pdf_cache/item_765_october-18-1937.pdf,extracted_text_all/item_765_october-18-1937.txt,14765
+766,1345,"October 19, 1937","October 19, 1937",ok,10,13063,pdf_cache/item_766_october-19-1937.pdf,extracted_text_all/item_766_october-19-1937.txt,14926
+767,1346,"October 20, 1937","October 20, 1937",ok,3,3696,pdf_cache/item_767_october-20-1937.pdf,extracted_text_all/item_767_october-20-1937.txt,14984
+768,1347,"October 21, 1937","October 21, 1937",ok,3,3615,pdf_cache/item_768_october-21-1937.pdf,extracted_text_all/item_768_october-21-1937.txt,15032
+769,1348,"October 22, 1937","October 22, 1937",ok,3,3465,pdf_cache/item_769_october-22-1937.pdf,extracted_text_all/item_769_october-22-1937.txt,15079
+770,8503,"October 25, 1937","October 25, 1937",ok,5,6261,pdf_cache/item_770_october-25-1937.pdf,extracted_text_all/item_770_october-25-1937.txt,15157
+771,1350,"October 27, 1937","October 27, 1937",ok,3,4244,pdf_cache/item_771_october-27-1937.pdf,extracted_text_all/item_771_october-27-1937.txt,15217
+772,1351,"October 28, 1937","October 28, 1937",ok,7,9943,pdf_cache/item_772_october-28-1937.pdf,extracted_text_all/item_772_october-28-1937.txt,15349
+773,1352,"October 29, 1937","October 29, 1937",ok,9,12049,pdf_cache/item_773_october-29-1937.pdf,extracted_text_all/item_773_october-29-1937.txt,15499
+774,1353,"October 30, 1937","October 30, 1937",ok,6,7497,pdf_cache/item_774_october-30-1937.pdf,extracted_text_all/item_774_october-30-1937.txt,15581
+775,1354,"November 1, 1937","November 1, 1937",ok,3,4065,pdf_cache/item_775_november-1-1937.pdf,extracted_text_all/item_775_november-1-1937.txt,15640
+776,1355,"November 2, 1937","November 2, 1937",ok,3,3513,pdf_cache/item_776_november-2-1937.pdf,extracted_text_all/item_776_november-2-1937.txt,15688
+777,1356,"November 5, 1937","November 5, 1937",ok,3,3967,pdf_cache/item_777_november-5-1937.pdf,extracted_text_all/item_777_november-5-1937.txt,15745
+778,1357,"November 6, 1937","November 6, 1937",ok,7,9053,pdf_cache/item_778_november-6-1937.pdf,extracted_text_all/item_778_november-6-1937.txt,15858
+779,1358,"November 11, 1937","November 11, 1937",ok,1,1357,pdf_cache/item_779_november-11-1937.pdf,extracted_text_all/item_779_november-11-1937.txt,15880
+780,1359,"November 12, 1937","November 12, 1937",ok,5,4370,pdf_cache/item_780_november-12-1937.pdf,extracted_text_all/item_780_november-12-1937.txt,15935
+781,1360,"November 12, 1937 (afternoon)","November 12, 1937",ok,4,4367,pdf_cache/item_781_november-12-1937-afternoon.pdf,extracted_text_all/item_781_november-12-1937-afternoon.txt,15986
+782,1361,"November 15, 1937","November 15, 1937",ok,6,7502,pdf_cache/item_782_november-15-1937.pdf,extracted_text_all/item_782_november-15-1937.txt,16077
+783,1362,"November 17, 1937","November 17, 1937",ok,3,3099,pdf_cache/item_783_november-17-1937.pdf,extracted_text_all/item_783_november-17-1937.txt,16119
+784,1363,"November 18, 1937","November 18, 1937",ok,7,8857,pdf_cache/item_784_november-18-1937.pdf,extracted_text_all/item_784_november-18-1937.txt,16235
+785,1364,"November 19, 1937","November 19, 1937",ok,6,6315,pdf_cache/item_785_november-19-1937.pdf,extracted_text_all/item_785_november-19-1937.txt,16311
+786,1365,"November 24, 1937","November 24, 1937",ok,14,19310,pdf_cache/item_786_november-24-1937.pdf,extracted_text_all/item_786_november-24-1937.txt,16547
+787,1366,"November 26, 1937","November 26, 1937",ok,11,14402,pdf_cache/item_787_november-26-1937.pdf,extracted_text_all/item_787_november-26-1937.txt,16707
+788,1367,"November 27, 1937","November 27, 1937",ok,3,3239,pdf_cache/item_788_november-27-1937.pdf,extracted_text_all/item_788_november-27-1937.txt,16755
+789,1368,"November 29, 1937","November 29, 1937",ok,8,10099,pdf_cache/item_789_november-29-1937.pdf,extracted_text_all/item_789_november-29-1937.txt,16885
+790,1369,"November 29, 1937 (afternoon)","November 29, 1937",ok,3,3761,pdf_cache/item_790_november-29-1937-afternoon.pdf,extracted_text_all/item_790_november-29-1937-afternoon.txt,16937
+791,1370,"December 3, 1937","December 3, 1937",ok,2,1696,pdf_cache/item_791_december-3-1937.pdf,extracted_text_all/item_791_december-3-1937.txt,16956
+792,1371,"December 4, 1937","December 4, 1937",ok,3,3612,pdf_cache/item_792_december-4-1937.pdf,extracted_text_all/item_792_december-4-1937.txt,16997
+793,1372,"December 6, 1937","December 6, 1937",ok,3,3737,pdf_cache/item_793_december-6-1937.pdf,extracted_text_all/item_793_december-6-1937.txt,17054
+794,1373,"December 6, 1937 (afternoon)","December 6, 1937",ok,4,4482,pdf_cache/item_794_december-6-1937-afternoon.pdf,extracted_text_all/item_794_december-6-1937-afternoon.txt,17109
+795,1374,"December 8, 1937","December 8, 1937",ok,2,2305,pdf_cache/item_795_december-8-1937.pdf,extracted_text_all/item_795_december-8-1937.txt,17146
+796,1375,"December 9, 1937","December 9, 1937",ok,4,5264,pdf_cache/item_796_december-9-1937.pdf,extracted_text_all/item_796_december-9-1937.txt,17208
+797,1376,"December 11, 1937","December 11, 1937",ok,10,13676,pdf_cache/item_797_december-11-1937.pdf,extracted_text_all/item_797_december-11-1937.txt,17367
+798,1377,"December 13, 1937","December 13, 1937",ok,11,14699,pdf_cache/item_798_december-13-1937.pdf,extracted_text_all/item_798_december-13-1937.txt,17562
+799,1378,"December 14, 1937","December 14, 1937",ok,13,19265,pdf_cache/item_799_december-14-1937.pdf,extracted_text_all/item_799_december-14-1937.txt,17814
+800,1379,"December 16, 1937","December 16, 1937",ok,9,12434,pdf_cache/item_800_december-16-1937.pdf,extracted_text_all/item_800_december-16-1937.txt,17965
+801,1380,"December 16, 1937 (afternoon)","December 16, 1937",ok,9,12837,pdf_cache/item_801_december-16-1937-afternoon.pdf,extracted_text_all/item_801_december-16-1937-afternoon.txt,18123
+802,1381,"January 16, 1938","January 16, 1938",ok,18,26231,pdf_cache/item_802_january-16-1938.pdf,extracted_text_all/item_802_january-16-1938.txt,18398
+803,1382,"January 16, 1938 (afternoon)","January 16, 1938",ok,13,18990,pdf_cache/item_803_january-16-1938-afternoon.pdf,extracted_text_all/item_803_january-16-1938-afternoon.txt,18650
+804,1383,"January 18, 1938","January 18, 1938",ok,10,13676,pdf_cache/item_804_january-18-1938.pdf,extracted_text_all/item_804_january-18-1938.txt,18795
+805,1384,"January 20, 1938","January 20, 1938",ok,5,5876,pdf_cache/item_805_january-20-1938.pdf,extracted_text_all/item_805_january-20-1938.txt,18864
+806,1396,"January 21, 1938","January 21, 1938",ok,9,11436,pdf_cache/item_806_january-21-1938.pdf,extracted_text_all/item_806_january-21-1938.txt,19009
+807,1397,"January 24, 1938","January 24, 1938",ok,8,9493,pdf_cache/item_807_january-24-1938.pdf,extracted_text_all/item_807_january-24-1938.txt,19118
+808,1398,"January 24, 1938 (afternoon)","January 24, 1938",ok,6,7984,pdf_cache/item_808_january-24-1938-afternoon.pdf,extracted_text_all/item_808_january-24-1938-afternoon.txt,19210
+809,1399,"January 25, 1938","January 25, 1938",ok,3,3212,pdf_cache/item_809_january-25-1938.pdf,extracted_text_all/item_809_january-25-1938.txt,19250
+810,1400,"January 25, 1938 (afternoon)","January 25, 1938",ok,5,6408,pdf_cache/item_810_january-25-1938-afternoon.pdf,extracted_text_all/item_810_january-25-1938-afternoon.txt,19345
+811,8504,"January 27, 1938","January 27, 1938",ok,13,17126,pdf_cache/item_811_january-27-1938.pdf,extracted_text_all/item_811_january-27-1938.txt,19531
+812,1403,"January 27, 1938 (afternoon)","January 27, 1938",ok,6,7840,pdf_cache/item_812_january-27-1938-afternoon.pdf,extracted_text_all/item_812_january-27-1938-afternoon.txt,19618
+813,1404,"January 28, 1938 (afternoon)","January 28, 1938",ok,10,13030,pdf_cache/item_813_january-28-1938-afternoon.pdf,extracted_text_all/item_813_january-28-1938-afternoon.txt,19789
+814,1405,"January 31, 1938 (afternoon)","January 31, 1938",ok,19,25301,pdf_cache/item_814_january-31-1938-afternoon.pdf,extracted_text_all/item_814_january-31-1938-afternoon.txt,20083
+815,1406,"February 1, 1938 (afternoon)","February 1, 1938",ok,7,8987,pdf_cache/item_815_february-1-1938-afternoon.pdf,extracted_text_all/item_815_february-1-1938-afternoon.txt,20187
+816,1407,"February 2, 1938","February 2, 1938",ok,7,8835,pdf_cache/item_816_february-2-1938.pdf,extracted_text_all/item_816_february-2-1938.txt,20276
+817,1408,"February 3, 1938","February 3, 1938",ok,7,8711,pdf_cache/item_817_february-3-1938.pdf,extracted_text_all/item_817_february-3-1938.txt,20406
+818,1409,"February 3, 1938 (afternoon)","February 3, 1938",ok,15,19129,pdf_cache/item_818_february-3-1938-afternoon.pdf,extracted_text_all/item_818_february-3-1938-afternoon.txt,20613
+819,1426,"February 4, 1938","February 4, 1938",ok,12,16849,pdf_cache/item_819_february-4-1938.pdf,extracted_text_all/item_819_february-4-1938.txt,20780
+820,1427,"February 7, 1938","February 7, 1938",ok,15,19988,pdf_cache/item_820_february-7-1938.pdf,extracted_text_all/item_820_february-7-1938.txt,21026
+821,1428,"February 7, 1938 (afternoon)","February 7, 1938",ok,4,4259,pdf_cache/item_821_february-7-1938-afternoon.pdf,extracted_text_all/item_821_february-7-1938-afternoon.txt,21078
+822,1429,"February 8, 1938","February 8, 1938",ok,6,6654,pdf_cache/item_822_february-8-1938.pdf,extracted_text_all/item_822_february-8-1938.txt,21180
+823,1430,"February 8, 1938 (afternoon)","February 8, 1938",ok,6,6982,pdf_cache/item_823_february-8-1938-afternoon.pdf,extracted_text_all/item_823_february-8-1938-afternoon.txt,21271
+824,1431,"February 10, 1938","February 10, 1938",ok,9,12454,pdf_cache/item_824_february-10-1938.pdf,extracted_text_all/item_824_february-10-1938.txt,21400
+825,1432,"February 11, 1938","February 11, 1938",ok,13,16204,pdf_cache/item_825_february-11-1938.pdf,extracted_text_all/item_825_february-11-1938.txt,21589
+826,1433,"February 11, 1938 (afternoon)","February 11, 1938",ok,6,6889,pdf_cache/item_826_february-11-1938-afternoon.pdf,extracted_text_all/item_826_february-11-1938-afternoon.txt,21664
+827,1434,"February 14, 1938","February 14, 1938",ok,22,28181,pdf_cache/item_827_february-14-1938.pdf,extracted_text_all/item_827_february-14-1938.txt,21991
+828,1435,"February 15, 1938","February 15, 1938",ok,6,8197,pdf_cache/item_828_february-15-1938.pdf,extracted_text_all/item_828_february-15-1938.txt,22088
+829,1436,"February 15, 1938 (afternoon)","February 15, 1938",ok,8,9450,pdf_cache/item_829_february-15-1938-afternoon.pdf,extracted_text_all/item_829_february-15-1938-afternoon.txt,22193
+830,1437,"February 17, 1938","February 17, 1938",ok,5,6355,pdf_cache/item_830_february-17-1938.pdf,extracted_text_all/item_830_february-17-1938.txt,22273
+831,1438,"February 18, 1938","February 18, 1938",ok,19,25451,pdf_cache/item_831_february-18-1938.pdf,extracted_text_all/item_831_february-18-1938.txt,22596
+832,1439,"February 21, 1938","February 21, 1938",ok,10,11865,pdf_cache/item_832_february-21-1938.pdf,extracted_text_all/item_832_february-21-1938.txt,22722
+833,1440,"February 21, 1938 (afternoon)","February 21, 1938",ok,4,4714,pdf_cache/item_833_february-21-1938-afternoon.pdf,extracted_text_all/item_833_february-21-1938-afternoon.txt,22764
+834,1441,"February 22, 1938 (morning)","February 22, 1938",ok,8,11960,pdf_cache/item_834_february-22-1938-morning.pdf,extracted_text_all/item_834_february-22-1938-morning.txt,22907
+835,1442,"February 22, 1938","February 22, 1938",ok,7,8631,pdf_cache/item_835_february-22-1938.pdf,extracted_text_all/item_835_february-22-1938.txt,23003
+836,1443,"February 24, 1938","February 24, 1938",ok,5,6134,pdf_cache/item_836_february-24-1938.pdf,extracted_text_all/item_836_february-24-1938.txt,23075
+837,1444,"February 25, 1938","February 25, 1938",ok,9,11206,pdf_cache/item_837_february-25-1938.pdf,extracted_text_all/item_837_february-25-1938.txt,23213
+838,1445,"February 25, 1938 (afternoon)","February 25, 1938",ok,9,10600,pdf_cache/item_838_february-25-1938-afternoon.pdf,extracted_text_all/item_838_february-25-1938-afternoon.txt,23338
+839,1446,"February 28, 1938","February 28, 1938",ok,2,2593,pdf_cache/item_839_february-28-1938.pdf,extracted_text_all/item_839_february-28-1938.txt,23373
+840,1447,"February 28, 1938 (afternoon)","February 28, 1938",ok,8,10294,pdf_cache/item_840_february-28-1938-afternoon.pdf,extracted_text_all/item_840_february-28-1938-afternoon.txt,23485
+841,1448,"March 1, 1938","March 1, 1938",ok,8,9915,pdf_cache/item_841_march-1-1938.pdf,extracted_text_all/item_841_march-1-1938.txt,23608
+842,1449,"March 2, 1938","March 2, 1938",ok,5,5379,pdf_cache/item_842_march-2-1938.pdf,extracted_text_all/item_842_march-2-1938.txt,23680
+843,1450,"March 3, 1938","March 3, 1938",ok,4,5254,pdf_cache/item_843_march-3-1938.pdf,extracted_text_all/item_843_march-3-1938.txt,23734
+844,1451,"March 4, 1938","March 4, 1938",ok,8,9363,pdf_cache/item_844_march-4-1938.pdf,extracted_text_all/item_844_march-4-1938.txt,23850
+845,1452,"March 4, 1938 (afternoon)","March 4, 1938",ok,8,11063,pdf_cache/item_845_march-4-1938-afternoon.pdf,extracted_text_all/item_845_march-4-1938-afternoon.txt,23962
+846,1453,"March 7, 1938","March 7, 1938",ok,5,5851,pdf_cache/item_846_march-7-1938.pdf,extracted_text_all/item_846_march-7-1938.txt,24040
+847,1454,"March 8, 1938","March 8, 1938",ok,8,10757,pdf_cache/item_847_march-8-1938.pdf,extracted_text_all/item_847_march-8-1938.txt,24176
+848,1455,"March 8, 1938 (afternoon)","March 8, 1938",ok,12,15920,pdf_cache/item_848_march-8-1938-afternoon.pdf,extracted_text_all/item_848_march-8-1938-afternoon.txt,24350
+849,1456,"March 10, 1938","March 10, 1938",ok,9,11223,pdf_cache/item_849_march-10-1938.pdf,extracted_text_all/item_849_march-10-1938.txt,24496
+850,1457,"March 11, 1938","March 11, 1938",ok,6,7229,pdf_cache/item_850_march-11-1938.pdf,extracted_text_all/item_850_march-11-1938.txt,24586
+851,1458,"March 11, 1938 (afternoon)","March 11, 1938",ok,4,5183,pdf_cache/item_851_march-11-1938-afternoon.pdf,extracted_text_all/item_851_march-11-1938-afternoon.txt,24652
+852,1459,"March 11, 1938 (afternoon)","March 11, 1938",ok,4,4462,pdf_cache/item_852_march-11-1938-afternoon.pdf,extracted_text_all/item_852_march-11-1938-afternoon.txt,24716
+853,1460,"March 14, 1938","March 14, 1938",ok,6,6710,pdf_cache/item_853_march-14-1938.pdf,extracted_text_all/item_853_march-14-1938.txt,24803
+854,1461,"March 14, 1938 (afternoon)","March 14, 1938",ok,5,5987,pdf_cache/item_854_march-14-1938-afternoon.pdf,extracted_text_all/item_854_march-14-1938-afternoon.txt,24893
+855,1462,"March 15, 1938","March 15, 1938",ok,6,7009,pdf_cache/item_855_march-15-1938.pdf,extracted_text_all/item_855_march-15-1938.txt,24991
+856,1463,"March 15, 1938 (afternoon)","March 15, 1938",ok,7,8272,pdf_cache/item_856_march-15-1938-afternoon.pdf,extracted_text_all/item_856_march-15-1938-afternoon.txt,25106
+857,1464,"March 16, 1938","March 16, 1938",ok,6,7465,pdf_cache/item_857_march-16-1938.pdf,extracted_text_all/item_857_march-16-1938.txt,25192
+858,1465,"March 16, 1938 (afternoon)","March 16, 1938",ok,1,1208,pdf_cache/item_858_march-16-1938-afternoon.pdf,extracted_text_all/item_858_march-16-1938-afternoon.txt,25210
+859,1466,"March 17, 1938","March 17, 1938",ok,7,8484,pdf_cache/item_859_march-17-1938.pdf,extracted_text_all/item_859_march-17-1938.txt,25319
+860,1467,"March 17, 1938 (afternoon)","March 17, 1938",ok,1,1035,pdf_cache/item_860_march-17-1938-afternoon.pdf,extracted_text_all/item_860_march-17-1938-afternoon.txt,25337
+861,1468,"March 18, 1938","March 18, 1938",ok,3,3504,pdf_cache/item_861_march-18-1938.pdf,extracted_text_all/item_861_march-18-1938.txt,25389
+862,1469,"March 18, 1938 (afternoon)","March 18, 1938",ok,12,16650,pdf_cache/item_862_march-18-1938-afternoon.pdf,extracted_text_all/item_862_march-18-1938-afternoon.txt,25543
+863,1470,"March 21, 1938","March 21, 1938",ok,11,15421,pdf_cache/item_863_march-21-1938.pdf,extracted_text_all/item_863_march-21-1938.txt,25720
+864,1471,"March 21, 1938 (afternoon)","March 21, 1938",ok,3,3662,pdf_cache/item_864_march-21-1938-afternoon.pdf,extracted_text_all/item_864_march-21-1938-afternoon.txt,25769
+865,1472,"March 22, 1938","March 22, 1938",ok,6,7773,pdf_cache/item_865_march-22-1938.pdf,extracted_text_all/item_865_march-22-1938.txt,25873
+866,1473,"March 28, 1938 (afternoon)","March 28, 1938",ok,32,44619,pdf_cache/item_866_march-28-1938-afternoon.pdf,extracted_text_all/item_866_march-28-1938-afternoon.txt,26309
+867,1474,"May 2, 1938 (morning)","May 2, 1938",ok,3,3993,pdf_cache/item_867_may-2-1938-morning.pdf,extracted_text_all/item_867_may-2-1938-morning.txt,26355
+868,1475,"May 2, 1938 (afternoon)","May 2, 1938",ok,6,8237,pdf_cache/item_868_may-2-1938-afternoon.pdf,extracted_text_all/item_868_may-2-1938-afternoon.txt,26432
+869,1476,"May 3, 1938 (afternoon)","May 3, 1938",ok,5,6315,pdf_cache/item_869_may-3-1938-afternoon.pdf,extracted_text_all/item_869_may-3-1938-afternoon.txt,26487
+870,1477,"May 6, 1938 (afternoon)","May 6, 1938",ok,5,6494,pdf_cache/item_870_may-6-1938-afternoon.pdf,extracted_text_all/item_870_may-6-1938-afternoon.txt,26553
+871,1478,"May 9, 1938","May 9, 1938",ok,5,6682,pdf_cache/item_871_may-9-1938.pdf,extracted_text_all/item_871_may-9-1938.txt,26634
+872,1479,"May 10, 1938 (morning)","May 10, 1938",ok,4,5271,pdf_cache/item_872_may-10-1938-morning.pdf,extracted_text_all/item_872_may-10-1938-morning.txt,26674
+873,1480,"May 10, 1938 (afternoon)","May 10, 1938",ok,10,14295,pdf_cache/item_873_may-10-1938-afternoon.pdf,extracted_text_all/item_873_may-10-1938-afternoon.txt,26820
+874,1481,"May 12, 1938","May 12, 1938",ok,5,6514,pdf_cache/item_874_may-12-1938.pdf,extracted_text_all/item_874_may-12-1938.txt,26891
+875,1482,"May 17, 1938","May 17, 1938",ok,2,2111,pdf_cache/item_875_may-17-1938.pdf,extracted_text_all/item_875_may-17-1938.txt,26916
+876,1483,"May 19, 1938","May 19, 1938",ok,2,1491,pdf_cache/item_876_may-19-1938.pdf,extracted_text_all/item_876_may-19-1938.txt,26933
+877,1484,"May 19, 1938 (afternoon)","May 19, 1938",ok,3,3890,pdf_cache/item_877_may-19-1938-afternoon.pdf,extracted_text_all/item_877_may-19-1938-afternoon.txt,26974
+878,1485,"May 21, 1938 (afternoon)","May 21, 1938",ok,9,12633,pdf_cache/item_878_may-21-1938-afternoon.pdf,extracted_text_all/item_878_may-21-1938-afternoon.txt,27080
+879,1486,"May 21, 1938 (afternoon)","May 22, 1938",ok,5,6746,pdf_cache/item_879_may-21-1938-afternoon.pdf,extracted_text_all/item_879_may-21-1938-afternoon.txt,27162
+880,1487,"May 25, 1938","May 26, 1938",ok,2,1590,pdf_cache/item_880_may-25-1938.pdf,extracted_text_all/item_880_may-25-1938.txt,27181
+881,1488,"May 27, 1938","May 27, 1938",ok,5,5779,pdf_cache/item_881_may-27-1938.pdf,extracted_text_all/item_881_may-27-1938.txt,27224
+882,1489,"May 30, 1938","May 30, 1938",ok,5,6452,pdf_cache/item_882_may-30-1938.pdf,extracted_text_all/item_882_may-30-1938.txt,27298
+883,1490,"June 2, 1938","June 2, 1938",ok,11,15121,pdf_cache/item_883_june-2-1938.pdf,extracted_text_all/item_883_june-2-1938.txt,27471
+884,1491,"June 6, 1938","June 6, 1938",ok,4,5279,pdf_cache/item_884_june-6-1938.pdf,extracted_text_all/item_884_june-6-1938.txt,27522
+885,1492,"June 7, 1938 (morning)","June 7, 1938",ok,6,8066,pdf_cache/item_885_june-7-1938-morning.pdf,extracted_text_all/item_885_june-7-1938-morning.txt,27631
+886,1493,"June 7, 1938 (afternoon)","June 7, 1938",ok,3,3018,pdf_cache/item_886_june-7-1938-afternoon.pdf,extracted_text_all/item_886_june-7-1938-afternoon.txt,27679
+887,1494,"June 8, 1938: Suggestions for an article about Michael Chekhov","June 8, 1938",ok,3,3333,pdf_cache/item_887_june-8-1938-suggestions-for-an-article-about-michael-chekhov.pdf,extracted_text_all/item_887_june-8-1938-suggestions-for-an-article-about-michael-chekhov.txt,27716
+888,1495,"June 9, 1938: The intellectual approach","June 9, 1938",ok,4,3870,pdf_cache/item_888_june-9-1938-the-intellectual-approach.pdf,extracted_text_all/item_888_june-9-1938-the-intellectual-approach.txt,27742
+889,1496,"June 10, 1938: Improvisation exercises given by Michael Chekhov at an audition","June 10, 1938",ok,1,1538,pdf_cache/item_889_june-10-1938-improvisation-exercises-given-by-michael-chekhov-at-an-audition.pdf,extracted_text_all/item_889_june-10-1938-improvisation-exercises-given-by-michael-chekhov-at-an-audition.txt,27756
+890,1497,"June 10, 1938","June 10, 1938",ok,1,822,pdf_cache/item_890_june-10-1938.pdf,extracted_text_all/item_890_june-10-1938.txt,27763
+891,1498,"June 13, 1938","June 13, 1938",ok,6,8051,pdf_cache/item_891_june-13-1938.pdf,extracted_text_all/item_891_june-13-1938.txt,27869
+892,1499,"June 14, 1938","June 14, 1938",ok,3,3553,pdf_cache/item_892_june-14-1938.pdf,extracted_text_all/item_892_june-14-1938.txt,27908
+893,1500,"June 19, 1938","June 19, 1938",ok,11,15478,pdf_cache/item_893_june-19-1938.pdf,extracted_text_all/item_893_june-19-1938.txt,28087
+894,1501,"June 24, 1938","June 24, 1938",ok,8,9223,pdf_cache/item_894_june-24-1938.pdf,extracted_text_all/item_894_june-24-1938.txt,28197
+895,1502,"June 27, 1938","June 27, 1938",ok,9,11086,pdf_cache/item_895_june-27-1938.pdf,extracted_text_all/item_895_june-27-1938.txt,28328
+896,1503,"June 27, 1938 (afternoon)","June 27, 1938",ok,6,8077,pdf_cache/item_896_june-27-1938-afternoon.pdf,extracted_text_all/item_896_june-27-1938-afternoon.txt,28426
+897,1522,"June 28, 1938","June 28, 1938",ok,10,14279,pdf_cache/item_897_june-28-1938.pdf,extracted_text_all/item_897_june-28-1938.txt,28584
+898,1523,"June 29, 1938: The role of the amateur","June 29, 1938",ok,2,1406,pdf_cache/item_898_june-29-1938-the-role-of-the-amateur.pdf,extracted_text_all/item_898_june-29-1938-the-role-of-the-amateur.txt,28598
+899,1524,"June 30, 1938","June 30, 1938",ok,3,2897,pdf_cache/item_899_june-30-1938.pdf,extracted_text_all/item_899_june-30-1938.txt,28631
+900,1525,"June 30, 1938","June 30, 1938",ok,1,568,pdf_cache/item_900_june-30-1938.pdf,extracted_text_all/item_900_june-30-1938.txt,28642
+901,1526,"July 1, 1938","July 1, 1938",ok,17,23511,pdf_cache/item_901_july-1-1938.pdf,extracted_text_all/item_901_july-1-1938.txt,28888
+902,1527,"July 4, 1938","July 4, 1938",ok,7,10144,pdf_cache/item_902_july-4-1938.pdf,extracted_text_all/item_902_july-4-1938.txt,28960
+903,1528,"July 11, 1938","July 11, 1938",ok,16,22218,pdf_cache/item_903_july-11-1938.pdf,extracted_text_all/item_903_july-11-1938.txt,29182
+904,1529,"July 14, 1938","July 14, 1938",ok,8,10715,pdf_cache/item_904_july-14-1938.pdf,extracted_text_all/item_904_july-14-1938.txt,29312
+905,1530,"July 15, 1938","July 15, 1938",ok,3,2759,pdf_cache/item_905_july-15-1938.pdf,extracted_text_all/item_905_july-15-1938.txt,29342
+906,1531,"July 16, 1938: The actor's nature","July 16, 1938",ok,1,826,pdf_cache/item_906_july-16-1938-the-actor-s-nature.pdf,extracted_text_all/item_906_july-16-1938-the-actor-s-nature.txt,29352
+907,1532,"July 20, 1938","July 20, 1938",ok,4,5886,pdf_cache/item_907_july-20-1938.pdf,extracted_text_all/item_907_july-20-1938.txt,29420
+908,1533,"July 21, 1938","July 21, 1938",ok,12,16379,pdf_cache/item_908_july-21-1938.pdf,extracted_text_all/item_908_july-21-1938.txt,29586
+909,1534,"October 3, 1938","October 3, 1938",ok,11,15446,pdf_cache/item_909_october-3-1938.pdf,extracted_text_all/item_909_october-3-1938.txt,29792
+910,1535,"October 3, 1938","October 3, 1938",ok,4,4831,pdf_cache/item_910_october-3-1938.pdf,extracted_text_all/item_910_october-3-1938.txt,29842
+911,1536,"October 5, 1938: Transform director's suggestion into actor's desire","October 5, 1938",ok,2,2573,pdf_cache/item_911_october-5-1938-transform-director-s-suggestion-into-actor-s-desire.pdf,extracted_text_all/item_911_october-5-1938-transform-director-s-suggestion-into-actor-s-desire.txt,29875
+912,1537,"October 7, 1938","October 7, 1938",ok,2,2197,pdf_cache/item_912_october-7-1938.pdf,extracted_text_all/item_912_october-7-1938.txt,29895
+913,1538,"October 11, 1938","October 11, 1938",ok,1,1508,pdf_cache/item_913_october-11-1938.pdf,extracted_text_all/item_913_october-11-1938.txt,29916
+914,1539,"October 14-15, 1938","October 14-15, 1938",ok,14,20272,pdf_cache/item_914_october-14-15-1938.pdf,extracted_text_all/item_914_october-14-15-1938.txt,30156
+915,1540,"October 18, 1938","October 18, 1938",ok,8,10820,pdf_cache/item_915_october-18-1938.pdf,extracted_text_all/item_915_october-18-1938.txt,30239
+916,1541,"October 28, 1938","October 28, 1938",ok,4,4830,pdf_cache/item_916_october-28-1938.pdf,extracted_text_all/item_916_october-28-1938.txt,30298
+917,1542,"October 31, 1938","October 31, 1938",ok,2,2210,pdf_cache/item_917_october-31-1938.pdf,extracted_text_all/item_917_october-31-1938.txt,30327
+918,1543,"November 3, 1938","November 3, 1938",ok,6,8404,pdf_cache/item_918_november-3-1938.pdf,extracted_text_all/item_918_november-3-1938.txt,30436
+919,1544,"November 3, 1938: Plans for the studio's life in Dartington and in America","November 3, 1938",ok,7,9239,pdf_cache/item_919_november-3-1938-plans-for-the-studio-s-life-in-dartington-and-in-america.pdf,extracted_text_all/item_919_november-3-1938-plans-for-the-studio-s-life-in-dartington-and-in-america.txt,30524
+920,1545,"November 3, 1938: Rehearsal suggestions for Spanish Evening and The Possessed","November 3, 1938",ok,3,4415,pdf_cache/item_920_november-3-1938-rehearsal-suggestions-for-spanish-evening-and-the-possessed.pdf,extracted_text_all/item_920_november-3-1938-rehearsal-suggestions-for-spanish-evening-and-the-possessed.txt,30577
+921,1546,"November 7, 1938","November 7, 1938",ok,12,17935,pdf_cache/item_921_november-7-1938.pdf,extracted_text_all/item_921_november-7-1938.txt,30790
+922,1547,"November 11, 1938","November 11, 1938",ok,4,5941,pdf_cache/item_922_november-11-1938.pdf,extracted_text_all/item_922_november-11-1938.txt,30878
+923,1548,"November 12, 1938","November 12, 1938",ok,1,1242,pdf_cache/item_923_november-12-1938.pdf,extracted_text_all/item_923_november-12-1938.txt,30899
+924,1549,"December 8, 1938","December 8, 1938",ok,2,2331,pdf_cache/item_924_december-8-1938.pdf,extracted_text_all/item_924_december-8-1938.txt,30927
+925,1550,"December 8, 1938: Rehearsal for final performance in theatre: Spanish Evening","December 8, 1938",ok,4,5786,pdf_cache/item_925_december-8-1938-rehearsal-for-final-performance-in-theatre-spanish-evening.pdf,extracted_text_all/item_925_december-8-1938-rehearsal-for-final-performance-in-theatre-spanish-evening.txt,31008
+926,1551,"January 16, 1939: The opening of the Chekhov Theatre Studio in Ridgefield, Connecticut","January 16, 1939",ok,29,38075,pdf_cache/item_926_january-16-1939-the-opening-of-the-chekhov-theatre-studio-in-ridgefield-connecticut.pdf,extracted_text_all/item_926_january-16-1939-the-opening-of-the-chekhov-theatre-studio-in-ridgefield-connecticut.txt,31444
+927,1552,"January 17, 1939","January 17, 1939",ok,4,5570,pdf_cache/item_927_january-17-1939.pdf,extracted_text_all/item_927_january-17-1939.txt,31522
+928,1553,"January 20, 1939","January 20, 1939",ok,4,5159,pdf_cache/item_928_january-20-1939.pdf,extracted_text_all/item_928_january-20-1939.txt,31589
+929,1554,"January 21, 1939","January 21, 1939",ok,2,1992,pdf_cache/item_929_january-21-1939.pdf,extracted_text_all/item_929_january-21-1939.txt,31615
+930,1555,"January 23, 1939","January 23, 1939",ok,4,5367,pdf_cache/item_930_january-23-1939.pdf,extracted_text_all/item_930_january-23-1939.txt,31691
+931,1556,"January 26, 1939","January 26, 1939",ok,4,4806,pdf_cache/item_931_january-26-1939.pdf,extracted_text_all/item_931_january-26-1939.txt,31764
+932,1557,"January 27, 1939","January 27, 1939",ok,4,4824,pdf_cache/item_932_january-27-1939.pdf,extracted_text_all/item_932_january-27-1939.txt,31832
+933,1558,"January 30, 1939","January 30, 1939",ok,9,11998,pdf_cache/item_933_january-30-1939.pdf,extracted_text_all/item_933_january-30-1939.txt,31983
+934,1559,"February 2, 1939","February 2, 1939",ok,5,5759,pdf_cache/item_934_february-2-1939.pdf,extracted_text_all/item_934_february-2-1939.txt,32043
+935,1560,"February 3, 1939","February 3, 1939",ok,5,5418,pdf_cache/item_935_february-3-1939.pdf,extracted_text_all/item_935_february-3-1939.txt,32106
+936,1561,"February 6, 1939","February 6, 1939",ok,3,2901,pdf_cache/item_936_february-6-1939.pdf,extracted_text_all/item_936_february-6-1939.txt,32140
+937,1562,"February 9, 1939","February 9, 1939",ok,10,13960,pdf_cache/item_937_february-9-1939.pdf,extracted_text_all/item_937_february-9-1939.txt,32302
+938,1563,"February 11, 1939","February 11, 1939",ok,4,4438,pdf_cache/item_938_february-11-1939.pdf,extracted_text_all/item_938_february-11-1939.txt,32342
+939,1564,"February 15, 1939","February 15, 1939",ok,7,9044,pdf_cache/item_939_february-15-1939.pdf,extracted_text_all/item_939_february-15-1939.txt,32437
+940,1565,"February 18, 1939","February 18, 1939",ok,5,6393,pdf_cache/item_940_february-18-1939.pdf,extracted_text_all/item_940_february-18-1939.txt,32503
+941,1566,"February 21, 1939","February 21, 1939",ok,7,9331,pdf_cache/item_941_february-21-1939.pdf,extracted_text_all/item_941_february-21-1939.txt,32597
+942,1567,"February 28, 1939","February 28, 1939",ok,4,4699,pdf_cache/item_942_february-28-1939.pdf,extracted_text_all/item_942_february-28-1939.txt,32642
+943,1568,"March 1, 1939","March 1, 1939",ok,9,12810,pdf_cache/item_943_march-1-1939.pdf,extracted_text_all/item_943_march-1-1939.txt,32771
+944,1569,"March 7, 1939","March 7, 1939",ok,7,8822,pdf_cache/item_944_march-7-1939.pdf,extracted_text_all/item_944_march-7-1939.txt,32869
+945,1570,"March 10, 1939","March 11, 1939",ok,11,14947,pdf_cache/item_945_march-10-1939.pdf,extracted_text_all/item_945_march-10-1939.txt,33027
+946,1571,"March 16, 1939","March 16, 1939",ok,2,2389,pdf_cache/item_946_march-16-1939.pdf,extracted_text_all/item_946_march-16-1939.txt,33049
+947,1572,"March 20, 1939","March 20, 1939",ok,2,1827,pdf_cache/item_947_march-20-1939.pdf,extracted_text_all/item_947_march-20-1939.txt,33069
+948,1573,"March 20, 1939 (afternoon)","March 20, 1939",ok,2,1572,pdf_cache/item_948_march-20-1939-afternoon.pdf,extracted_text_all/item_948_march-20-1939-afternoon.txt,33078
+949,1574,"March 22, 1939","March 22, 1939",ok,4,5429,pdf_cache/item_949_march-22-1939.pdf,extracted_text_all/item_949_march-22-1939.txt,33128
+950,1575,"April 5, 1939","April 5, 1939",ok,11,14951,pdf_cache/item_950_april-5-1939.pdf,extracted_text_all/item_950_april-5-1939.txt,33278
+951,1576,"April 12, 1939","April 12, 1939",ok,2,1830,pdf_cache/item_951_april-12-1939.pdf,extracted_text_all/item_951_april-12-1939.txt,33298
+952,1577,"April 18, 1939","April 18, 1939",ok,5,5718,pdf_cache/item_952_april-18-1939.pdf,extracted_text_all/item_952_april-18-1939.txt,33349
+953,1578,"May 1, 1939","May 1, 1939",ok,2,2453,pdf_cache/item_953_may-1-1939.pdf,extracted_text_all/item_953_may-1-1939.txt,33373
+954,1579,"May 2, 1939","May 2, 1939",ok,11,13653,pdf_cache/item_954_may-2-1939.pdf,extracted_text_all/item_954_may-2-1939.txt,33502
+955,1580,"May 18, 1939","May 18, 1939",ok,8,10387,pdf_cache/item_955_may-18-1939.pdf,extracted_text_all/item_955_may-18-1939.txt,33638
+956,1581,"May 18, 1939","May 18, 1939",ok,6,7856,pdf_cache/item_956_may-18-1939.pdf,extracted_text_all/item_956_may-18-1939.txt,33723
+957,1582,"May 22, 1939","May 22, 1939",ok,2,2060,pdf_cache/item_957_may-22-1939.pdf,extracted_text_all/item_957_may-22-1939.txt,33742
+958,1583,"May 26, 1939","May 26, 1939",ok,8,9649,pdf_cache/item_958_may-26-1939.pdf,extracted_text_all/item_958_may-26-1939.txt,33847
+959,1584,"June 7, 1939","June 7, 1939",ok,2,2610,pdf_cache/item_959_june-7-1939.pdf,extracted_text_all/item_959_june-7-1939.txt,33876
+960,1585,"June 8, 1939","June 8, 1939",ok,14,20191,pdf_cache/item_960_june-8-1939.pdf,extracted_text_all/item_960_june-8-1939.txt,34102
+961,1586,"June 9, 1939","June 9, 1939",ok,8,10146,pdf_cache/item_961_june-9-1939.pdf,extracted_text_all/item_961_june-9-1939.txt,34203
+962,1587,"June 16, 1939","June 16, 1939",ok,5,6413,pdf_cache/item_962_june-16-1939.pdf,extracted_text_all/item_962_june-16-1939.txt,34270
+963,1588,"June 23, 1939","June 23, 1939",ok,12,15001,pdf_cache/item_963_june-23-1939.pdf,extracted_text_all/item_963_june-23-1939.txt,34443
+964,1589,"June 29, 1939","June 29, 1939",ok,5,6123,pdf_cache/item_964_june-29-1939.pdf,extracted_text_all/item_964_june-29-1939.txt,34489
+965,1590,"June 29, 1939: Suggestions for style for Pickwick","June 29, 1939",ok,2,2247,pdf_cache/item_965_june-29-1939-suggestions-for-style-for-pickwick.pdf,extracted_text_all/item_965_june-29-1939-suggestions-for-style-for-pickwick.txt,34516
+966,1591,"June 29, 1939: The Adventures Of Samuel Pickwick, Esq.","June 29, 1939",ok,5,4782,pdf_cache/item_966_june-29-1939-the-adventures-of-samuel-pickwick-esq.pdf,extracted_text_all/item_966_june-29-1939-the-adventures-of-samuel-pickwick-esq.txt,34545
+967,1592,"June 30, 1939","June 30, 1939",ok,5,6951,pdf_cache/item_967_june-30-1939.pdf,extracted_text_all/item_967_june-30-1939.txt,34614
+968,1593,"July, 1939","July, 1939",ok,2,1972,pdf_cache/item_968_july-1939.pdf,extracted_text_all/item_968_july-1939.txt,34631
+969,1594,"July, 1939","July, 1939",ok,7,9516,pdf_cache/item_969_july-1939.pdf,extracted_text_all/item_969_july-1939.txt,34758
+970,1595,"July, 1939","July, 1939",ok,5,6731,pdf_cache/item_970_july-1939.pdf,extracted_text_all/item_970_july-1939.txt,34838
+971,1596,"July, 1939","July, 1939",ok,5,6663,pdf_cache/item_971_july-1939.pdf,extracted_text_all/item_971_july-1939.txt,34920
+972,1597,"July, 1939","July, 1939",ok,5,6981,pdf_cache/item_972_july-1939.pdf,extracted_text_all/item_972_july-1939.txt,34982
+973,1598,"July, 1939","July, 1939",ok,1,741,pdf_cache/item_973_july-1939.pdf,extracted_text_all/item_973_july-1939.txt,34992
+974,1599,"July 7, 1939","July, 1939",ok,10,13003,pdf_cache/item_974_july-7-1939.pdf,extracted_text_all/item_974_july-7-1939.txt,35139
+975,1601,"July 11, 1939","July 11, 1939",ok,5,6023,pdf_cache/item_975_july-11-1939.pdf,extracted_text_all/item_975_july-11-1939.txt,35213
+976,1604,"July 14, 1939","July 14, 1939",ok,10,12316,pdf_cache/item_976_july-14-1939.pdf,extracted_text_all/item_976_july-14-1939.txt,35372
+977,1605,"July 17, 1939: Adventure of Samuel Pickwick, Esq.","July 17, 1939",ok,5,6711,pdf_cache/item_977_july-17-1939-adventure-of-samuel-pickwick-esq.pdf,extracted_text_all/item_977_july-17-1939-adventure-of-samuel-pickwick-esq.txt,35422
+978,1606,"July 18, 1939","July 18, 1939",ok,10,13597,pdf_cache/item_978_july-18-1939.pdf,extracted_text_all/item_978_july-18-1939.txt,35547
+979,1607,"July 21, 1939","July 21, 1939",ok,6,7190,pdf_cache/item_979_july-21-1939.pdf,extracted_text_all/item_979_july-21-1939.txt,35640
+980,1608,"July 25, 1939","July 25, 1939",ok,4,4620,pdf_cache/item_980_july-25-1939.pdf,extracted_text_all/item_980_july-25-1939.txt,35714
+981,1609,"July 29, 1939","July 29, 1939",ok,7,7632,pdf_cache/item_981_july-29-1939.pdf,extracted_text_all/item_981_july-29-1939.txt,35791
+982,1610,"August 2, 1939","August 2, 1939",ok,2,2110,pdf_cache/item_982_august-2-1939.pdf,extracted_text_all/item_982_august-2-1939.txt,35808
+983,1611,"August 14, 1939","August 14, 1939",ok,8,11358,pdf_cache/item_983_august-14-1939.pdf,extracted_text_all/item_983_august-14-1939.txt,35928
+984,1616,"August 16, 1939","August 16, 1939",ok,4,5245,pdf_cache/item_984_august-16-1939.pdf,extracted_text_all/item_984_august-16-1939.txt,35990
+985,1617,"August 18, 1939","August 18, 1939",ok,7,8953,pdf_cache/item_985_august-18-1939.pdf,extracted_text_all/item_985_august-18-1939.txt,36096
+986,1618,"August 19, 1939","August 19, 1939",ok,3,3327,pdf_cache/item_986_august-19-1939.pdf,extracted_text_all/item_986_august-19-1939.txt,36101
+987,1619,"August 20, 1939","August 20, 1939",ok,3,3768,pdf_cache/item_987_august-20-1939.pdf,extracted_text_all/item_987_august-20-1939.txt,36134
+988,1620,"August 21, 1939","August 21, 1939",ok,10,13348,pdf_cache/item_988_august-21-1939.pdf,extracted_text_all/item_988_august-21-1939.txt,36277
+989,1621,"August 22, 1939","August 22, 1939",ok,12,16721,pdf_cache/item_989_august-22-1939.pdf,extracted_text_all/item_989_august-22-1939.txt,36438
+990,1622,"August 30, 1939","August 30, 1939",ok,11,14401,pdf_cache/item_990_august-30-1939.pdf,extracted_text_all/item_990_august-30-1939.txt,36554
+991,1623,"August 31, 1939","August 31, 1939",ok,1,516,pdf_cache/item_991_august-31-1939.pdf,extracted_text_all/item_991_august-31-1939.txt,36559
+992,1624,"August, 1939: Discussion between Michael Chekhov and Dorothy Elmhirst: ""What is the role of the theatre in life?""","August, 1939",ok,13,20199,pdf_cache/item_992_august-1939-discussion-between-michael-chekhov-and-dorothy-elmhirst-what-is-the-role-of-th.pdf,extracted_text_all/item_992_august-1939-discussion-between-michael-chekhov-and-dorothy-elmhirst-what-is-the-role-of-th.txt,36775
+993,1625,"September, 1939: The Possessed by Dostoyevsky: The historical background and some of the ideas underlying the play as described by Eugene Somoff","September, 1939",ok,7,9264,pdf_cache/item_993_september-1939-the-possessed-by-dostoyevsky-the-historical-background-and-some-of-the-idea.pdf,extracted_text_all/item_993_september-1939-the-possessed-by-dostoyevsky-the-historical-background-and-some-of-the-idea.txt,36778
+994,1626,"September 1, 1939","September 1, 1939",ok,2,1813,pdf_cache/item_994_september-1-1939.pdf,extracted_text_all/item_994_september-1-1939.txt,36797
+995,1627,"September 5, 1939","September 5, 1939",ok,10,13340,pdf_cache/item_995_september-5-1939.pdf,extracted_text_all/item_995_september-5-1939.txt,36945
+996,1628,"September 6, 1939","September 6, 1939",ok,2,2149,pdf_cache/item_996_september-6-1939.pdf,extracted_text_all/item_996_september-6-1939.txt,36960
+997,1629,"September 7, 1939","September 7, 1939",ok,2,1353,pdf_cache/item_997_september-7-1939.pdf,extracted_text_all/item_997_september-7-1939.txt,36970
+998,1630,"September 11, 1939","September 11, 1939",ok,2,1441,pdf_cache/item_998_september-11-1939.pdf,extracted_text_all/item_998_september-11-1939.txt,36986
+999,1631,"September 13, 1939","September 13, 1939",ok,1,1286,pdf_cache/item_999_september-13-1939.pdf,extracted_text_all/item_999_september-13-1939.txt,37000
+1000,1632,"September 15, 1939","September 15, 1939",ok,4,5696,pdf_cache/item_1000_september-15-1939.pdf,extracted_text_all/item_1000_september-15-1939.txt,37071
+1001,1633,"September 20, 1939","September 20, 1939",ok,7,9716,pdf_cache/item_1001_september-20-1939.pdf,extracted_text_all/item_1001_september-20-1939.txt,37181
+1002,1634,"September 22, 1939","September 22, 1939",ok,12,17298,pdf_cache/item_1002_september-22-1939.pdf,extracted_text_all/item_1002_september-22-1939.txt,37302
+1003,1635,"September 24, 1939","September 24, 1939",ok,4,5406,pdf_cache/item_1003_september-24-1939.pdf,extracted_text_all/item_1003_september-24-1939.txt,37357
+1004,1636,"September 25, 1939","September 25, 1939",ok,2,2305,pdf_cache/item_1004_september-25-1939.pdf,extracted_text_all/item_1004_september-25-1939.txt,37376
+1005,1637,"September 25, 1939","September 25, 1939",ok,15,21610,pdf_cache/item_1005_september-25-1939.pdf,extracted_text_all/item_1005_september-25-1939.txt,37597
+1006,1638,"September 26, 1939","September 26, 1939",ok,4,5398,pdf_cache/item_1006_september-26-1939.pdf,extracted_text_all/item_1006_september-26-1939.txt,37655
+1007,1639,"October 2, 1939","October 2, 1939",ok,14,19333,pdf_cache/item_1007_october-2-1939.pdf,extracted_text_all/item_1007_october-2-1939.txt,37853
+1008,1640,"October 2, 1939","October 2, 1939",ok,9,12240,pdf_cache/item_1008_october-2-1939.pdf,extracted_text_all/item_1008_october-2-1939.txt,37994
+1009,1641,"October 5, 1939","October 5, 1939",ok,16,22105,pdf_cache/item_1009_october-5-1939.pdf,extracted_text_all/item_1009_october-5-1939.txt,38235
+1010,1642,"October 5, 1939: Graduation of six students -- Recipients of actor's diplomas and teacher's certificates","October 5, 1939",ok,5,7033,pdf_cache/item_1010_october-5-1939-graduation-of-six-students-recipients-of-actor-s-diplomas-and-teacher-s-cer.pdf,extracted_text_all/item_1010_october-5-1939-graduation-of-six-students-recipients-of-actor-s-diplomas-and-teacher-s-cer.txt,38279
+1011,1643,"November 1, 1939","November 1, 1939",ok,5,5905,pdf_cache/item_1011_november-1-1939.pdf,extracted_text_all/item_1011_november-1-1939.txt,38356
+1012,1644,"November 1, 1939: Interview with the Christian Science Monitor","November 1, 1939",ok,5,5744,pdf_cache/item_1012_november-1-1939-interview-with-the-christian-science-monitor.pdf,extracted_text_all/item_1012_november-1-1939-interview-with-the-christian-science-monitor.txt,38401
+1013,1645,"November 13, 1939","November 13, 1939",ok,9,11637,pdf_cache/item_1013_november-13-1939.pdf,extracted_text_all/item_1013_november-13-1939.txt,38541
+1014,1646,"November 15, 1939","November 15, 1939",ok,6,7480,pdf_cache/item_1014_november-15-1939.pdf,extracted_text_all/item_1014_november-15-1939.txt,38616
+1015,1647,"November 17, 1939: Meeting with members of the group","November 17, 1939",ok,8,11146,pdf_cache/item_1015_november-17-1939-meeting-with-members-of-the-group.pdf,extracted_text_all/item_1015_november-17-1939-meeting-with-members-of-the-group.txt,38735
+1016,1648,"November 30, 1939: Fairy Tale - The Mother - from H. C.  Anderson","November 30, 1939",ok,2,2966,pdf_cache/item_1016_november-30-1939-fairy-tale-the-mother-from-h-c-anderson.pdf,extracted_text_all/item_1016_november-30-1939-fairy-tale-the-mother-from-h-c-anderson.txt,38767
+1017,1649,"December 8, 1939","December 8, 1939",ok,11,14909,pdf_cache/item_1017_december-8-1939.pdf,extracted_text_all/item_1017_december-8-1939.txt,38904
+1018,1650,"December 10, 1939","December 10, 1939",ok,5,6493,pdf_cache/item_1018_december-10-1939.pdf,extracted_text_all/item_1018_december-10-1939.txt,38971
+1019,1651,"December 15, 1939: Criticism of new students' scenes","December 15, 1939",ok,6,8097,pdf_cache/item_1019_december-15-1939-criticism-of-new-students-scenes.pdf,extracted_text_all/item_1019_december-15-1939-criticism-of-new-students-scenes.txt,39047
+1020,1652,"January 4, 1940","January 4, 1940",ok,2,1753,pdf_cache/item_1020_january-4-1940.pdf,extracted_text_all/item_1020_january-4-1940.txt,39066
+1021,1653,"January 12, 1940","January 12, 1940",ok,1,770,pdf_cache/item_1021_january-12-1940.pdf,extracted_text_all/item_1021_january-12-1940.txt,39073
+1022,1654,"January 25, 1940","January 25, 1940",ok,8,11063,pdf_cache/item_1022_january-25-1940.pdf,extracted_text_all/item_1022_january-25-1940.txt,39215
+1023,1655,"January 26, 1940","January 26, 1940",ok,1,708,pdf_cache/item_1023_january-26-1940.pdf,extracted_text_all/item_1023_january-26-1940.txt,39226
+1024,1656,"January 29, 1940","January 29, 1940",ok,10,13234,pdf_cache/item_1024_january-29-1940.pdf,extracted_text_all/item_1024_january-29-1940.txt,39359
+1025,1657,"January 31, 1940: The Mother: A fairly tale based on a theme by Hans Christian Andersen","January 31, 1940",ok,10,15911,pdf_cache/item_1025_january-31-1940-the-mother-a-fairly-tale-based-on-a-theme-by-hans-christian-andersen.pdf,extracted_text_all/item_1025_january-31-1940-the-mother-a-fairly-tale-based-on-a-theme-by-hans-christian-andersen.txt,39488
+1026,1658,"January 31, 1940: The Mother: A fairy tale play - by Michael Chekhov","January 31, 1940",ok,2,2876,pdf_cache/item_1026_january-31-1940-the-mother-a-fairy-tale-play-by-michael-chekhov.pdf,extracted_text_all/item_1026_january-31-1940-the-mother-a-fairy-tale-play-by-michael-chekhov.txt,39499
+1027,1659,"February 1, 1940","February 1, 1940",ok,6,8943,pdf_cache/item_1027_february-1-1940.pdf,extracted_text_all/item_1027_february-1-1940.txt,39585
+1028,1660,"February 2, 1940","February 2, 1940",ok,8,10747,pdf_cache/item_1028_february-2-1940.pdf,extracted_text_all/item_1028_february-2-1940.txt,39684
+1029,1661,"February 5, 1940","February 5, 1940",ok,12,15938,pdf_cache/item_1029_february-5-1940.pdf,extracted_text_all/item_1029_february-5-1940.txt,39855
+1030,1662,"February 5, 1940 (afternoon)","February 5, 1940",ok,10,15179,pdf_cache/item_1030_february-5-1940-afternoon.pdf,extracted_text_all/item_1030_february-5-1940-afternoon.txt,39987
+1031,1663,"February 7, 1940","February 7, 1940",ok,7,9898,pdf_cache/item_1031_february-7-1940.pdf,extracted_text_all/item_1031_february-7-1940.txt,40058
+1032,1664,"February 7, 1940 (afternoon)","February 7, 1940",ok,3,3525,pdf_cache/item_1032_february-7-1940-afternoon.pdf,extracted_text_all/item_1032_february-7-1940-afternoon.txt,40100
+1033,1665,"February 8, 1940","February 8, 1940",ok,3,3803,pdf_cache/item_1033_february-8-1940.pdf,extracted_text_all/item_1033_february-8-1940.txt,40128
+1034,1666,"February 13, 1940","February 13, 1940",ok,3,3914,pdf_cache/item_1034_february-13-1940.pdf,extracted_text_all/item_1034_february-13-1940.txt,40169
+1035,1667,"February 20, 1940","February 20, 1940",ok,17,24139,pdf_cache/item_1035_february-20-1940.pdf,extracted_text_all/item_1035_february-20-1940.txt,40451
+1036,1668,"February 23, 1940","February 23, 1940",ok,2,2689,pdf_cache/item_1036_february-23-1940.pdf,extracted_text_all/item_1036_february-23-1940.txt,40484
+1037,1669,"February 26, 1940","February 26, 1940",ok,5,7027,pdf_cache/item_1037_february-26-1940.pdf,extracted_text_all/item_1037_february-26-1940.txt,40576
+1038,1670,"February 29, 1940","February 29, 1940",ok,2,2207,pdf_cache/item_1038_february-29-1940.pdf,extracted_text_all/item_1038_february-29-1940.txt,40609
+1039,1671,"March 16, 1940","March 16, 1940",ok,3,3365,pdf_cache/item_1039_march-16-1940.pdf,extracted_text_all/item_1039_march-16-1940.txt,40628
+1040,1672,"March 27, 1940","March 27, 1940",ok,13,18487,pdf_cache/item_1040_march-27-1940.pdf,extracted_text_all/item_1040_march-27-1940.txt,40840
+1041,1673,"April 8, 1940","April 8, 1940",ok,6,7609,pdf_cache/item_1041_april-8-1940.pdf,extracted_text_all/item_1041_april-8-1940.txt,40932
+1042,1674,"April 9, 1940","April 9, 1940",ok,2,2671,pdf_cache/item_1042_april-9-1940.pdf,extracted_text_all/item_1042_april-9-1940.txt,40958
+1043,1675,"April 23, 1940","April 23, 1940",ok,3,4168,pdf_cache/item_1043_april-23-1940.pdf,extracted_text_all/item_1043_april-23-1940.txt,40989
+1044,1676,"June 8, 1940: Meeting with all students","June 8, 1940",ok,8,11628,pdf_cache/item_1044_june-8-1940-meeting-with-all-students.pdf,extracted_text_all/item_1044_june-8-1940-meeting-with-all-students.txt,41080
+1045,1677,"June 27, 1940: Talk to students on the mission of the theatre","June 27, 1940",ok,7,9923,pdf_cache/item_1045_june-27-1940-talk-to-students-on-the-mission-of-the-theatre.pdf,extracted_text_all/item_1045_june-27-1940-talk-to-students-on-the-mission-of-the-theatre.txt,41155
+1046,1678,"July 2, 1940: Lesson for beginners -- Summer students","July 2, 1940",ok,2,2624,pdf_cache/item_1046_july-2-1940-lesson-for-beginners-summer-students.pdf,extracted_text_all/item_1046_july-2-1940-lesson-for-beginners-summer-students.txt,41190
+1047,1679,"July 10, 1940: Lessons for beginners","July 10, 1940",ok,7,8077,pdf_cache/item_1047_july-10-1940-lessons-for-beginners.pdf,extracted_text_all/item_1047_july-10-1940-lessons-for-beginners.txt,41284
+1048,1680,"July 22, 1940","July 22, 1940",ok,1,1135,pdf_cache/item_1048_july-22-1940.pdf,extracted_text_all/item_1048_july-22-1940.txt,41298
+1049,1681,"August 26, 1940","August 26, 1940",ok,21,28610,pdf_cache/item_1049_august-26-1940.pdf,extracted_text_all/item_1049_august-26-1940.txt,41619
+1050,1682,"August 26, 1940 (afternoon)","August 26, 1940",ok,7,9033,pdf_cache/item_1050_august-26-1940-afternoon.pdf,extracted_text_all/item_1050_august-26-1940-afternoon.txt,41732
+1051,1683,"September 3, 1940","September 3, 1940",ok,2,2294,pdf_cache/item_1051_september-3-1940.pdf,extracted_text_all/item_1051_september-3-1940.txt,41762
+1052,1684,"September 6, 1940","September 6, 1940",ok,3,4003,pdf_cache/item_1052_september-6-1940.pdf,extracted_text_all/item_1052_september-6-1940.txt,41820
+1053,1685,"September 16, 1940","September 16, 1940",ok,3,3898,pdf_cache/item_1053_september-16-1940.pdf,extracted_text_all/item_1053_september-16-1940.txt,41860
+1054,1686,"September 16, 1940 (afternoon)","September 16, 1940",ok,3,3791,pdf_cache/item_1054_september-16-1940-afternoon.pdf,extracted_text_all/item_1054_september-16-1940-afternoon.txt,41907
+1055,1687,"September 16, 1940","September 16, 1940",ok,3,3156,pdf_cache/item_1055_september-16-1940.pdf,extracted_text_all/item_1055_september-16-1940.txt,41942
+1056,1688,"September 23, 1940","September 23, 1940",ok,11,15150,pdf_cache/item_1056_september-23-1940.pdf,extracted_text_all/item_1056_september-23-1940.txt,42107
+1057,1689,"October 9, 1940","October 9, 1940",ok,3,3648,pdf_cache/item_1057_october-9-1940.pdf,extracted_text_all/item_1057_october-9-1940.txt,42151
+1058,1690,"November 12, 1940","November 12, 1940",ok,1,539,pdf_cache/item_1058_november-12-1940.pdf,extracted_text_all/item_1058_november-12-1940.txt,42152
+1059,1691,"February 7, 1941","February 7, 1941",ok,2,1606,pdf_cache/item_1059_february-7-1941.pdf,extracted_text_all/item_1059_february-7-1941.txt,42177
+1060,1692,"February 17, 1941","February 17, 1941",ok,25,34780,pdf_cache/item_1060_february-17-1941.pdf,extracted_text_all/item_1060_february-17-1941.txt,42517
+1061,1693,"May 4, 1941: Demonstration at Edgewood School","May 4, 1941",ok,4,3715,pdf_cache/item_1061_may-4-1941-demonstration-at-edgewood-school.pdf,extracted_text_all/item_1061_may-4-1941-demonstration-at-edgewood-school.txt,42570
+1062,1694,"October 21, 1941: First lesson to students in New York class","October 21, 1941",ok,4,4850,pdf_cache/item_1062_october-21-1941-first-lesson-to-students-in-new-york-class.pdf,extracted_text_all/item_1062_october-21-1941-first-lesson-to-students-in-new-york-class.txt,42627
+1063,1695,"November 5, 1941","November 5, 1941",ok,3,3525,pdf_cache/item_1063_november-5-1941.pdf,extracted_text_all/item_1063_november-5-1941.txt,42668
+1064,1696,"November 7, 1941: Lesson for students in New York class","November 7, 1941",ok,3,2708,pdf_cache/item_1064_november-7-1941-lesson-for-students-in-new-york-class.pdf,extracted_text_all/item_1064_november-7-1941-lesson-for-students-in-new-york-class.txt,42700
+1065,1697,"November 11, 1941","November 11, 1941",ok,3,3289,pdf_cache/item_1065_november-11-1941.pdf,extracted_text_all/item_1065_november-11-1941.txt,42738
+1066,1698,"November 13, 1941","November 13, 1941",ok,4,4734,pdf_cache/item_1066_november-13-1941.pdf,extracted_text_all/item_1066_november-13-1941.txt,42794
+1067,1699,"November 28, 1941","November 28, 1941",ok,4,4593,pdf_cache/item_1067_november-28-1941.pdf,extracted_text_all/item_1067_november-28-1941.txt,42841
+1068,1700,"December 11, 1941: The future of the Chekhov Theatre Studio","December 11, 1941",ok,10,14789,pdf_cache/item_1068_december-11-1941-the-future-of-the-chekhov-theatre-studio.pdf,extracted_text_all/item_1068_december-11-1941-the-future-of-the-chekhov-theatre-studio.txt,42978
+1069,1701,Title page: Michael Chekhov's classes for professional actors,,ok,1,100,pdf_cache/item_1069_title-page-michael-chekhov-s-classes-for-professional-actors.pdf,extracted_text_all/item_1069_title-page-michael-chekhov-s-classes-for-professional-actors.txt,42978
+1070,1702,"November 7, 1941: Michael Chekhov's first class for professional actors: Why is a method needed in the theatre of today?","November 7, 1941",ok,22,31785,pdf_cache/item_1070_november-7-1941-michael-chekhov-s-first-class-for-professional-actors-why-is-a-method-need.pdf,extracted_text_all/item_1070_november-7-1941-michael-chekhov-s-first-class-for-professional-actors-why-is-a-method-need.txt,43333
+1071,1703,"November 11, 1941: Michael Chekhov's second class for professional actors: Questions and answers","November 11, 1941",ok,24,33581,pdf_cache/item_1071_november-11-1941-michael-chekhov-s-second-class-for-professional-actors-questions-and-answ.pdf,extracted_text_all/item_1071_november-11-1941-michael-chekhov-s-second-class-for-professional-actors-questions-and-answ.txt,43732
+1072,1704,"November 14, 1941: Michael Chekhov's third class for professional actors: How shall we develop our emotions and our bodies?","November 14, 1941",ok,14,19291,pdf_cache/item_1072_november-14-1941-michael-chekhov-s-third-class-for-professional-actors-how-shall-we-develo.pdf,extracted_text_all/item_1072_november-14-1941-michael-chekhov-s-third-class-for-professional-actors-how-shall-we-develo.txt,43993
+1073,1705,"November 17, 1941: Michael Chekhov's fourth class for professional actors: Theory and practice","November 17, 1941",ok,8,10369,pdf_cache/item_1073_november-17-1941-michael-chekhov-s-fourth-class-for-professional-actors-theory-and-practic.pdf,extracted_text_all/item_1073_november-17-1941-michael-chekhov-s-fourth-class-for-professional-actors-theory-and-practic.txt,44115
+1074,2034,"November 21, 1941: Michael Chekhov's fifth class for professional actors: Exercise -- Repetition is the growing power","November 21, 1941",ok,20,28346,pdf_cache/item_1074_november-21-1941-michael-chekhov-s-fifth-class-for-professional-actors-exercise-repetition.pdf,extracted_text_all/item_1074_november-21-1941-michael-chekhov-s-fifth-class-for-professional-actors-exercise-repetition.txt,44379
+1075,1706,"November 24, 1941: Michael Chekhov's sixth class for professional actors: The creative process -- The inspiration -- The method","November 24, 1941",ok,16,21786,pdf_cache/item_1075_november-24-1941-michael-chekhov-s-sixth-class-for-professional-actors-the-creative-proces.pdf,extracted_text_all/item_1075_november-24-1941-michael-chekhov-s-sixth-class-for-professional-actors-the-creative-proces.txt,44612
+1076,1707,"November 28, 1941: Michael Chekhov's seventh class for professional actors: Feeling of the whole","November 28, 1941",ok,5,6441,pdf_cache/item_1076_november-28-1941-michael-chekhov-s-seventh-class-for-professional-actors-feeling-of-the-wh.pdf,extracted_text_all/item_1076_november-28-1941-michael-chekhov-s-seventh-class-for-professional-actors-feeling-of-the-wh.txt,44696
+1077,1708,"December 1, 1941: Michael Chekhov's eighth class for professional actors: The role of the director","December 1, 1941",ok,20,27677,pdf_cache/item_1077_december-1-1941-michael-chekhov-s-eighth-class-for-professional-actors-the-role-of-the-dir.pdf,extracted_text_all/item_1077_december-1-1941-michael-chekhov-s-eighth-class-for-professional-actors-the-role-of-the-dir.txt,45058
+1078,2033,"December 5, 1941: Michael Chekhov's ninth class for professional actors: The psychological gesture","December 5, 1941",ok,27,39770,pdf_cache/item_1078_december-5-1941-michael-chekhov-s-ninth-class-for-professional-actors-the-psychological-ge.pdf,extracted_text_all/item_1078_december-5-1941-michael-chekhov-s-ninth-class-for-professional-actors-the-psychological-ge.txt,45425
+1079,1709,"December 8, 1941: Michael Chekhov's tenth class for professional actors: Criticism of scene by Peter Frye","December 8, 1941",ok,14,19471,pdf_cache/item_1079_december-8-1941-michael-chekhov-s-tenth-class-for-professional-actors-criticism-of-scene-b.pdf,extracted_text_all/item_1079_december-8-1941-michael-chekhov-s-tenth-class-for-professional-actors-criticism-of-scene-b.txt,45647
+1080,1710,"December 12, 1941: Michael Chekhov's eleventh class for professional actors: Psychological gesture","December 12, 1941",ok,6,7349,pdf_cache/item_1080_december-12-1941-michael-chekhov-s-eleventh-class-for-professional-actors-psychological-ge.pdf,extracted_text_all/item_1080_december-12-1941-michael-chekhov-s-eleventh-class-for-professional-actors-psychological-ge.txt,45751
+1081,1711,"December 15, 1941: Michael Chekhov's twelfth class for professional actors: The future theatre","December 15, 1941",ok,19,26705,pdf_cache/item_1081_december-15-1941-michael-chekhov-s-twelfth-class-for-professional-actors-the-future-theatr.pdf,extracted_text_all/item_1081_december-15-1941-michael-chekhov-s-twelfth-class-for-professional-actors-the-future-theatr.txt,46034
+1082,1712,"December 19, 1941: Michael Chekhov's thirteenth class for professional actors: The imagination","December 19, 1941",ok,5,5636,pdf_cache/item_1082_december-19-1941-michael-chekhov-s-thirteenth-class-for-professional-actors-the-imaginatio.pdf,extracted_text_all/item_1082_december-19-1941-michael-chekhov-s-thirteenth-class-for-professional-actors-the-imaginatio.txt,46092
+1083,2032,"December 29, 1941: Michael Chekhov's fourteenth class for professional actors: Continuous acting","December 29, 1941",ok,17,24714,pdf_cache/item_1083_december-29-1941-michael-chekhov-s-fourteenth-class-for-professional-actors-continuous-act.pdf,extracted_text_all/item_1083_december-29-1941-michael-chekhov-s-fourteenth-class-for-professional-actors-continuous-act.txt,46331
+1084,1713,"January 29, 1942: Open lecture to actors held at ""Actors Service,"" New York","January 29, 1942",ok,32,44423,pdf_cache/item_1084_january-29-1942-open-lecture-to-actors-held-at-actors-service-new-york.pdf,extracted_text_all/item_1084_january-29-1942-open-lecture-to-actors-held-at-actors-service-new-york.txt,46804
+1085,1714,"February 17, 1942: Second open lecture to actors held at ""Actors Service,"" New York","February 17, 1942",ok,25,34855,pdf_cache/item_1085_february-17-1942-second-open-lecture-to-actors-held-at-actors-service-new-york.pdf,extracted_text_all/item_1085_february-17-1942-second-open-lecture-to-actors-held-at-actors-service-new-york.txt,47194
+1086,1715,"March 26, 1942: Lecture to members of ""Actors' Cue""","March 26, 1942",ok,19,25682,pdf_cache/item_1086_march-26-1942-lecture-to-members-of-actors-cue.pdf,extracted_text_all/item_1086_march-26-1942-lecture-to-members-of-actors-cue.txt,47489
+1087,1716,"April 12, 1942: Lecture at labor stage, New York: The present state of the theatre -- how to help it","April 12, 1942",ok,11,15396,pdf_cache/item_1087_april-12-1942-lecture-at-labor-stage-new-york-the-present-state-of-the-theatre-how-to-help.pdf,extracted_text_all/item_1087_april-12-1942-lecture-at-labor-stage-new-york-the-present-state-of-the-theatre-how-to-help.txt,47637
+1088,1717,"April 16, 1942: Lecture at Hunter College, New York: The actor in the theatre of today","April 16, 1942",ok,12,16662,pdf_cache/item_1088_april-16-1942-lecture-at-hunter-college-new-york-the-actor-in-the-theatre-of-today.pdf,extracted_text_all/item_1088_april-16-1942-lecture-at-hunter-college-new-york-the-actor-in-the-theatre-of-today.txt,47804
+1089,1718,The Pencil: Memories of Dartington Hall and the English Origin of the Michael Chekhov Acting Method,2002?,ok,15,47748,pdf_cache/item_1089_the-pencil-memories-of-dartington-hall-and-the-english-origin-of-the-michael-chekhov-actin.pdf,extracted_text_all/item_1089_the-pencil-memories-of-dartington-hall-and-the-english-origin-of-the-michael-chekhov-actin.txt,47951
+1811,1812,The Life of Nonny Gardner Cangelosi,2016,ok,8,20115,pdf_cache/item_1811_the-life-of-nonny-gardner-cangelosi.pdf,extracted_text_all/item_1811_the-life-of-nonny-gardner-cangelosi.txt,47953
