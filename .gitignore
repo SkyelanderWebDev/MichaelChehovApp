@@ -13,3 +13,4 @@ test-results/
 *.key
 .claude/settings.local.json
 .vercel
+.env*

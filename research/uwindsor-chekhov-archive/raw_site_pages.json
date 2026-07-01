@@ -1,0 +1,1225 @@
+[
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/29",
+    "@type": "o:SitePage",
+    "o:id": 29,
+    "o:slug": "1935",
+    "o:title": "1935: Three Lessons Given to Beatrice Straight and Deirdre Hurst",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>3 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1721&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": ""
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T18:34:09+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-20T15:27:05+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/30",
+    "@type": "o:SitePage",
+    "o:id": 30,
+    "o:slug": "time-series",
+    "o:title": "Time Series",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>Deirdre Hurst du Prey organized <em>The Actor is the Theatre</em> manuscript collection into eleven sections. These time series follow Hurst du Prey&#39;s sections, with two exceptions. Her first section has been split into &quot;Prefatory Material&quot; and &quot;Three Lessons Given to Beatrice Straight and Deirdre Hurst&quot;. Her eleventh section has similarly been split into three: &quot;1941 Ridgefield&quot;, &quot;1941 Classes for Professional Actors&quot;, and &quot;1942 New York Lectures&quot;. With the exception of the &quot;Prefatory Material&quot;, the collection is in chronological order.</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "tableOfContents",
+        "o:data": {
+          "depth": "1"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T18:41:37+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-12-03T19:04:49+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/31",
+    "@type": "o:SitePage",
+    "o:id": 31,
+    "o:slug": "pref",
+    "o:title": "Prefatory Material",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>26 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1723&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 26 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T18:49:04+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-20T20:55:13+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/32",
+    "@type": "o:SitePage",
+    "o:id": 32,
+    "o:slug": "1936a",
+    "o:title": "1936: Eighteen lessons to teachers",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>19 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1724&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 19 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T19:30:52+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-10-28T16:49:14+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/33",
+    "@type": "o:SitePage",
+    "o:id": 33,
+    "o:slug": "1936b",
+    "o:title": "1936: Dartington Hall",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>58 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1725&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 58 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T19:40:10+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-10-28T16:54:16+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/34",
+    "@type": "o:SitePage",
+    "o:id": 34,
+    "o:slug": "1937a",
+    "o:title": "1937a: Dartington Hall",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>80 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1726&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 80 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T19:54:31+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-12T19:15:56+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/35",
+    "@type": "o:SitePage",
+    "o:id": 35,
+    "o:slug": "1937b",
+    "o:title": "1937b: Dartington Hall",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>70 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1727&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 70 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T20:00:22+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-12T19:15:48+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/36",
+    "@type": "o:SitePage",
+    "o:id": 36,
+    "o:slug": "1938a",
+    "o:title": "1938a: Dartington Hall",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>51 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1728&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 51 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T20:07:38+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-12T19:15:39+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/37",
+    "@type": "o:SitePage",
+    "o:id": 37,
+    "o:slug": "1938b",
+    "o:title": "1938b: Dartington Hall",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>73 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1729&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 73 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-27T20:19:38+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-12T19:15:30+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/38",
+    "@type": "o:SitePage",
+    "o:id": 38,
+    "o:slug": "1939a",
+    "o:title": "1939a: Ridgefield",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>49 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1730&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 49 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-28T16:02:21+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-12T19:15:23+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/39",
+    "@type": "o:SitePage",
+    "o:id": 39,
+    "o:slug": "1939b",
+    "o:title": "1939b: Ridgefield",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>45 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1731&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 45 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-28T16:23:30+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-12T19:15:11+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/40",
+    "@type": "o:SitePage",
+    "o:id": 40,
+    "o:slug": "1940",
+    "o:title": "1940: Ridgefield",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>39 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1732&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 39 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-28T16:27:19+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-10-28T17:19:14+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/41",
+    "@type": "o:SitePage",
+    "o:id": 41,
+    "o:slug": "1941a",
+    "o:title": "1941: Ridgefield",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>10 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1733&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": ""
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-28T16:35:50+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-10-28T17:21:13+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/42",
+    "@type": "o:SitePage",
+    "o:id": 42,
+    "o:slug": "1941b",
+    "o:title": "1941: Classes for Professional Actors",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>15 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1734&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 15 documents"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-28T16:39:39+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-20T15:32:45+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/43",
+    "@type": "o:SitePage",
+    "o:id": 43,
+    "o:slug": "1942",
+    "o:title": "1942: New York Lectures",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>5 documents</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1735&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": ""
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-10-28T17:27:01+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-20T15:32:31+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/45",
+    "@type": "o:SitePage",
+    "o:id": 45,
+    "o:slug": "ng",
+    "o:title": "Nonny Gardner Collection",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>89 photographs and 1 document</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>Nonny Gardner&#39;s digital collection of photographs and ephemera prepared by MICHA, the Michael Chekhov Association, in collaboration with Gardner&#39;s daughter, Katie Cangelosi. The various efforts to accomplish this task were achieved thanks to the collective efforts of Jessica Cerullo, Jerri Daboo, Franc Chamberlain, Janice Orlandi, Lenka Pichlikova-Burke, and Peter Tedeschi. The images are used by permission of the family of Nonny Gardner Cangelosi. Usage rights managed by MICHA, the Michael Chekhov Association.</p>\r\n\r\n<p>See also: <a href=\"https://collections.uwindsor.ca/omeka-s/chekhov/item/1811\">The Life of Nonny Gardner</a></p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1810&site_id=&has_tags=0&submit=Search&sort_order=desc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 90 items"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-05T17:17:27+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-17T16:03:26+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/46",
+    "@type": "o:SitePage",
+    "o:id": 46,
+    "o:slug": "photo",
+    "o:title": "Photo Collections",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "tableOfContents",
+        "o:data": {
+          "depth": "1"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-12T19:05:26+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-26T20:20:56+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/47",
+    "@type": "o:SitePage",
+    "o:id": 47,
+    "o:slug": "about",
+    "o:title": "About",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "media",
+        "o:data": {
+          "thumbnail_type": "square",
+          "alignment": "right",
+          "show_title_option": "no_title"
+        },
+        "o:attachment": [
+          {
+            "o:item": {
+              "@id": "https://collections.uwindsor.ca/api/items/2008",
+              "o:id": 2008
+            },
+            "o:media": {
+              "@id": "https://collections.uwindsor.ca/api/media/2009",
+              "o:id": 2009
+            },
+            "o:caption": "<p>Michael Chekhov, ca. 1936</p>\r\n"
+          }
+        ]
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p><em>Michael Chekhov: The Actor is the Theatre</em> is a digital exhibition featuring an archive of approximately 3,600 typewritten pages documenting Michael Chekhov&rsquo;s work with the Chekhov Theatre Studio between 1936 and 1942. Deirdre Hurst du Prey, a member of the Studio, recorded and compiled notes on Chekhov&rsquo;s workshops and rehearsals. In 1935, she and Beatrice Straight met Chekhov while visiting New York. As Hurst du Prey relates:</p>\r\n\r\n<blockquote>[Beatrice and I] got a message by cable telling us to be sure to see a very great Russian actor, who was going to be performing in New York. We immediately made inquiries, and it was, of course, an announcement of Michael Chekhov appearing in a play on Broadway with a small group of Russian players. We knew nothing about him, really, except through our Russian teachers. And they were very excited at the thought of seeing his work on the stage. So we went to an opening, and we were absolutely thunderstruck. We could never have imagined seeing acting of the kind that evening. Beatrice said afterwards that this is the man we should really try to get for Dartington. (<a draggable=\"false\" href=\"https://collections.uwindsor.ca/chekhov/item/1089\">Hurst du Prey, [2002?]</a>)</blockquote>\r\n\r\n<p>While still in New York, Chekhov would give three acting lessons to Beatrice Straight and Deirdre Hurst with the assistance of an interpreter. Straight&rsquo;s parents, Leonard and Dorothy Elmhirst, subsequently invited Chekhov to establish the Chekhov Theatre Studio at Dartington Hall, Devon, UK. The Studio was established in 1936, <a draggable=\"false\" href=\"https://collections.uwindsor.ca/chekhov/item/594\">officially opening on October 5 of that year</a>. In 1939, with the growing threat of war in Europe, the Studio moved to Ridgefield, Connecticut, USA; however, the war would inevitably impact the United States as well, and the Chekhov Theatre Studio disbanded in 1942. Deirdre Hurst du Prey began taking notes for the three 1935 lessons and continued doing so throughout the work of the Studio:</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "media",
+        "o:data": {
+          "thumbnail_type": "square",
+          "alignment": "right",
+          "show_title_option": "no_title"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<blockquote>\r\n<p>All my shorthand notes relating to the artistic life of the Studio were retained by me, together with the volumes of transcribed material. . . . Likewise, my work on Chekhov&#39;s book, <em>To the Actor</em>, while officially ending with the disbanding of the Studio in 1942, went on for some time, and Chekhov kept me in touch with its development and with his ideas until his death.</p>\r\n\r\n<p>At Dartington, Dorothy and Leonard Elmhirst were eager to collect all the existing material on the history of the Chekhov Theatre Studio, to add to the material amassed in the archives there. Consequently, in 1961 I spent several weeks at Dartington, going over the collection, ascertaining the extent of the material, and estimating what was missing which could be supplied from my collection of the notes. . . . The plan was let me to work on the un-transcribed notes in my possession so that they might be added to the existing collection and provide valuable primary source material and the elements of a history of the Chekhov Theatre Studio both in England and America, as unfortunately by this time the records of the Studio had become lost, with the exception of those in my possession and those at Dartington.</p>\r\n\r\n<p>This proved to be a formidable task until I was able to free myself from my teaching activities in 1971, and devote myself to transcribing these notes which had never been touched, and checking and verifying those which had been transcribed years before. All of this has resulted in the present collection. . . to be found in the manuscript which I have called <em>The Actor is the Theatre</em>, this being a quotation from one of Michael Chekhov&rsquo;s lectures, as well as a statement of his belief. (<a href=\"https://collections.uwindsor.ca/chekhov/item/574\">Hurst du Prey, 1977</a>)</p>\r\n</blockquote>\r\n\r\n<p><em>Michael Chekhov: The Actor is the Theatre</em> materials were donated in 2002 by Deirdre Hurst du Prey to the Leddy Library Archives and Special Collections at the University of Windsor. Researchers interested in viewing the original materials are encouraged to contact the Leddy Library <a href=\"https://leddy.uwindsor.ca/archives\">Archives and Special Collections</a>.</p>\r\n"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-12T23:07:37+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2021-04-22T16:29:43+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/48",
+    "@type": "o:SitePage",
+    "o:id": 48,
+    "o:slug": "guide",
+    "o:title": "Research Guide",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<h3>Name/Work Index</h3>\r\n\r\n<p>The Name/Work Index (NWI) applies subject headings to identify significant works, published authors, and historic figures discussed in the archive. There are two types of NWI headings: name headings are used to identify individuals and corporate entities. Works are identified using name/title headings.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/chekhov/page/nwin\">Name index</a></li>\r\n\t<li><a href=\"/chekhov/page/nwiw\">Work index</a></li>\r\n</ul>\r\n\r\n<h3>Tags</h3>\r\n\r\n<p>Tags are a less formal method of identifying subject matter. Here, tags are used to identify Chekhov&#39;s key concepts and to provide a alternative access points to works and people. Authors and historic figures (treated more formally in the NWI) are tagged using only their last name. Likewise, works discussed are tagged with a shortened form of the title.</p>\r\n\r\n<p>Members of Chekhov&#39;s studio are identified where possible by their full name in natural order. In cases where a studio member is referred to only by first name and it has not been possible to identify the person further, only the first name is used as a tag.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/chekhov/page/tagp\">Tags: People</a></li>\r\n\t<li><a href=\"/chekhov/page/tagk\">Tags: Key Concepts</a></li>\r\n</ul>\r\n\r\n<h3>Time Series</h3>\r\n\r\n<p>Researchers interested in browsing the archive in chronological order can follow the Time Series subcollections, which maintain the same file order that Deirdre Hurst du Prey orginally ued to organize the collection.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/chekhov/page/time-series\">Time Series</a></li>\r\n</ul>\r\n"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-17T19:50:47+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-27T17:39:10+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/49",
+    "@type": "o:SitePage",
+    "o:id": 49,
+    "o:slug": "estate",
+    "o:title": "Michael Chekhov Estate Photos",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>8 photographs</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>Images courtesy of Michael Chekhov Estate. Usage rights managed by Michael Chekhov Estate, please contact chekhovestateexecutrix@gmail.com</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=2010&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": ""
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-18T21:08:39+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-19T00:46:10+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/51",
+    "@type": "o:SitePage",
+    "o:id": 51,
+    "o:slug": "performing",
+    "o:title": "Performing the Archive",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>The Michael Chekhov Community Performs the Archive is an initiative of MICHA, the Michael Chekhov Association. The Project invites collaboration between the international Chekhov community and Deirdre Hurst du Prey&#39;s archive, &quot;Michael Chekhov: the Actor is the Theatre,&quot; a digital exhibition featuring approximately 3,600 typewritten pages documenting Chekhov&#39;s work with the Chekhov Theatre Studio between 1936-1942.</p>\r\n\r\n<p>Project Ideation: Jessica Cerullo</p>\r\n\r\n<p>Project Editing: Aruna Bhalla</p>\r\n\r\n<p>Thanks to Pierre du Prey, Elena Reyes, Paulina Tobar, Lionel Walsh, Brian Owens, Peter Zimmerman, The University of Windsor Workstudy/Ignite students 2010-2020.</p>\r\n"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-20T20:18:18+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-11-30T18:58:01+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/55",
+    "@type": "o:SitePage",
+    "o:id": 55,
+    "o:slug": "nwin",
+    "o:title": "Name/Work Index: Names",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>&mdash; A &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Aristotle\">Aristotle</a></span></p>\r\n\r\n<p>&mdash; B &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Beethoven,%20Ludwig%20van,%201770-1827\">Beethoven, Ludwig van, 1770-1827</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Bruegel,%20Jan,%201568-1625\">Bruegel, Jan, 1568-1625</a></span></p>\r\n\r\n<p>&mdash; C &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Carnovsky,%20Morris,%201897-1992\">Carnovsky, Morris, 1897-1992</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chaliapin,%20Fyodor%20Ivanovich,%201873-1938\">Chaliapin, Fyodor Ivanovich, 1873-1938</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chamberlain,%20Neville,%201869-1940\">Chamberlain, Neville, 1869-1940</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chekhov,%20Anton%20Pavlovich,%201860-1904\">Chekhov, Anton Pavlovich, 1860-1904</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chekhov,%20Michael,%201891-1955\">Chekhov, Michael, 1891-1955</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Churchill,%20Winston%20S.%20(Winston%20Spencer),%201940-2010\">Churchill, Winston S. (Winston Spencer), 1940-2010</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Cruikshank,%20George,%201792-1878\">Cruikshank, George, 1792-1878</a></span></p>\r\n\r\n<p>&mdash; D &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Darwin,%20Charles,%201758-1778\">Darwin, Charles, 1758-1778</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dickens,%20Charles,%201812-1870\">Dickens, Charles, 1812-1870</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dobuzhinskiĭ,%20Mstislav%20Valerianovich,%201875-1957\">Dobuzhinskiĭ, Mstislav Valerianovich, 1875-1957</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dostoyevsky,%20Fyodor,%201821-1881\">Dostoyevsky, Fyodor, 1821-1881</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Draper,%20Ruth,%201884-1956\">Draper, Ruth, 1884-1956</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Duse,%20Eleonora,%201858-1924\">Duse, Eleonora, 1858-1924</a></span></p>\r\n\r\n<p>&mdash; F &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Francis,%20of%20Assisi,%20Saint,%201182-1226\">Francis, of Assisi, Saint, 1182-1226</a></span></p>\r\n\r\n<p>&mdash; G &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Garrick,%20David,%201717-1779\">Garrick, David, 1717-1779</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Goethe,%20Johann%20Wolfgang%20von,%201749-1832\">Goethe, Johann Wolfgang von, 1749-1832</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Group%20Theatre%20(U.S.)\">Group Theatre (U.S.)</a></span></p>\r\n\r\n<p>&mdash; H &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Habima%20Players\">Habima Players</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Hauptmann,%20Gerhart,%201862-1946\">Hauptmann, Gerhart, 1862-1946</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Hitler,%20Adolf,%201889-1945\">Hitler, Adolf, 1889-1945</a></span></p>\r\n\r\n<p>&mdash; I &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Ibsen,%20Henrik,%201828-1906\">Ibsen, Henrik, 1828-1906</a></span></p>\r\n\r\n<p>&mdash; J &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Jaques-Dalcroze,%20Émile,%201865-1950\">Jaques-Dalcroze, Émile, 1865-1950</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Jilinsky,%20Andrius\">Jilinsky, Andrius</a></span></p>\r\n\r\n<p>&mdash; K &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Klemperer,%20Otto,%201885-1973\">Klemperer, Otto, 1885-1973</a></span></p>\r\n\r\n<p>&mdash; M &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Markov,%20P.%20A.%20(Pavel%20Aleksandrovich),%201897-1980\">Markov, P. A. (Pavel Aleksandrovich), 1897-1980</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Maupassant,%20Guy%20de,%201850-1893\">Maupassant, Guy de, 1850-1893</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Menuhin,%20Yehudi,%201916-1999\">Menuhin, Yehudi, 1916-1999</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Meyerhold,%20Vsevolod,%201874-1940\">Meyerhold, Vsevolod, 1874-1940</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Michelangelo%20Buonarroti,%201475-1564\">Michelangelo Buonarroti, 1475-1564</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Moissi,%20Alexander,%201879-1935\">Moissi, Alexander, 1879-1935</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Mussolini,%20Benito,%201883-1945\">Mussolini, Benito, 1883-1945</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Moscow%20Art%20Theatre\">Moscow Art Theatre</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Moscow%20Theatre%20Habima\">Moscow Theatre Habima</a></span></p>\r\n\r\n<p>&mdash; N &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Nemirovich-Danchenko,%20Vasiliĭ%20Ivanovich,%201848-1936\">Nemirovich-Danchenko, Vasiliĭ Ivanovich, 1848-1936</a></span></p>\r\n\r\n<p>&mdash; O &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Oppenheim,%20Hans\">Oppenheim, Hans</a></span></p>\r\n\r\n<p>&mdash; P &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Pestalozzi,%20Johann%20Heinrich,%201746-1827\">Pestalozzi, Johann Heinrich, 1746-1827</a></span></p>\r\n\r\n<p>&mdash; R &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Raphael,%201483-1520\">Raphael, 1483-1520</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Reinhardt,%20Max,%201873-1943\">Reinhardt, Max, 1873-1943</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Rembrandt%20Harmenszoon%20van%20Rijn,%201606-1669\">Rembrandt Harmenszoon van Rijn, 1606-1669</a></span></p>\r\n\r\n<p>&mdash; S &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Saroyan,%20William,%201908-1981\">Saroyan, William, 1908-1981</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Sayler,%20Oliver%20M.,%201887-1958\">Saylor, Oliver M., 1887-1958</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Salvini,%20Tommaso,%201829-1915\">Salvini, Tommaso, 1829-1915</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Schopenhauer,%20Arthur,%201788-1860\">Schopenhauer, Arthur, 1788-1860</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616\">Shakespeare, William, 1564-1616</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shankar,%20Uday,%201900-1977\">Shankar, Uday, 1900-1977</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shaw,%20Bernard,%201856-1950\">Shaw, Bernard, 1856-1950</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shdanoff,%20George,%201905-1998\">Shdanoff, George, 1905-1998</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Stanislavsky,%20Konstantin,%201863-1938\">Stanislavsky, Konstantin, 1863-1938</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Steffen,%20Albert,%201884-1963\">Steffen, Albert, 1884-1963</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Steiner,%20Rudolf,%201861-1925\">Steiner, Rudolf, 1861-1925</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Sulerzhit︠s︡kiĭ,%20L.%20A.%20(Leopolʹd%20Antonovich),%201872-1916\">Sulerzhit︠s︡kiĭ, L. A. (Leopolʹd Antonovich), 1872-1916</a></span></p>\r\n\r\n<p>&mdash; T &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Thompson,%20Dorothy,%201893-1961\">Thompson, Dorothy, 1893-1961</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Tobey,%20Mark\">Tobey, Mark</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Tolstoy,%20Leo,%201828-1910\">Tolstoy, Leo, 1828-1910</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Toscanini,%20Arturo,%201867-1957\">Toscanini, Arturo, 1867-1957</a></span></p>\r\n\r\n<p>&mdash; V &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Vakhtangov,%20Evgenii,%201883-1922\">Vakhtangov, Evgenii, 1883-1922</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Vishnevsky,%20Vsevolod,%201900-1951\">Vishnevsky, Vsevolod, 1900-1951</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Volkonsky,%20Sergei,%201860-1937\">Volkonsky, Sergei, 1860-1937</a></span></p>\r\n"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-24T18:05:25+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-12-04T15:23:21+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/56",
+    "@type": "o:SitePage",
+    "o:id": 56,
+    "o:slug": "nwiw",
+    "o:title": "Name/Work Index: Works",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>&mdash; A &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=An-Ski,%20S.,%201863-1920.%20Dibeḳ\">An-Ski, S., 1863-1920. Dibeḳ</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Anderson,%20Maxwell,%201888-1959.%20Winterset\">Anderson, Maxwell, 1888-1959. Winterset</a></span></p>\r\n\r\n<p>&mdash; B &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Bely,%20Andrey,%201880-1934\">Bely, Andrey, 1880-1934</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Berger,%20Henning,%201872-1924.%20The%20Deluge\">Berger, Henning, 1872-1924. The Deluge</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Boleslavsky,%20Richard,%201889-1937\">Boleslavsky, Richard, 1889-1937</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Bridie,%20James,%201888-1951.%20The%20Anatomist\">Bridie, James, 1888-1951. The Anatomist</a></span></p>\r\n\r\n<p>&mdash; C &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Cervantes%20Saavedra,%20Miguel%20de,%201547-1616.%20Don%20Quixote\">Cervantes Saavedra, Miguel de, 1547-1616. Don Quixote</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Cervantes%20Saavedra,%20Miguel%20de,%201547-1616.%20The%20Cave%20of%20Salamanca\">Cervantes Saavedra, Miguel de, 1547-1616. The Cave of Salamanca</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chekhov,%20Anton%20Pavlovich,%201860-1904.%20The%20Seagull\">Chekhov, Anton Pavlovich, 1860-1904. The Seagull</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chekhov,%20Anton%20Pavlovich,%201860-1904.%20Three%20sisters\">Chekhov, Anton Pavlovich, 1860-1904. Three sisters</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chekhov,%20Michael,%201891-1955.%20The%20Mother\">Chekhov, Michael, 1891-1955. The Mother</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chekhov,%20Michael,%201891-1955.%20The%20Path%20of%20the%20actor\">Chekhov, Michael, 1891-1955. The Path of the actor</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Chekhov,%20Michael,%201891-1955.%20To%20the%20actor,%20on%20the%20technique%20of%20acting\">Chekhov, Michael, 1891-1955. To the actor, on the technique of acting</a></span></p>\r\n\r\n<p>&mdash; D &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dickens,%20Charles,%201812-1870.%20Chimes\">Dickens, Charles, 1812-1870. Chimes</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dickens,%20Charles,%201812-1870.%20Christmas%20carol\">Dickens, Charles, 1812-1870. Christmas carol</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dickens,%20Charles,%201812-1870.%20Cricket%20on%20the%20hearth\">Dickens, Charles, 1812-1870. Cricket on the hearth</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dickens,%20Charles,%201812-1870.%20Old%20curiosity%20shop\">Dickens, Charles, 1812-1870. Old curiosity shop</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dickens,%20Charles,%201812-1870.%20Pickwick%20papers\">Dickens, Charles, 1812-1870. Pickwick papers</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dostoyevsky,%20Fyodor,%201821-1881.%20Crime%20and%20punishment\">Dostoyevsky, Fyodor, 1821-1881. Crime and punishment</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Dostoyevsky,%20Fyodor,%201821-1881.%20The%20Possessed\">Dostoyevsky, Fyodor, 1821-1881. The Possessed</a></span></p>\r\n\r\n<p>&mdash; E &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Eliot,%20T.%20S.%20(Thomas%20Stearns),%201888-1965.%20Murder%20in%20the%20cathedral\">Eliot, T. S. (Thomas Stearns), 1888-1965. Murder in the cathedral</a></span></p>\r\n\r\n<p>&mdash; G &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Gillette,%20William,%201853-1937.%20Sherlock%20Holmes\">Gillette, William, 1853-1937. Sherlock Holmes</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Goethe,%20Johann%20Wolfgang%20von,%201749-1832.%20Faust\">Goethe, Johann Wolfgang von, 1749-1832. Faust</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Gogol,%20Nikolai%20Vasilevich,%201809-1852.%20The%20Inspector%20general\">Gogol, Nikolai Vasilevich, 1809-1852. The Inspector general</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Goldoni,%20Carlo,%201707-1793.%20Servant%20of%20two%20masters\">Goldoni, Carlo, 1707-1793. Servant of two masters</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Gorky,%20Maksim,%201868-1936.%20The%20Lower%20depths\">Gorky, Maksim, 1868-1936. The Lower depths</a></span></p>\r\n\r\n<p>&mdash; H &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Hauptmann,%20Gerhart,%201862-1946.%20The%20Peace%20festival\">Hauptmann, Gerhart, 1862-1946. The Peace festival</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Houghton,%20Norris.%20Moscow%20rehearsals\">Houghton, Norris. Moscow rehearsals</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Hughes,%20Langston,%201902-1967.%20Mulatto\">Hughes, Langston, 1902-1967. Mulatto</a></span></p>\r\n\r\n<p>&mdash; I &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Ibsen,%20Henrik,%201828-1906.%20Brand\">Ibsen, Henrik, 1828-1906. Brand</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Ibsen,%20Henrik,%201828-1906.%20Ghosts\">Ibsen, Henrik, 1828-1906. Ghosts</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Ibsen,%20Henrik,%201828-1906.%20Peer%20Gynt\">Ibsen, Henrik, 1828-1906. Peer Gynt</a></span></p>\r\n\r\n<p>&mdash; L &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Lavater,%20Johann%20Caspar,%201741-1801.%20Physiognomische%20Fragmente%20zur%20Beförderung%20der%20Menschenkenntnis%20und%20Menschenliebe\">Lavater, Johann Caspar, 1741-1801. Physiognomische Fragmente zur Beförderung der Menschenkenntnis und Menschenliebe</a></span></p>\r\n\r\n<p>&mdash; M &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Maeterlinck,%20Maurice,%201862-1949.%20The%20Miracle%20of%20Saint%20Anthony\">Maeterlinck, Maurice, 1862-1949. The Miracle of Saint Anthony</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Michelangelo%20Buonarroti,%201475-1564.%20Moses\">Michelangelo Buonarroti, 1475-1564. Moses</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Molière,%201622-1673.%20Le%20Bourgeois%20gentilhomme\">Moli&egrave;re, 1622-1673. Le Bourgeois gentilhomme</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Molnár,%20Ferenc,%201878-1952.%20Liliom\">Molnár, Ferenc, 1878-1952. Liliom</a></span></p>\r\n\r\n<p>&mdash; O &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Odets,%20Clifford,%201906-1963.%20Rocket%20to%20the%20moon\">Odets, Clifford, 1906-1963. Rocket to the moon</a></span></p>\r\n\r\n<p>&mdash; R &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Rainis,%20Jānis,%201865-1929.%20The%20Golden%20steed\">Rainis, Jānis, 1865-1929. The Golden steed</a></span></p>\r\n\r\n<p>&mdash; S &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Schnitzler,%20Arthur,%201862-1931.%20The%20Green%20cockatoo\">Schnitzler, Arthur, 1862-1931. The Green cockatoo</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Antony%20and%20Cleopatra\">Shakespeare, William, 1564-1616. Antony and Cleopatra</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Hamlet\">Shakespeare, William, 1564-1616. Hamlet</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20King%20Lear\">Shakespeare, William, 1564-1616. King Lear</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20King%20Richard%20III\">Shakespeare, William, 1564-1616. King Richard III</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Macbeth\">Shakespeare, William, 1564-1616. Macbeth</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Merchant%20of%20Venice\">Shakespeare, William, 1564-1616. Merchant of Venice</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Merry%20wives%20of%20Windsor\">Shakespeare, William, 1564-1616. Merry wives of Windsor</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Othello\">Shakespeare, William, 1564-1616. Othello</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Romeo%20and%20Juliet\">Shakespeare, William, 1564-1616. Romeo and Juliet</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Taming%20of%20the%20shrew\">Shakespeare, William, 1564-1616. Taming of the shrew</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Tempest\">Shakespeare, William, 1564-1616. Tempest</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shakespeare,%20William,%201564-1616.%20Twelfth%20night\">Shakespeare, William, 1564-1616. Twelfth night</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shaw,%20Bernard,%201856-1950.%20Pygmalion\">Shaw, Bernard, 1856-1950. Pygmalion</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shaw,%20Bernard,%201856-1950.%20St.%20Joan\">Shaw, Bernard, 1856-1950. St. Joan</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Shdanoff,%20George,%201905-1998.%20The%20Possessed\">Shdanoff, George, 1905-1998. The Possessed</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Sheridan,%20Richard%20Brinsley,%201751-1816.%20Rivals\">Sheridan, Richard Brinsley, 1751-1816. Rivals</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Słowacki,%20Juliusz,%201809-1849.%20Balladina\">Słowacki, Juliusz, 1809-1849. Balladina</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Stanislavsky,%20Konstantin,%201863-1938.%20Actor%20prepares\">Stanislavsky, Konstantin, 1863-1938. Actor prepares</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Stanislavsky,%20Konstantin,%201863-1938.%20My%20life%20in%20art\">Stanislavsky, Konstantin, 1863-1938. My life in art</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Strindberg,%20August,%201849-1912.%20Erik%20XIV\">Strindberg, August, 1849-1912. Erik XIV</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Strindberg,%20August,%201849-1912.%20Stronger\">Strindberg, August, 1849-1912. Stronger</a></span></p>\r\n\r\n<p>&mdash; T &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Tree,%20Iris,%201897-1968.%20Troublemaker-Doublemaker\">Tree, Iris, 1897-1968. Troublemaker-Doublemaker</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Tolstoy,%20Aleksey%20Konstantinovich,%20graf,%201817-1875.%20The%20death%20of%20Ivan%20the%20Terrible\">Tolstoy, Aleksey Konstantinovich, graf, 1817-1875. The death of Ivan the Terrible</a></span></p>\r\n\r\n<p>&mdash; W &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Wagner,%20Richard,%201813-1883.%20Parsifal\">Wagner, Richard, 1813-1883. Parsifal</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Wagner,%20Richard,%201813-1883.%20Siegfried\">Wagner, Richard, 1813-1883. Siegfried</a></span></p>\r\n\r\n<p>&mdash; Y &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Young,%20Henry%20Lyon.%20Spanish%20evening\">Young, Henry Lyon. Spanish evening</a></span></p>\r\n\r\n<p><span>&mdash; Works with no identified author &mdash;</span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Carnival%20(scene)\">Carnival (scene)</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Clowns%20(scene)\">Clowns (scene)</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Princess%20Turandot\">Princess Turandot</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=Sherlock%20Holmes;%20a%20drama%20in%20four%20acts\">Sherlock Holmes; a drama in four acts</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=The%20fairy%20tale%20/%20Two%20kings%20(scene)\">The fairy tale / Two kings (scene)</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=The%20fishing%20scene\">The fishing scene</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/item?Search=&amp;property[0][property]=3&amp;property[0][type]=eq&amp;property[0][text]=The%20robbers%20(scene)\">The robbers (scene)</a></span></p>\r\n"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-24T18:49:14+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-12-04T15:23:58+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/57",
+    "@type": "o:SitePage",
+    "o:id": 57,
+    "o:slug": "tagk",
+    "o:title": "Tags: Key Concepts",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>&mdash; A &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/action\">action</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/activity\">activity</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Anthroposophy\">Anthroposophy</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/anticipation\">anticipation</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/archetype\">archetype</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/atmosphere\">atmosphere</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/audience\">audience</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/author\">author</a></span></p>\r\n\r\n<p>&mdash; B &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/body\">body</a></span></p>\r\n\r\n<p>&mdash; C &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/center\">center</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/characterization\">characterization</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/cliché\">clich&eacute;</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/climax\">climax</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/clown\">clown</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/color\">color</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/comedy\">comedy</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/commedia%20dell'arte\">commedia dell&#39;arte</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/composition\">composition</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/concentration\">concentration</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/contact\">contact</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/contrast\">contrast</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/costume\">costume</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/creativity\">creativity</a></span></p>\r\n\r\n<p>&mdash; D &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/designer\">designer</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/director\">director</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/drama\">drama</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/dynamics\">dynamics</a></span></p>\r\n\r\n<p>&mdash; E &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/ensemble%20feeling\">ensemble feeling</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Eurhythmy\">Eurhythmy</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/exercises\">exercises</a></span></p>\r\n\r\n<p>&mdash; F &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/fairy%20tale\">fairy tale</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/feeling%20of%20beauty\">feeling of beauty</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/feeling%20of%20ease\">feeling of ease</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/feeling%20of%20form\">feeling of form</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/feeling%20of%20the%20whole\">feeling of the whole</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/feeling%20of%20truth\">feeling of truth</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/fire\">fire</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/flowing\">flowing</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/flying\">flying</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/flying%20over%20the%20play\">flying over the play</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/form\">form</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/freedom\">freedom</a></span></p>\r\n\r\n<p>&mdash; G &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/gesture\">gesture</a></span></p>\r\n\r\n<p>&mdash; H &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/humor\">humor</a></span></p>\r\n\r\n<p>&mdash; I &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/idea%20of%20the%20play\">idea of the play</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/ideal%20body\">ideal body</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Ideal%20center\">ideal center</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/image\">image</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/imagination\">imagination</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/improvisation\">improvisation</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/incorporation\">incorporation</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/individuality\">individuality</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/ingenuity\">ingenuity</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/inspiration\">inspiration</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/intellect\">intellect</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/intuition\">intuition</a></span></p>\r\n\r\n<p>&mdash; J &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/justification\">justification</a></span></p>\r\n\r\n<p>&mdash; L &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/life%20power\">life power</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/light\">light</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/lighting\">lighting</a></span></p>\r\n\r\n<p>&mdash; M &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/metamorphosis\">metamorphosis</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/method%20[Chekhov]\">method [Chekhov]</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/method%20[Stanislavsky]\">method [Stanislavsky]</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/mise%20en%20scène\">mise en sc&egrave;ne</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/molding\">molding</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/movement\">movement</a></span></p>\r\n\r\n<p>&mdash; N &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/naturalism\">naturalism</a></span></p>\r\n\r\n<p>&mdash; O &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/objective\">objective</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/open%20heart\">open heart</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/originality\">originality</a></span></p>\r\n\r\n<p>&mdash; P &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/pedagogy\">pedagogy</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/performance\">performance</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/preparation\">preparation</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/presence\">presence</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/psychological%20gesture\">psychological gesture</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/psychology\">psychology</a></span></p>\r\n\r\n<p>&mdash; Q &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/qualities%20of%20movement\">qualities of movement</a></span></p>\r\n\r\n<p>&mdash; R &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/radiating\">radiating</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/rhythm\">rhythm</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/rhythmical%20gesture\">rhythmical gesture</a></span></p>\r\n\r\n<p>&mdash; S &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/scenic%20time\">scenic time</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/setting\">setting</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/significance\">significance</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/soul\">soul</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/space\">space</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/speech\">speech</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/style\">style</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/sustaining\">sustaining</a></span></p>\r\n\r\n<p>&mdash; T &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/talent\">talent</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/technique\">technique</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/tempo\">tempo</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/the%20pause\">the pause</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/theatre%20of%20the%20future\">theatre of the future</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/threshold\">threshold</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/tragedy\">tragedy</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/transitions\">transitions</a></span></p>\r\n\r\n<p>&mdash; U &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/urgency\">urgency</a></span></p>\r\n\r\n<p>&mdash; V &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/voice\">voice</a></span></p>\r\n\r\n<p>&mdash; W &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/will\">will</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/work\">work</a></span></p>\r\n"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-25T18:51:04+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-12-07T15:52:51+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/58",
+    "@type": "o:SitePage",
+    "o:id": 58,
+    "o:slug": "tagp",
+    "o:title": "Tags: People",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p>&mdash; A &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Alan%20Harkness\">Alan Harkness</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Alice%20Crowther\">Alice Crowther</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Alonzo\">Alonzo</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Andrei%20Singer\">Andrei Singer</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Anna%20de%20Goguel\">Anna de Goguel</a></span></p>\r\n\r\n<p>&mdash; B &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Barbara%20Joyce\">Barbara Joyce</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Beatrice%20Straight\">Beatrice Straight</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Blair%20Cutting\">Blair Cutting</a></span></p>\r\n\r\n<p>&mdash; C &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Carl%20Jacobs\">Carl Jacobs</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Catharine\">Catharine</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Catherine%20Gabrielson\">Catherine Gabrielson</a></span></p>\r\n\r\n<p>&mdash; D &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Daphne%20Moore\">Daphne Moore</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Deirdre%20Hurst\">Deirdre Hurst</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Dennis\">Dennis</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Deyna%20Krugliak\">Deyna Krugliak</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Dorothy%20Elmhirst\">Dorothy Elmhirst</a></span></p>\r\n\r\n<p>&mdash; E &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Eddie%20Harrington\">Eddie Harrington</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Eleana%20Barrie\">Eleana Barrie</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Eleanor%20Paison\">Eleanor Paison</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Ellen%20Van%20Volkenberg\">Ellen Van Volkenberg</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Erika%20Kapralik%20Chambliss\">Erika Kapralik Chambliss</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Esme%20Hubbard\">Esme Hubbard</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Esther\">Esther</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Eugene%20Somoff\">Eugene Somoff</a></span></p>\r\n\r\n<p>&mdash; F &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Felicity%20Cumming\">Felicity Cumming</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Ford%20Rainey\">Ford Rainey</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Frances\">Frances</a></span></p>\r\n\r\n<p>&mdash; G &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Gavin\">Gavin</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/George%20Shdanoff\">George Shdanoff</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Georgette%20Boner\">Georgette Boner</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Gretel%20Schreiber\">Gretel Schreiber</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Guy\">Guy</a></span></p>\r\n\r\n<p>&mdash; H &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Hal%20Sanders\">Hal Sanders</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Hein%20Heckroth\">Hein Heckroth</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Helen\">Helen</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Henry%20Lyon%20Young\">Henry Lyon Young</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Hurd%20Hatfield\">Hurd Hatfield</a></span></p>\r\n\r\n<p>&mdash; I &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Iris%20Tree\">Iris Tree</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Irving\">Irving</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Isabel%20Wintemute\">Isabel Wintemute</a></span></p>\r\n\r\n<p>&mdash; J &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/James%20Legendre\">James Legendre</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Jean[ne]\">Jean[ne]</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Joan%20Tolman\">Joan Tolman</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Jocelyn%20Wynne\">Jocelyn Wynne</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/John%20Flynn\">John Flynn</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/John%20Schoepperle\">John Schoepperle</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Joseph%20Wood\">Joseph Wood</a></span></p>\r\n\r\n<p>&mdash; K &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Katherine%20Ann%20Faulder\">Katherine Ann Faulder</a></span></p>\r\n\r\n<p>&mdash; L &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Leonard%20Elmhirst\">Leonard Elmhirst</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Lonnie\">Lonnie</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Louise\">Louise</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Lucy%20Singer\">Lucy Singer</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Ludmila%20Chirikov\">Ludmila Chirikov</a></span></p>\r\n\r\n<p>&mdash; M &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Mary%20Haynsworth\">Mary Haynsworth</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Mary%20La\">Mary La</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Mary%20Lou%20Taylor\">Mary Lou Taylor</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Miriam%20Garthe\">Miriam Garthe</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Mr.%20Peters\">Mr. Peters</a></span></p>\r\n\r\n<p>&mdash; N &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Nickie\">Nickie</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Nonny%20Gardner\">Nonny Gardner</a></span></p>\r\n\r\n<p>&mdash; P &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Pam%20Sacks\">Pam Sacks</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Pas\">Pas</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Patrick%20Harvey\">Patrick Harvey</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Paul%20Rogers\">Paul Rogers</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Paula%20Morel\">Paula Morel</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Penny\">Penny</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Peter%20Frye\">Peter Frye</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Peter%20Tunnard\">Peter Tunnard</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Phyllis%20Hurst\">Phyllis Hurst</a></span></p>\r\n\r\n<p>&mdash; R &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/René\">Ren&eacute;</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Robert%20Woods\">Robert Woods</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Ronald%20Bennett\">Ronald Bennett</a></span></p>\r\n\r\n<p>&mdash; S &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Sam%20Schatz\">Sam Schatz</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Sarah\">Sarah</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Sonia%20Schatz\">Sonia Schatz</a></span></p>\r\n\r\n<p>&mdash; T &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Tanny\">Tanny</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Terence%20Morgan\">Terence Morgan</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Tom%20Hughes\">Tom Hughes</a></span></p>\r\n\r\n<p>&mdash; U &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Uday%20Shankar\">Uday Shankar</a></span></p>\r\n\r\n<p>&mdash; V &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Valerie\">Valerie</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Veronica\">Veronica</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Virginia\">Virginia</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Vishnadas%20Shirali\">Vishnadas Shirali</a></span></p>\r\n\r\n<p>&mdash; W &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Warner%20Anderson\">Warner Anderson</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Woodman%20Thompson\">Woodman Thompson</a></span><br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Woodrow%20Chambliss\">Woodrow Chambliss</a></span></p>\r\n\r\n<p>&mdash; X &mdash;<br />\r\n<span><a class=\"linklist\" href=\"/chekhov/tag/Xenia%20Chekhov\">Xenia Chekhov</a></span></p>\r\n"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-11-25T19:54:56+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-12-04T15:24:29+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/60",
+    "@type": "o:SitePage",
+    "o:id": 60,
+    "o:slug": "folktale",
+    "o:title": "A Tale About Lies",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<h2>A Tale About Lies and How Quickly They Spread Across the Earth</h2>\r\n\r\n<p>Chekhov, Michael. <em>A Tale About Lies and How Quickly They Spread Across the Earth</em>. Manuscript with cut paper illustrations by Michael Chekhov, [c1920].</p>\r\n\r\n<p>Excerpt translations from:</p>\r\n\r\n<p>Chekhov, Michael. <em>A Tale About Lies and How Quickly They Spread Across the Earth</em>, edited by Jessica Cerullo, translated by Andrei Malaev-Babel, 2013.</p>\r\n\r\n<p>48 photographs</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=2040&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 48 photos"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-12-04T16:17:17+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-12-07T19:14:32+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  },
+  {
+    "@context": "https://collections.uwindsor.ca/api-context",
+    "@id": "https://collections.uwindsor.ca/api/site_pages/61",
+    "@type": "o:SitePage",
+    "o:id": 61,
+    "o:slug": "cts",
+    "o:title": "Chekhov Theatre Studio: Dartington Hall",
+    "o:is_public": true,
+    "o:block": [
+      {
+        "o:layout": "pageTitle",
+        "o:data": [],
+        "o:attachment": []
+      },
+      {
+        "o:layout": "html",
+        "o:data": {
+          "html": "<p><i>Chekhov Theatre Studio: Dartington Hall</i>. Plaistow, Engl: Curwen Press, [1936]. Print.</p>\r\n\r\n<p><em>Chekhov Theatre Studio</em> is in the public domain and may be used, reproduced, and distributed without permission. Images prepared by Peter Tedeschi from original material provided by Katie Cangelosi. See also: <a href=\"https://collections.uwindsor.ca/omeka-s/chekhov/item/556\">Chekhov Theatre Studio, 2003-013/14</a></p>\r\n\r\n<p>35 photographs</p>\r\n"
+        },
+        "o:attachment": []
+      },
+      {
+        "o:layout": "browsePreview",
+        "o:data": {
+          "resource_type": "items",
+          "query": "?fulltext_search=&property[0][joiner]=and&property[0][property]=&property[0][type]=eq&property[0][text]=&resource_class_id[]=&resource_template_id[]=&item_set_id[]=1738&site_id=&has_tags=0&submit=Search&sort_order=asc",
+          "limit": "12",
+          "heading": "",
+          "link-text": "Browse all 35 photographs"
+        },
+        "o:attachment": []
+      }
+    ],
+    "o:site": {
+      "@id": "https://collections.uwindsor.ca/api/sites/2",
+      "o:id": 2
+    },
+    "o:created": {
+      "@value": "2020-12-08T15:28:17+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o:modified": {
+      "@value": "2020-12-08T15:33:10+00:00",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    },
+    "o-module-internationalisation:related_page": []
+  }
+]

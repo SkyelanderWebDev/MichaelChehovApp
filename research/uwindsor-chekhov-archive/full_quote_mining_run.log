@@ -1,0 +1,79 @@
+processed=25/545 downloaded=17 cached=8 failed=0 candidates=2045
+processed=50/545 downloaded=42 cached=8 failed=0 candidates=3283
+processed=75/545 downloaded=67 cached=8 failed=0 candidates=4233
+processed=100/545 downloaded=92 cached=8 failed=0 candidates=5641
+processed=125/545 downloaded=114 cached=11 failed=0 candidates=8572
+processed=150/545 downloaded=139 cached=11 failed=0 candidates=9490
+processed=175/545 downloaded=162 cached=13 failed=0 candidates=9893
+processed=200/545 downloaded=186 cached=14 failed=0 candidates=11218
+processed=225/545 downloaded=210 cached=15 failed=0 candidates=15157
+processed=250/545 downloaded=235 cached=15 failed=0 candidates=17146
+processed=275/545 downloaded=260 cached=15 failed=0 candidates=21026
+processed=300/545 downloaded=284 cached=16 failed=0 candidates=23962
+processed=325/545 downloaded=309 cached=16 failed=0 candidates=26553
+processed=350/545 downloaded=334 cached=16 failed=0 candidates=28328
+processed=375/545 downloaded=358 cached=17 failed=0 candidates=30577
+processed=400/545 downloaded=382 cached=18 failed=0 candidates=33027
+processed=425/545 downloaded=405 cached=20 failed=0 candidates=34838
+processed=450/545 downloaded=430 cached=20 failed=0 candidates=36945
+processed=475/545 downloaded=455 cached=20 failed=0 candidates=39066
+processed=500/545 downloaded=480 cached=20 failed=0 candidates=41155
+processed=525/545 downloaded=505 cached=20 failed=0 candidates=43333
+# Quote mining summary — UWindsor Chekhov archive
+
+Status: raw candidate/internal-only extraction. Exact quote wording is not final until manually verified against PDF page images. Nothing is publicly cleared until Dawson and Lisa both clear it.
+
+## Scope processed
+
+- PDFs considered: 545
+- PDFs processed: 545
+- Downloads from network: 524
+- Cached PDFs reused: 21
+- Failed PDFs: 0
+- Raw deduplicated candidates above score threshold 32: 45574
+- Priority candidate CSV rows: 1000
+
+## Candidate category counts
+
+- actor_struggle: 27972
+- directing_academic_footnote: 25802
+- daily_inspiration: 19275
+- method_terms: 14125
+
+## Top raw candidates needing manual verification
+
+- score 145 | item 857 p.3 | March 16, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | I went to call your attention to the following: when you have done this movement with the feeling of the whole, certain interpretation was there which came from the condition that we are psychologically embracing the whole. Now, I will give you another condition, and you will see
+- score 144 | item 680 p.12 | March 16, 1937 (afternoon) | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | This was lacking in Paul's appearance, but this is the question of a very fine composition in the soul of the actor. and the director's task in to combine the elements of the beginning. sn that they will be absolutely opposite to the end. iho psychological gesture of the and must
+- score 140 | item 837 p.1 | February 25, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | OF THE IIHOLEI The beginning and the end. the feeling of the whole. must be experienced by our whole being in the same may as the objective. psychological gesture, etc. Between the beginning and the end, the life floweWe must feel everything that is going on between the beginning
+- score 140 | item 699 p.5 | May 4, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | 1, Chekhov iay , 1937 his feeling of the whole will cive them in lime the feelin, for each detail which will Bbe in a certain place, because they feel the whole more or less and what detail must be where, and what ind of detail. Then I would proceed to part of the scene and rahca
+- score 139 | item 847 p.1 | March 8, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | We will only take into consideration rhythm in general, only as a feeling of the whole, with the beginning. the middle and the end, and you will do this by moving one hand.
+- score 139 | item 847 p.1 | March 8, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | We will only take into consideration rhythm in general, only as a feeling of the whole, with the beginning. the middle and the end, and you will do this by moving one hand. Be very conscious about this — the beginning, the middle part, and the and.
+- score 138 | item 1077 p.4 | December 1, 1941: Michael Chekhov's eighth class for professional actors: The role of the director | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | Secondly. the simple action, and the simple quality will appeal to our utmost inner life, as wo are not touching our feelings first. we are not tearing our soul to pieces to find our feclings,iwhich cannot be found in that way. When the actor cannot find his feelings — for instan
+- score 138 | item 837 p.1 | February 25, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote | The illusion of the whole is there but the real experience of the whole - the beginning and the end - is not. We must know that there are two feelings of the whole - one is the intellectual which we cannot apply to our art at all, and the other is that which feeds and lends’our w
+- score 137 | item 663 p.5 | February 3, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote | These thrce points are the moments which will lead us through the whole play. tur play begins with a certain silence and ends with a silence. and between these two silences lies the whole play. Low we must try to find some technical mise en sccnc for the beginning and the end; as
+- score 137 | item 746 p.36 | July 18, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | 0n the other hand. the ending of the Two Kinza is weak and leaves the audience without any Idea of that it has been all about. l‘wo Kim's: The director should try to find a new psychological gesture for the whole play. one that would give the actors an idea or the whole play.
+- score 137 | item 847 p.1 | March 8, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | 1938 RHYTHM - FEELING OF THE WHOLE RHYTHMICAL INTERPRETATION TEUPO PSYCHOLOGICAL GESEURE INSPIRATION‘ E ng Lear RHYTHM - FEELING OF THE WHOLE: We will do rhythmical exercises which will help you to hring rhythm into the plays. We will only take into consideration rhythm in genera
+- score 137 | item 635 p.3 | November 30, 1936 (afternoon) | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | The director will help you with this later on»: but to begin with, we must be aware of the style of the fairy taile, tné each one must try to find the style which will unite the whole. That which comes at the first moment will often rommin in the character until the very end.
+- score 135 | item 659 p.5 | January 23, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | 1937 The loss free the actor will he in doing his psychological gesture, the more free he will he later on. it depends upon the director what form of the gesture he gives. we are now working with the psychological gesture because we want to understand it. Later we will perhaps pa
+- score 134 | item 837 p.1 | February 25, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | BEGINNING AND THE END - FEELING. OF THE IIHOLEI The beginning and the end. the feeling of the whole. must be experienced by our whole being in the same may as the objective. psychological gesture, etc.
+- score 134 | item 837 p.1 | February 25, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | OF THE IIHOLEI The beginning and the end. the feeling of the whole. must be experienced by our whole being in the same may as the objective. psychological gesture, etc.
+- score 134 | item 665 p.7 | February 8, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | 1937 afraid of touching the most important moments. if you had only the old methods you wohld not be able to do this. out by touching on the play you are able to do everything. and your imagination will work simultaneously with the gesture. The climax of this play is a most tragi
+- score 134 | item 857 p.3 | March 16, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote | Now, I will give you another condition, and you will see that interpretation inevitably comes through this rhythmical chansing. will you new experience the second thing - the beginning and the end, and the middle part which binds the bo-» ginning and tho and. or as we call the fi
+- score 134 | item 843 p.4 | March 3, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | It could bo turned into an objective but at the moment we will take it in imagination. The beginning of this feeling you will get at the end - to get rid of the whole world — therefore. you want to get rid of him.
+- score 133 | item 699 p.2 | May 4, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote | Each immovable moment on the part of his cast must be considered by the director to be a pause, therefore, the di— rector must know what his actors are doing. lhis mmkes the question of the mise en scare very difficult. You must also keep in mind that the beginning and the end of
+- score 132 | item 746 p.36 | July 18, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | 0n the other hand. the ending of the Two Kinza is weak and leaves the audience without any Idea of that it has been all about. l‘wo Kim's: The director should try to find a new psychological gesture for the whole play. one that would give the actors an idea or the whole play. The
+- score 132 | item 746 p.36 | July 18, 1937 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | The ending in Bnllndina II is a very good line; it should be elaborated and made more clear. 0n the other hand. the ending of the Two Kinza is weak and leaves the audience without any Idea of that it has been all about. l‘wo Kim's: The director should try to find a new psychologi
+- score 131 | item 832 p.1 | February 21, 1938 | actor_struggle, daily_inspiration, directing_academic_footnote, method_terms | Rudolf Steiner Goethe Albert Steffen YTHuh There must be a definite beginning, middle part, and end, al‘hough it seems to be continuous movement and endlessnesa. It ia a very important question and can be explained only by changing our ability or thinking because rhythm belongs t
+- score 131 | item 861 p.1 | March 18, 1938 | actor_struggle, directing_academic_footnote, method_terms | 1933 RHYTHM THE PAUSE RHYTHM _ We shall try to do it first in the schematio way. then we will establish the oppositions. than as improvisation in E very condensed form. The beginning - the middle part.- the end.
+- score 129 | item 836 p.1 | February 24, 1938 | actor_struggle, directing_academic_footnote, method_terms | i-‘xichael Chekhov February 2a., 1938 STYLE - RHYTHHICAL EVENTS CHARACTERIZATION PSYCHOLOGICAL GESTURE STYLE - RHYTHNICAL EVENTS: Style from the point of View of rhythm. Each rhythmical avcnt has, as we know, a beginning and an end — what is in the middle we will leave for tho_mo
+- score 129 | item 731 p.2 | June 28, 1937 (afternoon) | actor_struggle, daily_inspiration, directing_academic_footnote | 1937 feeling of the whole. without this frame you will Stand as before an ocean: if it is to be an ocean which is rough, then it must have a beginning. a middle and an end. Each member of the cant must see the performance many. many times in his imagination. and gradually there w
+
+## Outputs
+
+- `quote_candidates_raw.csv`
+- `quote_candidates_priority.csv`
+- `quote_extraction_status.csv`
+- `page_text_index.jsonl`
+- `extracted_text_all`
+- `pdf_cache`
+

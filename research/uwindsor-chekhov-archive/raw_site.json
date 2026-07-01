@@ -1,0 +1,435 @@
+{
+  "@context": "https://collections.uwindsor.ca/api-context",
+  "@id": "https://collections.uwindsor.ca/api/sites/2",
+  "@type": "o:Site",
+  "o:id": 2,
+  "o:slug": "chekhov",
+  "o:theme": "chekhov",
+  "o:title": "Michael Chekhov: The Actor is the Theatre",
+  "o:summary": "Deirdre Hurst Du Prey. The Actor is the Theatre: A Collection of Michael Chekhov's Unpublished Notes and Manuscripts on the Art of Acting and the Theatre. 1977. Carbon Copies. University of Windsor Accession 2003-013.",
+  "o:thumbnail": null,
+  "o:navigation": [
+    {
+      "type": "page",
+      "data": {
+        "label": "",
+        "id": 47
+      },
+      "links": []
+    },
+    {
+      "type": "page",
+      "data": {
+        "label": "",
+        "id": 30
+      },
+      "links": [
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 31
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 29
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 32
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 33
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 34
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 35
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 36
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 37
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 38
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 39
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 40
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 41
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 42
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 43
+          },
+          "links": []
+        },
+        {
+          "type": "url",
+          "data": {
+            "label": "The Pencil: Memories of Dartington Hall, by Deirdre Hurst du Prey",
+            "url": "/chekhov/item/1089"
+          },
+          "links": []
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "data": {
+        "label": "",
+        "id": 48
+      },
+      "links": [
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 55
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 56
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 58
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 57
+          },
+          "links": []
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "data": {
+        "label": "",
+        "id": 46
+      },
+      "links": [
+        {
+          "type": "page",
+          "data": {
+            "id": 61,
+            "label": ""
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 45
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 49
+          },
+          "links": []
+        },
+        {
+          "type": "page",
+          "data": {
+            "label": "",
+            "id": 60
+          },
+          "links": []
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "data": {
+        "label": "",
+        "id": 51
+      },
+      "links": []
+    }
+  ],
+  "o:homepage": null,
+  "o:item_pool": {
+    "fulltext_search": "",
+    "property": [
+      {
+        "joiner": "and",
+        "property": "",
+        "type": "eq",
+        "text": ""
+      }
+    ],
+    "resource_class_id": [
+      ""
+    ],
+    "resource_template_id": [
+      ""
+    ],
+    "item_set_id": [
+      "1",
+      "1738",
+      "1810",
+      "2010",
+      "2040",
+      "2035"
+    ],
+    "o:site_item_set": [
+      {
+        "o:item_set": {
+          "o:id": "1"
+        }
+      },
+      {
+        "o:item_set": {
+          "o:id": "1738"
+        }
+      }
+    ]
+  },
+  "o:owner": {
+    "@id": "https://collections.uwindsor.ca/api/users/1",
+    "o:id": 1
+  },
+  "o:created": {
+    "@value": "2020-09-01T13:55:40+00:00",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "o:modified": {
+    "@value": "2021-01-04T21:10:45+00:00",
+    "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+  },
+  "o:is_public": true,
+  "o:assign_new_items": false,
+  "o:page": [
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/29",
+      "o:id": 29
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/32",
+      "o:id": 32
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/33",
+      "o:id": 33
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/34",
+      "o:id": 34
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/35",
+      "o:id": 35
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/36",
+      "o:id": 36
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/37",
+      "o:id": 37
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/38",
+      "o:id": 38
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/39",
+      "o:id": 39
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/40",
+      "o:id": 40
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/41",
+      "o:id": 41
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/42",
+      "o:id": 42
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/43",
+      "o:id": 43
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/47",
+      "o:id": 47
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/61",
+      "o:id": 61
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/49",
+      "o:id": 49
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/60",
+      "o:id": 60
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/48",
+      "o:id": 48
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/45",
+      "o:id": 45
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/55",
+      "o:id": 55
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/56",
+      "o:id": 56
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/51",
+      "o:id": 51
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/46",
+      "o:id": 46
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/31",
+      "o:id": 31
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/57",
+      "o:id": 57
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/58",
+      "o:id": 58
+    },
+    {
+      "@id": "https://collections.uwindsor.ca/api/site_pages/30",
+      "o:id": 30
+    }
+  ],
+  "o:site_permission": [
+    {
+      "o:user": {
+        "@id": "https://collections.uwindsor.ca/api/users/1",
+        "o:id": 1
+      },
+      "o:role": "admin"
+    },
+    {
+      "o:user": {
+        "@id": "https://collections.uwindsor.ca/api/users/2",
+        "o:id": 2
+      },
+      "o:role": "admin"
+    }
+  ],
+  "o:site_item_set": [
+    {
+      "o:item_set": {
+        "@id": "https://collections.uwindsor.ca/api/item_sets/1",
+        "o:id": 1
+      }
+    },
+    {
+      "o:item_set": {
+        "@id": "https://collections.uwindsor.ca/api/item_sets/1738",
+        "o:id": 1738
+      }
+    }
+  ],
+  "o:site_item": {
+    "@id": "https://collections.uwindsor.ca/api/items?site_id=2"
+  }
+}
