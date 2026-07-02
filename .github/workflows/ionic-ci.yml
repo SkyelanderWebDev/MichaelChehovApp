@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - secure-beta-weekend
+      - secure-beta-launched
       - 'polly/**'
 
 jobs:
