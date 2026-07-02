@@ -14,10 +14,12 @@ describe('Studio Ritual route polish', () => {
     cy.viewport(MOBILE_VIEWPORT.width, MOBILE_VIEWPORT.height);
   });
 
-  it('keeps Connect as a polished Coming Soon surface', () => {
+  it('keeps Connect as a polished planned-community surface', () => {
     cy.visit('/map');
     cy.contains('h1', 'Connect').should('exist');
-    cy.contains('Coming soon').should('exist');
+    cy.contains('Community').should('exist');
+    cy.contains('later beta updates').should('exist');
+    cy.get('.planned-pill').should('have.length', 3);
     cy.contains('Studios & teachers near you').should('exist');
     cy.contains('Upcoming events & calendar').should('exist');
     cy.contains('Class & show group chat').should('exist');

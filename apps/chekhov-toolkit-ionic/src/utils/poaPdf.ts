@@ -18,6 +18,18 @@ export interface PoaShareInput {
   practice: DailyPractice;
   poa: POAEntry | null;
   notes?: POANote[];
+  /**
+   * Student name for classroom hand-ins: profile display name, else auth
+   * metadata full name, else omitted (a blank "Name: ____" line is printed).
+   * Never the raw email address; class/show is intentionally excluded.
+   */
+  studentName?: string | null;
+}
+
+/** "Name: <student>" line; blank fill-in line when no name is known. */
+export function buildNameLine(studentName?: string | null): string {
+  const trimmed = studentName?.trim();
+  return trimmed ? `Name: ${trimmed}` : 'Name: __________________';
 }
 
 export interface PoaSection {
@@ -106,11 +118,12 @@ function compactLines(rows: Array<[string, string]>): string {
 /** Plain-text rendering of the POA — reused for the mailto body. */
 export function buildPoaText(input: PoaShareInput): string {
   const title = `${APP_NAME} — Practice of the Day`;
+  const nameLine = buildNameLine(input.studentName);
   const dateLine = `Date: ${input.practice.localDate}`;
   const sections = buildPoaSections(input)
     .map((s) => `${s.heading}\n${s.body}`)
     .join('\n\n');
-  return `${title}\n${dateLine}\n\n${sections}\n\n${ATTRIBUTION_FOOTER}\n`;
+  return `${title}\n${nameLine}\n${dateLine}\n\n${sections}\n\n${ATTRIBUTION_FOOTER}\n`;
 }
 
 /** Safe, dated filename, e.g. "chekhov-poa-2026-06-25.pdf". */
@@ -159,6 +172,7 @@ export function buildPoaPdfBlob(input: PoaShareInput): Blob {
 
   writeBlock(`${APP_NAME}`, 18, true, 2);
   writeBlock('Practice of the Day', 13, false, 2);
+  writeBlock(buildNameLine(input.studentName), 11, false, 2);
   writeBlock(`Date: ${input.practice.localDate}`, 11, false, 10);
 
   for (const section of buildPoaSections(input)) {

@@ -86,10 +86,17 @@ describe('The Michael Chekhov Toolkit app shell', () => {
     expectNoHorizontalOverflow();
   });
 
-  it('shows the Connect group-chat coming-soon card', () => {
+  it('shows the Connect group-chat planned card', () => {
     cy.visit('/map');
     cy.contains('h1', 'Connect').should('be.visible');
-    cy.contains('Class & show group chat').should('be.visible');
+    // Ionic fixed tab chrome confuses Cypress visibility on lower cards; assert
+    // existence plus real geometry instead of naive visibility.
+    cy.contains('h2', 'Class & show group chat')
+      .should('exist')
+      .then(($heading) => {
+        const rect = $heading[0].getBoundingClientRect();
+        expect(rect.height, 'chat card heading has real geometry').to.be.greaterThan(0);
+      });
     expectNoHorizontalOverflow();
   });
 

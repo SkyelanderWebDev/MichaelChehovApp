@@ -6,6 +6,7 @@
 
         <CircleChart
           browse
+          collapsible-key
           :show-directory="false"
           :selected-category-ids="selectedCategoryIds"
           :tool-filter="selectedParentToolsByCategory"
@@ -30,37 +31,27 @@
           </ion-segment>
 
           <template v-if="quickDrawView === 'draw'">
-          <div class="quick-draw-heading">
-            <div>
-              <p class="kicker">Quick Draw</p>
-              <h2 id="quick-draw-title">Draw from the full chart</h2>
-              <p class="quick-draw-count" aria-live="polite">
-                {{ selectedCategoryIds.length }} chart area{{ selectedCategoryIds.length === 1 ? '' : 's' }} ·
-                {{ drawablePoolCount }} drawable option{{ drawablePoolCount === 1 ? '' : 's' }}
-              </p>
-            </div>
-            <ion-button
-              data-testid="button-quick-draw"
-              color="primary"
-              :disabled="isDrawing || isDrawLocked"
-              :aria-busy="isDrawing"
-              @click="drawQuickTool"
-            >
-              {{ quickDrawButtonLabel }}
-            </ion-button>
+          <!-- Centered draw ritual: the draw action is the page's main object,
+               like drawing a card from a deck. Utility controls sit below it. -->
+          <div class="ritual-heading">
+            <p class="kicker">Quick Draw</p>
+            <h2 id="quick-draw-title">Draw from the chart</h2>
+            <p class="quick-draw-count" aria-live="polite">
+              {{ selectedCategoryIds.length }} chart area{{ selectedCategoryIds.length === 1 ? '' : 's' }} ·
+              {{ drawablePoolCount }} drawable option{{ drawablePoolCount === 1 ? '' : 's' }}
+            </p>
           </div>
 
-          <label class="unveiling-control">
-            <span>
-              <strong>Veiling value</strong>
-              <small>Optional 1-10 value included with the draw</small>
-            </span>
-            <ion-toggle
-              :checked="includeUnveiling"
-              aria-label="Include a veiling value with Quick Draw"
-              @ionChange="includeUnveiling = $event.detail.checked"
-            />
-          </label>
+          <ion-button
+            class="draw-cta"
+            data-testid="button-quick-draw"
+            color="primary"
+            :disabled="isDrawing || isDrawLocked"
+            :aria-busy="isDrawing"
+            @click="drawQuickTool"
+          >
+            {{ quickDrawButtonLabel }}
+          </ion-button>
 
           <p v-if="isDrawing" class="quick-draw-drawing paper-object" role="status" aria-live="assertive">
             <span class="drawing-dot" aria-hidden="true"></span>
@@ -119,20 +110,47 @@
 
             <div class="quick-result-actions">
               <button
-                v-if="!quickDrawResult.components?.length"
                 type="button"
-                class="lock-toggle"
-                :class="{ locked: singleLocked }"
-                :aria-pressed="singleLocked"
-                :aria-label="singleLocked ? 'Unlock this draw so Draw another rolls fresh' : 'Lock this draw so Draw another keeps it'"
-                data-testid="quick-draw-lock"
-                @click.stop="toggleSingleLock"
+                data-testid="quick-draw-add-note"
+                :aria-expanded="isNoteOpen"
+                @click.stop="toggleNotePanel"
               >
-                <ion-icon aria-hidden="true" :icon="singleLocked ? lockClosedOutline : lockOpenOutline" />
-                <span>{{ singleLocked ? 'Locked' : 'Lock' }}</span>
+                {{ isNoteOpen ? 'Close note' : 'Add Note' }}
               </button>
-              <button type="button" @click.stop="beginQuickDrawPOA">Begin POA in Journal</button>
+              <button
+                type="button"
+                data-testid="quick-draw-begin-poa"
+                :disabled="beginPoaBusy"
+                @click.stop="beginQuickDrawPOA"
+              >
+                {{ beginPoaBusy ? 'Opening…' : 'Begin POA in Journal' }}
+              </button>
               <button type="button" @click.stop="dismissQuickDraw">Dismiss</button>
+            </div>
+
+            <!-- Lightweight note on this draw, kept OUTSIDE the POA body. Uses the
+                 existing per-day Flyback reflection (flyback_note); no new schema. -->
+            <div v-if="isNoteOpen" class="quick-note-panel" @click.stop>
+              <textarea
+                v-model="noteDraft"
+                rows="3"
+                data-testid="quick-draw-note-input"
+                aria-label="Note on this draw, kept separate from your POA"
+                placeholder="A quick note on this draw, kept outside your POA."
+              ></textarea>
+              <div class="quick-note-actions">
+                <button
+                  type="button"
+                  data-testid="quick-draw-note-save"
+                  :disabled="noteSaving"
+                  @click.stop="saveQuickDrawNote"
+                >
+                  {{ noteSaving ? 'Saving…' : 'Save note' }}
+                </button>
+                <span v-if="noteStatus" class="quick-note-status" role="status" aria-live="polite">
+                  {{ noteStatus }}
+                </span>
+              </div>
             </div>
           </article>
 
@@ -143,6 +161,18 @@
           <p v-else class="quick-draw-note">
             Draw from the chart without starting or saving today’s practice.
           </p>
+
+          <label class="unveiling-control">
+            <span>
+              <strong>Veiling value</strong>
+              <small>Optional 1-10 value included with the draw</small>
+            </span>
+            <ion-toggle
+              :checked="includeUnveiling"
+              aria-label="Include a veiling value with Quick Draw"
+              @ionChange="includeUnveiling = $event.detail.checked"
+            />
+          </label>
           </template>
 
           <template v-else>
@@ -335,7 +365,7 @@ import {
 } from '@/data/toolCatalog';
 import { drawNextQuickTool, isQuickDrawLocked } from '@/data/quickDrawLock';
 import { authStatus, currentUser, loadSession } from '@/stores/authStore';
-import { getTodayPractice } from '@/stores/dailyPracticeStore';
+import { getTodayPractice, saveFlybackNote, setPreview, startTodayPractice } from '@/stores/dailyPracticeStore';
 import type { PracticeToolSelection } from '@/types/practice';
 
 const router = useRouter();
@@ -348,10 +378,15 @@ const isDetailOpen = ref(false);
 const hasStartedPractice = ref(false);
 const quickDrawResult = ref<PracticeToolSelection | null>(null);
 const quickDrawEmpty = ref(false);
-// Device-local Quick Draw lock (Chart tab only). Separate from the Journal
-// daily-practice lock and from quick-draw history — see @/data/quickDrawLock.
-const singleLocked = ref(false);
+// Movable Centers keeps device-local per-component locks so "Draw another" can
+// hold a slot. Single-result draws no longer expose a lock; the post-draw card
+// offers Add Note / Begin POA instead — see @/data/quickDrawLock.
 const lockedComponentLabels = ref<Set<string>>(new Set());
+const isNoteOpen = ref(false);
+const noteDraft = ref('');
+const noteSaving = ref(false);
+const noteStatus = ref<string | null>(null);
+const beginPoaBusy = ref(false);
 const isDrawing = ref(false);
 const includeUnveiling = ref(false);
 const highlightedDetailSelection = ref<PracticeToolSelection | null>(null);
@@ -363,11 +398,11 @@ const journalCtaLabel = computed(() =>
   hasStartedPractice.value ? 'Return to today’s practice' : 'Begin today’s practice in Journal',
 );
 
-// True when the current result is fully locked (single lock, or every Movable
-// Centers component locked), so "Draw another" is a no-op and stays disabled.
+// True when every Movable Centers component is locked, so "Draw another" is a
+// no-op and stays disabled. Single-result draws are never fully locked.
 const isDrawLocked = computed(() =>
   isQuickDrawLocked(quickDrawResult.value, {
-    singleLocked: singleLocked.value,
+    singleLocked: false,
     lockedComponentLabels: lockedComponentLabels.value,
   }),
 );
@@ -506,6 +541,7 @@ function selectAllChartPool(): void {
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
   resetQuickDrawLocks();
+  closeNotePanel();
   selectedCategoryIds.value = CHART_CATEGORIES.map((category) => category.id);
   selectedParentToolsByCategory.value = createAllParentToolFilter();
   selectedChildTools.value = createAllChildToolFilter();
@@ -516,6 +552,7 @@ function deselectAllChartPool(): void {
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
   resetQuickDrawLocks();
+  closeNotePanel();
   selectedCategoryIds.value = [];
   selectedParentToolsByCategory.value = createEmptyParentToolFilter();
   selectedChildTools.value = createEmptyChildToolFilter();
@@ -541,16 +578,17 @@ function drawQuickTool(): void {
   isDrawing.value = true;
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
+  closeNotePanel();
   const previous = quickDrawResult.value;
   quickDrawResult.value = null;
 
   if (drawTimer) clearTimeout(drawTimer);
   drawTimer = setTimeout(() => {
-    // Re-roll honors device-local locks: locked single result is preserved, and
-    // locked Movable Centers component slots are kept while the rest re-roll.
+    // Re-roll honors the Movable Centers component locks: locked slots are
+    // kept while the rest re-roll.
     const result = drawNextQuickTool(
       previous,
-      { singleLocked: singleLocked.value, lockedComponentLabels: lockedComponentLabels.value },
+      { singleLocked: false, lockedComponentLabels: lockedComponentLabels.value },
       {
         categoryIds: selectedCategoryIds.value,
         parentFilter: selectedParentToolsByCategory.value,
@@ -574,12 +612,10 @@ function drawQuickTool(): void {
   }, DRAW_SUSPENSE_MS);
 }
 
-// Keep the device-local lock state consistent with the freshly drawn result.
-// A new single result always starts unlocked; Movable Centers component locks are
-// pruned to the labels that still exist in the new draw.
+// Keep the device-local lock state consistent with the freshly drawn result:
+// Movable Centers component locks are pruned to the labels that still exist in
+// the new draw; everything else clears.
 function syncLocksToResult(result: PracticeToolSelection | null): void {
-  singleLocked.value = false;
-
   if (result?.components?.length) {
     const labels = new Set(result.components.map((component) => component.label));
     lockedComponentLabels.value = new Set(
@@ -588,10 +624,6 @@ function syncLocksToResult(result: PracticeToolSelection | null): void {
   } else {
     lockedComponentLabels.value = new Set();
   }
-}
-
-function toggleSingleLock(): void {
-  singleLocked.value = !singleLocked.value;
 }
 
 function isComponentLocked(label: string): boolean {
@@ -609,7 +641,6 @@ function toggleComponentLock(label: string): void {
 }
 
 function resetQuickDrawLocks(): void {
-  singleLocked.value = false;
   lockedComponentLabels.value = new Set();
 }
 
@@ -617,11 +648,111 @@ onBeforeUnmount(() => {
   if (drawTimer) clearTimeout(drawTimer);
 });
 
-function beginQuickDrawPOA(): void {
-  if (!quickDrawResult.value) return;
+// Begin POA: persist this draw as today's practice and START it so Journal
+// opens with the POA flow active — not just a generic Journal landing.
+// setPreview/startTodayPractice both refuse to clobber a day that is already
+// started or completed; in that case Journal shows the existing locked day.
+async function beginQuickDrawPOA(): Promise<void> {
+  const result = quickDrawResult.value;
+  if (!result || beginPoaBusy.value) return;
 
-  window.sessionStorage.setItem('chekhov:quick-draw-preview', JSON.stringify(quickDrawResult.value));
+  // Guest path unchanged: hand the selection to Journal, which gates on
+  // tester access and applies it as a preview after sign-in.
+  if (authStatus.value !== 'signed-in' || !currentUser.value) {
+    handOffPreviewToJournal(result);
+    return;
+  }
+
+  beginPoaBusy.value = true;
+  try {
+    const preview = await setPreview(result, 'random');
+    if (preview?.status === 'preview') {
+      await startTodayPractice(preview.localDate);
+    }
+    router.push('/journal');
+  } catch {
+    // Network/store failure: fall back to the preview hand-off; Journal
+    // surfaces its own load/store errors.
+    handOffPreviewToJournal(result);
+  } finally {
+    beginPoaBusy.value = false;
+  }
+}
+
+function handOffPreviewToJournal(result: PracticeToolSelection): void {
+  window.sessionStorage.setItem('chekhov:quick-draw-preview', JSON.stringify(result));
   router.push({ path: '/journal', query: { preview: 'quick-draw' } });
+}
+
+function toggleNotePanel(): void {
+  if (isNoteOpen.value) {
+    closeNotePanel();
+    return;
+  }
+
+  isNoteOpen.value = true;
+  noteStatus.value = null;
+  void prefillNoteFromToday();
+}
+
+// Best-effort prefill from today's existing Flyback reflection, so saving from
+// the Chart edits the same note Journal shows instead of blind-overwriting it.
+async function prefillNoteFromToday(): Promise<void> {
+  if (authStatus.value !== 'signed-in' || !currentUser.value || noteDraft.value) return;
+
+  try {
+    const practice = await getTodayPractice();
+    if (practice?.flybackNote) {
+      noteDraft.value = practice.flybackNote;
+    }
+  } catch {
+    // Prefill only; saving reports its own errors.
+  }
+}
+
+// Save the note OUTSIDE the POA using the existing per-day Flyback reflection
+// (flyback_note). If no practice exists for today yet, this draw is persisted
+// as today's preview first so the note has a day to live on. No new schema.
+async function saveQuickDrawNote(): Promise<void> {
+  const result = quickDrawResult.value;
+  if (!result || noteSaving.value) return;
+
+  if (authStatus.value !== 'signed-in' || !currentUser.value) {
+    noteStatus.value = 'Tester access is required to save notes. Sign in from the Journal tab.';
+    return;
+  }
+
+  noteSaving.value = true;
+  noteStatus.value = null;
+  try {
+    let practice = await getTodayPractice();
+    if (!practice) {
+      practice = await setPreview(result, 'random');
+    }
+
+    if (!practice) {
+      noteStatus.value = 'Could not save the note.';
+      return;
+    }
+
+    if (practice.status === 'completed') {
+      noteStatus.value = 'Today’s practice is completed and locked; add notes from the Journal.';
+      return;
+    }
+
+    const updated = await saveFlybackNote(noteDraft.value, practice.localDate);
+    noteStatus.value = updated ? 'Note saved' : 'Could not save the note.';
+  } catch {
+    noteStatus.value = 'Could not save the note.';
+  } finally {
+    noteSaving.value = false;
+  }
+}
+
+function closeNotePanel(): void {
+  isNoteOpen.value = false;
+  noteDraft.value = '';
+  noteStatus.value = null;
 }
 
 function openQuickDrawDetail(): void {
@@ -637,6 +768,7 @@ function dismissQuickDraw(): void {
   quickDrawEmpty.value = false;
   highlightedDetailSelection.value = null;
   resetQuickDrawLocks();
+  closeNotePanel();
 }
 
 function resultTitle(selection: PracticeToolSelection): string {
@@ -750,6 +882,32 @@ function createEmptyParentToolFilter(): ParentToolFilter {
   display: flex;
   gap: 12px;
   justify-content: space-between;
+}
+
+/* Draw tab: centered, Tarot-style draw ritual. */
+.ritual-heading {
+  display: grid;
+  gap: 0;
+  justify-items: center;
+  text-align: center;
+}
+
+.ritual-heading h2 {
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 6vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.06;
+  margin: 6px 0 0;
+}
+
+.draw-cta {
+  --border-radius: 999px;
+  font-weight: 800;
+  justify-self: center;
+  letter-spacing: 0.02em;
+  min-height: 54px;
+  width: min(100%, 320px);
 }
 
 .quick-draw-heading h2 {
@@ -871,9 +1029,27 @@ function createEmptyParentToolFilter(): ParentToolFilter {
 }
 
 .quick-result {
+  animation: card-reveal 260ms ease;
   display: grid;
   gap: 10px;
   text-align: center;
+}
+
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-result {
+    animation: none;
+  }
 }
 
 .result-family {
@@ -1029,20 +1205,61 @@ function createEmptyParentToolFilter(): ParentToolFilter {
   padding: 8px 12px;
 }
 
-.quick-result-actions .lock-toggle {
+.quick-note-panel {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+}
+
+.quick-note-panel textarea {
+  background: rgba(255, 253, 247, 0.9);
+  border: 1px solid var(--border-on-paper);
+  border-radius: 14px;
+  color: var(--text-on-paper);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  min-height: 72px;
+  padding: 10px 12px;
+  resize: vertical;
+  width: 100%;
+}
+
+.quick-note-panel textarea:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.quick-note-actions {
   align-items: center;
-  display: inline-flex;
-  gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
 }
 
-.quick-result-actions .lock-toggle ion-icon {
-  font-size: 1rem;
+.quick-note-actions button {
+  background: rgba(255, 253, 247, 0.8);
+  border: 1px solid var(--border-on-paper);
+  border-radius: 999px;
+  color: var(--text-on-paper);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 900;
+  min-height: 40px;
+  padding: 8px 12px;
 }
 
-.quick-result-actions .lock-toggle.locked {
-  background: var(--accent-soft);
-  border-color: var(--accent-primary);
-  color: var(--accent-primary);
+.quick-note-actions button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.quick-note-status {
+  color: var(--text-on-paper-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .journal-cta {

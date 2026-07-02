@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "chekhov-ionic-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "apps/chekhov-toolkit-ionic", "--", "--host", "127.0.0.1", "--port", "5199"],
+      "port": 5199
+    }
+  ]
+}

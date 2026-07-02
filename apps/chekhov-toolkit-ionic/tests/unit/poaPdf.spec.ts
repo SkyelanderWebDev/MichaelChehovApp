@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from 'vitest';
 import {
   buildMailtoHref,
+  buildNameLine,
   buildPoaFilename,
   buildPoaSections,
   buildPoaText,
@@ -8,6 +9,7 @@ import {
   shareOrDownloadPdf,
   type PoaShareInput,
 } from '@/utils/poaPdf';
+import { resolveStudentName } from '@/stores/authStore';
 import type { DailyPractice, POAEntry, POANote } from '@/types/practice';
 
 function makePractice(overrides: Partial<DailyPractice> = {}): DailyPractice {
@@ -97,6 +99,83 @@ describe('poaPdf pure builders', () => {
     const href = buildMailtoHref(input);
     expect(href.startsWith('mailto:?subject=')).toBe(true);
     expect(decodeURIComponent(href)).toContain('Lisa Dalton');
+  });
+});
+
+describe('student name on exports (homework hand-in)', () => {
+  test('buildNameLine prints the student name when present', () => {
+    expect(buildNameLine('Ada Lovelace')).toBe('Name: Ada Lovelace');
+    expect(buildNameLine('  Ada  ')).toBe('Name: Ada');
+  });
+
+  test('buildNameLine falls back to a blank fill-in line', () => {
+    expect(buildNameLine(null)).toBe('Name: __________________');
+    expect(buildNameLine(undefined)).toBe('Name: __________________');
+    expect(buildNameLine('   ')).toBe('Name: __________________');
+  });
+
+  test('buildPoaText carries the name line above the date', () => {
+    const input: PoaShareInput = { practice: makePractice(), poa: makeStructuredPOA(), studentName: 'Ada Lovelace' };
+    const text = buildPoaText(input);
+    const nameIndex = text.indexOf('Name: Ada Lovelace');
+    const dateIndex = text.indexOf('Date: 2026-06-25');
+    expect(nameIndex).toBeGreaterThan(-1);
+    expect(dateIndex).toBeGreaterThan(nameIndex);
+  });
+
+  test('missing name exports the blank line, never an email address', () => {
+    const text = buildPoaText({ practice: makePractice(), poa: makeStructuredPOA() });
+    expect(text).toContain('Name: __________________');
+    expect(text).not.toContain('@');
+  });
+
+  test('resolveStudentName prefers real display name, then full name, never email-derived display name', () => {
+    expect(
+      resolveStudentName({ id: 'u1', email: 'ada@example.com', displayName: 'Ada L.', fullName: 'Ada Lovelace' }),
+    ).toBe('Ada L.');
+    expect(
+      resolveStudentName({ id: 'u1', email: 'ada@example.com', displayName: 'ada', fullName: 'Ada Lovelace' }),
+    ).toBe('Ada Lovelace');
+    expect(
+      resolveStudentName({ id: 'u1', email: 'ada@example.com', displayName: '  ', fullName: 'Ada Lovelace' }),
+    ).toBe('Ada Lovelace');
+    expect(resolveStudentName({ id: 'u1', email: 'ada@example.com', displayName: 'ada' })).toBeNull();
+    expect(resolveStudentName({ id: 'u1', email: 'ada@example.com' })).toBeNull();
+    expect(resolveStudentName(null)).toBeNull();
+  });
+});
+
+describe('historical POA export payload', () => {
+  test('a saved/completed past day exports with its own date, content, and notes', () => {
+    const practice = makePractice({
+      id: 'dp-past',
+      localDate: '2026-06-20',
+      status: 'completed',
+      selectedTool: {
+        categoryId: 'psychological-gesture',
+        categoryName: 'Psychological Gesture',
+        parentToolName: 'Inspiration',
+        childToolName: null,
+      },
+    });
+    const poa = makeStructuredPOA({ dailyPracticeId: 'dp-past', practiceNotes: 'Completed day notes.' });
+    const notes: POANote[] = [
+      { id: 'n-past', dailyPracticeId: 'dp-past', note: 'Reflection after completion.', createdAt: '2026-06-20T21:00:00.000Z' },
+    ];
+
+    const input: PoaShareInput = { practice, poa, notes, studentName: 'Ada Lovelace' };
+
+    expect(buildPoaFilename(practice)).toBe('chekhov-poa-2026-06-20.pdf');
+
+    const text = buildPoaText(input);
+    expect(text).toContain('Date: 2026-06-20');
+    expect(text).toContain('Name: Ada Lovelace');
+    expect(text).toContain('Psychological Gesture · Inspiration');
+    expect(text).toContain('Completed day notes.');
+    expect(text).toContain('Reflection after completion.');
+    expect(text).toContain('Lisa Dalton');
+    // No class/show fields exist on the export payload.
+    expect(text).not.toMatch(/Class|Show:/);
   });
 });
 

@@ -29,14 +29,34 @@
           <span class="status-pill">{{ statusLabel(day.practice.status) }}</span>
         </div>
 
-        <button
-          class="reveal-toggle"
-          type="button"
-          :aria-expanded="isRevealOpen(day.practice.id)"
-          @click="toggleReveal(day.practice.id)"
-        >
-          {{ isRevealOpen(day.practice.id) ? 'Hide reveal' : 'Reopen the reveal' }}
-        </button>
+        <div class="day-actions">
+          <button
+            class="reveal-toggle"
+            type="button"
+            :aria-expanded="isRevealOpen(day.practice.id)"
+            @click="toggleReveal(day.practice.id)"
+          >
+            {{ isRevealOpen(day.practice.id) ? 'Hide reveal' : 'Reopen the reveal' }}
+          </button>
+          <button
+            v-if="canExportDayPdf(day)"
+            class="reveal-toggle export-pdf"
+            type="button"
+            :data-testid="`history-export-pdf-${day.practice.id}`"
+            :disabled="exportingId === day.practice.id"
+            :aria-label="`Export the ${day.practice.localDate} POA as a PDF`"
+            @click="exportDayPdf(day)"
+          >
+            {{ exportingId === day.practice.id ? 'Preparing…' : 'Export PDF' }}
+          </button>
+          <span
+            v-if="exportStatusId === day.practice.id && exportStatus"
+            class="export-status"
+            aria-live="polite"
+          >
+            {{ exportStatus }}
+          </span>
+        </div>
 
         <dl v-if="isRevealOpen(day.practice.id)" class="reveal-details">
           <div>
@@ -102,8 +122,9 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { authStatus, currentUser, loadSession } from '@/stores/authStore';
+import { authStatus, currentUser, loadSession, resolveStudentName } from '@/stores/authStore';
 import { getPracticeHistory } from '@/stores/dailyPracticeStore';
+import { sharePoaPdf } from '@/utils/poaPdf';
 import type {
   DrawHistoryEntry,
   POAEntry,
@@ -156,6 +177,44 @@ async function loadHistory(): Promise<void> {
     loadError.value = 'Unable to load your practice history.';
   } finally {
     isLoading.value = false;
+  }
+}
+
+const exportingId = ref<string | null>(null);
+const exportStatus = ref<string | null>(null);
+const exportStatusId = ref<string | null>(null);
+
+// Homework hand-in: export saved historical POAs as PDFs, with the same share
+// → download → mailto fallback chain as the Today export. Preview-only history
+// rows without a POA are not homework-export candidates.
+function canExportDayPdf(day: PracticeHistoryDay): boolean {
+  return Boolean(day.poa);
+}
+
+async function exportDayPdf(day: PracticeHistoryDay): Promise<void> {
+  if (exportingId.value || !canExportDayPdf(day)) return;
+
+  exportingId.value = day.practice.id;
+  exportStatusId.value = day.practice.id;
+  exportStatus.value = null;
+  try {
+    const result = await sharePoaPdf({
+      practice: day.practice,
+      poa: day.poa,
+      notes: day.notes,
+      studentName: resolveStudentName(currentUser.value),
+    });
+    exportStatus.value = {
+      shared: 'Shared',
+      downloaded: 'PDF downloaded',
+      mailto: 'Opened email draft',
+      cancelled: 'Share cancelled',
+      failed: 'Could not export PDF',
+    }[result];
+  } catch {
+    exportStatus.value = 'Could not export PDF';
+  } finally {
+    exportingId.value = null;
   }
 }
 
@@ -259,6 +318,13 @@ function formatTime(iso: string): string {
   margin: 4px 0 0;
 }
 
+.day-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .reveal-toggle {
   background: var(--surface);
   border: 1px solid var(--border-subtle);
@@ -269,6 +335,21 @@ function formatTime(iso: string): string {
   justify-self: start;
   min-height: 40px;
   padding: 8px 14px;
+}
+
+.reveal-toggle:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.export-pdf {
+  color: var(--accent-primary);
+}
+
+.export-status {
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 .reveal-details,

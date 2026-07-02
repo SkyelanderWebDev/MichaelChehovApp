@@ -15,7 +15,7 @@
     </div>
 
     <div class="chart-stage" role="group" aria-label="Chart of Inspired Action categories">
-      <div class="chart-orbit outer" aria-hidden="true"></div>
+      <div class="chart-orbit outer" :style="{ background: familyArcGradient }" aria-hidden="true"></div>
       <div class="chart-orbit middle" aria-hidden="true"></div>
       <div class="chart-orbit inner" aria-hidden="true"></div>
 
@@ -80,24 +80,44 @@
     </div>
 
     <div class="chart-key" aria-label="Chart number key, grouped by family">
-      <div v-for="family in keyFamilies" :key="family.id" class="key-group">
-        <p class="key-group-label">
-          <span class="family-dot" :style="{ backgroundColor: family.color }"></span>
-          {{ family.label }}
-        </p>
-        <ul class="key-list">
-          <li v-for="item in family.items" :key="item.id" class="key-item">
-            <span class="key-num" :style="{ borderColor: family.color }">{{ item.indexLabel }}</span>
-            <span class="key-name">{{ item.name }}</span>
-          </li>
-        </ul>
+      <button
+        v-if="props.collapsibleKey"
+        class="key-toggle"
+        type="button"
+        data-testid="chart-key-toggle"
+        :aria-expanded="isKeyOpen"
+        aria-controls="chart-key-groups"
+        @click="isKeyOpen = !isKeyOpen"
+      >
+        <span class="key-toggle-title">Chart key</span>
+        <span class="key-toggle-meta">
+          {{ CHART_CATEGORIES.length }} categories · {{ CHART_FAMILIES.length }} families
+        </span>
+        <ion-icon aria-hidden="true" :icon="isKeyOpen ? chevronUpOutline : chevronDownOutline" />
+      </button>
+
+      <div v-show="!props.collapsibleKey || isKeyOpen" id="chart-key-groups" class="key-groups">
+        <div v-for="family in keyFamilies" :key="family.id" class="key-group">
+          <p class="key-group-label">
+            <span class="family-dot" :style="{ backgroundColor: family.color }"></span>
+            {{ family.label }}
+          </p>
+          <ul class="key-list">
+            <li v-for="item in family.items" :key="item.id" class="key-item">
+              <span class="key-num" :style="{ borderColor: family.color }">{{ item.indexLabel }}</span>
+              <span class="key-name">{{ item.name }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import { IonIcon } from '@ionic/vue';
+import { chevronDownOutline, chevronUpOutline } from 'ionicons/icons';
 import {
   CHART_CATEGORIES,
   CHART_FAMILIES,
@@ -105,6 +125,7 @@ import {
   getChartNodeAngle,
   getChartNodePosition,
   getFamily,
+  getFamilyArcGradient,
   type ChartCategory,
 } from '@/data/circleChartCatalog';
 import { getDrawableSelectionCount, type ChildToolFilter, type ParentToolFilter } from '@/data/toolCatalog';
@@ -123,6 +144,8 @@ const props = withDefaults(
     /** Read-only quick-access mode for the Chart tab: no pool selection state. */
     browse?: boolean;
     showDirectory?: boolean;
+    /** Collapse the numbered chart key behind a toggle (starts collapsed). */
+    collapsibleKey?: boolean;
   }>(),
   {
     toolFilter: undefined,
@@ -130,8 +153,13 @@ const props = withDefaults(
     disabled: false,
     browse: false,
     showDirectory: true,
+    collapsibleKey: false,
   },
 );
+
+// Collapsed by default so the draw action below the chart stays near the first
+// viewport on phones; only applies when collapsibleKey is set.
+const isKeyOpen = ref(false);
 
 const emit = defineEmits<{
   (event: 'toggle-category', categoryId: string): void;
@@ -163,6 +191,10 @@ const keyFamilies = computed(() => {
     items: numbered.filter((category) => category.family === family.id),
   })).filter((family) => family.items.length > 0);
 });
+
+// Family-arc ring background; pure builder lives beside the chart geometry
+// helpers so alignment with the numbered node slots is unit-testable.
+const familyArcGradient = computed(() => getFamilyArcGradient());
 
 const selectedCategories = computed(() =>
   props.selectedCategoryIds
@@ -319,15 +351,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
   transform: translate(-50%, -50%);
 }
 
+/* Family-arc background is computed inline from CHART_CATEGORIES (see
+   familyArcGradient) so the ring tracks taxonomy order and count. */
 .chart-orbit.outer {
-  background: conic-gradient(
-    from -90deg,
-    rgba(139, 92, 246, 0.22) 0deg 72deg,
-    rgba(217, 119, 6, 0.2) 72deg 168deg,
-    rgba(15, 118, 110, 0.2) 168deg 240deg,
-    rgba(37, 99, 235, 0.18) 240deg 312deg,
-    rgba(190, 18, 60, 0.18) 312deg 360deg
-  );
   height: 88%;
   width: 88%;
 }
@@ -434,6 +460,9 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 .chart-hub strong {
   color: var(--text-on-paper);
   display: -webkit-box;
+  /* Never flex-squeeze the hub title: at narrow widths the label/small lines
+     were compressing it and clipping "Action" out of "Inspired Action". */
+  flex-shrink: 0;
   font-family: var(--font-display);
   font-size: clamp(0.86rem, 3.3vw, 1.08rem);
   line-height: 1.08;
@@ -562,9 +591,55 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
 .chart-key {
   border-top: 1px solid var(--border-on-paper);
   display: grid;
-  gap: 16px;
+  gap: 12px;
   margin-top: 16px;
   padding-top: 16px;
+}
+
+.key-toggle {
+  align-items: center;
+  background: var(--surface-paper-soft);
+  border: 1px solid var(--border-on-paper);
+  border-radius: 14px;
+  color: var(--text-on-paper);
+  column-gap: 10px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  min-height: 44px;
+  padding: 10px 12px;
+  text-align: left;
+  width: 100%;
+}
+
+.key-toggle:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.key-toggle-title {
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.key-toggle-meta {
+  color: var(--text-on-paper-soft);
+  font-size: 0.74rem;
+  font-weight: 700;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.key-toggle ion-icon {
+  color: var(--text-on-paper-soft);
+  flex: 0 0 auto;
+  font-size: 1.05rem;
+}
+
+.key-groups {
+  display: grid;
+  gap: 16px;
 }
 
 .key-group {
@@ -640,7 +715,7 @@ function nodeStyle(category: PositionedCategory): Record<string, string> {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .chart-key {
+  .key-groups {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px 24px;
   }

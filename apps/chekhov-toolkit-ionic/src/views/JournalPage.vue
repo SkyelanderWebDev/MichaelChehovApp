@@ -299,7 +299,7 @@ import {
   type ChildToolFilter,
   type ParentToolFilter,
 } from '@/data/toolCatalog';
-import { authStatus, currentUser, loadSession } from '@/stores/authStore';
+import { authStatus, currentUser, loadSession, resolveStudentName } from '@/stores/authStore';
 import {
   addPOANote,
   clearTodayPracticePreview,
@@ -754,7 +754,12 @@ async function exportPoaPdf(): Promise<void> {
   sharingPoa.value = true;
   shareStatus.value = null;
   try {
-    const result = await sharePoaPdf({ practice, poa: poaEntry.value, notes: poaNotes.value });
+    const result = await sharePoaPdf({
+      practice,
+      poa: poaEntry.value,
+      notes: poaNotes.value,
+      studentName: resolveStudentName(currentUser.value),
+    });
     shareStatus.value = {
       shared: 'Shared',
       downloaded: 'PDF downloaded',

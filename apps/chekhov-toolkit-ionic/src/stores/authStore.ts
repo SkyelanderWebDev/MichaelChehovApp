@@ -5,7 +5,26 @@ export interface AuthUser {
   id: string;
   email: string;
   displayName?: string | null;
+  fullName?: string | null;
   createdAt?: string;
+}
+
+/**
+ * Student name for exports/hand-ins: profile display name first, then auth
+ * metadata full name, else null (callers render a blank "Name: ____" line).
+ * Never falls back to the email address.
+ */
+export function resolveStudentName(user: AuthUser | null): string | null {
+  const emailLocalPart = user?.email?.split('@')[0]?.trim().toLowerCase();
+  const displayName = user?.displayName?.trim();
+  // Early beta sign-up used the email local-part as display_name. Treat that as
+  // account plumbing, not a student-provided name for homework exports.
+  if (displayName && displayName.toLowerCase() !== emailLocalPart) return displayName;
+
+  const fullName = user?.fullName?.trim();
+  if (fullName) return fullName;
+
+  return null;
 }
 
 export type AuthStatus = 'unknown' | 'guest' | 'signed-in' | 'misconfigured' | 'error';
@@ -61,11 +80,6 @@ export async function signUp(email: string, password: string): Promise<boolean> 
     const { data, error } = await supabase.auth.signUp({
       email: normalizedEmail,
       password,
-      options: {
-        data: {
-          display_name: normalizedEmail.split('@')[0],
-        },
-      },
     });
 
     if (error) {
@@ -154,6 +168,7 @@ function mapSupabaseUser(user: { id: string; email?: string; created_at?: string
     id: user.id,
     email: user.email ?? '',
     displayName: typeof user.user_metadata?.display_name === 'string' ? user.user_metadata.display_name : null,
+    fullName: typeof user.user_metadata?.full_name === 'string' ? user.user_metadata.full_name : null,
     createdAt: user.created_at,
   };
 }

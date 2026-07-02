@@ -176,6 +176,16 @@ export const WEEKEND_TOOL_CATALOG: readonly WeekendToolCategory[] = [
       { name: '5 (All/Nowhere/Void)', children: ['Everything', 'Nothing', 'Universe', 'Emptiness', 'Infinity', 'Totality', 'Beyond'] },
     ],
   },
+  {
+    // Dawson's approved Psychological Gesture scaffold (2026-07-02). Labels only;
+    // Inspiration is intentionally parent-only and stays drawable on its own.
+    categoryId: 'psychological-gesture',
+    tools: [
+      { name: 'Inspiration', children: [] },
+      { name: 'Imagination', children: ['Body', 'Behavior', 'Activity'] },
+      { name: 'Intellect', children: ['Way', 'Win', 'Loss'] },
+    ],
+  },
 ];
 
 // Map of categoryId -> parent tool names currently included in the draw pool.
