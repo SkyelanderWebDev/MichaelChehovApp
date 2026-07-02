@@ -3,7 +3,7 @@
     <ion-content class="settings-page">
       <main class="page-shell">
         <header class="page-intro">
-          <p class="kicker">Private beta</p>
+          <p class="kicker">Secure beta</p>
           <h1>Settings</h1>
         </header>
 
@@ -102,7 +102,7 @@
           <p>{{ CHART_ATTRIBUTION }}</p>
         </section>
 
-        <p class="build-note">Beta build {{ APP_VERSION }}</p>
+        <p class="build-note">{{ BUILD_LABEL }} · {{ BUILD_RELEASE_DATE }}</p>
 
         <TesterAccessSheet :is-open="isAccessSheetOpen" @dismiss="isAccessSheetOpen = false" />
       </main>
@@ -116,10 +116,9 @@ import { IonButton, IonContent, IonPage } from '@ionic/vue';
 import AppearanceSelector from '@/components/AppearanceSelector.vue';
 import TesterAccessSheet from '@/components/TesterAccessSheet.vue';
 import { APP_NAME, BETA_DESCRIPTION, CHART_ATTRIBUTION } from '@/constants/attribution';
+import { BUILD_LABEL, BUILD_RELEASE_DATE } from '@/constants/build';
 import { authBusy, authConfigured, authError, authStatus, currentUser, loadSession, signOut } from '@/stores/authStore';
 import { getLocalDate, submitFeedback } from '@/stores/dailyPracticeStore';
-
-const APP_VERSION = '0.0.1';
 
 const isAccessSheetOpen = ref(false);
 const feedbackText = ref('');

@@ -1,15 +1,15 @@
 # The Michael Chekhov Toolkit — Agent Context
 
-Last refreshed: 2026-06-12 for demo-parity/Fable handoff.
+Last refreshed: 2026-07-02 for active secure beta / Build 0.1.0.
 
-This file is the working source of truth for Claude Code/Fable and other repo agents. If this file conflicts with older `replit.md`, `.claude/plans/phase1-prototype.md`, or stale April/November notes, prefer this file unless Dawson explicitly says otherwise. For the June 12/13 demo-parity pass, also read `.claude/plans/2026-06-12-demo-parity-fable-handoff.md` before implementation.
+This file is the working source of truth for Claude Code, Omnigent/Polly, Codex, and other repo agents. If this file conflicts with older `replit.md`, `.claude/plans/phase1-prototype.md`, the June demo-parity handoff, or stale April/November notes, prefer this file unless Dawson explicitly says otherwise. For production-lane work, read `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md` and `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md` first.
 
 ## What this project is
 
 The Michael Chekhov Toolkit is an official/private-beta practice app for actors, directors, teachers, and students working with Michael Chekhov technique. It is grounded in the National Michael Chekhov Association's Chart of Inspired Action and Lisa Dalton's sanctioned project direction.
 
 Stakeholder context:
-- Lisa Dalton is the primary stakeholder and phone-testing path.
+- Lisa Dalton is the primary stakeholder, active secure-beta tester, and phone-testing path. She received the beta link before 2026-07-02 and created her tester account on 2026-07-02.
 - The Chart of Inspired Action is NMCA-validated source territory.
 - Dawson's current product name decision is: **The Michael Chekhov Toolkit**.
 - Public/beta naming should stay warm, official, and actor-centered. Do not use "Chekhov's Hired Gun" as public branding.
@@ -33,9 +33,9 @@ Keep attribution text centralized in implementation so Lisa can refine it after 
    - Use taxonomy labels, POA structure, sourced/cited excerpts, and neutral navigation copy only.
    - Do not present invented practice language as Michael Chekhov, Lisa Dalton, or NMCA teaching.
 5. Treat Lisa Dalton phone testing as a primary acceptance path.
-6. Do not deploy, publish, or send a URL to Lisa/NMCA without Dawson approval.
+6. Do not deploy, publish, or send a new build/update to Lisa/NMCA without Dawson approval; Lisa already has the secure-beta production alias.
 7. Do not add paid services, app-store distribution, or new provider commitments without Dawson approval.
-8. Do not claim "secure beta" unless Supabase Auth/Postgres/RLS or equivalent user-owned security is actually implemented and verified.
+8. Secure beta is active and receipt-verified. Do not claim a new build is Lisa-ready without fresh gates/receipts.
 
 ## Current repository state
 
@@ -63,62 +63,44 @@ Current React prototype behavior:
 - History loads previous draws from SQLite and can reopen a reveal card.
 - Server routes exist for drawn tools and journal entries.
 
-> **STATUS UPDATE (2026-07-01): `phone-ready secure tester beta v1`.** The demo-parity gaps below are RESOLVED and receipt-verified: full taxonomy parity (15 categories / 84 tools / 1,144 children), chart cleanup + Quick Draw, Library skeleton, structured + free-response POA with autosave guard, hosted RLS PASS, signed-in persistence e2e PASS, CI RLS job green, security headers live in production, and Dawson's real iPhone home-screen smoke PASS. Receipts: `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`. Linear ledger: SKY-16…22. List below retained for history only.
+> **STATUS UPDATE (2026-07-02): active secure beta — Build 0.1.0.** Lisa has the secure-beta production alias and created her tester account on 2026-07-02. Build 0.1.0 is the first named active secure-beta build. The prior `phone-ready secure tester beta v1` receipts remain valid: full taxonomy parity (15 categories / 84 tools / 1,144 children), chart cleanup + Quick Draw, Library skeleton, structured + free-response POA with autosave guard, hosted RLS PASS, signed-in persistence e2e PASS, CI RLS job green, security headers live in production, and Dawson's real iPhone home-screen smoke PASS. Receipts: `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md` and `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`. Linear ledger: SKY-16…22. List below retained for history only.
 
-Known current demo-parity gaps in the Ionic app (historical, resolved as of 2026-07-01):
+Historical demo-parity gaps in the Ionic app (resolved before active secure beta):
 - Ionic taxonomy data is currently truncated relative to `client/src/lib/toolData.ts`; restore all descriptions, child/example labels, and Imaginary Body scope metadata for the June 12/13 pass.
 - Chart needs demo cleanup: no top text above the chart in browse mode, center hub main text `Inspired Action`, and a Chart-tab Quick Draw path.
 - Library needs source-safe resource buckets beyond the current taxonomy lists.
 - Daily Action / POA UI needs structured + free-response parity; the Supabase/store types already carry the structured fields.
-- Mobile/browser verification is required, and real iPhone smoke is still the bar before `phone/Lisa ready` language.
+- Mobile/browser verification and real iPhone smoke were required for the original promotion and are now retained as future new-build gates.
 
 ## Current strategic direction
 
-The existing React prototype is a behavior/reference prototype, not the target production foundation.
+The app is in **active secure beta**. The current production-facing app is the Ionic Vue PWA under `apps/chekhov-toolkit-ionic/`, versioned as **Build 0.1.0 / `secure-beta-0.1.0`**.
 
-Approved forward architecture for summer beta:
+Current beta state:
+- Lisa Dalton has the secure-beta production alias.
+- Lisa created her tester account on 2026-07-02.
+- Treat future work as updates to an active tester build, not pre-share demo preparation.
+- Keep the React prototype as behavior/content reference only.
+
+Approved forward architecture for the summer beta:
 - Ionic Vue app shell.
 - Capacitor-ready mobile path with hosted/installable PWA fallback.
-- Supabase Auth + Postgres + Row Level Security by the June 13 secure tester-beta lane.
-- Free-first summer beta infrastructure where possible.
+- Supabase Auth + Postgres + Row Level Security for per-tester data.
+- Free-first infrastructure where possible.
 
-Weekend Lisa pilot target:
-- A narrow confidence demo, not a full beta.
-- Prove app-like Ionic Vue/PWA direction.
-- Show official name and attribution.
-- Show Today’s Practice with three entry choices:
-  - Pick My Own
-  - Draw Random
-  - Daily Tool, seeded/static is acceptable for the weekend
-- Allow preview/re-roll/change before commitment.
-- Lock after `Start Today’s Practice`.
-- Preserve POA where Lisa already likes it.
-- Save/return/reload if possible.
-- Verify at phone width and, before Lisa sees it, on a real iPhone.
-
-Explicit weekend defers:
-- Full Supabase Auth/RLS unless trivial after the slice.
-- Real push notifications.
+Still deferred unless Dawson explicitly authorizes:
+- Push notifications.
 - Real global Daily Tool scheduler/admin CMS.
 - App Store/TestFlight/Play distribution.
-- Broad Library/content system.
+- Full approved Library content/excerpts or unverified public links.
 - AI-generated embodied prompts.
-- Broad taxonomy edits.
-- Full React feature parity.
-
-June 13 tester-beta target:
-- Hosted installable PWA.
-- Supabase Auth/profiles/Postgres/RLS.
-- Per-user Daily Practice by local date.
-- POA tied to Daily Practice.
-- Today return path and basic History.
-- Feedback capture.
-- Mobile/a11y smoke.
-- Pareto-Skeleton Library with source cards/citations and only approved, sourced, or clearly closed-beta-under-review excerpt material.
+- Broad taxonomy/source edits.
 
 ## Source-of-truth docs
 
 Current / high authority:
+- `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`
+- `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`
 - `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-current-state-audit.md`
 - `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-kickoff.md`
 - `brainstorms/michael-chekhov-toolkit-grill-me.md`
@@ -235,6 +217,17 @@ Codex / GPT-5.5 is preferred for:
 
 Do not let multiple agents freely edit the same files concurrently. If parallel work is needed, use isolated worktrees and explicit file ownership.
 
+## Build/version rule
+
+`apps/chekhov-toolkit-ionic` is now Build 0.1.0 / `secure-beta-0.1.0`. Every merge intended for deployment, and every production deploy, must update the build identifier before merge/deploy if app behavior, beta copy, auth/data shape, or tester-visible UX changed. Keep these in sync:
+
+- `apps/chekhov-toolkit-ionic/package.json` `version`
+- `apps/chekhov-toolkit-ionic/package-lock.json` root versions
+- `apps/chekhov-toolkit-ionic/src/constants/build.ts`
+- a `.claude/plans/YYYY-MM-DD-build-...md` or release note with receipts
+
+CI runs `npm run verify:build-version` to catch mismatches and `npm run verify:build-bump` to reject tester-facing Ionic PRs/pushes that omit a build/release-note bump.
+
 ## Verification gates
 
 Before calling implementation work ready:
@@ -242,7 +235,7 @@ Before calling implementation work ready:
 - `npm run build` passes, or the exact new app equivalent passes.
 - App opens locally.
 - Mobile-width smoke passes.
-- Real iPhone smoke is completed before Lisa review.
+- Real iPhone smoke is completed before sending Lisa a new build or asking her to validate a tester-visible change.
 - Today’s Practice path works for the weekend slice.
 - `Start Today’s Practice` lock behavior is verified if implemented.
 - POA save/return/reload is verified if implemented.

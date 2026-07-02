@@ -60,6 +60,7 @@ describe('chart Quick-Draw history store', () => {
   it('does not write to the Supabase practice draw_history key', () => {
     logQuickDraw(selection('Expanding'));
     // Only the dedicated, device-local key is ever used.
-    expect(Object.keys(window.localStorage)).toEqual([STORAGE_KEY]);
+    expect(window.localStorage.length).toBe(1);
+    expect(window.localStorage.key(0)).toBe(STORAGE_KEY);
   });
 });

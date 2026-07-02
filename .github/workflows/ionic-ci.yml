@@ -29,6 +29,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify build identifier
+        run: npm run verify:build-version
+
+      - name: Enforce build bump for tester-facing changes
+        env:
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+        run: npm run verify:build-bump
+
       - name: Lint
         run: npm run lint
 

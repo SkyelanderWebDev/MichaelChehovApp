@@ -1,6 +1,6 @@
 # AGENTS.md — The Michael Chekhov Toolkit
 
-Last refreshed: 2026-06-12.
+Last refreshed: 2026-07-02 for active secure beta / Build 0.1.0.
 
 This file is for Hermes, Claude Code, Codex, and any other coding/review agent working in this repo.
 
@@ -8,7 +8,7 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 
 1. Read `CLAUDE.md`.
 2. Read `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-current-state-audit.md`.
-3. For the June 12/13 demo-parity pass, read `.claude/plans/2026-06-12-demo-parity-fable-handoff.md` before implementation.
+3. Read `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md` and `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md` before production-lane work.
 4. Read `brainstorms/michael-chekhov-toolkit-grill-me.md` and `brainstorms/agent-orchestration-final-plan-2026-06-04.md` before broader planning.
 5. Run `git status --short` before editing.
 6. Preserve the existing dirty tree unless Dawson explicitly approves a cleanup/commit/reset.
@@ -16,10 +16,10 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 ## Project truth
 
 - Product name: **The Michael Chekhov Toolkit**.
-- Official context: NMCA / Lisa Dalton sanctioned private-beta practice app.
+- Official context: NMCA / Lisa Dalton sanctioned private-beta practice app. Lisa has the secure-beta link and created her tester account on 2026-07-02.
 - Current repo code includes both the React/Vite/Express/SQLite prototype and the active Ionic Vue secure-beta PWA under `apps/chekhov-toolkit-ionic/`.
-- For the June 12/13 demo-parity pass, edit the Ionic app under `apps/chekhov-toolkit-ionic/` and use the React prototype as behavior/content reference.
-- React source file `client/src/lib/toolData.ts` is the canonical source for intentionally typed taxonomy labels/descriptions/child tools during this parity pass.
+- For production-lane work, edit the Ionic app under `apps/chekhov-toolkit-ionic/` and use the React prototype only as behavior/content reference where needed.
+- React source file `client/src/lib/toolData.ts` remains canonical source territory for intentionally typed taxonomy labels/descriptions/child tools.
 
 ## Non-negotiables
 
@@ -29,43 +29,31 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 - Make attribution visible before any external share:
   - `Chart of Inspired Action © 2004 National Michael Chekhov Association. Used with permission. Lisa Dalton, NMCA President and Master Teacher.`
 - Treat Lisa Dalton phone testing as a primary acceptance path.
-- Do not deploy or send/share links without Dawson approval.
-- Do not claim secure beta unless auth/RLS/user-owned access has been implemented and verified.
+- Do not deploy or send/share new builds/links without Dawson approval; Lisa already has the secure-beta production alias.
+- Secure beta is now active and receipt-verified; do not claim a new build is Lisa-ready without fresh gates/receipts.
 - Keep infrastructure free-first unless Dawson approves spend.
 
-## Current demo-parity artifact
+## Current active build
 
-The immediate implementation spec is:
+**Build 0.1.0 / `secure-beta-0.1.0`** is the first named active secure-beta build. Lisa has the production alias and created a tester account on 2026-07-02.
 
-`.claude/plans/2026-06-12-demo-parity-fable-handoff.md`
+Receipts and release notes:
 
-Use that plan for the next build pass unless Dawson replaces it.
+- `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`
+- `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`
 
-## Current demo slice target
+The old June demo-parity plan is historical. Use it only for provenance unless Dawson explicitly reopens those tasks.
 
-For the June 12/13 morning demo, build React-functionality parity where it matters while preserving the new clean Ionic/Fable design:
+## Build identifier rule
 
-- Ionic Vue/PWA shell or equivalent app-like pilot.
-- Official app name and attribution.
-- Today’s Practice entry screen.
-- Three choices: Pick My Own, Draw Random, Daily Tool seed/static placeholder.
-- Preview/re-roll/change before commitment.
-- `Start Today’s Practice` locks the local-day choice.
-- Chart Quick Draw exists on the Chart page, with the chart hub reading `Inspired Action` and no top text above the chart.
-- React taxonomy copy from `client/src/lib/toolData.ts` is restored in Ionic: descriptions, parent tools, child/example labels, and Imaginary Body scope metadata.
-- Library becomes a source-safe skeleton for deeper tool/resource buckets, not merely a flat list.
-- POA remains prominent and supports structured + free-response save/return/reload if possible.
-- Mobile-width smoke and real iPhone smoke before Lisa sees it.
+Every merge intended for deploy, and every production deploy, must update the build identifier if tester-visible behavior/copy/auth/data changed. Keep these synchronized:
 
-Defer:
+- `apps/chekhov-toolkit-ionic/package.json` `version`
+- `apps/chekhov-toolkit-ionic/package-lock.json` root versions
+- `apps/chekhov-toolkit-ionic/src/constants/build.ts`
+- a release/receipt note under `.claude/plans/`
 
-- Full auth/RLS unless it is cheap and does not endanger the slice.
-- Push notifications.
-- Real global scheduler/admin CMS.
-- Native store/TestFlight/Play distribution.
-- Full approved Library content/excerpts or unverified public links.
-- AI-generated embodied prompts.
-- Full history/Flyback/Unveiled parity unless all must-land demo gates are already green.
+CI verifies the code/package pieces with `npm run verify:build-version` and enforces build/release-note bumps for tester-facing Ionic changes with `npm run verify:build-bump`.
 
 ## Agent split
 
@@ -95,7 +83,7 @@ For local full-stack smoke on macOS/Hermes when port 5000 is occupied:
 PORT=5055 HOST=127.0.0.1 npm run dev
 ```
 
-Before any Lisa/external review, produce evidence for:
+Before sending Lisa a new build or asking her to validate a tester-visible change, produce evidence for:
 
 - build/typecheck status,
 - app opens locally,

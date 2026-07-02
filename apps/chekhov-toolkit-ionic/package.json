@@ -1,11 +1,13 @@
 {
   "name": "chekhov-toolkit-ionic",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "verify:build-version": "node scripts/verify-build-version.mjs",
+    "verify:build-bump": "node scripts/verify-build-bump-required.mjs",
     "preview": "vite preview",
     "test:e2e": "cypress run",
     "test:e2e:ci": "start-server-and-test \"vite --host 127.0.0.1\" http://127.0.0.1:5173 \"npm run test:e2e\"",

@@ -85,3 +85,18 @@ RLS smoke complete
 ## Dawson real-phone smoke — PASS (2026-07-01)
 
 Checklist executed by Dawson on iPhone against `https://michael-chekhov-toolkit-beta.vercel.app`: Add to Home Screen → standalone launch → tester sign-in → Draw Random → Start Today's Practice → POA note → Save → kill app → reopen → lock + POA persisted. **PASS.** Label promoted to `phone-ready secure tester beta v1`.
+
+
+## 2026-07-02 active-beta postscript
+
+Dawson confirmed that the secure-beta production alias has already been shared with Lisa Dalton and that Lisa created her tester account on 2026-07-02. The app is therefore no longer merely "phone-ready" or waiting for Lisa review; it is in an **active secure beta** lane.
+
+Build/version lock added 2026-07-02:
+
+- App version: `0.1.0`
+- Build identifier: `secure-beta-0.1.0`
+- Build constants: `apps/chekhov-toolkit-ionic/src/constants/build.ts`
+- Version verifier: `npm run verify:build-version`
+- Release note: `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`
+
+Future merges intended for deploy and future production deploys must update the build identifier/release note when tester-visible behavior, copy, auth/data shape, or security posture changes.

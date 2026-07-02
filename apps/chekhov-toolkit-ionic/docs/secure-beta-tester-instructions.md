@@ -1,8 +1,8 @@
 # Secure beta tester notes — The Michael Chekhov Toolkit
 
-Last updated: 2026-06-11 (phone-ready secure tester beta).
+Last updated: 2026-07-02 (active secure beta / Build 0.1.0).
 
-This branch replaces the local-demo account path with Supabase Auth, Supabase Postgres, and Row Level Security. Hosted smoke passed on the approved Vercel + Supabase beta target, and Dawson's phone/home-screen smoke test also worked for v1.
+The secure-beta production app uses Supabase Auth, Supabase Postgres, and Row Level Security. Hosted smoke passed on the approved Vercel + Supabase beta target; Dawson's phone/home-screen smoke passed on 2026-07-01; Lisa Dalton has the production alias and created her tester account on 2026-07-02. Current build: `secure-beta-0.1.0`.
 
 Approved HTTPS beta URL: https://michael-chekhov-toolkit-beta.vercel.app
 
@@ -27,7 +27,7 @@ Do not commit real Supabase keys. The browser must use only the anon key, never 
 
 ## Tester flow
 
-1. Open the approved HTTPS beta URL after Dawson shares it.
+1. Open the approved HTTPS beta URL. Lisa already has the production alias; other testers should use it only after Dawson shares it.
 2. Create or sign in to a tester account with email + password.
 3. Use Today’s Practice:
    - Pick My Own opens the selected chart area and lets you choose a parent tool.
@@ -55,7 +55,7 @@ Do not commit real Supabase keys. The browser must use only the anon key, never 
 ## Honest status / known limits
 
 - Hosted HTTPS beta URL: https://michael-chekhov-toolkit-beta.vercel.app
-- Status: phone-ready secure tester beta for v1, based on hosted verification plus Dawson's phone smoke.
+- Status: active secure beta, Build 0.1.0 / `secure-beta-0.1.0`, with Lisa onboarded as a tester on 2026-07-02.
 - The app is a hosted/installable PWA path, not TestFlight/App Store distribution.
 - Daily Tool is seeded/manual for now, not a push-notification/global scheduler.
 - Library is only a minimal sourced/citation skeleton until the content research/rights lane supplies approved excerpts.

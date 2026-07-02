@@ -1,8 +1,8 @@
 # Lisa / tester demo script — The Michael Chekhov Toolkit secure beta path
 
-Last updated: 2026-06-10 (Supabase Auth/Postgres/RLS + PWA branch).
+Last updated: 2026-07-02 (active secure beta / Build 0.1.0).
 
-Use this only after Dawson approves the Supabase project and hosted HTTPS target. Until then, run it locally against Supabase local and label it local secure-beta smoke, not an external tester beta.
+Historical demo script updated for the active secure beta. Dawson has approved and shared the production alias with Lisa; Lisa created a tester account on 2026-07-02. Use this as a lightweight guided walkthrough for an active tester, not as a pre-share readiness script.
 
 ## What changed since April
 
@@ -17,7 +17,7 @@ Use this only after Dawson approves the Supabase project and hosted HTTPS target
 9. Tester feedback saves to a user-owned Supabase feedback row.
 10. The PWA has manifest, icons, theme color, and service-worker offline shell basics for home-screen install.
 
-## Suggested 90-second walkthrough
+## Suggested 90-second active-beta walkthrough
 
 1. Open the app — point at the name, tester account panel, and attribution footer.
 2. Sign in or create a tester account.
@@ -28,12 +28,12 @@ Use this only after Dawson approves the Supabase project and hosted HTTPS target
 7. Type a Daily Action / POA note, save, reload — it returns from Supabase.
 8. Sign out/sign in — Today’s Practice and POA restore for that tester account.
 9. Send a short in-app beta feedback note.
-10. On phone after hosted approval: add to home screen and repeat the restore path from the PWA icon.
+10. On phone: add to home screen and repeat the restore path from the PWA icon.
 
 ## Honest status / known limits
 
-- Do not share a URL until Dawson approves deployment and hosting/Supabase targets.
-- Do not call this phone-ready until real iPhone/Android PWA smoke passes.
+- Do not send Lisa a new build/update without Dawson approval; she already has the secure-beta production alias.
+- Build 0.1.0 is active secure beta; future Lisa-validation builds need fresh gates/receipts.
 - Daily Tool is still seeded/manual, not push-notification infrastructure.
 - Library content is a minimal citation/source skeleton until approved sourced excerpts land.
 - Tool content is taxonomy labels/source cards plus POA structure only — no AI-generated embodied practice prompts.

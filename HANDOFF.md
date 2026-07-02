@@ -1,3 +1,5 @@
+> **Historical handoff — superseded.** As of 2026-07-02, the Ionic PWA is in active secure beta as Build 0.1.0 / `secure-beta-0.1.0`; Lisa Dalton has the production alias and created a tester account. Current source-of-truth files are `CLAUDE.md`, `AGENTS.md`, `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`, and `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`.
+
 # Michael Chekhov Toolkit — Implementation Handoff
 
 Last updated: 2026-06-05 16:20 CDT.
