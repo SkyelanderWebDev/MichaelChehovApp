@@ -78,7 +78,7 @@
       </main>
     </ion-content>
 
-    <ion-footer v-if="isSignedIn" class="composer-footer">
+    <ion-footer v-if="canUseComposer" class="composer-footer">
       <form class="composer" @submit.prevent="submitMessage">
         <ion-textarea
           v-model="draft"
@@ -143,6 +143,7 @@ const currentUserId = computed(() => currentUser.value?.id ?? null);
 const isOwner = computed(
   () => Boolean(room.value && currentUserId.value && room.value.createdBy === currentUserId.value),
 );
+const canUseComposer = computed(() => Boolean(isSignedIn.value && room.value && !room.value.archivedAt));
 
 onMounted(async () => {
   await loadSession();

@@ -129,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   IonButton,
@@ -174,6 +174,16 @@ onMounted(async () => {
   if (isSignedIn.value) {
     await refreshRooms();
   }
+});
+
+watch(currentUser, async () => {
+  if (isSignedIn.value) {
+    await refreshRooms();
+    return;
+  }
+
+  rooms.value = [];
+  creatorAllowed.value = false;
 });
 
 async function refreshRooms(): Promise<void> {
