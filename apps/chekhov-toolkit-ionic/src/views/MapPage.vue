@@ -33,17 +33,26 @@
           </p>
         </section>
 
-        <section class="studio-panel coming-card" aria-label="Class or show group chat, planned">
+        <button
+          class="studio-panel coming-card chat-entry-card"
+          type="button"
+          data-testid="connect-chat-entry"
+          @click="openChat"
+        >
           <span class="coming-icon" aria-hidden="true">
             <ion-icon :icon="chatbubblesOutline" />
           </span>
-          <span class="planned-pill">Planned</span>
-          <h2>Class &amp; show group chat</h2>
-          <p class="panel-copy">
+          <span class="planned-pill beta-pill">Beta</span>
+          <span class="chat-entry-title">Class &amp; show group chat</span>
+          <span class="panel-copy chat-entry-copy">
             A shared group chat for a class or a show, one space for the whole ensemble. Group
             conversations only; there is no one-to-one direct messaging.
-          </p>
-        </section>
+          </span>
+          <span class="chat-entry-cta">
+            Open group chat
+            <ion-icon :icon="chevronForwardOutline" aria-hidden="true" />
+          </span>
+        </button>
 
         <p class="map-footnote">
           Today’s Practice lives in the Journal tab; the Chart of Inspired Action lives in Chart.
@@ -55,7 +64,19 @@
 
 <script setup lang="ts">
 import { IonContent, IonIcon, IonPage } from '@ionic/vue';
-import { calendarOutline, chatbubblesOutline, locationOutline } from 'ionicons/icons';
+import {
+  calendarOutline,
+  chatbubblesOutline,
+  chevronForwardOutline,
+  locationOutline,
+} from 'ionicons/icons';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+function openChat(): void {
+  router.push('/connect/chat');
+}
 </script>
 
 <style scoped>
@@ -90,6 +111,43 @@ import { calendarOutline, chatbubblesOutline, locationOutline } from 'ionicons/i
   letter-spacing: 0.08em;
   padding: 5px 9px;
   text-transform: uppercase;
+}
+
+.chat-entry-card {
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+/* Buttons only allow phrasing content, so the heading/copy are styled spans. */
+.chat-entry-title {
+  color: var(--text-primary);
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 5.5vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.06;
+}
+
+.chat-entry-copy {
+  display: block;
+}
+
+.beta-pill {
+  background: var(--accent-soft);
+  border-color: transparent;
+  color: var(--accent-primary);
+}
+
+.chat-entry-cta {
+  align-items: center;
+  color: var(--accent-primary);
+  display: inline-flex;
+  font-size: 0.88rem;
+  font-weight: 800;
+  gap: 2px;
 }
 
 .map-footnote {

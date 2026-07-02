@@ -39,6 +39,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/MapPage.vue'),
       },
       {
+        path: 'connect/chat',
+        name: 'ChatRooms',
+        component: () => import('../views/ChatRoomsPage.vue'),
+      },
+      {
+        path: 'connect/chat/:roomId',
+        name: 'ChatRoom',
+        component: () => import('../views/ChatRoomPage.vue'),
+      },
+      {
         path: 'settings',
         name: 'Settings',
         component: () => import('../views/SettingsPage.vue'),
