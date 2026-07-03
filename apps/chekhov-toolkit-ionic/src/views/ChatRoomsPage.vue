@@ -108,12 +108,35 @@
                 <ion-select-option value="class">Class</ion-select-option>
                 <ion-select-option value="show">Show</ion-select-option>
                 <ion-select-option value="community">Community</ion-select-option>
+                <ion-select-option value="leadership">Leadership</ion-select-option>
               </ion-select>
+              <p
+                v-if="newRoomKind === 'leadership'"
+                class="panel-copy kind-hint"
+                data-testid="chat-leadership-hint"
+              >
+                A private group room for beta coordination and leadership — separate from class
+                and show rooms, and still a group room rather than a direct message.
+              </p>
               <ion-button type="submit" :disabled="createBusy || !newRoomName.trim()">
                 Create
               </ion-button>
             </form>
             <p v-if="createError" class="error-banner" role="alert">{{ createError }}</p>
+          </section>
+
+          <section
+            v-else-if="!roomsLoading"
+            class="studio-panel"
+            aria-labelledby="create-room-restricted-title"
+            data-testid="chat-create-restricted"
+          >
+            <p class="kicker">Room leads</p>
+            <h2 id="create-room-restricted-title">Create a room</h2>
+            <p class="panel-copy">
+              Room creation is limited to approved beta hosts. If you lead a class or show and
+              need a room, ask through the beta feedback form in Settings.
+            </p>
           </section>
 
           <p class="chat-footnote">
@@ -149,6 +172,7 @@ import {
   createRoom,
   joinRoomByCode,
   listMyRooms,
+  readPendingInviteToken,
 } from '@/stores/chatStore';
 import type { ChatRoom, ChatRoomKind } from '@/types/chat';
 
@@ -172,6 +196,11 @@ const isSignedIn = computed(() => authStatus.value === 'signed-in' && Boolean(cu
 onMounted(async () => {
   await loadSession();
   if (isSignedIn.value) {
+    // Finish an email invite that was interrupted by the sign-in flow.
+    if (readPendingInviteToken()) {
+      router.replace('/connect/chat/invite');
+      return;
+    }
     await refreshRooms();
   }
 });
@@ -319,6 +348,10 @@ async function createNewRoom(): Promise<void> {
 
 .access-gate h2 {
   margin-top: 6px;
+}
+
+.kind-hint {
+  margin: 0;
 }
 
 .chat-footnote {

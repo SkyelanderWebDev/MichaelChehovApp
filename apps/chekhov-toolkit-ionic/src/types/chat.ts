@@ -1,4 +1,28 @@
-export type ChatRoomKind = 'class' | 'show' | 'community';
+export type ChatRoomKind = 'class' | 'show' | 'community' | 'leadership';
+
+export type ChatInvitationStatus = 'pending' | 'accepted' | 'revoked' | 'expired';
+
+/** Owner-visible invitation row. Never carries the token or its hash. */
+export interface ChatRoomInvitation {
+  id: string;
+  roomId: string;
+  invitedEmail: string;
+  status: ChatInvitationStatus;
+  expiresAt: string;
+  createdAt: string;
+  acceptedAt?: string | null;
+}
+
+/**
+ * Result of creating an invitation. `token` is the single exposure of the raw
+ * invite token (the database stores only a hash); it is shown once to the room
+ * owner so they can send the link themselves.
+ */
+export interface CreatedChatInvitation {
+  invitationId: string;
+  token: string;
+  expiresAt: string;
+}
 
 export interface ChatRoom {
   id: string;

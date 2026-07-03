@@ -315,6 +315,166 @@ async function run() {
       .eq('id', room.id);
     expect(Boolean(anonError) || (anonRooms ?? []).length === 0, 'anonymous client cannot read rooms');
 
+    // ---- Build 0.2.1: leadership rooms + owner-only email invitations ----
+
+    // 16. Allowlisted creator can create a leadership room.
+    const { data: leadershipRoom, error: leadershipError } = await creator.client
+      .from('chat_rooms')
+      .insert({
+        created_by: creator.userId,
+        name: 'Leadership smoke room',
+        kind: 'leadership',
+        invite_code: 'pending',
+      })
+      .select('id, kind')
+      .single();
+    if (leadershipError) throw leadershipError;
+    roomIds.push(leadershipRoom.id);
+    expect(leadershipRoom.kind === 'leadership', 'creator can create a leadership room');
+
+    // 17. Non-owners cannot create invitations.
+    const { error: memberInviteError } = await member.client.rpc('create_chat_room_invitation', {
+      target_room: leadershipRoom.id,
+      invitee_email: member.email,
+    });
+    expect(Boolean(memberInviteError), 'non-owner cannot create an email invitation');
+
+    // 18. Owner creates an email invitation; raw token is returned exactly once.
+    const { data: created, error: createInviteError } = await creator.client.rpc(
+      'create_chat_room_invitation',
+      { target_room: leadershipRoom.id, invitee_email: member.email },
+    );
+    if (createInviteError) throw createInviteError;
+    expect(
+      typeof created?.token === 'string' && /^[0-9a-f]{48}$/.test(created.token),
+      'owner receives a server-generated invite token',
+    );
+
+    // 19. token_hash is not selectable, even by the owner; the invitee email is
+    // visible only to the owner, never to plain members.
+    const { error: hashSelectError } = await creator.client
+      .from('chat_room_invitations')
+      .select('token_hash')
+      .eq('room_id', leadershipRoom.id);
+    expect(Boolean(hashSelectError), 'token_hash column is not selectable by clients');
+
+    const { data: ownerInvites, error: ownerInviteListError } = await creator.client
+      .from('chat_room_invitations')
+      .select('id, invited_email, status, expires_at, created_at, accepted_at')
+      .eq('room_id', leadershipRoom.id);
+    if (ownerInviteListError) throw ownerInviteListError;
+    expect(
+      (ownerInvites ?? []).length === 1 && ownerInvites[0].status === 'pending',
+      'owner can list pending invitations',
+    );
+
+    const { data: memberInviteRows } = await member.client
+      .from('chat_room_invitations')
+      .select('id, invited_email, status, expires_at, created_at, accepted_at')
+      .eq('room_id', leadershipRoom.id);
+    expect(
+      (memberInviteRows ?? []).length === 0,
+      'non-owner cannot read invitations (no email harvesting)',
+    );
+
+    // 20. A signed-in user with a different email cannot accept the invite.
+    const { error: wrongEmailError } = await outsider.client.rpc('accept_chat_room_invitation', {
+      token: created.token,
+    });
+    expect(Boolean(wrongEmailError), 'wrong-email user cannot accept the invite');
+
+    const { data: outsiderLeadership } = await outsider.client
+      .from('chat_rooms')
+      .select('id')
+      .eq('id', leadershipRoom.id);
+    expect(
+      (outsiderLeadership ?? []).length === 0,
+      'failed accept grants no room access',
+    );
+
+    // 21. The invited email's account accepts and gains membership.
+    const { data: acceptedRoomId, error: acceptError } = await member.client.rpc(
+      'accept_chat_room_invitation',
+      { token: created.token },
+    );
+    if (acceptError) throw acceptError;
+    expect(acceptedRoomId === leadershipRoom.id, 'matching-email invitee joins via invite token');
+
+    const { error: invitedPostError } = await member.client
+      .from('chat_messages')
+      .insert({ room_id: leadershipRoom.id, sender_id: member.userId, body: 'Joined by invite' });
+    if (invitedPostError) throw invitedPostError;
+
+    const { data: invitedReads } = await member.client
+      .from('chat_messages')
+      .select('id')
+      .eq('room_id', leadershipRoom.id);
+    expect((invitedReads ?? []).length === 1, 'invited member can post and read the room');
+
+    // 22. The token is single-use.
+    const { error: reuseError } = await member.client.rpc('accept_chat_room_invitation', {
+      token: created.token,
+    });
+    expect(Boolean(reuseError), 'an accepted invite token cannot be reused');
+
+    // 23. Revoked invites cannot be accepted.
+    const { data: revokable, error: revokableError } = await creator.client.rpc(
+      'create_chat_room_invitation',
+      { target_room: leadershipRoom.id, invitee_email: outsider.email },
+    );
+    if (revokableError) throw revokableError;
+
+    const { error: outsiderRevokeError } = await outsider.client.rpc(
+      'revoke_chat_room_invitation',
+      { invitation: revokable.invitation_id },
+    );
+    expect(Boolean(outsiderRevokeError), 'non-owner cannot revoke an invitation');
+
+    const { error: revokeError } = await creator.client.rpc('revoke_chat_room_invitation', {
+      invitation: revokable.invitation_id,
+    });
+    if (revokeError) throw revokeError;
+
+    const { error: revokedAcceptError } = await outsider.client.rpc(
+      'accept_chat_room_invitation',
+      { token: revokable.token },
+    );
+    expect(Boolean(revokedAcceptError), 'revoked invite cannot be accepted');
+
+    // 24. Expired invites cannot be accepted and flip to expired status.
+    const { data: expiring, error: expiringError } = await creator.client.rpc(
+      'create_chat_room_invitation',
+      { target_room: leadershipRoom.id, invitee_email: named.email },
+    );
+    if (expiringError) throw expiringError;
+
+    const { error: expireSetError } = await admin
+      .from('chat_room_invitations')
+      .update({ expires_at: new Date(Date.now() - 3600_000).toISOString() })
+      .eq('id', expiring.invitation_id);
+    if (expireSetError) throw expireSetError;
+
+    const { error: expiredAcceptError } = await named.client.rpc('accept_chat_room_invitation', {
+      token: expiring.token,
+    });
+    expect(Boolean(expiredAcceptError), 'expired invite cannot be accepted');
+
+    const { data: expiredInviteeRooms } = await named.client
+      .from('chat_rooms')
+      .select('id')
+      .eq('id', leadershipRoom.id);
+    expect(
+      (expiredInviteeRooms ?? []).length === 0,
+      'expired invite grants no room access',
+    );
+
+    // 25. Anonymous clients cannot use the invitation RPCs.
+    const anonInvite = makeClient();
+    const { error: anonAcceptError } = await anonInvite.rpc('accept_chat_room_invitation', {
+      token: created.token,
+    });
+    expect(Boolean(anonAcceptError), 'anonymous client cannot call the accept RPC');
+
     console.log('Chat RLS smoke complete');
   } finally {
     for (const roomId of roomIds) {

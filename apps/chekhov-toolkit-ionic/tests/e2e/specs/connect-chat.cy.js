@@ -47,4 +47,30 @@ describe('Connect group chat (signed out)', () => {
     cy.visit('/connect/chat');
     expectNoHorizontalOverflow();
   });
+
+  it('states rooms are group-only with no direct messaging', () => {
+    cy.visit('/connect/chat');
+    cy.contains('there is no one-to-one direct messaging').should('exist');
+  });
+
+  it('gates an email invite link behind tester access when signed out', () => {
+    cy.visit('/connect/chat/invite?token=0123456789abcdef0123456789abcdef0123456789abcdef');
+    cy.get('[data-testid="chat-invite-gate"]').should('exist');
+    cy.contains('Tester access is required to accept this invite.').should('exist');
+    // No membership or room data leaks before sign-in and server-side accept.
+    cy.get('[data-testid="chat-composer-input"]').should('not.exist');
+    cy.get('[data-testid="chat-room-list"]').should('not.exist');
+    expectNoHorizontalOverflow();
+
+    cy.viewport(320, 640);
+    expectNoHorizontalOverflow();
+  });
+
+  it('reports an incomplete invite link when the token is missing', () => {
+    cy.visit('/connect/chat/invite');
+    cy.get('[data-testid="chat-invite-missing-token"]').should('exist');
+    cy.contains('This invite link is incomplete.').should('exist');
+    cy.get('[data-testid="chat-invite-gate"]').should('not.exist');
+    expectNoHorizontalOverflow();
+  });
 });

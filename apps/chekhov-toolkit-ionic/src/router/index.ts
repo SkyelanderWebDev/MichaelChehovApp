@@ -44,6 +44,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/ChatRoomsPage.vue'),
       },
       {
+        // Static segment outranks the :roomId param route in vue-router scoring.
+        path: 'connect/chat/invite',
+        name: 'ChatInvite',
+        component: () => import('../views/ChatInvitePage.vue'),
+      },
+      {
         path: 'connect/chat/:roomId',
         name: 'ChatRoom',
         component: () => import('../views/ChatRoomPage.vue'),

@@ -57,13 +57,22 @@ vi.mock('@/lib/supabaseClient', () => ({
 
 import {
   MAX_MESSAGE_LENGTH,
+  acceptInvitation,
   canCreateRooms,
+  clearPendingInviteToken,
+  createInvitation,
   createRoom,
+  invitationDisplayStatus,
+  inviteLink,
   joinRoomByCode,
   listMyRooms,
+  listRoomInvitations,
   listRoomMessages,
+  readPendingInviteToken,
+  revokeInvitation,
   sendMessage,
   senderLabel,
+  storePendingInviteToken,
 } from '@/stores/chatStore'
 import type { ChatMessage } from '@/types/chat'
 
@@ -209,6 +218,136 @@ describe('listRoomMessages', () => {
     const thread = await listRoomMessages('r-1')
 
     expect(thread.map((entry) => entry.body)).toEqual(['oldest', 'middle', 'newest'])
+  })
+})
+
+describe('email invitations (build 0.2.1)', () => {
+  test('createInvitation rejects an invalid email before any RPC', async () => {
+    await expect(createInvitation('r-1', 'not-an-email')).rejects.toThrow(/valid email/)
+    await expect(createInvitation('r-1', '   ')).rejects.toThrow(/valid email/)
+    expect(mock.state.rpcCalls).toEqual([])
+  })
+
+  test('createInvitation returns the one-time token from the RPC', async () => {
+    mock.state.results = [
+      {
+        data: {
+          invitation_id: 'i-1',
+          token: 'a'.repeat(48),
+          expires_at: '2026-07-10T12:00:00Z',
+        },
+        error: null,
+      },
+    ]
+
+    const created = await createInvitation('r-1', ' lisa@example.com ')
+
+    expect(created).toEqual({
+      invitationId: 'i-1',
+      token: 'a'.repeat(48),
+      expiresAt: '2026-07-10T12:00:00Z',
+    })
+    expect(mock.state.rpcCalls[0]).toEqual({
+      fn: 'create_chat_room_invitation',
+      args: { target_room: 'r-1', invitee_email: 'lisa@example.com' },
+    })
+  })
+
+  test('createInvitation is a no-op when signed out', async () => {
+    mock.state.userId = null
+    expect(await createInvitation('r-1', 'lisa@example.com')).toBeNull()
+    expect(mock.state.rpcCalls).toEqual([])
+  })
+
+  test('acceptInvitation rejects a blank token before any RPC', async () => {
+    await expect(acceptInvitation('   ')).rejects.toThrow(/No invite/)
+    expect(mock.state.rpcCalls).toEqual([])
+  })
+
+  test('acceptInvitation passes the trimmed token and returns the room id', async () => {
+    mock.state.results = [{ data: 'room-7', error: null }]
+
+    expect(await acceptInvitation(' tok123 ')).toBe('room-7')
+    expect(mock.state.rpcCalls[0]).toEqual({
+      fn: 'accept_chat_room_invitation',
+      args: { token: 'tok123' },
+    })
+  })
+
+  test('listRoomInvitations maps rows without any token material', async () => {
+    mock.state.results = [
+      {
+        data: [
+          {
+            id: 'i-1',
+            room_id: 'r-1',
+            invited_email: 'lisa@example.com',
+            status: 'pending',
+            expires_at: '2026-07-10T12:00:00Z',
+            created_at: '2026-07-03T12:00:00Z',
+            accepted_at: null,
+          },
+        ],
+        error: null,
+      },
+    ]
+
+    const invitations = await listRoomInvitations('r-1')
+
+    expect(invitations).toEqual([
+      {
+        id: 'i-1',
+        roomId: 'r-1',
+        invitedEmail: 'lisa@example.com',
+        status: 'pending',
+        expiresAt: '2026-07-10T12:00:00Z',
+        createdAt: '2026-07-03T12:00:00Z',
+        acceptedAt: null,
+      },
+    ])
+  })
+
+  test('revokeInvitation calls the owner-only RPC', async () => {
+    mock.state.results = [{ data: null, error: null }]
+
+    await revokeInvitation('i-1')
+
+    expect(mock.state.rpcCalls[0]).toEqual({
+      fn: 'revoke_chat_room_invitation',
+      args: { invitation: 'i-1' },
+    })
+  })
+
+  test('inviteLink URL-encodes the token on the invite route', () => {
+    expect(inviteLink('abc/12+3')).toContain('/connect/chat/invite?token=abc%2F12%2B3')
+  })
+
+  test('invitationDisplayStatus derives expiry for stale pending invites', () => {
+    const now = new Date('2026-07-10T12:00:00Z')
+
+    expect(
+      invitationDisplayStatus({ status: 'pending', expiresAt: '2026-07-11T12:00:00Z' }, now),
+    ).toBe('pending')
+    expect(
+      invitationDisplayStatus({ status: 'pending', expiresAt: '2026-07-09T12:00:00Z' }, now),
+    ).toBe('expired')
+    expect(
+      invitationDisplayStatus({ status: 'accepted', expiresAt: '2026-07-09T12:00:00Z' }, now),
+    ).toBe('accepted')
+    expect(
+      invitationDisplayStatus({ status: 'revoked', expiresAt: '2026-07-11T12:00:00Z' }, now),
+    ).toBe('revoked')
+  })
+
+  test('pending invite token survives a store/read/clear roundtrip', () => {
+    clearPendingInviteToken()
+    expect(readPendingInviteToken()).toBeNull()
+
+    storePendingInviteToken('tok-park')
+    expect(readPendingInviteToken()).toBe('tok-park')
+
+    clearPendingInviteToken()
+    expect(readPendingInviteToken()).toBeNull()
   })
 })
 
