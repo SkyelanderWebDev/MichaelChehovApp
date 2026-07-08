@@ -1,6 +1,6 @@
 # AGENTS.md — The Michael Chekhov Toolkit
 
-Last refreshed: 2026-07-02 for active secure beta / Build 0.1.0.
+Last refreshed: 2026-07-08 for active secure beta / Build 0.2.1 and hosted Connect activation.
 
 This file is for Hermes, Claude Code, Codex, and any other coding/review agent working in this repo.
 
@@ -8,7 +8,7 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 
 1. Read `CLAUDE.md`.
 2. Read `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-current-state-audit.md`.
-3. Read `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md` and `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md` before production-lane work.
+3. Read `.claude/plans/2026-07-03-build-0.2.1-room-admin-email-invites.md`, `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-readiness-truth-audit.md`, and `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-0.2.1-loop-closed.md` before production-lane work.
 4. Read `brainstorms/michael-chekhov-toolkit-grill-me.md` and `brainstorms/agent-orchestration-final-plan-2026-06-04.md` before broader planning.
 5. Run `git status --short` before editing.
 6. Preserve the existing dirty tree unless Dawson explicitly approves a cleanup/commit/reset.
@@ -16,7 +16,7 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 ## Project truth
 
 - Product name: **The Michael Chekhov Toolkit**.
-- Official context: NMCA / Lisa Dalton sanctioned private-beta practice app. Lisa has the secure-beta link and created her tester account on 2026-07-02.
+- Official context: NMCA / Lisa Dalton sanctioned private-beta practice app. Lisa has the secure-beta link/profile/tester account; she has not yet used the latest Connect chat path because she is traveling.
 - Current repo code includes both the React/Vite/Express/SQLite prototype and the active Ionic Vue secure-beta PWA under `apps/chekhov-toolkit-ionic/`.
 - For production-lane work, edit the Ionic app under `apps/chekhov-toolkit-ionic/` and use the React prototype only as behavior/content reference where needed.
 - React source file `client/src/lib/toolData.ts` remains canonical source territory for intentionally typed taxonomy labels/descriptions/child tools.
@@ -30,15 +30,19 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
   - `Chart of Inspired Action © 2004 National Michael Chekhov Association. Used with permission. Lisa Dalton, NMCA President and Master Teacher.`
 - Treat Lisa Dalton phone testing as a primary acceptance path.
 - Do not deploy or send/share new builds/links without Dawson approval; Lisa already has the secure-beta production alias.
-- Secure beta is now active and receipt-verified; do not claim a new build is Lisa-ready without fresh gates/receipts.
+- Secure beta is now active and receipt-verified through hosted Build 0.2.1 / Connect activation; do not claim Lisa-verified chat readiness until Lisa actually uses the room path on a real phone.
 - Keep infrastructure free-first unless Dawson approves spend.
 
 ## Current active build
 
-**Build 0.1.0 / `secure-beta-0.1.0`** is the first named active secure-beta build. Lisa has the production alias and created a tester account on 2026-07-02.
+**Build 0.2.1 / `secure-beta-0.2.1`** is the current hosted secure-beta build on `secure-beta-launched` commit `75d77d8`. Hosted Connect chat activation completed 2026-07-03 with receipts and was truth-audited 2026-07-08. Lisa has a profile/tester account but has not yet used the chat path because she is traveling; current honest label is **hosted secure beta 0.2.1 with Connect activation receipt-backed; Lisa real-phone chat smoke pending**.
 
 Receipts and release notes:
 
+- `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-readiness-truth-audit.md`
+- `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-0.2.1-loop-closed.md`
+- `.claude/plans/2026-07-03-build-0.2.1-room-admin-email-invites.md`
+- `.claude/plans/2026-07-02-build-0.2.0-connect-chat-mvp.md`
 - `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`
 - `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`
 

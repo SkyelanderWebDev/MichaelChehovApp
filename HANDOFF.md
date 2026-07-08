@@ -1,4 +1,4 @@
-> **Historical handoff — superseded.** As of 2026-07-02, the Ionic PWA is in active secure beta as Build 0.1.0 / `secure-beta-0.1.0`; Lisa Dalton has the production alias and created a tester account. Current source-of-truth files are `CLAUDE.md`, `AGENTS.md`, `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`, and `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`.
+> **Historical handoff — superseded.** As of 2026-07-08, the Ionic PWA is hosted active secure beta Build 0.2.1 / `secure-beta-0.2.1` with Connect chat activation receipt-backed. Lisa has the secure-beta link/profile/tester account but has not yet used the latest Connect chat path because she is traveling; Lisa real-phone chat smoke remains pending. Current source-of-truth files are `CLAUDE.md`, `AGENTS.md`, `.claude/plans/2026-07-03-build-0.2.1-room-admin-email-invites.md`, `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-readiness-truth-audit.md`, and `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-0.2.1-loop-closed.md`.
 
 # Michael Chekhov Toolkit — Implementation Handoff
 

@@ -1,15 +1,15 @@
 # The Michael Chekhov Toolkit — Agent Context
 
-Last refreshed: 2026-07-02 for active secure beta / Build 0.1.0.
+Last refreshed: 2026-07-08 for active secure beta / Build 0.2.1 and hosted Connect activation.
 
-This file is the working source of truth for Claude Code, Omnigent/Polly, Codex, and other repo agents. If this file conflicts with older `replit.md`, `.claude/plans/phase1-prototype.md`, the June demo-parity handoff, or stale April/November notes, prefer this file unless Dawson explicitly says otherwise. For production-lane work, read `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md` and `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md` first.
+This file is the working source of truth for Claude Code, Omnigent/Polly, Codex, and other repo agents. If this file conflicts with older `replit.md`, `.claude/plans/phase1-prototype.md`, the June demo-parity handoff, or stale April/November notes, prefer this file unless Dawson explicitly says otherwise. For production-lane work, read `.claude/plans/2026-07-03-build-0.2.1-room-admin-email-invites.md`, `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-readiness-truth-audit.md`, and this file first.
 
 ## What this project is
 
 The Michael Chekhov Toolkit is an official/private-beta practice app for actors, directors, teachers, and students working with Michael Chekhov technique. It is grounded in the National Michael Chekhov Association's Chart of Inspired Action and Lisa Dalton's sanctioned project direction.
 
 Stakeholder context:
-- Lisa Dalton is the primary stakeholder, active secure-beta tester, and phone-testing path. She received the beta link before 2026-07-02 and created her tester account on 2026-07-02.
+- Lisa Dalton is the primary stakeholder, active secure-beta tester, and phone-testing path. She has the secure-beta link/profile/tester account, but has not yet used the latest chat path because she is traveling; do not treat Lisa phone/chat validation as complete until Dawson records that receipt.
 - The Chart of Inspired Action is NMCA-validated source territory.
 - Dawson's current product name decision is: **The Michael Chekhov Toolkit**.
 - Public/beta naming should stay warm, official, and actor-centered. Do not use "Chekhov's Hired Gun" as public branding.
@@ -35,7 +35,7 @@ Keep attribution text centralized in implementation so Lisa can refine it after 
 5. Treat Lisa Dalton phone testing as a primary acceptance path.
 6. Do not deploy, publish, or send a new build/update to Lisa/NMCA without Dawson approval; Lisa already has the secure-beta production alias.
 7. Do not add paid services, app-store distribution, or new provider commitments without Dawson approval.
-8. Secure beta is active and receipt-verified. Do not claim a new build is Lisa-ready without fresh gates/receipts.
+8. Secure beta is active and receipt-verified through hosted Build 0.2.1 / Connect activation. Do not claim Lisa-verified chat readiness until Lisa actually accepts/uses the room path on a real phone.
 
 ## Current repository state
 
@@ -63,7 +63,7 @@ Current React prototype behavior:
 - History loads previous draws from SQLite and can reopen a reveal card.
 - Server routes exist for drawn tools and journal entries.
 
-> **STATUS UPDATE (2026-07-02): active secure beta — Build 0.1.0.** Lisa has the secure-beta production alias and created her tester account on 2026-07-02. Build 0.1.0 is the first named active secure-beta build. The prior `phone-ready secure tester beta v1` receipts remain valid: full taxonomy parity (15 categories / 84 tools / 1,144 children), chart cleanup + Quick Draw, Library skeleton, structured + free-response POA with autosave guard, hosted RLS PASS, signed-in persistence e2e PASS, CI RLS job green, security headers live in production, and Dawson's real iPhone home-screen smoke PASS. Receipts: `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md` and `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`. Linear ledger: SKY-16…22. List below retained for history only.
+> **STATUS UPDATE (2026-07-08): active secure beta — Build 0.2.1 hosted.** Production alias is on `secure-beta-launched` commit `75d77d8` with `secure-beta-0.2.1` live. Hosted Supabase project `ivipmxrejnrtqghotfqf` is ACTIVE_HEALTHY; chat migrations `20260702190000_connect_group_chat` and `20260703170000_connect_chat_invitations` are applied; Dawson and Lisa are seeded as room creators; hosted chat activation receipt from 2026-07-03 shows 11 PASS / 0 leftovers; fresh read-only probes on 2026-07-08 confirmed security headers, routes, manifest, anon-deny behavior, and deployed 0.2.1 chunks. Lisa has a profile/tester account but has not yet used the latest chat path because she is traveling. Current honest label: **hosted secure beta 0.2.1 with Connect chat activation receipt-backed; Lisa real-phone chat smoke pending.** Do not say `Lisa-verified chat ready` until that final human receipt exists. Current audit: `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-readiness-truth-audit.md`.
 
 Historical demo-parity gaps in the Ionic app (resolved before active secure beta):
 - Ionic taxonomy data is currently truncated relative to `client/src/lib/toolData.ts`; restore all descriptions, child/example labels, and Imaginary Body scope metadata for the June 12/13 pass.
@@ -74,11 +74,13 @@ Historical demo-parity gaps in the Ionic app (resolved before active secure beta
 
 ## Current strategic direction
 
-The app is in **active secure beta**. The current production-facing app is the Ionic Vue PWA under `apps/chekhov-toolkit-ionic/`, versioned as **Build 0.1.0 / `secure-beta-0.1.0`**.
+The app is in **active secure beta**. The current production-facing app is the Ionic Vue PWA under `apps/chekhov-toolkit-ionic/`, versioned as **Build 0.2.1 / `secure-beta-0.2.1`**.
 
 Current beta state:
-- Lisa Dalton has the secure-beta production alias.
-- Lisa created her tester account on 2026-07-02.
+- Lisa Dalton has the secure-beta production alias and a profile/tester account.
+- Lisa has not yet used/phone-smoked the latest Connect chat path because she is traveling.
+- Connect chat hosted activation is complete with receipts; remaining open loop is first Lisa use/phone smoke, not schema/RLS/deploy.
+- Existing in-app `Leadership` room has been observed as `kind='community'`; because there are zero messages and Lisa has not joined, agents should not treat that cosmetic mismatch as a blocker unless Dawson wants it corrected before inviting her.
 - Treat future work as updates to an active tester build, not pre-share demo preparation.
 - Keep the React prototype as behavior/content reference only.
 
@@ -99,6 +101,10 @@ Still deferred unless Dawson explicitly authorizes:
 ## Source-of-truth docs
 
 Current / high authority:
+- `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-readiness-truth-audit.md`
+- `/Users/dawson/.hermes/session-wraps/2026-07-08-chekhov-0.2.1-loop-closed.md`
+- `.claude/plans/2026-07-03-build-0.2.1-room-admin-email-invites.md`
+- `.claude/plans/2026-07-02-build-0.2.0-connect-chat-mvp.md`
 - `.claude/plans/2026-07-02-build-0.1.0-active-secure-beta.md`
 - `.claude/plans/2026-07-01-secure-beta-receipts-wrap.md`
 - `/Users/dawson/.hermes/session-wraps/2026-06-05-chekhov-phase0-current-state-audit.md`
@@ -219,7 +225,7 @@ Do not let multiple agents freely edit the same files concurrently. If parallel 
 
 ## Build/version rule
 
-`apps/chekhov-toolkit-ionic` is now Build 0.1.0 / `secure-beta-0.1.0`. Every merge intended for deployment, and every production deploy, must update the build identifier before merge/deploy if app behavior, beta copy, auth/data shape, or tester-visible UX changed. Keep these in sync:
+`apps/chekhov-toolkit-ionic` is now Build 0.2.1 / `secure-beta-0.2.1`. Every merge intended for deployment, and every production deploy, must update the build identifier before merge/deploy if app behavior, beta copy, auth/data shape, or tester-visible UX changed. Keep these in sync:
 
 - `apps/chekhov-toolkit-ionic/package.json` `version`
 - `apps/chekhov-toolkit-ionic/package-lock.json` root versions

@@ -1,9 +1,11 @@
 -- Michael Chekhov Toolkit — Connect chat room admin + email invitations (Build 0.2.1 lane).
 --
--- HOSTED APPLY STATUS: NOT applied to the hosted Supabase project. Hosted apply
--- is a Dawson-approved lane. Note: the 0.2.0 chat migration
--- (20260702190000_connect_group_chat.sql) is ALSO not applied hosted yet; this
--- migration depends on it and must be applied after it.
+-- HISTORICAL NOTE: this migration was written before the hosted operator lane.
+-- As of the 2026-07-08 truth audit, hosted project ivipmxrejnrtqghotfqf has
+-- both chat migrations applied, Dawson + Lisa seeded as room creators, and a
+-- 2026-07-03 hosted activation/RLS receipt. Keep this file's SQL immutable;
+-- the note is here only to prevent future agents from mistaking old comments
+-- for current hosted status.
 --
 -- Product contract (2026-07-03 follow-up sprint):
 -- - Add a `leadership` room kind: a private beta coordination/leadership group
