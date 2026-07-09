@@ -39,6 +39,12 @@ Keep attribution text centralized in implementation so Lisa can refine it after 
 
 ## Current repository state
 
+### Project-local stack and inheritance rule
+
+The active Ionic Vue/Vite/TypeScript/Supabase stack is an approved **Chekhov-local production decision**. It is not Dawson's general frontend preference and must not be copied into Human Index, Soul Carousel, 3H AIOS, or another project by analogy. Likewise, do not import those projects' metaphors, visual systems, ontologies, or components into Chekhov.
+
+Chekhov is not entering a clean-room redesign while Lisa's real-phone Build 0.2.1/Connect feedback is pending. Preserve the current target. New taste-critical direction requires Lisa/Dawson evidence and a separate first-viewport/signature-interaction gate before broad implementation.
+
 This repository now contains two important app surfaces:
 
 1. The original React/Vite/Express/SQLite prototype at the repo root / `client/src/`. Treat it as behavior and content reference material, especially `client/src/lib/toolData.ts`, `client/src/pages/Home.tsx`, and `client/src/components/POAJournal.tsx`.

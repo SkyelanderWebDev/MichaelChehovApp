@@ -20,6 +20,9 @@ This file is for Hermes, Claude Code, Codex, and any other coding/review agent w
 - Current repo code includes both the React/Vite/Express/SQLite prototype and the active Ionic Vue secure-beta PWA under `apps/chekhov-toolkit-ionic/`.
 - For production-lane work, edit the Ionic app under `apps/chekhov-toolkit-ionic/` and use the React prototype only as behavior/content reference where needed.
 - React source file `client/src/lib/toolData.ts` remains canonical source territory for intentionally typed taxonomy labels/descriptions/child tools.
+- Ionic Vue/Vite/TypeScript/Supabase is a Chekhov-local production choice, not a reusable Dawson-wide frontend default.
+- Do not import framework, metaphor, components, ontology, or design tokens from Human Index, Soul Carousel, 3H AIOS, or another project.
+- Do not initiate a clean-room Chekhov redesign before Lisa's Build 0.2.1 real-phone/Connect feedback. Preserve the current target and route later taste-critical changes through a Dawson/Lisa visual-interaction gate.
 
 ## Non-negotiables
 
