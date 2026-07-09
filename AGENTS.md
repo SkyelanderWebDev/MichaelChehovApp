@@ -64,14 +64,14 @@ CI verifies the code/package pieces with `npm run verify:build-version` and enfo
 
 ## Agent split
 
-Hermes/controller:
-- scope, reconciliation, merge/deploy/share decisions, Lisa-readiness gate.
+Hermes/GPT-5.6 controller:
+- scope, reconciliation, implementation, merge/deploy/share decisions, Lisa-readiness gate.
 
-Claude Code / Opus:
-- primary product/build integrator for coherent vertical slices.
+Claude Code / Fable:
+- product/taste orchestrator, construction-packet author, and rendered-artifact reviewer; not the default mechanical builder.
 
-Codex / GPT-5.5:
-- independent reviewer/verifier and bounded worker for crisp lanes: build/type/API smoke, schema/RLS review, security/diff review, attribution/content scans.
+GPT-5.6 Terra/Codex:
+- primary builder plus deterministic verifier for crisp lanes: build/type/API smoke, schema/RLS review, security/diff review, attribution/content scans.
 
 Do not let two agents freely edit the same files in the same worktree. Use isolated worktrees and explicit file ownership for parallel work.
 

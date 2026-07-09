@@ -208,20 +208,21 @@ Mature model direction:
 
 ## Agent operating model
 
-Hermes/controller owns:
+Hermes/GPT-5.6 controller owns:
 - Scope cuts.
 - Dirty-tree protection.
-- Reconciliation between Claude/Opus and Codex/GPT-5.5.
+- Reconciliation between Fable's orchestration and GPT-5.6 implementation evidence.
 - Merge/deploy/share decisions.
 - Lisa-readiness gate.
 
-Claude Code / Opus is preferred for:
-- Product architecture and coherent vertical slice implementation.
-- Mobile-first UX and demo narrative.
+Claude Code / Fable is preferred for:
+- Product architecture, taste-sensitive orchestration, and construction packets.
+- Mobile-first UX direction and demo narrative.
 - Preserving stakeholder/domain coherence.
+- Reviewing the actual rendered implementation and issuing bounded changes.
 
-Codex / GPT-5.5 is preferred for:
-- Read-only or bounded verification.
+GPT-5.6 Terra/Codex is preferred for:
+- Primary implementation of approved slices.
 - Type/build/API smoke.
 - Schema/RLS/security review.
 - Diff review against the spec.
